@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar';
-import Button from '../components/buttons/Button';
+import { ButtonIconRight } from '../components/buttons/Button';
 import SearchBar from '../components/SearchBar';
 import SelectOption from '../components/SelectOption';
 import MateriCard from '../components/cards/MateriCard';
@@ -25,22 +25,26 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className='px-5 py-4 sm:px-12 sm:py-5'>
+      <div className='px-5 pt-4 pb-6 sm:px-8 sm:pt-5 sm:pb-8'>
         <div className='flex items-center justify-between'>
-          <h2 className='h2-sm sm:h2-md'>Materi</h2>
-          <Button text='Tambah Materi' icon='akar-icons:plus' />
+          <h2 className='h1-sm sm:h1-md'>Materi</h2>
+          <ButtonIconRight
+            text='Tambah Materi'
+            icon='akar-icons:plus'
+            textClassName='hidden sm:inline'
+          />
         </div>
-        <div className='flex flex-col-reverse sm:flex-row items-center justify-between  mt-3 sm:mt-4 gap-2 sm:gap-4'>
+        <div className='flex flex-col-reverse lg:flex-row items-center justify-between  mt-3 sm:mt-4 gap-2 sm:gap-4'>
           <div className='w-full flex flex-col sm:flex-row  items-center gap-2 sm:gap-5'>
             <SelectOption label='Divisi' options={divisions} />
             <SelectOption label='Sort By' options={sortOptions} />
           </div>
-          <div className='w-full sm:w-96'>
+          <div className='w-full lg:max-w-xs'>
             <SearchBar />
           </div>
         </div>
 
-        <main className='grid mt-3 sm:mt-4 materi-layout'>
+        <main className='materi-layout mt-3 sm:mt-4'>
           <MateriCard />
           <MateriCard divisi={2} />
           <MateriCard divisi={3} />

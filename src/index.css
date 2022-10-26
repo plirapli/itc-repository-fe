@@ -19,10 +19,10 @@
 
 @layer components {
   .h1-md {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
   .h2-md {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .h1-sm {
@@ -36,7 +36,7 @@
     /* max-width: 2400px; */
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   }
 
   .clamp {

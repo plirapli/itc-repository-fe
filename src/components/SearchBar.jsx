@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 
 const SearchBar = (props) => {
   return (
-    <div className='w-full flex items-center justify-between px-4 py-2.5 rounded-md bg-white'>
+    <div className='w-full flex items-center justify-between px-3 py-2 sm:px-4 sm:py-2.5 rounded-md bg-white'>
       <input
         type='text'
         onChange={props.search}

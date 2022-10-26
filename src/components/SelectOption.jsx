@@ -14,7 +14,7 @@ const SelectOption = ({ options, ...props }) => {
           name='prov'
           id={props.for || ''}
           className='
-            w-full px-4 py-2.5 pr-8 sm:px-4 sm:py-2.5 sm:pr-10
+            w-full px-3 py-2 pr-8 sm:px-4 sm:py-2.5
             bg-primary rounded-md shadow
             focus:outline-none appearance-none overflow-ellipsis
           '
