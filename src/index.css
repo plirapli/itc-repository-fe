@@ -37,4 +37,11 @@
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   }
+
+  .clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
 }

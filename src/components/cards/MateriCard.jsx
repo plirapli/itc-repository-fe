@@ -3,6 +3,10 @@ import Tags from '../tags/Tags';
 import { Icon } from '@iconify/react';
 
 const MateriCard = (props) => {
+  let title =
+    props.title ||
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit Maecenas auctor arcu eu ipsum viverra';
+
   return (
     <div className='bg-white shadow-md rounded-lg p-3 sm:p-4'>
       <div className='w-full h-36 max-h-80 bg-zinc-300 bg-cover rounded'></div>
@@ -11,7 +15,7 @@ const MateriCard = (props) => {
           <Tags id={props.id} />
           <Icon icon='bx:dots-vertical-rounded' width='20' />
         </div>
-
+        <p className='w-full font-medium clamp'>{title}</p>
         <div className='flex items-center gap-1.5 text-gray-dark'>
           <Icon icon='carbon:user-avatar-filled' width='20' />
           <span className='text-sm'>{props.author || 'Muhammad Rafli'}</span>
