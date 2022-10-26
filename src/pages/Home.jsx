@@ -8,10 +8,10 @@ const Home = () => {
   let sortOptions = [
     'A-Z',
     'Z-A',
-    'Create at (Ascending)',
-    'Create at (Descending)',
-    'Update at (Ascending)',
-    'Update at (Descending)',
+    'Create at (Asc)',
+    'Create at (Desc)',
+    'Update at (Asc)',
+    'Update at (Desc)',
   ];
 
   let divisions = [
@@ -42,14 +42,15 @@ const Home = () => {
 
         <main className='grid mt-3 sm:mt-4 materi-layout'>
           <MateriCard />
+          <MateriCard divisi={2} />
+          <MateriCard divisi={3} />
+          <MateriCard divisi={4} />
+          <MateriCard divisi={5} />
           <MateriCard />
-          <MateriCard />
-          <MateriCard />
-          <MateriCard />
-          <MateriCard />
-          <MateriCard />
-          <MateriCard />
-          <MateriCard />
+          <MateriCard divisi={2} />
+          <MateriCard divisi={3} />
+          <MateriCard divisi={4} />
+          <MateriCard divisi={5} />
         </main>
       </div>
     </>
