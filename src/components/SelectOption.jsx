@@ -2,11 +2,7 @@ import React from 'react';
 import { Icon } from '@iconify/react';
 
 const SelectOption = ({ options, ...props }) => {
-  options = [
-    { id: 1, name: 'A-Z' },
-    { id: 2, name: 'Z-A' },
-    { id: 3, name: 'Lorem ipsum' },
-  ];
+  options = options || ['A-Z', 'Z-A', 'Lorem ipsum'];
 
   return (
     <div className='w-full sm:w-fit flex flex-col sm:flex-row gap-1 sm:gap-3 sm:items-center'>
@@ -26,14 +22,9 @@ const SelectOption = ({ options, ...props }) => {
             props.inputHandler(e);
           }}
         >
-          {options.map((data) => (
-            <option
-              data-data={data.id}
-              key={data.id}
-              value={data.name}
-              className='bg-white text-primary'
-            >
-              {data.name}
+          {options.map((data, i) => (
+            <option key={i} value={data} className='bg-white text-primary'>
+              {data}{' '}
             </option>
           ))}
         </select>

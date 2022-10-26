@@ -5,6 +5,23 @@ import SelectOption from '../components/SelectOption';
 import MateriCard from '../components/cards/MateriCard';
 
 const Home = () => {
+  let sortOptions = [
+    'A-Z',
+    'Z-A',
+    'Create at (Ascending)',
+    'Create at (Descending)',
+    'Update at (Ascending)',
+    'Update at (Descending)',
+  ];
+
+  let divisions = [
+    'Mobile Developer',
+    'Public Relations',
+    'Project Manager',
+    'Front-end Developer',
+    'Back-end Developer',
+  ];
+
   return (
     <>
       <Navbar />
@@ -15,8 +32,8 @@ const Home = () => {
         </div>
         <div className='flex flex-col-reverse sm:flex-row items-center justify-between  mt-3 sm:mt-4 gap-2 sm:gap-4'>
           <div className='w-full flex flex-col sm:flex-row  items-center gap-2 sm:gap-5'>
-            <SelectOption label='Divisi' />
-            <SelectOption label='Sort By' />
+            <SelectOption label='Divisi' options={divisions} />
+            <SelectOption label='Sort By' options={sortOptions} />
           </div>
           <div className='w-full sm:w-96'>
             <SearchBar />
