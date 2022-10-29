@@ -6,7 +6,7 @@ const SelectOption = ({ options, ...props }) => {
 
   return (
     <div className='w-full sm:w-fit flex flex-col sm:flex-row gap-1 sm:gap-3 sm:items-center'>
-      <label htmlFor={props || ''} className='font-medium text-primary'>
+      <label htmlFor={''} className='font-medium text-primary'>
         {props.label || 'Label'}
       </label>
       <div className='flex items-center relative text-white'>
