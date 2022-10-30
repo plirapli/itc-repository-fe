@@ -5,21 +5,21 @@ const SelectOption = ({ options, ...props }) => {
   options = options || ['A-Z', 'Z-A', 'Lorem ipsum'];
 
   return (
-    <div className='w-full sm:w-fit flex flex-col sm:flex-row gap-1 sm:gap-3 sm:items-center'>
-      <label htmlFor={''} className='font-medium text-primary'>
+    <div className={`w-full sm:w-fit flex flex-col gap-1 ${props.style || ''}`}>
+      <label htmlFor={''} className='font-medium text-black'>
         {props.label || 'Label'}
       </label>
       <div className='flex items-center relative text-white'>
         <select
-          name='prov'
           id={props.for || ''}
           className='
-            w-full px-3 py-2 pr-8 sm:px-4 sm:py-2.5
+            w-full px-4 py-2.5 sm:pr-8
             bg-primary rounded-md shadow
             focus:outline-none appearance-none overflow-ellipsis
           '
+          value={props.value}
           onChange={(e) => {
-            props.inputHandler(e);
+            props.handler(e, props.name);
           }}
         >
           {options.map((data, i) => (

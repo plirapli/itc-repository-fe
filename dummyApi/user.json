@@ -1,0 +1,20 @@
+{
+  "user": [
+    {
+      "nama": "asdasd",
+      "username": "asdasdasd",
+      "email": "tes@gmail.com",
+      "password": "123456",
+      "divisi": "Mobile Developer",
+      "id": 1
+    },
+    {
+      "nama": "asdasd",
+      "username": "asdasd",
+      "email": "asdasdas@asdasd",
+      "password": "asdasdsad",
+      "divisi": "Mobile Developer",
+      "id": 2
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import Login from './Login';
 import Register from './Register';
 import ForgotPassword from './ForgotPassword';
+import ContainerLogin from './ContainerLogin';
 
-export { Login, Register, ForgotPassword };
+export { ContainerLogin, Login, Register, ForgotPassword };

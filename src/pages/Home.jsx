@@ -3,6 +3,7 @@ import { ButtonIconRight } from '../components/buttons/Button';
 import SearchBar from '../components/SearchBar';
 import SelectOption from '../components/SelectOption';
 import MateriCard from '../components/cards/MateriCard';
+import { getDivisi } from '../Utils/getDivisi';
 
 const Home = () => {
   let sortOptions = [
@@ -14,13 +15,7 @@ const Home = () => {
     'Update at (Desc)',
   ];
 
-  let divisions = [
-    'Mobile Developer',
-    'Public Relations',
-    'Project Manager',
-    'Front-end Developer',
-    'Back-end Developer',
-  ];
+  let divisions = getDivisi();
 
   return (
     <>

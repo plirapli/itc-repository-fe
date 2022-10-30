@@ -1,9 +1,9 @@
 import React from 'react';
-import { ForgotPassword, Login, Register } from './Login/';
+import { ContainerLogin } from './Login/';
 
 const Main = () => (
   <div className='min-h-screen bg-gray-light'>
-    <Register />
+    <ContainerLogin />
   </div>
 );
 
