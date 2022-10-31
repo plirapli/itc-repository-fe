@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../../assets/index';
 import { ButtonIconNone } from '../../components/buttons/Button';
 import Input from '../../components/Forms/Input';
@@ -8,23 +8,32 @@ import { getDivisi } from '../../Utils/getDivisi';
 import api from '../../api/user';
 
 const Register = () => {
+  const navigate = useNavigate();
   const initialState = {
-    nama: '',
     username: '',
+    fullName: '',
     email: '',
     password: '',
-    divisi: 'Mobile Developer',
+    id_division: '1',
   };
   const [inputData, setInputData] = useState(initialState);
+  const [divisi, setDivisi] = useState([]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    return async () => {
+      setDivisi(await getDivisi());
+    };
+  }, []);
+
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
   };
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/user', inputData);
+      const id_division = parseInt(inputData.id_division);
+      const data = { ...inputData, id_division: id_division };
+      const response = await api.post('/user/register', data);
       setInputData(initialState);
 
       if (response) {
@@ -44,7 +53,7 @@ const Register = () => {
       <h1 className='mt-4 h2-sm sm:h2-md'>Daftar</h1>
       <form onSubmit={submitHandler} className='mt-2 flex flex-col gap-3'>
         <Input
-          name='nama'
+          name='fullName'
           value={inputData.nama}
           handler={inputHandler}
           styleType='secondary'
@@ -78,10 +87,10 @@ const Register = () => {
           placeholder='Masukkan password'
         />
         <SelectOption
-          name='divisi'
-          value={inputData.divisi}
+          name='id_division'
+          value={inputData.id_division}
           handler={inputHandler}
-          options={getDivisi()}
+          options={divisi}
           label='Divisi'
         />
         <section className='mt-4 w-full'>

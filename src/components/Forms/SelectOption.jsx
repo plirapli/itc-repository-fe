@@ -22,9 +22,13 @@ const SelectOption = ({ options, ...props }) => {
             props.handler(e, props.name);
           }}
         >
-          {options.map((data, i) => (
-            <option key={i} value={data} className='bg-white text-primary'>
-              {data}{' '}
+          {options.map((data) => (
+            <option
+              key={data.id}
+              value={data.id}
+              className='bg-white text-primary'
+            >
+              {data.divisionName}{' '}
             </option>
           ))}
         </select>
