@@ -14,7 +14,7 @@ const ButtonIconRight = ({ type = 'primary', text, icon, ...props }) => {
   return (
     <button
       className={`
-        flex gap-3 p-2.5 sm:px-4 sm:py-2.5
+        flex gap-3 p-2.5 sm:px-4 sm:py-2
         rounded shadow-md transition-all hover:bg-opacity-80 ${type.style}`}
     >
       <div className={`font-medium ${props.textClassName}`}>{text || ''}</div>
@@ -51,7 +51,7 @@ const ButtonIconNone = ({ type = 'primary', text, ...props }) => {
   return (
     <button
       className={`
-        p-2.5 sm:px-4 sm:py-2.5 w-full
+        p-2.5 sm:px-4 sm:py-2 w-full
         rounded shadow-md transition-all hover:bg-opacity-80 ${type.style}`}
     >
       <div className='w-full text-center font-medium text-sm sm:text-base'>

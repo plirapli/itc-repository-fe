@@ -1,26 +1,62 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Logo } from '../../assets/index';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ButtonIconNone } from '../../components/buttons/Button';
-import Input from '../../components/Forms/Input';
+import Input from '../../components/forms/Input';
+import api from '../../api/user';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const initialState = {
+    emailUsername: '',
+    password: '',
+  };
+  const [inputData, setInputData] = useState(initialState);
+  const [msg, setMsg] = useState('');
+
+  const inputHandler = (e, key) => {
+    setInputData((prev) => ({ ...prev, [key]: e.target.value }));
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post('/user/login', inputData);
+      setInputData(initialState);
+
+      if (response) {
+        navigate('/');
+      }
+    } catch (err) {
+      if (err.response.status === 400) {
+        setMsg('Username atau Password anda salah!');
+      } else {
+        setMsg('Gagal melakukan login');
+      }
+    }
+  };
+
   return (
     <>
-      <div className='flex flex-col items-center'>
-        <img src={Logo} alt='Logo ITC' className='w-[4.5rem]' />
-        <p className='font-bold h1-sm sm:h1-md text-primary'>ITC Repository</p>
-      </div>
       <h1 className='mt-4 h2-sm sm:h2-md'>Masuk</h1>
-      <form className='flex flex-col gap-3 mt-4' method='POST'>
+      <form
+        onSubmit={submitHandler}
+        className='flex flex-col gap-3 mt-2'
+        method='POST'
+      >
         <Input
-          inputType='email'
+          name='emailUsername'
+          value={inputData.emailUsername}
+          handler={inputHandler}
+          inputType='text'
           styleType='secondary'
-          label='Email'
-          placeholder='Masukkan alamat email'
+          label='Email atau Username'
+          placeholder='Masukkan email atau username'
         />
         <section className='flex flex-col w-full'>
           <Input
+            name='password'
+            value={inputData.password}
+            handler={inputHandler}
             inputType='password'
             styleType='secondary'
             label='Password'

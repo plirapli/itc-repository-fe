@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Logo } from '../../assets/index';
 import { ButtonIconNone } from '../../components/buttons/Button';
-import Input from '../../components/Forms/Input';
-import SelectOption from '../../components/Forms/SelectOption';
+import Input from '../../components/forms/Input';
+import { SelectOptionDivisi } from '../../components/forms/SelectOption';
 import { getDivisi } from '../../Utils/getDivisi';
 import api from '../../api/user';
 
@@ -46,10 +45,6 @@ const Register = () => {
 
   return (
     <>
-      <div className='flex flex-col items-center'>
-        <img src={Logo} alt='Logo ITC' className='w-[4.5rem]' />
-        <p className='font-bold h1-sm sm:h1-md text-primary'>ITC Repository</p>
-      </div>
       <h1 className='mt-4 h2-sm sm:h2-md'>Daftar</h1>
       <form onSubmit={submitHandler} className='mt-2 flex flex-col gap-3'>
         <Input
@@ -86,7 +81,7 @@ const Register = () => {
           label='Password'
           placeholder='Masukkan password'
         />
-        <SelectOption
+        <SelectOptionDivisi
           name='id_division'
           value={inputData.id_division}
           handler={inputHandler}
