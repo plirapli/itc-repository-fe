@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ButtonIconNone } from '../../components/buttons/Button';
 import Input from '../../components/forms/Input';
 import { SelectOptionDivisi } from '../../components/forms/SelectOption';
-import { getDivisi } from '../../Utils/getDivisi';
-import api from '../../api/user';
+import { getDivisi } from '../../Utils/getData';
+import api from '../../api/api';
 
 const Register = () => {
   const navigate = useNavigate();

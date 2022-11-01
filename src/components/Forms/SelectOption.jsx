@@ -13,6 +13,7 @@ export const SelectOptionDivisi = ({ options, ...props }) => {
           className='
             w-full px-4 py-2.5 sm:pr-8
             bg-primary rounded-md shadow
+            transition-all hover:bg-opacity-80 cursor-pointer
             focus:outline-none appearance-none overflow-ellipsis
           '
           value={props.value}
@@ -52,6 +53,7 @@ export const SelectOption = ({ options, ...props }) => {
           className='
             w-full px-4 py-2.5 sm:pr-8
             bg-primary rounded-md shadow
+            transition-all hover:bg-opacity-80 cursor-pointer
             focus:outline-none appearance-none overflow-ellipsis
           '
           value={props.value}

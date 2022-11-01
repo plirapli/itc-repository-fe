@@ -6,7 +6,7 @@ import {
   SelectOptionDivisi,
 } from '../components/forms/SelectOption';
 import MateriCard from '../components/cards/MateriCard';
-import { getDivisi } from '../Utils/getDivisi';
+import { getCourses, getDivisi } from '../Utils/getData';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,6 +22,7 @@ const Home = () => {
   ];
   const [sort, setSort] = useState([]);
   const [divisi, setDivisi] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [filterDivisi, setFilterDivisi] = useState();
 
   useEffect(() => {
@@ -30,6 +31,18 @@ const Home = () => {
     };
     // navigate('/login');
   }, []);
+
+  useEffect(() => {
+    getCoursesApi();
+  }, []);
+
+  const getCoursesApi = async () => {
+    try {
+      setCourses(await getCourses());
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <>
@@ -53,22 +66,15 @@ const Home = () => {
             />
             <SelectOption label='Sort By' options={sortOptions} />
           </div>
-          <div className='w-full lg:max-w-xs'>
+          <div className='w-full sm:max-w-sm'>
             <SearchBar />
           </div>
         </div>
 
         <main className='materi-layout mt-3 sm:mt-4'>
-          <MateriCard />
-          <MateriCard divisi={2} />
-          <MateriCard divisi={3} />
-          <MateriCard divisi={4} />
-          <MateriCard divisi={5} />
-          <MateriCard />
-          <MateriCard divisi={2} />
-          <MateriCard divisi={3} />
-          <MateriCard divisi={4} />
-          <MateriCard divisi={5} />
+          {courses.map((course) => (
+            <MateriCard key={course.id} data={course} />
+          ))}
         </main>
       </div>
     </>

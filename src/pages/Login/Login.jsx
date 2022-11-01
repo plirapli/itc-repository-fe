@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ButtonIconNone } from '../../components/buttons/Button';
 import Input from '../../components/forms/Input';
-import api from '../../api/user';
+import api from '../../api/api';
 
 const Login = () => {
   const navigate = useNavigate();
