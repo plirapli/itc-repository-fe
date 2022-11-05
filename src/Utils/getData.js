@@ -21,11 +21,19 @@ let getCourses = async () => {
         updatedAt: showFormattedDate(course?.updatedAt),
       };
     });
-    console.log(courses);
     return courses;
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export { getDivisi, getCourses };
+let getUserDetail = async (id) => {
+  try {
+    const response = await api.get(`/user/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export { getDivisi, getCourses, getUserDetail };

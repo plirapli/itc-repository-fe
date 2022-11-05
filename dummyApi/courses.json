@@ -8,7 +8,7 @@
       "createdAt": "2022-11-01T11:40:15.000Z",
       "updatedAt": "2022-11-01T11:40:15.000Z",
       "id_division": 3,
-      "id_user": 16
+      "id_user": 1
     },
     {
       "id": 2,
@@ -18,7 +18,37 @@
       "createdAt": "2022-11-01T11:40:15.000Z",
       "updatedAt": "2022-11-01T11:40:15.000Z",
       "id_division": 1,
-      "id_user": 15
+      "id_user": 1
+    },
+    {
+      "id": 3,
+      "title": "Lorem ipsum #3",
+      "description": "Lorem ipsum dolor sit amet",
+      "image_thumbnail": "",
+      "createdAt": "2022-11-01T11:40:15.000Z",
+      "updatedAt": "2022-11-01T11:40:15.000Z",
+      "id_division": 2,
+      "id_user": 1
+    },
+    {
+      "id": 4,
+      "title": "Lorem ipsum #4",
+      "description": "Lorem ipsum dolor sit amet",
+      "image_thumbnail": "",
+      "createdAt": "2022-11-01T11:40:15.000Z",
+      "updatedAt": "2022-11-01T11:40:15.000Z",
+      "id_division": 4,
+      "id_user": 1
+    },
+    {
+      "id": 5,
+      "title": "Lorem ipsum #5",
+      "description": "Lorem ipsum dolor sit amet",
+      "image_thumbnail": "",
+      "createdAt": "2022-11-01T11:40:15.000Z",
+      "updatedAt": "2022-11-01T11:40:15.000Z",
+      "id_division": 5,
+      "id_user": 1
     }
   ]
 }

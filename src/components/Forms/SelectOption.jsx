@@ -20,7 +20,11 @@ export const SelectOptionDivisi = ({ options, ...props }) => {
           onChange={(e) => {
             props.handler(e, props.name);
           }}
+          required
         >
+          <option value='0' className='bg-white text-primary'>
+            Semua
+          </option>
           {options?.map((data) => (
             <option
               key={data.id}

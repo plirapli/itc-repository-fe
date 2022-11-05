@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const [hover, setHover] = useState(false);
+
   return (
-    <nav className='w-full bg-primary flex items-center justify-between px-4 py-2.5 sm:pl-8 sm:pr-5 sm:py-2'>
+    <nav className='w-full bg-primary flex items-center justify-between pl-4 sm:pl-8 relative'>
       <h2 className='text-accent h2-sm sm:h2-md'>ITC Repository</h2>
-      <div className='flex gap-4 items-center sm:py-1'>
+
+      <div
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        className='flex gap-4 items-center px-4 py-3.5 sm:pr-5 sm:py-3 transition-all hover:bg-black'
+      >
         <div className='hidden sm:block'>
           <p className='font-medium text-white'>Muhammad Rafli</p>
           <p className='text-xs text-accent'>Public Relation</p>
@@ -14,8 +22,34 @@ const Navbar = () => {
           src=''
           alt=''
         />
+        {hover && <OverlayMenu />}
       </div>
     </nav>
+  );
+};
+
+const OverlayMenu = () => {
+  return (
+    <>
+      <div className='absolute right-0 sm:right-2 transform translate-y-full bottom-0 p-2'>
+        <div className='bg-white py-1 rounded shadow-md'>
+          <div className='px-4 py-2 transition-all hover:bg-black hover:bg-opacity-10'>
+            Profile
+          </div>
+          <div className='px-4 py-2 transition-all hover:bg-black hover:bg-opacity-10'>
+            Daftar Materi
+          </div>
+          <div className='px-6 py-1'>
+            <div className='w-full h-[1px] bg-gray-light'></div>
+          </div>
+          <Link to={'login'}>
+            <div className='px-4 py-2 transition-all text-danger-main hover:bg-black hover:bg-opacity-10'>
+              Keluar
+            </div>
+          </Link>
+        </div>
+      </div>
+    </>
   );
 };
 
