@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import {
   SelectOption,
   SelectOptionDivisi,
-} from '../components/forms/SelectOption';
+} from '../components/inputForm/SelectOption';
 import MateriCard from '../components/cards/MateriCard';
 import { getCourses, getDivisi } from '../Utils/getData';
 import { useEffect, useState } from 'react';

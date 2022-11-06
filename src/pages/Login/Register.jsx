@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ButtonIconNone } from '../../components/buttons/Button';
-import Input from '../../components/forms/Input';
-import { SelectOptionDivisi } from '../../components/forms/SelectOption';
+import Input from '../../components/inputForm/Input';
+import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
 import { getDivisi } from '../../Utils/getData';
 import api from '../../api/api';
 
