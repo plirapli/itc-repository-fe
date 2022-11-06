@@ -9,8 +9,9 @@ import MateriCard from '../components/cards/MateriCard';
 import { getCourses, getDivisi } from '../Utils/getData';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
-const Home = () => {
+const Home = ({ token }) => {
   const navigate = useNavigate();
   let sortOptions = [
     { id: 1, name: 'A-Z' },
@@ -24,12 +25,25 @@ const Home = () => {
   const [divisi, setDivisi] = useState([]);
   const [courses, setCourses] = useState([]);
   const [filterDivisi, setFilterDivisi] = useState();
+  const [userData, setUserData] = useState({});
+
+  const getDataToken = async () => {
+    try {
+      const decoded = jwtDecode(await token);
+    } catch (err) {
+      navigate('login');
+      console.log('Error: ' + err.message);
+    }
+  };
+
+  useEffect(() => {
+    getDataToken();
+  }, []);
 
   useEffect(() => {
     return async () => {
       setDivisi(await getDivisi());
     };
-    // navigate('/login');
   }, []);
 
   useEffect(() => {
@@ -38,9 +52,10 @@ const Home = () => {
 
   const getCoursesApi = async () => {
     try {
-      setCourses(await getCourses());
+      setCourses(await getCourses(token));
     } catch (err) {
       console.log(err.message);
+      navigate('/login');
     }
   };
 
@@ -63,6 +78,7 @@ const Home = () => {
               value={filterDivisi}
               // handler={inputHandler}
               options={divisi}
+              isOptional={true}
             />
             <SelectOption label='Sort By' options={sortOptions} />
           </div>

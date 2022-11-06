@@ -15,6 +15,7 @@ const MateriCard = ({ data, ...props }) => {
         ...materi,
         title: data?.title,
         id_divisi: data?.id_division,
+        img: data?.image_thumbnail,
         createdAt: data?.createdAt || '14/09/2021',
         updatedAt: data?.updatedAt || '15/10/2022',
         author: await getAuthor(data?.id_user),
@@ -35,7 +36,7 @@ const MateriCard = ({ data, ...props }) => {
     <div className='bg-white shadow-md rounded-lg p-3 sm:p-4'>
       <div
         className='w-full h-40 max-h-80 bg-zinc-300 bg-cover rounded'
-        // style={urk}
+        style={{ backgroundImage: `url(${materi.img})` }}
       ></div>
       <div className='flex flex-col gap-1 sm:gap-2 mt-3'>
         <div className='flex items-center justify-between gap-2'>

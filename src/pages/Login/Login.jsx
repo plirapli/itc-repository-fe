@@ -4,7 +4,7 @@ import { ButtonIconNone } from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 import api from '../../api/api';
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const navigate = useNavigate();
   const initialState = {
     emailUsername: '',
@@ -21,6 +21,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post('/user/login', inputData);
+      setToken(() => response.data.data.user.accessToken);
       setInputData(initialState);
 
       if (response) {

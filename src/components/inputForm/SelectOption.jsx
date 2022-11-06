@@ -22,9 +22,11 @@ export const SelectOptionDivisi = ({ options, ...props }) => {
           }}
           required
         >
-          <option value='0' className='bg-white text-primary'>
-            Semua
-          </option>
+          {props.isOptional && (
+            <option value='0' className='bg-white text-primary'>
+              Semua
+            </option>
+          )}
           {options?.map((data) => (
             <option
               key={data.id}
