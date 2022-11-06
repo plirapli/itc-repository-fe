@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ButtonIconNone } from '../../components/buttons/Button';
-import Input from '../../components/forms/Input';
+import Input from '../../components/inputForm/Input';
 
 const ForgotPassword = () => {
   return (
