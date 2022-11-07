@@ -6,9 +6,6 @@ import { getUserDetail } from '../../Utils/getData';
 const MateriCard = ({ data, ...props }) => {
   const [materi, setMateri] = useState({});
 
-  // let selectedDivisi = divisi.filter((div) => div.id === data.id_division)[0]
-  //   ?.divisionName;
-
   useEffect(() => {
     return async () => {
       setMateri({
@@ -40,7 +37,7 @@ const MateriCard = ({ data, ...props }) => {
       ></div>
       <div className='flex flex-col gap-1 sm:gap-2 mt-3'>
         <div className='flex items-center justify-between gap-2'>
-          <Tags id={materi.id_divisi} />
+          <Tags id={materi.id_divisi} divisi={props.divisi} />
           <Icon icon='bx:dots-vertical-rounded' width='20' />
         </div>
         <p className='w-full font-medium clamp'>{materi?.title}</p>

@@ -1,5 +1,4 @@
 import api from '../api/api';
-import localApi from '../api/localApi';
 import { showFormattedDate } from './dateConverter';
 
 let getDivisi = async () => {
@@ -24,19 +23,9 @@ let getCourses = async (authToken) => {
         updatedAt: showFormattedDate(course?.updatedAt),
       };
     });
-    console.log(courses);
     return courses;
   } catch (error) {
-    console.log(error.message);
-    const response = await localApi.get('/courses');
-    const courses = response.data.map((course) => {
-      return {
-        ...course,
-        createdAt: showFormattedDate(course?.createdAt),
-        updatedAt: showFormattedDate(course?.updatedAt),
-      };
-    });
-    return courses;
+    return error.message;
   }
 };
 
@@ -45,7 +34,7 @@ let getUserDetail = async (id) => {
     const response = await api.get(`/user/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error.message);
+    return error.message;
   }
 };
 

@@ -28,17 +28,18 @@ const Login = ({ setToken }) => {
         navigate('/');
       }
     } catch (err) {
-      if (err.response.status === 400) {
-        setMsg('Username atau Password anda salah!');
-      } else {
-        setMsg('Gagal melakukan login');
-      }
+      setMsg(err.response.data.message);
     }
   };
 
   return (
     <>
       <h1 className='mt-4 h2-sm sm:h2-md'>Masuk</h1>
+      {msg && (
+        <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max'>
+          {msg}
+        </div>
+      )}
       <form
         onSubmit={submitHandler}
         className='flex flex-col gap-3 mt-2'

@@ -23,45 +23,60 @@ const Home = ({ token }) => {
   ];
   const [sort, setSort] = useState([]);
   const [divisi, setDivisi] = useState([]);
+  const [selectedDivisi, setSelectedDivisi] = useState('0');
   const [courses, setCourses] = useState([]);
-  const [filterDivisi, setFilterDivisi] = useState();
+  const [filteredCourse, setFilteredCourse] = useState();
   const [userData, setUserData] = useState({});
 
   const getDataToken = async () => {
     try {
-      const decoded = jwtDecode(await token);
-    } catch (err) {
-      navigate('login');
-      console.log('Error: ' + err.message);
+      const decoded = await jwtDecode(token);
+      setUserData(await decoded);
+    } catch {
+      navigate('/login');
     }
   };
 
-  useEffect(() => {
-    getDataToken();
-  }, []);
+  const getCoursesApi = async () => {
+    try {
+      setCourses(await getCourses(token));
+    } catch {
+      navigate('/login');
+    }
+  };
+
+  const filterHandler = () => {
+    if (selectedDivisi != '0') {
+      setFilteredCourse(
+        courses.filter((course) => course.id_division == selectedDivisi)
+      );
+    } else {
+      setFilteredCourse(courses);
+    }
+  };
+
+  const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
 
   useEffect(() => {
+    getDataToken();
+    getCoursesApi();
+
     return async () => {
       setDivisi(await getDivisi());
     };
   }, []);
 
   useEffect(() => {
-    getCoursesApi();
-  }, []);
+    filterHandler();
+  }, [selectedDivisi]);
 
-  const getCoursesApi = async () => {
-    try {
-      setCourses(await getCourses(token));
-    } catch (err) {
-      console.log(err.message);
-      navigate('/login');
-    }
-  };
+  useEffect(() => {
+    setFilteredCourse(courses);
+  }, [courses]);
 
   return (
     <>
-      <Navbar />
+      <Navbar user_id={userData?.id} division={userData?.division} />
       <div className='px-5 pt-4 pb-6 sm:px-8 sm:pt-5 sm:pb-8'>
         <div className='flex items-center justify-between'>
           <h2 className='h1-sm sm:h1-md'>Materi</h2>
@@ -75,8 +90,8 @@ const Home = ({ token }) => {
           <div className='w-full flex flex-col sm:flex-row  items-center gap-2 sm:gap-5'>
             <SelectOptionDivisi
               label='Divisi'
-              value={filterDivisi}
-              // handler={inputHandler}
+              value={selectedDivisi}
+              handler={filterSelectHandler}
               options={divisi}
               isOptional={true}
             />
@@ -88,8 +103,8 @@ const Home = ({ token }) => {
         </div>
 
         <main className='materi-layout mt-3 sm:mt-4'>
-          {courses.map((course) => (
-            <MateriCard key={course.id} data={course} />
+          {filteredCourse?.map((course) => (
+            <MateriCard key={course.id} data={course} divisi={divisi} />
           ))}
         </main>
       </div>

@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getDivisi } from '../../Utils/getData';
 
-const Tags = ({ id = 1 }) => {
-  const [divisi, setDivisi] = useState({});
+const Tags = ({ id = 1, divisi }) => {
+  const [selectedDiv, setSelectedDiv] = useState({});
 
   useEffect(() => {
-    let mounted = true;
-    getDivisi().then((divisions) => {
-      mounted && setDivisi(divisions.filter((div) => div.id === id)[0]);
-    });
-    return () => (mounted = false);
+    setSelectedDiv(divisi.filter((div) => div.id === id)[0]);
   }, [id]);
 
   let divisions = [
@@ -24,7 +20,7 @@ const Tags = ({ id = 1 }) => {
     <div
       className={`px-2 text-white text-sm rounded ${divisions[id - 1].color}`}
     >
-      {divisi?.divisionName}
+      {selectedDiv?.divisionName}
     </div>
   );
 };
