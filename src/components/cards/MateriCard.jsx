@@ -38,7 +38,7 @@ const MateriCard = ({ data, ...props }) => {
       <div className='flex flex-col gap-1 sm:gap-2 mt-3'>
         <div className='flex items-center justify-between gap-2'>
           <Tags id={materi.id_divisi} divisi={props.divisi} />
-          <Icon icon='bx:dots-vertical-rounded' width='20' />
+          {props.isAdmin && <Icon icon='bx:dots-vertical-rounded' width='20' />}
         </div>
         <p className='w-full font-medium clamp'>{materi?.title}</p>
         <div className='flex items-center gap-1.5 text-gray-dark'>

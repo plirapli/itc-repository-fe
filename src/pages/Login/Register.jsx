@@ -18,12 +18,6 @@ const Register = ({ msg, errorHandler }) => {
   const [inputData, setInputData] = useState(initialState);
   const [divisi, setDivisi] = useState([]);
 
-  useEffect(() => {
-    return async () => {
-      setDivisi(await getDivisi());
-    };
-  }, []);
-
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
   };
@@ -33,15 +27,21 @@ const Register = ({ msg, errorHandler }) => {
       const id_division = parseInt(inputData.id_division);
       const data = { ...inputData, id_division: id_division };
       const response = await api.post('/user/register', data);
-      setInputData(initialState);
 
+      setInputData(initialState);
       if (response) {
         navigate('/login');
       }
     } catch (err) {
-      errorHandler(`Error: ${err.response.data.message}`);
+      errorHandler(`Error: ${err.response.data.message}!`);
     }
   };
+
+  useEffect(() => {
+    return async () => {
+      setDivisi(await getDivisi());
+    };
+  }, []);
 
   useEffect(() => {
     errorHandler('');

@@ -28,7 +28,7 @@ const Login = ({ errorHandler, msg, setToken }) => {
         navigate('/');
       }
     } catch (err) {
-      errorHandler(err.response.data.message + '!');
+      errorHandler(`Error: ${err.response.data.message}!`);
     }
   };
 

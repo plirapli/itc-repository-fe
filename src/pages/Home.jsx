@@ -80,11 +80,13 @@ const Home = ({ token }) => {
       <div className='px-5 pt-4 pb-6 sm:px-8 sm:pt-5 sm:pb-8'>
         <div className='flex items-center justify-between'>
           <h2 className='h1-sm sm:h1-md'>Materi</h2>
-          <ButtonIconRight
-            text='Tambah Materi'
-            icon='akar-icons:plus'
-            textClassName='hidden sm:inline'
-          />
+          {userData?.id_role == 2 && (
+            <ButtonIconRight
+              text='Tambah Materi'
+              icon='akar-icons:plus'
+              textClassName='hidden sm:inline'
+            />
+          )}
         </div>
         <div className='flex flex-col-reverse sm:flex-row items-center justify-between sm:items-end mt-3 sm:mt-1 gap-2 sm:gap-4'>
           <div className='w-full flex flex-col sm:flex-row  items-center gap-2 sm:gap-5'>
@@ -104,7 +106,12 @@ const Home = ({ token }) => {
 
         <main className='materi-layout mt-3 sm:mt-4'>
           {filteredCourse?.map((course) => (
-            <MateriCard key={course.id} data={course} divisi={divisi} />
+            <MateriCard
+              isAdmin={userData?.id_role == 2}
+              key={course.id}
+              data={course}
+              divisi={divisi}
+            />
           ))}
         </main>
       </div>
