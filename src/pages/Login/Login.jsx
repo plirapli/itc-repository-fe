@@ -3,15 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ButtonIconNone } from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 import api from '../../api/api';
+import { useEffect } from 'react';
 
-const Login = ({ setToken }) => {
+const Login = ({ errorHandler, msg, setToken }) => {
   const navigate = useNavigate();
   const initialState = {
     emailUsername: '',
     password: '',
   };
   const [inputData, setInputData] = useState(initialState);
-  const [msg, setMsg] = useState('');
 
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
@@ -28,9 +28,13 @@ const Login = ({ setToken }) => {
         navigate('/');
       }
     } catch (err) {
-      setMsg(err.response.data.message);
+      errorHandler(err.response.data.message + '!');
     }
   };
+
+  useEffect(() => {
+    errorHandler('');
+  }, []);
 
   return (
     <>
@@ -64,7 +68,7 @@ const Login = ({ setToken }) => {
             label='Password'
             placeholder='Masukkan password'
           />
-          <div className='mt-2.5 text-end text-sm font-medium text-primary'>
+          <div className='mt-2.5 text-end text-sm font-medium text-primary underline'>
             <Link to='/forgot-password'>Lupa Kata Sandi?</Link>
           </div>
         </section>
@@ -76,7 +80,7 @@ const Login = ({ setToken }) => {
       <div className='mt-2.5 text-center'>
         <p className='text-gray-dark'>
           Belum mempunyai akun?
-          <span className='ml-1 text-primary'>
+          <span className='ml-1 text-primary underline'>
             <Link to='/register'>Daftar</Link>
           </span>
         </p>

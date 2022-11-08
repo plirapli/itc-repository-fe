@@ -6,7 +6,7 @@ import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
 import { getDivisi } from '../../Utils/getData';
 import api from '../../api/api';
 
-const Register = () => {
+const Register = ({ msg, errorHandler }) => {
   const navigate = useNavigate();
   const initialState = {
     username: '',
@@ -38,14 +38,23 @@ const Register = () => {
       if (response) {
         navigate('/login');
       }
-    } catch (error) {
-      console.log(`Error: ${error.message}`);
+    } catch (err) {
+      errorHandler(`Error: ${err.response.data.message}`);
     }
   };
+
+  useEffect(() => {
+    errorHandler('');
+  }, []);
 
   return (
     <>
       <h1 className='mt-4 h2-sm sm:h2-md'>Daftar</h1>
+      {msg && (
+        <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max'>
+          {msg}
+        </div>
+      )}
       <form onSubmit={submitHandler} className='mt-2 flex flex-col gap-3'>
         <Input
           name='fullName'
@@ -95,7 +104,7 @@ const Register = () => {
       <div className='mt-2.5 text-center'>
         <p className='text-gray-dark'>
           Sudah mempunyai akun?
-          <span className='ml-1 text-primary'>
+          <span className='ml-1 text-primary underline'>
             <Link to='/login'>Masuk</Link>
           </span>
         </p>

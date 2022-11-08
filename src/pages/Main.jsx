@@ -6,6 +6,8 @@ import { ForgotPassword, Login, Register } from './login/index';
 
 const Main = () => {
   const [token, setToken] = useState('');
+  const [msg, setMsg] = useState('');
+  const errorHandler = (errMessage) => setMsg(() => errMessage);
 
   return (
     <div className='min-h-screen bg-gray-light'>
@@ -14,9 +16,24 @@ const Main = () => {
         <Route path='/home' element={<Home token={token} />} />
 
         <Route element={<LayoutLogin />}>
-          <Route path='/login' element={<Login setToken={setToken} />} />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
-          <Route path='/register' element={<Register />} />
+          <Route
+            path='/login'
+            element={
+              <Login
+                setToken={setToken}
+                msg={msg}
+                errorHandler={errorHandler}
+              />
+            }
+          />
+          <Route
+            path='/forgot-password'
+            element={<ForgotPassword msg={msg} errorHandler={errorHandler} />}
+          />
+          <Route
+            path='/register'
+            element={<Register msg={msg} errorHandler={errorHandler} />}
+          />
         </Route>
       </Routes>
     </div>
