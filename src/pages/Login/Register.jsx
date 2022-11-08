@@ -28,6 +28,7 @@ const Register = ({ msg, errorHandler }) => {
       const data = { ...inputData, id_division: id_division };
       const response = await api.post('/user/register', data);
 
+      errorHandler('Akun anda berhasil dibuat, silakan login.');
       setInputData(initialState);
       if (response) {
         navigate('/login');
@@ -51,7 +52,7 @@ const Register = ({ msg, errorHandler }) => {
     <>
       <h1 className='mt-4 h2-sm sm:h2-md'>Daftar</h1>
       {msg && (
-        <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max'>
+        <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
           {msg}
         </div>
       )}

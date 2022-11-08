@@ -12,8 +12,14 @@ const Main = () => {
   return (
     <div className='min-h-screen bg-gray-light'>
       <Routes>
-        <Route index element={<Home token={token} />} />
-        <Route path='/home' element={<Home token={token} />} />
+        <Route
+          index
+          element={<Home token={token} errorHandler={errorHandler} />}
+        />
+        <Route
+          path='/home'
+          element={<Home token={token} errorHandler={errorHandler} />}
+        />
 
         <Route element={<LayoutLogin />}>
           <Route

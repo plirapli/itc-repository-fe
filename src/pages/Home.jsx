@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
-const Home = ({ token }) => {
+const Home = ({ token, ...props }) => {
   const navigate = useNavigate();
   let sortOptions = [
     { id: 1, name: 'A-Z' },
@@ -46,7 +46,7 @@ const Home = ({ token }) => {
   };
 
   const filterHandler = () => {
-    if (selectedDivisi != '0') {
+    if (selectedDivisi !== '0') {
       setFilteredCourse(
         courses.filter((course) => course.id_division == selectedDivisi)
       );
@@ -58,6 +58,7 @@ const Home = ({ token }) => {
   const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
 
   useEffect(() => {
+    props.errorHandler('');
     getDataToken();
     getCoursesApi();
 

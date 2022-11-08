@@ -33,17 +33,24 @@ const Login = ({ errorHandler, msg, setToken }) => {
   };
 
   useEffect(() => {
-    errorHandler('');
+    if (msg.includes('Error')) {
+      errorHandler('');
+    }
   }, []);
 
   return (
     <>
       <h1 className='mt-4 h2-sm sm:h2-md'>Masuk</h1>
-      {msg && (
-        <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max'>
-          {msg}
-        </div>
-      )}
+      {msg &&
+        (msg.includes('Error') ? (
+          <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
+            {msg}
+          </div>
+        ) : (
+          <div className='mt-2 mb-4 py-2 px-4 bg-green-100 text-green-600 rounded-md w-max max-w-full'>
+            {msg}
+          </div>
+        ))}
       <form
         onSubmit={submitHandler}
         className='flex flex-col gap-3 mt-2'
