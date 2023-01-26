@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
   const [navbar, setNavbar] = useState();
-  const setNavbarHandler = (component) => setNavbar(() => component);
+  const setNavbarHandler = (component) => setNavbar(component);
 
   return (
     <div className='w-full flex flex-col justify-center sm:items-center'>

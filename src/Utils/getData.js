@@ -23,9 +23,9 @@ let getCourses = async (authToken) => {
         updatedAt: showFormattedDate(course?.updatedAt),
       };
     });
-    return courses;
+    return { status: 1, data: courses };
   } catch (error) {
-    return error.message;
+    return { status: 0, data: error };
   }
 };
 

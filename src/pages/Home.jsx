@@ -9,11 +9,11 @@ import MateriCard from '../components/cards/MateriCard';
 import { getCourses, getDivisi } from '../Utils/getData';
 import { useEffect, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
 
-const Home = ({ token, ...props }) => {
+const Home = ({ userData, ...props }) => {
   const navigate = useNavigate();
   const navbar = useOutletContext();
+  const jwt_token = localStorage.getItem('token');
 
   let sortOptions = [
     { id: 1, name: 'A-Z' },
@@ -28,23 +28,16 @@ const Home = ({ token, ...props }) => {
   const [selectedDivisi, setSelectedDivisi] = useState('0');
   const [courses, setCourses] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState();
-  const [userData, setUserData] = useState({});
-
-  const getDataToken = async () => {
-    try {
-      const decoded = await jwtDecode(token);
-      setUserData(await decoded);
-    } catch {
-      navigate('/login');
-    }
-  };
 
   const getCoursesApi = async () => {
-    try {
-      setCourses(await getCourses(token));
-    } catch {
-      navigate('/login');
-    }
+    getCourses(jwt_token).then(({ status, data }) => {
+      if (status) {
+        setCourses(data);
+      } else {
+        console.log('catched');
+        navigate('/login');
+      }
+    });
   };
 
   const filterHandler = () => {
@@ -61,9 +54,6 @@ const Home = ({ token, ...props }) => {
 
   useEffect(() => {
     props.errorHandler('');
-    getDataToken().then(() => {
-      navbar(<Navbar user_id={userData?.id} division={userData?.division} />);
-    });
     getCoursesApi();
 
     return async () => {
@@ -78,6 +68,10 @@ const Home = ({ token, ...props }) => {
   useEffect(() => {
     setFilteredCourse(courses);
   }, [courses]);
+
+  useEffect(() => {
+    navbar(<Navbar user={userData} />);
+  }, [userData]);
 
   return (
     <>

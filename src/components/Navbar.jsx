@@ -1,31 +1,8 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getUserDetail } from '../Utils/getData';
 
-const Navbar = ({ user_id, division }) => {
+const Navbar = ({ user }) => {
   const [hover, setHover] = useState(false);
-  const [user, setUser] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-
-  const getUser = async (id) => {
-    try {
-      const response = await getUserDetail(id);
-      return response?.data;
-    } catch (err) {
-      setIsLoading(() => true);
-      console.log('Error: ' + err.message);
-    }
-  };
-
-  useEffect(() => {
-    if (user_id != null) {
-      getUser(user_id).then((userDetail) => {
-        setIsLoading(() => false);
-        return setUser(userDetail);
-      });
-    }
-  }, [user_id]);
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between pl-4 sm:pl-8 relative'>
@@ -39,10 +16,10 @@ const Navbar = ({ user_id, division }) => {
       >
         <div className='hidden sm:block'>
           <p className='font-medium text-white'>
-            {isLoading ? 'Loading...' : user?.fullName}
+            {user ? user?.username : 'Loading...'}
           </p>
           <p className='text-xs text-accent'>
-            {isLoading ? 'Loading...' : division}
+            {user ? user?.division : 'Loading...'}
           </p>
         </div>
         <img
@@ -64,7 +41,7 @@ const OverlayMenu = ({ id_role = 1 }) => {
           <div className='px-4 py-2 transition-all hover:bg-black hover:bg-opacity-10'>
             Profile
           </div>
-          {id_role == 2 && (
+          {id_role === 2 && (
             <div className='px-4 py-2 transition-all hover:bg-black hover:bg-opacity-10'>
               Daftar Materi
             </div>

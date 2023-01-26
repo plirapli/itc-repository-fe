@@ -20,13 +20,16 @@ const Login = ({ errorHandler, msg, setToken }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/user/login', inputData);
-      setToken(() => response.data.data.user.accessToken);
-      setInputData(initialState);
+      api.post('/user/login', inputData).then((res) => {
+        const token = res.data.data.user.accessToken;
+        localStorage.setItem('token', token);
+        setToken(() => token);
+        setInputData(initialState);
 
-      if (response) {
-        navigate('/');
-      }
+        if (res) {
+          navigate('/');
+        }
+      });
     } catch (err) {
       errorHandler(`Error: ${err.response.data.message}!`);
     }
