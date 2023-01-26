@@ -19,16 +19,20 @@
 
 @layer components {
   .h1-md {
+    /* 32px */
     font-size: 2rem;
   }
   .h2-md {
+    /* 24px */
     font-size: 1.5rem;
   }
 
   .h1-sm {
+    /* 28px */
     font-size: 1.75rem;
   }
   .h2-sm {
+    /* 20px */
     font-size: 1.25rem;
   }
 

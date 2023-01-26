@@ -8,11 +8,13 @@ import {
 import MateriCard from '../components/cards/MateriCard';
 import { getCourses, getDivisi } from '../Utils/getData';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
 const Home = ({ token, ...props }) => {
   const navigate = useNavigate();
+  const navbar = useOutletContext();
+
   let sortOptions = [
     { id: 1, name: 'A-Z' },
     { id: 2, name: 'Z-A' },
@@ -59,7 +61,9 @@ const Home = ({ token, ...props }) => {
 
   useEffect(() => {
     props.errorHandler('');
-    getDataToken();
+    getDataToken().then(() => {
+      navbar(<Navbar user_id={userData?.id} division={userData?.division} />);
+    });
     getCoursesApi();
 
     return async () => {
@@ -77,8 +81,7 @@ const Home = ({ token, ...props }) => {
 
   return (
     <>
-      <Navbar user_id={userData?.id} division={userData?.division} />
-      <div className='px-5 pt-4 pb-6 sm:px-8 sm:pt-5 sm:pb-8'>
+      <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
         <div className='flex items-center justify-between'>
           <h2 className='h1-sm sm:h1-md'>Materi</h2>
           {userData?.id_role == 2 && (
