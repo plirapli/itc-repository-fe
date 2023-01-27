@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ButtonIconNone } from '../../components/buttons/Button';
-import Input from '../../components/inputForm/Input';
-import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
-import { getDivisi } from '../../Utils/getData';
 import api from '../../api/api';
+import { getDivisi } from '../../Utils/getData';
+
+// Components
+import Input from '../../components/inputForm/Input';
+import { ButtonTextOnly } from '../../components/buttons/Button';
+import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
 
 const Register = ({ msg, errorHandler }) => {
   const navigate = useNavigate();
@@ -99,7 +102,7 @@ const Register = ({ msg, errorHandler }) => {
           label='Divisi'
         />
         <section className='mt-4 w-full'>
-          <ButtonIconNone text='Daftar' />
+          <ButtonTextOnly text='Daftar' />
         </section>
       </form>
       <div className='mt-2.5 text-center'>

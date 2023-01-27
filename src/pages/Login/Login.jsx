@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ButtonIconNone } from '../../components/buttons/Button';
-import Input from '../../components/inputForm/Input';
 import api from '../../api/api';
-import { useEffect } from 'react';
+
+// Components
+import { ButtonTextOnly } from '../../components/buttons/Button';
+import Input from '../../components/inputForm/Input';
 
 const Login = ({ errorHandler, msg, setToken }) => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const Login = ({ errorHandler, msg, setToken }) => {
     if (msg.includes('Error')) {
       errorHandler('');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -84,7 +86,7 @@ const Login = ({ errorHandler, msg, setToken }) => {
         </section>
 
         <section className='mt-4 w-full'>
-          <ButtonIconNone text='Masuk' />
+          <ButtonTextOnly text='Masuk' />
         </section>
       </form>
       <div className='mt-2.5 text-center'>

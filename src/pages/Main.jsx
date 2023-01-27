@@ -1,33 +1,31 @@
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import Home from './Home';
+import jwt from 'jwt-decode';
+
+// Components
 import Layout from './layout/Layout';
 import LayoutLogin from './layout/LayoutLogin';
+import { Home, OverviewMateri } from './index';
 import { ForgotPassword, Login, Register } from './login/index';
-import jwt from 'jwt-decode';
 
 const Main = () => {
   const navigate = useNavigate();
 
-  const [token, setToken] = useState('');
-  const [msg, setMsg] = useState('');
-  const [userData, setUserData] = useState({});
-  const errorHandler = (errMessage) => setMsg(() => errMessage);
-
   const getDataToken = async () => {
     try {
       const jwt_token = localStorage.getItem('token');
-      const decoded = jwt(jwt_token);
-      setUserData(await decoded);
+      if (!jwt_token) throw new Error('Token not found');
+
+      return jwt(jwt_token);
     } catch {
       navigate('/login');
     }
   };
 
-  useEffect(() => {
-    getDataToken();
-  }, []);
+  const [token, setToken] = useState('');
+  const [msg, setMsg] = useState('');
+  const [userData, setUserData] = useState(getDataToken);
+  const errorHandler = (errMessage) => setMsg(() => errMessage);
 
   return (
     <div className='min-h-screen bg-gray-light'>
@@ -41,6 +39,7 @@ const Main = () => {
             path='/home'
             element={<Home userData={userData} errorHandler={errorHandler} />}
           />
+          <Route path='/course/:id' element={<OverviewMateri />} />
 
           {/* Login, Register Page */}
           <Route element={<LayoutLogin />}>

@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+
+// Component
 import Navbar from '../components/Navbar';
 import { ButtonIconRight } from '../components/buttons/Button';
 import SearchBar from '../components/SearchBar';
@@ -7,8 +11,6 @@ import {
 } from '../components/inputForm/SelectOption';
 import MateriCard from '../components/cards/MateriCard';
 import { getCourses, getDivisi } from '../Utils/getData';
-import { useEffect, useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
 
 const Home = ({ userData, ...props }) => {
   const navigate = useNavigate();
@@ -34,7 +36,6 @@ const Home = ({ userData, ...props }) => {
       if (status) {
         setCourses(data);
       } else {
-        console.log('catched');
         navigate('/login');
       }
     });
@@ -43,7 +44,7 @@ const Home = ({ userData, ...props }) => {
   const filterHandler = () => {
     if (selectedDivisi !== '0') {
       setFilteredCourse(
-        courses.filter((course) => course.id_division == selectedDivisi)
+        courses.filter((course) => course.id_division === selectedDivisi)
       );
     } else {
       setFilteredCourse(courses);
@@ -77,8 +78,8 @@ const Home = ({ userData, ...props }) => {
     <>
       <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
         <div className='flex items-center justify-between'>
-          <h2 className='h1-sm sm:h1-md'>Materi</h2>
-          {userData?.id_role == 2 && (
+          <h1 className='h1-sm sm:h1-md'>Materi</h1>
+          {userData?.id_role === 2 && (
             <ButtonIconRight
               text='Tambah Materi'
               icon='akar-icons:plus'
@@ -104,12 +105,14 @@ const Home = ({ userData, ...props }) => {
 
         <main className='materi-layout mt-3 sm:mt-4'>
           {filteredCourse?.map((course) => (
-            <MateriCard
-              isAdmin={userData?.id_role == 2}
-              key={course.id}
-              data={course}
-              divisi={divisi}
-            />
+            <Link to={`/course/${course.id}`}>
+              <MateriCard
+                isAdmin={userData?.id_role === 2}
+                key={course.id}
+                data={course}
+                divisi={divisi}
+              />
+            </Link>
           ))}
         </main>
       </div>

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { getDivisi } from '../../Utils/getData';
+import { useEffect, useState } from 'react';
 
 const Tags = ({ id = 1, divisi }) => {
   const [selectedDiv, setSelectedDiv] = useState({});
 
   useEffect(() => {
     setSelectedDiv(divisi.filter((div) => div.id === id)[0]);
-  }, [id]);
+  }, [id, divisi]);
 
   let divisions = [
     { id: 1, color: 'bg-divisi-be' },
