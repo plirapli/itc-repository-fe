@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+// import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { ButtonTextOnly } from '../components/buttons/Button';
 
 // Component
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import Tags from '../components/tags/Tags';
 import { getCourses, getDivisi } from '../Utils/getData';
 
 const Home = ({ ...props }) => {
-  const navigate = useNavigate();
-  const navbar = useOutletContext();
-  const jwt_token = localStorage.getItem('token');
+  // const navigate = useNavigate();
+  // const navbar = useOutletContext();
+  // const jwt_token = localStorage.getItem('token');
 
-  const [divisi, setDivisi] = useState([]);
-  const [selectedDivisi, setSelectedDivisi] = useState('0');
-  const [courses, setCourses] = useState([]);
+  // const [divisi, setDivisi] = useState([]);
+  // const [selectedDivisi, setSelectedDivisi] = useState('0');
+  // const [courses, setCourses] = useState([]);
 
   // const getCoursesApi = async () => {
   //   getCourses(jwt_token).then(({ status, data }) => {
@@ -39,9 +39,9 @@ const Home = ({ ...props }) => {
 
   // const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
 
-  useEffect(() => {
-    getDivisi().then(setDivisi);
-  }, []);
+  // useEffect(() => {
+  //   getDivisi().then(setDivisi);
+  // }, []);
 
   // useEffect(() => {
   //   filterHandler();
@@ -52,8 +52,8 @@ const Home = ({ ...props }) => {
   // }, [courses]);
 
   // useEffect(() => {
-  //   navbar(<Navbar user={userData} />);
-  // }, [userData]);
+  //   navbar();
+  // }, []);
 
   return (
     <>
@@ -76,7 +76,7 @@ const Home = ({ ...props }) => {
                 34 Artikel
               </div>
             </div>
-            <Tags divisi={divisi} />
+            {/* <Tags divisi={divisi} /> */}
             <div className='flex items-center gap-1.5 text-black'>
               <Icon icon='carbon:user-avatar-filled' width='20' />
               <span className='text-sm'>Muhammad Rafli</span>

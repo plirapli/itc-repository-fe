@@ -6,7 +6,7 @@ import api from '../../api/api';
 import { ButtonTextOnly } from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 
-const Login = ({ errorHandler, msg, setToken }) => {
+const Login = ({ errorHandler, msg }) => {
   const navigate = useNavigate();
   const initialState = {
     emailUsername: '',
@@ -24,7 +24,7 @@ const Login = ({ errorHandler, msg, setToken }) => {
       api.post('/user/login', inputData).then((res) => {
         const token = res.data.data.user.accessToken;
         localStorage.setItem('token', token);
-        setToken(() => token);
+        // setToken(() => token);
         setInputData(initialState);
 
         if (res) {
@@ -40,7 +40,6 @@ const Login = ({ errorHandler, msg, setToken }) => {
     if (msg.includes('Error')) {
       errorHandler('');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

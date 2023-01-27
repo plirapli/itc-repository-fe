@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { getCourses, getDivisi } from '../Utils/getData';
 
 // Component
 import Navbar from '../components/Navbar';
@@ -10,7 +11,6 @@ import {
   SelectOptionDivisi,
 } from '../components/inputForm/SelectOption';
 import MateriCard from '../components/cards/MateriCard';
-import { getCourses, getDivisi } from '../Utils/getData';
 
 const Home = ({ userData, ...props }) => {
   const navigate = useNavigate();
@@ -25,23 +25,27 @@ const Home = ({ userData, ...props }) => {
     { id: 5, name: 'Update at (Asc)' },
     { id: 6, name: 'Update at (Desc)' },
   ];
-  const [sort, setSort] = useState([]);
+  // const [sort, setSort] = useState([]);
   const [divisi, setDivisi] = useState([]);
   const [selectedDivisi, setSelectedDivisi] = useState('0');
   const [courses, setCourses] = useState([]);
-  const [filteredCourse, setFilteredCourse] = useState();
+  const [filteredCourse, setFilteredCourse] = useState([]);
 
-  const getCoursesApi = async () => {
-    getCourses(jwt_token).then(({ status, data }) => {
-      if (status) {
-        setCourses(data);
-      } else {
-        navigate('/login');
-      }
-    });
-  };
+  const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
 
-  const filterHandler = () => {
+  useEffect(() => {
+    props.errorHandler('');
+    getCourses(jwt_token)
+      .then(setCourses)
+      .catch(() => navigate('/login'));
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    getDivisi().then(setDivisi);
+  }, []);
+
+  useEffect(() => {
     if (selectedDivisi !== '0') {
       setFilteredCourse(
         courses.filter((course) => course.id_division === selectedDivisi)
@@ -49,21 +53,6 @@ const Home = ({ userData, ...props }) => {
     } else {
       setFilteredCourse(courses);
     }
-  };
-
-  const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
-
-  useEffect(() => {
-    props.errorHandler('');
-    getCoursesApi();
-
-    return async () => {
-      setDivisi(await getDivisi());
-    };
-  }, []);
-
-  useEffect(() => {
-    filterHandler();
   }, [selectedDivisi]);
 
   useEffect(() => {
@@ -87,6 +76,8 @@ const Home = ({ userData, ...props }) => {
             />
           )}
         </div>
+
+        {/* Sort, Filter, Search */}
         <div className='flex flex-col-reverse sm:flex-row items-center justify-between sm:items-end mt-3 sm:mt-1 gap-2 sm:gap-4'>
           <div className='w-full flex flex-col sm:flex-row  items-center gap-2 sm:gap-5'>
             <SelectOptionDivisi
@@ -104,11 +95,10 @@ const Home = ({ userData, ...props }) => {
         </div>
 
         <main className='materi-layout mt-3 sm:mt-4'>
-          {filteredCourse?.map((course) => (
-            <Link to={`/course/${course.id}`}>
+          {filteredCourse?.map((course, i) => (
+            <Link to={`/course/${course.id}`} key={course.id}>
               <MateriCard
                 isAdmin={userData?.id_role === 2}
-                key={course.id}
                 data={course}
                 divisi={divisi}
               />
