@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { logoutHandler } from '../Utils/auth';
 
 const Navbar = ({ user }) => {
@@ -12,9 +12,10 @@ const Navbar = ({ user }) => {
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
-        className='flex gap-4 items-center px-4 py-3.5 sm:pr-5 sm:py-3 
+        className='flex gap-4 items-center px-4 py-2 sm:pr-5 sm:py-2.5
           transition-all hover:bg-black hover:bg-opacity-20'
       >
+        {/* User info */}
         <div className='hidden sm:block'>
           <p className='font-medium text-white'>
             {user ? user?.username : 'Loading...'}
@@ -23,8 +24,10 @@ const Navbar = ({ user }) => {
             {user ? user?.division : 'Loading...'}
           </p>
         </div>
+
+        {/* Profile img */}
         <img
-          className='w-8 h-8 sm:w-11 sm:h-11 border bg-cover'
+          className='w-8 h-8 sm:w-11 sm:h-11 border rounded bg-cover overflow-hidden'
           src=''
           alt=''
         />

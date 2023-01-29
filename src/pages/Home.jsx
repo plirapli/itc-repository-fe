@@ -70,6 +70,7 @@ const Home = ({ userData, ...props }) => {
 
   useEffect(() => {
     navbar(<Navbar user={userData} />);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   return (
