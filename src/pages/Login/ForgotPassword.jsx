@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ButtonTextOnly } from '../../components/buttons/Button';
+import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 
 const ForgotPassword = ({ errorHandler, msg }) => {
@@ -24,7 +24,7 @@ const ForgotPassword = ({ errorHandler, msg }) => {
           placeholder='Masukkan alamat email'
         />
         <section className='mt-4 w-full'>
-          <ButtonTextOnly text='Kirim' />
+          <Button type='textOnly' text='Kirim' />
         </section>
       </form>
       <div className='mt-2.5 text-center'>

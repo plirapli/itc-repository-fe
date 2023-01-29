@@ -3,8 +3,8 @@ import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { getCourses, getDivisi } from '../Utils/getData';
 
 // Component
-import Navbar from '../components/Navbar';
-import { ButtonIconRight } from '../components/buttons/Button';
+import Navbar from '../components/navbar/Navbar';
+import Button from '../components/buttons/Button';
 import SearchBar from '../components/SearchBar';
 import {
   SelectOption,
@@ -79,9 +79,11 @@ const Home = ({ userData, ...props }) => {
         <div className='flex items-center justify-between'>
           <h1 className='h1-sm sm:h1-md'>Materi</h1>
           {userData?.id_role === 2 && (
-            <ButtonIconRight
+            <Button
+              type='iconRight'
               text='Tambah Materi'
               icon='akar-icons:plus'
+              isResponsive={true}
               textClassName='hidden sm:inline'
             />
           )}

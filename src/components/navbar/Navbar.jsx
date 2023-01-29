@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logoutHandler } from '../Utils/auth';
+import { logoutHandler } from '../../Utils/auth';
 
 const Navbar = ({ user }) => {
   const [hover, setHover] = useState(false);

@@ -31,7 +31,6 @@ api.interceptors.response.use(
   },
   async (err) => {
     const originalConfig = err.config;
-    console.log(originalConfig);
 
     if (originalConfig.url !== '/user/login' && err.response) {
       // Access Token was expired

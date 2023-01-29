@@ -4,7 +4,7 @@ import api from '../../api/api';
 import { loginHandler } from '../../Utils/auth';
 
 // Components
-import { ButtonTextOnly } from '../../components/buttons/Button';
+import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 
 const Login = ({ msg, errorHandler }) => {
@@ -38,6 +38,7 @@ const Login = ({ msg, errorHandler }) => {
     if (msg.includes('Error')) {
       errorHandler('');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -83,7 +84,7 @@ const Login = ({ msg, errorHandler }) => {
         </section>
 
         <section className='mt-4 w-full'>
-          <ButtonTextOnly text='Masuk' />
+          <Button type='textOnly' text='Masuk' />
         </section>
       </form>
       <div className='mt-2.5 text-center'>

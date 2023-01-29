@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-// import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { ButtonTextOnly } from '../components/buttons/Button';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import Button from '../components/buttons/Button';
 
 // Component
-// import Navbar from '../components/Navbar';
+import NavbarMateri from '../components/navbar/NavbarMateri';
 import Tags from '../components/tags/Tags';
 import { getCourses, getDivisi } from '../Utils/getData';
 
-const Home = ({ ...props }) => {
+const OverviewMateri = ({ ...props }) => {
   // const navigate = useNavigate();
-  // const navbar = useOutletContext();
+  const navbar = useOutletContext();
   // const jwt_token = localStorage.getItem('token');
 
   // const [divisi, setDivisi] = useState([]);
@@ -54,6 +54,10 @@ const Home = ({ ...props }) => {
   // useEffect(() => {
   //   navbar();
   // }, []);
+  useEffect(() => {
+    navbar(<NavbarMateri courseID={1} />);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -89,7 +93,7 @@ const Home = ({ ...props }) => {
         </div>
 
         {/* CTA Btn */}
-        <ButtonTextOnly text='Belajar Sekarang' />
+        <Button type='textOnly' text='Belajar Sekarang' />
 
         {/* Deskripsi */}
         <div>
@@ -108,4 +112,4 @@ const Home = ({ ...props }) => {
   );
 };
 
-export default Home;
+export default OverviewMateri;

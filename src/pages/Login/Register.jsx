@@ -6,7 +6,7 @@ import { getDivisi } from '../../Utils/getData';
 
 // Components
 import Input from '../../components/inputForm/Input';
-import { ButtonTextOnly } from '../../components/buttons/Button';
+import Button from '../../components/buttons/Button';
 import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
 
 const Register = ({ msg, errorHandler }) => {
@@ -102,7 +102,7 @@ const Register = ({ msg, errorHandler }) => {
           label='Divisi'
         />
         <section className='mt-4 w-full'>
-          <ButtonTextOnly text='Daftar' />
+          <Button type='textOnly' text='Daftar' />
         </section>
       </form>
       <div className='mt-2.5 text-center'>
