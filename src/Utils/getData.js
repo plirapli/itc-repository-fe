@@ -1,12 +1,16 @@
 import api from '../api/api';
 import { showFormattedDate } from './dateConverter';
 
+// Get all divisions
 let getDivisi = () =>
   api
     .get('/division')
     .then((res) => res.data.data)
-    .catch((err) => new Error(err.message));
+    .catch((err) => {
+      throw new Error(err.message);
+    });
 
+// Get all courses
 let getCourses = (authToken) =>
   api
     .get('/course', { headers: { Authorization: `Bearer ${authToken}` } })
@@ -19,8 +23,11 @@ let getCourses = (authToken) =>
         };
       });
     })
-    .catch((err) => new Error(err.message));
+    .catch((err) => {
+      throw new Error(err.message);
+    });
 
+// Get user detail
 let getUserDetail = async (id) => {
   try {
     const response = await api.get(`/user/${id}`);
