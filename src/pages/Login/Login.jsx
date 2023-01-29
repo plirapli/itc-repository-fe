@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/api';
+import { login } from '../../Utils/auth';
 
 // Components
 import { ButtonTextOnly } from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 
-const Login = ({ errorHandler, msg }) => {
+const Login = ({ msg, errorHandler }) => {
   const navigate = useNavigate();
   const initialState = {
     emailUsername: '',
@@ -18,22 +19,18 @@ const Login = ({ errorHandler, msg }) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
-    try {
-      api.post('/user/login', inputData).then((res) => {
-        const token = res.data.data.user.accessToken;
-        localStorage.setItem('token', token);
-        // setToken(() => token);
-        setInputData(initialState);
-
-        if (res) {
-          navigate('/');
-        }
+    api
+      .post('/user/login', inputData)
+      .then(({ data }) => {
+        errorHandler(''); // Delete error msg
+        setInputData(initialState); // Delete input data
+        login(data); // Login process
+      })
+      .catch((err) => {
+        errorHandler(`Error: ${err.response.data.message}!`);
       });
-    } catch (err) {
-      errorHandler(`Error: ${err.response.data.message}!`);
-    }
   };
 
   useEffect(() => {

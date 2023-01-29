@@ -14,7 +14,7 @@ const Main = () => {
   const [msg, setMsg] = useState('');
   const [userData, setUserData] = useState({});
 
-  const errorHandler = (errMessage) => setMsg(() => errMessage);
+  const errorHandler = (errMsg) => setMsg(() => errMsg);
 
   useEffect(() => {
     const getDataToken = async () => {
