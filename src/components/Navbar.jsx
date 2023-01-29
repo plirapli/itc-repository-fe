@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { logoutHandler } from '../Utils/auth';
 
 const Navbar = ({ user }) => {
   const [hover, setHover] = useState(false);
@@ -34,6 +35,11 @@ const Navbar = ({ user }) => {
 };
 
 const OverlayMenu = ({ id_role = 1 }) => {
+  const navigate = useNavigate();
+  const logout = () => {
+    logoutHandler();
+    navigate('/login');
+  };
   return (
     <>
       <div className='min-w-[180px] absolute right-0 sm:right-2 transform translate-y-full bottom-0 p-2'>
@@ -49,11 +55,12 @@ const OverlayMenu = ({ id_role = 1 }) => {
           <div className='px-4 py-1'>
             <div className='w-full h-[1px] bg-gray-light'></div>
           </div>
-          <Link to={'login'}>
-            <div className='px-4 py-2 transition-all text-danger-main hover:bg-black hover:bg-opacity-10'>
-              Keluar
-            </div>
-          </Link>
+          <div
+            onClick={logout}
+            className='px-4 py-2 transition-all text-danger-main hover:bg-black hover:bg-opacity-10'
+          >
+            Keluar
+          </div>
         </div>
       </div>
     </>

@@ -26,9 +26,12 @@ const loginHandler = ({ data }) => {
   );
 };
 
+const logoutHandler = () => localStorage.removeItem('user');
+
 export {
   getLocalAccessToken,
   getLocalRefreshToken,
   setLocalAccessToken,
   loginHandler,
+  logoutHandler,
 };
