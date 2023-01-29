@@ -2,7 +2,7 @@ import api from '../api/api';
 import { showFormattedDate } from './dateConverter';
 
 // Get all divisions
-let getDivisi = () =>
+const getDivisi = () =>
   api
     .get('/division')
     .then((res) => res.data.data)
@@ -11,9 +11,11 @@ let getDivisi = () =>
     });
 
 // Get all courses
-let getCourses = (authToken) =>
-  api
-    .get('/course', { headers: { Authorization: `Bearer ${authToken}` } })
+const getCourses = async (authToken) => {
+  const controller = new AbortController();
+
+  return api
+    .get('/course', { signal: controller.signal })
     .then(({ data }) => {
       return data.data.map((course) => {
         return {
@@ -26,9 +28,10 @@ let getCourses = (authToken) =>
     .catch((err) => {
       throw new Error(err.message);
     });
+};
 
 // Get user detail
-let getUserDetail = async (id) => {
+const getUserDetail = async (id) => {
   try {
     const response = await api.get(`/user/${id}`);
     return response.data;

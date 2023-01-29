@@ -34,10 +34,22 @@ const Home = ({ userData, ...props }) => {
   const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
 
   useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
     props.errorHandler('');
     getCourses(jwt_token)
-      .then(setCourses)
-      .catch(() => navigate('/login'));
+      .then(isMounted && setCourses)
+      .catch((err) => {
+        console.log(err);
+        navigate('/login');
+      });
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+
     //eslint-disable-next-line
   }, []);
 

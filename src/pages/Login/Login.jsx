@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/api';
-import { login } from '../../Utils/auth';
+import { loginHandler } from '../../Utils/auth';
 
 // Components
 import { ButtonTextOnly } from '../../components/buttons/Button';
@@ -26,7 +26,8 @@ const Login = ({ msg, errorHandler }) => {
       .then(({ data }) => {
         errorHandler(''); // Delete error msg
         setInputData(initialState); // Delete input data
-        login(data); // Login process
+        loginHandler(data); // Login process
+        navigate('/'); // Redirect to home page
       })
       .catch((err) => {
         errorHandler(`Error: ${err.response.data.message}!`);

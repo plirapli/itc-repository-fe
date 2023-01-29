@@ -7,6 +7,7 @@ import Layout from './layout/Layout';
 import LayoutLogin from './layout/LayoutLogin';
 import { Home, OverviewMateri } from './index';
 import { ForgotPassword, Login, Register } from './login/index';
+import { getLocalAccessToken } from '../Utils/auth';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Main = () => {
 
   useEffect(() => {
     const getDataToken = async () => {
-      const jwt_token = localStorage.getItem('token');
+      const jwt_token = getLocalAccessToken();
       return await jwt(jwt_token);
     };
 
