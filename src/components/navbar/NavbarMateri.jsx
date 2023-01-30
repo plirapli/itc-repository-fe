@@ -1,8 +1,7 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../buttons/Button';
 
 const NavbarMateri = ({ courseID }) => {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const icon = {
     backBtn: 'eva:arrow-back-fill',
@@ -10,6 +9,7 @@ const NavbarMateri = ({ courseID }) => {
     listMateri: 'ant-design:unordered-list-outlined',
   };
   const backButtonHandler = () => navigate(-1);
+  console.log();
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between p-1 sm:px-6 sm:py-3 relative'>
@@ -26,7 +26,7 @@ const NavbarMateri = ({ courseID }) => {
       <Link to='/'></Link>
 
       <div className='flex'>
-        <Link to={pathname + 'diskusi/'}>
+        <Link to={`/course/${courseID}/diskusi/`}>
           <Button
             type='iconLeft'
             styleType='transparent'

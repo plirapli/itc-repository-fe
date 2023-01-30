@@ -10,7 +10,7 @@ const Diskusi = () => {
       <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
         {/* Header */}
         <div className='flex justify-between items-center'>
-          <h1 className='h1-sm sm:h1-md'>Materi</h1>
+          <h1 className='h1-sm sm:h1-md leading-none'>Materi</h1>
           <Button
             type='iconRight'
             text='Ajukan Pertanyaan'
@@ -19,15 +19,14 @@ const Diskusi = () => {
             textClassName='hidden sm:inline'
           />
         </div>
-        <div className='w-full mt-3'>
+        <div className='w-full mt-4'>
           <SearchBar />
         </div>
 
         {/* List Diskusi */}
         <div className='mt-5 flex flex-col gap-5'>
           {diskusiList.map((diskusi, i) => (
-            // Diskusi Card
-            <DiskusiCard />
+            <DiskusiCard key={i} />
           ))}
         </div>
       </div>
