@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Button from '../buttons/Button';
 
 const NavbarMateri = ({ courseID }) => {
@@ -7,6 +7,7 @@ const NavbarMateri = ({ courseID }) => {
     diskusi: 'fluent:comment-multiple-24-regular',
     listMateri: 'ant-design:unordered-list-outlined',
   };
+  const { pathname } = useLocation();
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between p-1 sm:px-6 sm:py-3 relative'>
@@ -22,14 +23,16 @@ const NavbarMateri = ({ courseID }) => {
       </Link>
 
       <div className='flex'>
-        <Button
-          type='iconLeft'
-          styleType='transparent'
-          text='Diskusi'
-          icon={icon.diskusi}
-          isResponsive={true}
-          textClassName='hidden sm:block'
-        />
+        <Link to={pathname + 'diskusi/'}>
+          <Button
+            type='iconLeft'
+            styleType='transparent'
+            text='Diskusi'
+            icon={icon.diskusi}
+            isResponsive={true}
+            textClassName='hidden sm:block'
+          />
+        </Link>
         <Button
           type='iconLeft'
           styleType='transparent'

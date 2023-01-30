@@ -12,6 +12,7 @@ const api = axios.create({
   },
 });
 
+// Using default header
 api.interceptors.request.use(
   (config) => {
     const token = getLocalAccessToken();

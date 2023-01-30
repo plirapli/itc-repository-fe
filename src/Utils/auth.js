@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 const getLocalAccessToken = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   return user?.accessToken;

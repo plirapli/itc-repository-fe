@@ -1,16 +1,12 @@
-import { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
-import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import Button from '../components/buttons/Button';
+import Button from '../../components/buttons/Button';
 
 // Component
-import NavbarMateri from '../components/navbar/NavbarMateri';
-import Tags from '../components/tags/Tags';
-import { getCourses, getDivisi } from '../Utils/getData';
+import Tags from '../../components/tags/Tags';
+import { getCourses, getDivisi } from '../../Utils/getData';
 
-const OverviewMateri = ({ ...props }) => {
+const Overview = ({ ...props }) => {
   // const navigate = useNavigate();
-  const navbar = useOutletContext();
   // const jwt_token = localStorage.getItem('token');
 
   // const [divisi, setDivisi] = useState([]);
@@ -50,14 +46,6 @@ const OverviewMateri = ({ ...props }) => {
   // useEffect(() => {
   //   setFilteredCourse(courses);
   // }, [courses]);
-
-  // useEffect(() => {
-  //   navbar();
-  // }, []);
-  useEffect(() => {
-    navbar(<NavbarMateri courseID={1} />);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
@@ -112,4 +100,4 @@ const OverviewMateri = ({ ...props }) => {
   );
 };
 
-export default OverviewMateri;
+export default Overview;

@@ -40,7 +40,7 @@ const Home = ({ userData, ...props }) => {
     props.errorHandler('');
     getCourses(jwt_token)
       .then(isMounted && setCourses)
-      .catch((err) => navigate('/login'));
+      .catch((err) => navigate('/login/'));
 
     return () => {
       isMounted = false;
@@ -108,7 +108,7 @@ const Home = ({ userData, ...props }) => {
 
         <main className='materi-layout mt-3 sm:mt-4'>
           {filteredCourse?.map((course, i) => (
-            <Link to={`/course/${course.id}`} key={course.id}>
+            <Link to={`/course/${course.id}/`} key={course.id}>
               <MateriCard
                 isAdmin={userData?.id_role === 2}
                 data={course}

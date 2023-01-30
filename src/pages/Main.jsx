@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import jwt from 'jwt-decode';
+import { getLocalAccessToken } from '../Utils/auth';
 
 // Components
-import Layout from './layout/Layout';
-import LayoutLogin from './layout/LayoutLogin';
-import { Home, OverviewMateri } from './index';
+import { Layout, LayoutLogin, LayoutMateri } from './layout/index';
+import { Home } from './index';
+import { Overview, Diskusi } from './course/index';
 import { ForgotPassword, Login, Register } from './login/index';
-import { getLocalAccessToken } from '../Utils/auth';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Main = () => {
     getDataToken()
       .then(setUserData)
       .catch(() => {
-        navigate('/login');
+        navigate('/login/');
       });
     //eslint-disable-next-line
   }, []);
@@ -34,35 +34,32 @@ const Main = () => {
   return (
     <div className='min-h-screen bg-gray-light'>
       <Routes>
-        <Route element={<Layout />}>
+        <Route path='/' element={<Layout />}>
           <Route
             index
             element={<Home userData={userData} errorHandler={errorHandler} />}
           />
           <Route
-            path='/home'
+            path='home/'
             element={<Home userData={userData} errorHandler={errorHandler} />}
           />
-          <Route path='/course/:id' element={<OverviewMateri />} />
+          <Route path='course/:id/' element={<LayoutMateri />}>
+            <Route index element={<Overview />} />
+            <Route path='diskusi/' element={<Diskusi />} />
+          </Route>
 
           {/* Login, Register Page */}
           <Route element={<LayoutLogin />}>
             <Route
-              path='/login'
-              element={
-                <Login
-                  // setToken={setToken}
-                  msg={msg}
-                  errorHandler={errorHandler}
-                />
-              }
+              path='login/'
+              element={<Login msg={msg} errorHandler={errorHandler} />}
             />
             <Route
-              path='/forgot-password'
+              path='forgot-password/'
               element={<ForgotPassword msg={msg} errorHandler={errorHandler} />}
             />
             <Route
-              path='/register'
+              path='register/'
               element={<Register msg={msg} errorHandler={errorHandler} />}
             />
           </Route>
