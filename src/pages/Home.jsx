@@ -40,7 +40,7 @@ const Home = ({ userData, ...props }) => {
     props.errorHandler('');
     getCourses(jwt_token)
       .then(isMounted && setCourses)
-      .catch((err) => navigate('/login/'));
+      .catch(() => navigate('/login/'));
 
     return () => {
       isMounted = false;

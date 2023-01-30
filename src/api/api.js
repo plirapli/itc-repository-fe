@@ -27,28 +27,32 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (res) => {
-    return res;
-  },
+  (res) => res,
   async (err) => {
-    const originalConfig = err.config;
+    const config = err?.config;
 
-    if (originalConfig.url !== '/user/login' && err.response) {
+    if (config.url !== '/user/login' && err.response) {
       // Access Token was expired
-      if (err.response.status === 401 && !originalConfig._retry) {
-        originalConfig._retry = true;
+      if (err.response.status === 400 && !config._retry) {
+        config._retry = true;
 
         try {
+          // Get access token from refresh token
           const { data } = await api.post(
             '/user/refresh-token',
             getLocalRefreshToken()
           );
+          const { accessToken } = await data.data;
+          setLocalAccessToken(await accessToken);
 
-          console.log(data);
-          const { accessToken } = data;
-          setLocalAccessToken(accessToken);
+          if (accessToken) {
+            config.headers = {
+              ...config.headers,
+              Authorization: `Bearer ${await accessToken}`,
+            };
+          }
 
-          return api(originalConfig);
+          return api(config);
         } catch (_error) {
           return Promise.reject(_error);
         }

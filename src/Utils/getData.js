@@ -11,7 +11,7 @@ const getDivisi = () =>
     });
 
 // Get all courses
-const getCourses = async (authToken) => {
+const getCourses = async () => {
   const controller = new AbortController();
 
   return api
@@ -25,9 +25,7 @@ const getCourses = async (authToken) => {
         };
       });
     })
-    .catch((err) => {
-      throw new Error(err.message);
-    });
+    .catch((err) => Promise.reject(err));
 };
 
 // Get user detail
