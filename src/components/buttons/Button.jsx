@@ -8,7 +8,8 @@ const Button = ({
   ...props
 }) => {
   const responsive = props.isResponsive ? 'p-2.5 sm:px-4 sm:py-2' : 'px-4 py-2';
-  const baseStyle = `${responsive} text-white rounded shadow-md transition-all hover:bg-opacity-80`;
+  const baseStyle =
+    'text-white rounded shadow-md transition-all hover:bg-opacity-80';
   const buttonStyles = [
     { type: 'primary', style: 'bg-primary' },
     { type: 'secondary', style: 'bg-secondary text-primary' },
@@ -19,7 +20,7 @@ const Button = ({
   ];
   let { style } =
     buttonStyles.filter((btn) => btn.type === styleType)[0] || buttonStyles[0];
-  style = `${baseStyle} ${style}`;
+  style = `${responsive} ${baseStyle} ${style}`;
 
   if (type === 'iconLeft') {
     return <ButtonIconLeft style={style} text={text} icon={icon} {...props} />;

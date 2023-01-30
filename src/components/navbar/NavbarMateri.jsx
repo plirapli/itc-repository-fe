@@ -1,26 +1,29 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Button from '../buttons/Button';
 
 const NavbarMateri = ({ courseID }) => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const icon = {
     backBtn: 'eva:arrow-back-fill',
     diskusi: 'fluent:comment-multiple-24-regular',
     listMateri: 'ant-design:unordered-list-outlined',
   };
-  const { pathname } = useLocation();
+  const backButtonHandler = () => navigate(-1);
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between p-1 sm:px-6 sm:py-3 relative'>
-      <Link to='/'>
+      <div onClick={backButtonHandler}>
         <Button
           type='iconLeft'
           styleType='transparent'
-          text='Kembali ke beranda'
+          text='Kembali'
           icon={icon.backBtn}
           isResponsive={true}
           textClassName='hidden sm:block'
         />
-      </Link>
+      </div>
+      <Link to='/'></Link>
 
       <div className='flex'>
         <Link to={pathname + 'diskusi/'}>
