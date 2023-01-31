@@ -7,10 +7,10 @@ const Layout = () => {
   const setNavbarHandler = (component) => setNavbar(component);
 
   return (
-    <div className='w-full flex flex-col justify-center sm:items-center'>
+    <div className='w-full flex flex-col min-h-screen'>
       {navbar}
 
-      <div className='w-full sm:px-6 flex justify-center'>
+      <div className='w-full flex-1 sm:px-6 flex justify-center'>
         <div className='w-full max-w-screen-xl'>
           <Outlet context={setNavbarHandler} />
         </div>
