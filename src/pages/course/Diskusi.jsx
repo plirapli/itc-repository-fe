@@ -1,13 +1,14 @@
+import { Link } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import DiskusiCard from '../../components/cards/DiskusiCard';
 import SearchBar from '../../components/SearchBar';
 
 const Diskusi = () => {
-  const diskusiList = ['1', '2', '3', '4'];
+  const diskusiList = ['1', '2', '3', '4']; // Dummy
 
   return (
     <>
-      <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
+      <div className='w-full py-4 px-5 sm:py-6 sm:px-0'>
         {/* Header */}
         <div className='flex justify-between items-center'>
           <h1 className='h1-sm sm:h1-md leading-none'>Materi</h1>
@@ -26,7 +27,9 @@ const Diskusi = () => {
         {/* List Diskusi */}
         <div className='mt-5 flex flex-col gap-5'>
           {diskusiList.map((diskusi, i) => (
-            <DiskusiCard key={i} />
+            <Link key={i} to={`${i}`}>
+              <DiskusiCard />
+            </Link>
           ))}
         </div>
       </div>

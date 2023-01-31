@@ -33,7 +33,10 @@ const Button = ({
 
 const ButtonIconRight = ({ style, text, icon, ...props }) => {
   return (
-    <button className={`flex items-center gap-3 ${style}`}>
+    <button
+      onClick={props.onClick}
+      className={`flex items-center gap-3 ${style}`}
+    >
       <div className={`font-medium ${props.textClassName}`}>{text}</div>
       <div className='w-5'>
         <Icon icon={icon} width='100%' />
@@ -44,7 +47,10 @@ const ButtonIconRight = ({ style, text, icon, ...props }) => {
 
 const ButtonIconLeft = ({ style, text, icon, ...props }) => {
   return (
-    <button className={`flex flex-row-reverse items-center gap-3 ${style}`}>
+    <button
+      onClick={props.onClick}
+      className={`flex flex-row-reverse items-center gap-3 ${style}`}
+    >
       <div className={`font-medium ${props.textClassName}`}>{text}</div>
       <div className='w-5'>
         <Icon icon={icon} width='100%' />
@@ -55,7 +61,7 @@ const ButtonIconLeft = ({ style, text, icon, ...props }) => {
 
 const ButtonTextOnly = ({ style, text, ...props }) => {
   return (
-    <button className={`w-full text-center ${style}`}>
+    <button onClick={props.onClick} className={`w-full text-center ${style}`}>
       <div className={`font-medium ${props.textClassName}`}>{text}</div>
     </button>
   );
