@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { getLocalAccessToken } from '../Utils/auth.js';
+import { getLocalAccessToken } from '../Utils/auth';
 import jwt from 'jwt-decode';
 
 // Components
-import { Layout, LayoutLogin, LayoutMateri } from './layout/index.js';
+import { Layout, LayoutLogin, LayoutMateri } from './layout/index';
 import { Home } from './index';
-import { Overview, Diskusi, Komentar } from './course/index.js';
-import { ForgotPassword, Login, Register } from './login/index.js';
+import { Overview, Diskusi, Komentar } from './course/index';
+import { ForgotPassword, Login, Register } from './login/index';
 
 const Main = () => {
   const [msg, setMsg] = useState('');
