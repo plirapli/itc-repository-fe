@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
-import DiskusiCard from '../../components/cards/DiskusiCard';
+import { DiskusiCard } from '../../components/cards/index';
 import SearchBar from '../../components/SearchBar';
 
 const Diskusi = () => {

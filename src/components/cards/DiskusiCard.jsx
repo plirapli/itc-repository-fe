@@ -39,8 +39,8 @@ const DiskusiCard = (props) => {
           <Button
             type='iconLeft'
             styleType='secondary'
-            text='Balas Pertanyaan'
-            icon='fluent:comment-16-filled'
+            text='Balas'
+            icon='ic:baseline-reply'
             onClick={props.onClick}
           />
         </div>

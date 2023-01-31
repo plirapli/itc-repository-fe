@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import jwt from 'jwt-decode';
+import { Route, Routes } from 'react-router-dom';
 import { getLocalAccessToken } from '../Utils/auth';
+import jwt from 'jwt-decode';
 
 // Components
 import { Layout, LayoutLogin, LayoutMateri } from './layout/index';

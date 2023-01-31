@@ -10,7 +10,7 @@ import {
   SelectOption,
   SelectOptionDivisi,
 } from '../components/inputForm/SelectOption';
-import MateriCard from '../components/cards/MateriCard';
+import { MateriCard } from '../components/cards/index';
 
 const Home = ({ userData, ...props }) => {
   const navigate = useNavigate();

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Button from '../../components/buttons/Button';
 import { DiskusiCard, KomentarCard } from '../../components/cards/index';
+import Button from '../../components/buttons/Button';
 
 const Komentar = () => {
-  const [showReply, setShowReply] = useState(true);
+  const [showReply, setShowReply] = useState(false);
 
   const displayReplyHandler = () => setShowReply((prev) => !prev);
   const submitHandler = (e) => {
@@ -20,13 +20,14 @@ const Komentar = () => {
       {/* Input Reply */}
       {showReply && (
         <div className='mt-4'>
-          <div className='text-primary font-medium'>Isi Diskusi</div>
+          <div className='text-primary font-medium'>Tambah Komentar</div>
           <form onSubmit={submitHandler} className='mt-1.5'>
             <textarea
               className='w-full px-3 py-1.5 outline-none rounded resize-none'
               name=''
               id=''
               rows='7'
+              placeholder='Tuliskan Komentar Anda'
             ></textarea>
             <div className='mt-3 flex gap-3'>
               <Button

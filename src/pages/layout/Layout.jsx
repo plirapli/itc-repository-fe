@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import Footer from '../../components/Footer';
 
 const Layout = () => {
   const [navbar, setNavbar] = useState();
@@ -16,6 +17,7 @@ const Layout = () => {
       </div>
 
       {/* Footer */}
+      <Footer />
     </div>
   );
 };
