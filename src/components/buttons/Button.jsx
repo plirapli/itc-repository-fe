@@ -8,11 +8,14 @@ const Button = ({
   ...props
 }) => {
   const responsive = props.isResponsive ? 'p-2.5 sm:px-4 sm:py-2' : 'px-4 py-2';
-  const baseStyle =
-    'text-white rounded shadow-md transition-all hover:bg-opacity-80';
+  const baseStyle = 'text-white rounded transition-all';
   const buttonStyles = [
-    { type: 'primary', style: 'bg-primary' },
-    { type: 'secondary', style: 'bg-secondary text-primary' },
+    { type: 'primary', style: 'bg-primary shadow-md hover:bg-opacity-80' },
+    {
+      type: 'secondary',
+      style:
+        'bg-secondary text-primary shadow-sm hover:bg- hover:bg-secondaryHover',
+    },
     {
       type: 'transparent',
       style: 'shadow-none hover:bg-white hover:bg-opacity-25',
@@ -34,7 +37,8 @@ const Button = ({
 const ButtonIconRight = ({ style, text, icon, ...props }) => {
   return (
     <button
-      onClick={props.onClick}
+      type={props?.attrType}
+      onClick={props?.onClick}
       className={`flex items-center gap-3 ${style}`}
     >
       <div className={`font-medium ${props.textClassName}`}>{text}</div>
@@ -48,7 +52,8 @@ const ButtonIconRight = ({ style, text, icon, ...props }) => {
 const ButtonIconLeft = ({ style, text, icon, ...props }) => {
   return (
     <button
-      onClick={props.onClick}
+      type={props?.attrType}
+      onClick={props?.onClick}
       className={`flex flex-row-reverse items-center gap-3 ${style}`}
     >
       <div className={`font-medium ${props.textClassName}`}>{text}</div>
@@ -61,7 +66,11 @@ const ButtonIconLeft = ({ style, text, icon, ...props }) => {
 
 const ButtonTextOnly = ({ style, text, ...props }) => {
   return (
-    <button onClick={props.onClick} className={`w-full text-center ${style}`}>
+    <button
+      type={props?.attrType}
+      onClick={props?.onClick}
+      className={`w-full text-center ${style}`}
+    >
       <div className={`font-medium ${props.textClassName}`}>{text}</div>
     </button>
   );

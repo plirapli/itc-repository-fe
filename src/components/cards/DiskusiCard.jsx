@@ -41,6 +41,7 @@ const DiskusiCard = (props) => {
             styleType='secondary'
             text='Balas Pertanyaan'
             icon='fluent:comment-16-filled'
+            onClick={props.onClick}
           />
         </div>
       )}

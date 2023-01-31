@@ -22,8 +22,6 @@ const NavbarMateri = ({ courseID }) => {
           textClassName='hidden sm:block'
         />
       </div>
-      <Link to='/'></Link>
-
       <div className='flex'>
         <Link to={`/course/${courseID}/diskusi/`}>
           <Button
