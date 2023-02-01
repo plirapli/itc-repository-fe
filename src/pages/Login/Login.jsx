@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../../api/api';
+import { api, authApi } from '../../api/api';
 import { loginHandler } from '../../Utils/auth';
 
 // Components
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 
-const Login = ({ msg, errorHandler }) => {
+const Login = ({ token, msg, errorHandler }) => {
   const navigate = useNavigate();
   const initialState = {
     emailUsername: '',
@@ -26,7 +26,7 @@ const Login = ({ msg, errorHandler }) => {
       .then(({ data }) => {
         errorHandler(''); // Delete error msg
         setInputData(initialState); // Delete input data
-        loginHandler(data); // Login process
+        loginHandler(data, token); // Login process
         navigate('/'); // Redirect to home page
       })
       .catch((err) => {
