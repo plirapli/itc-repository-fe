@@ -60,7 +60,7 @@ const OverlayMenu = ({ id_role = 1 }) => {
           </div>
           <div
             onClick={logout}
-            className='px-4 py-2 transition-all text-danger-main hover:bg-black hover:bg-opacity-10'
+            className='px-4 py-2 transition-all text-danger-main cursor-pointer hover:bg-black hover:bg-opacity-10'
           >
             Keluar
           </div>

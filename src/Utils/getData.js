@@ -1,4 +1,4 @@
-import api from '../api/api';
+import { api, authApi } from '../api/api';
 import { showFormattedDate } from './dateConverter';
 
 // Get all divisions
@@ -14,7 +14,7 @@ const getDivisi = () =>
 const getCourses = async () => {
   const controller = new AbortController();
 
-  return api
+  return authApi
     .get('/course', { signal: controller.signal })
     .then(({ data }) => {
       return data.data.map((course) => {

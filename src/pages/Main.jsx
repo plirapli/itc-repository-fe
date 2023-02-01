@@ -10,14 +10,17 @@ import { Overview, Diskusi, Komentar } from './course/index';
 import { ForgotPassword, Login, Register } from './login/index';
 
 const Main = () => {
+  const [token, setToken] = useState('');
   const [msg, setMsg] = useState('');
   const [userData, setUserData] = useState({});
 
   const errorHandler = (errMsg) => setMsg(() => errMsg);
+  const setTokenHandler = (token) => setToken(() => token);
 
   useEffect(() => {
-    setUserData(() => jwt(getLocalAccessToken()));
-  }, []);
+    const accessToken = getLocalAccessToken() || token;
+    accessToken && setUserData(() => jwt(getLocalAccessToken()));
+  }, [token]);
 
   return (
     <div className='min-h-screen bg-gray-light'>
@@ -41,7 +44,13 @@ const Main = () => {
           <Route element={<LayoutLogin />}>
             <Route
               path='login/'
-              element={<Login msg={msg} errorHandler={errorHandler} />}
+              element={
+                <Login
+                  token={setTokenHandler}
+                  msg={msg}
+                  errorHandler={errorHandler}
+                />
+              }
             />
             <Route
               path='forgot-password/'

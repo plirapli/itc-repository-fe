@@ -5,15 +5,18 @@ import {
   setLocalAccessToken,
 } from '../Utils/auth';
 
-const api = axios.create({
+const config = {
   baseURL: process.env.REACT_APP_BASE_URL || '3001',
   headers: {
     'Content-Type': 'application/json',
   },
-});
+};
+
+const api = axios.create(config);
+const authApi = axios.create(config);
 
 // Using default header
-api.interceptors.request.use(
+authApi.interceptors.request.use(
   (config) => {
     const token = getLocalAccessToken();
     if (token) {
@@ -26,7 +29,7 @@ api.interceptors.request.use(
   }
 );
 
-api.interceptors.response.use(
+authApi.interceptors.response.use(
   (res) => res,
   async (err) => {
     const config = err?.config;
@@ -63,4 +66,4 @@ api.interceptors.response.use(
   }
 );
 
-export default api;
+export { api, authApi };

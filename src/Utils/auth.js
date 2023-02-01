@@ -14,10 +14,11 @@ const setLocalAccessToken = (token) => {
   localStorage.setItem('user', JSON.stringify(user));
 };
 
-const loginHandler = ({ data }) => {
+const loginHandler = ({ data }, token) => {
   const { accessToken, refreshToken, username } = data.user;
 
-  // Store token to local storage
+  // Store token to State && Local Storage
+  token(accessToken);
   localStorage.setItem(
     'user',
     JSON.stringify({ accessToken, refreshToken, username })

@@ -24,7 +24,7 @@ const Footer = () => {
 
           <div className='flex flex-col gap-2 sm:flex-row sm:gap-8 md:justify-evenly'>
             {/* Lokasi */}
-            <div className='text-white flex flex-col gap-1.5 w-100 sm:w-1/2'>
+            <div className='text-white flex flex-col gap-1.5 w-100'>
               <div className='font-bold sm:text-xl'>Lokasi</div>
               <div className='w-full h-[2px] bg-white'></div>
               <div>
@@ -34,7 +34,7 @@ const Footer = () => {
             </div>
 
             {/* Kontak */}
-            <div className='text-white flex flex-col gap-1.5 w-100 sm:w-1/2 md:w-auto'>
+            <div className='text-white flex flex-col gap-1.5 w-100 md:w-auto'>
               <div className='w-max font-bold sm:text-xl'>Kontak Kami</div>
               <div className='w-full h-[2px] bg-white'></div>
               <div className='flex gap-1.5'>
