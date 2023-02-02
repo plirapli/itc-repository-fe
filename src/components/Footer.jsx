@@ -2,9 +2,11 @@ import { Logo } from '../assets';
 import { Icon } from '@iconify/react';
 
 const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className='w-full px-5 sm:px-6 bg-primary flex justify-center'>
-      <div className='w-full max-w-screen-xl flex flex-col'>
+    <footer className='w-full bg-primary flex flex-col items-center'>
+      <div className='w-full max-w-screen-xl px-5 sm:px-6'>
         {/* Upper Layer */}
         <div className='py-3 sm:py-4 flex flex-col md:flex-row gap-2 sm:gap-5 sm:justify-between'>
           {/* Logo & Tulisan ITC */}
@@ -53,6 +55,12 @@ const Footer = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      {/* Lower Layer */}
+      <div className='w-full px-5 sm:px-6 bg-black bg-opacity-20'>
+        <div className='py-3 sm:py-4 text-xs sm:text-base text-center font-medium text-accent'>
+          &copy; {year} Developed by ITC UPN "Veteran" Yogyakarta
         </div>
       </div>
     </footer>
