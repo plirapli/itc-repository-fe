@@ -4,10 +4,16 @@ import { getLocalAccessToken } from '../Utils/auth';
 import jwt from 'jwt-decode';
 
 // Components
-import { Layout, LayoutLogin, LayoutMateri } from './layout/index';
+import {
+  Layout,
+  LayoutLogin,
+  LayoutManageMateri,
+  LayoutMateri,
+} from './layout/index';
 import { Home } from './index';
 import { Overview, Diskusi, Komentar } from './course/index';
 import { ForgotPassword, Login, Register } from './login/index';
+import { AddMateri } from './manageMateri';
 
 const Main = () => {
   const [token, setToken] = useState('');
@@ -34,6 +40,16 @@ const Main = () => {
             path='home/'
             element={<Home userData={userData} errorHandler={errorHandler} />}
           />
+
+          {/* Manage Materi */}
+          <Route
+            path='materi/'
+            element={<LayoutManageMateri userData={userData} />}
+          >
+            <Route exact path='add' element={<AddMateri />} />
+          </Route>
+
+          {/* Course */}
           <Route path='course/:id/' element={<LayoutMateri />}>
             <Route index element={<Overview />} />
             <Route exact path='diskusi/' element={<Diskusi />} />

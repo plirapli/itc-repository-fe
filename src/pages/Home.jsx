@@ -32,6 +32,7 @@ const Home = ({ userData, ...props }) => {
   const [filteredCourse, setFilteredCourse] = useState([]);
 
   const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
+  const navigateAddMateri = () => navigate('materi/add/');
 
   useEffect(() => {
     let isMounted = true;
@@ -42,6 +43,7 @@ const Home = ({ userData, ...props }) => {
       .then(isMounted && setCourses)
       .catch(() => navigate('/login/'));
 
+    // Cleanup
     return () => {
       isMounted = false;
       controller.abort();
@@ -80,6 +82,7 @@ const Home = ({ userData, ...props }) => {
           <h1 className='h1-sm sm:h1-md'>Materi</h1>
           {userData?.id_role === 2 && (
             <Button
+              onClick={navigateAddMateri}
               type='iconRight'
               text='Tambah Materi'
               icon='akar-icons:plus'
@@ -107,7 +110,7 @@ const Home = ({ userData, ...props }) => {
         </div>
 
         <main className='materi-layout mt-3 sm:mt-4'>
-          {filteredCourse?.map((course, i) => (
+          {filteredCourse?.map((course) => (
             <Link to={`/course/${course.id}/`} key={course.id}>
               <MateriCard
                 isAdmin={userData?.id_role === 2}
