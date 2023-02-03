@@ -105,10 +105,11 @@ const AddMateri = () => {
 
           <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-2 flex gap-3 sm:gap-4'>
             <Button
+              styleType='secondary'
               onClick={backButtonHandler}
               type='textOnly'
-              styleType='secondary'
               text='Kembali'
+              attrType='button'
             />
             <Button type='textOnly' text='Kirim' attrType='submit' />
           </div>

@@ -13,8 +13,7 @@ import {
 import { Home } from './index';
 import { Overview, Diskusi, Komentar } from './course/index';
 import { ForgotPassword, Login, Register } from './login/index';
-import { AddMateri } from './manageMateri';
-import ListMateri from './manageMateri/ListMateri';
+import { AddMateri, ListMateri } from './manageMateri';
 
 const Main = () => {
   const [token, setToken] = useState('');

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
+import { ListMateriCard } from '../../components/cards';
 import SearchBar from '../../components/inputForm/SearchBar';
 
 const ListMateri = () => {
@@ -29,7 +30,11 @@ const ListMateri = () => {
       </div>
 
       {/* Card List */}
-      <section className='mt-4'></section>
+      <section className='mt-4 flex flex-col gap-4'>
+        {materiList.map((materi, i) => (
+          <ListMateriCard key={i} />
+        ))}
+      </section>
     </div>
   );
 };

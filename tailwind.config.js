@@ -15,6 +15,7 @@ module.exports = {
         danger: {
           main: '#E42F2F',
           sub: '#FFCCCC',
+          hover: '#E5B8B8',
         },
         divisi: {
           mobile: '#337BE7',
