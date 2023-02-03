@@ -15,7 +15,7 @@ const Input = ({
   return (
     <div>
       <label htmlFor='' className={`block text-sm font-medium ${textLabel}`}>
-        {props.label || 'Label'}
+        {label || 'Label'}
       </label>
       <input
         onChange={(e) => handler(e, name)}
