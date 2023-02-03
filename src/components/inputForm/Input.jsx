@@ -1,6 +1,7 @@
 import React from 'react';
 
 const Input = ({
+  label,
   handler,
   inputType,
   name,
@@ -8,20 +9,20 @@ const Input = ({
   styleType = 'primary',
   ...props
 }) => {
-  let stylePrimary = 'bg-white placeholder:text-gray-dark';
-  let styleSecondary = 'bg-secondary placeholder:text-primary';
-  let style = styleType === 'primary' ? stylePrimary : styleSecondary;
+  const textLabel = styleType === 'primary' && 'text-primary';
+  const input = styleType === 'primary' ? 'input-primary' : 'input-secondary';
 
   return (
     <div>
-      <label htmlFor='' className='font-medium text-black'>
+      <label htmlFor='' className={`block text-sm font-medium ${textLabel}`}>
         {props.label || 'Label'}
       </label>
       <input
         onChange={(e) => handler(e, name)}
         type={inputType || 'text'}
+        name={name}
         value={value}
-        className={`w-full py-2 px-4 text-black outline-none rounded-md ${style}`}
+        className={`mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm ${input}`}
         placeholder={props.placeholder || 'Placeholder'}
       />
     </div>

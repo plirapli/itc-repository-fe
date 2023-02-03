@@ -1,5 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
+import Input from '../../components/inputForm/Input';
+import {
+  SelectOption,
+  SelectOptionDivisi,
+} from '../../components/inputForm/SelectOption';
 
 const AddMateri = () => {
   const navigate = useNavigate();
@@ -14,30 +19,26 @@ const AddMateri = () => {
       <h1 className='h1-sm sm:h1-md mb-3 sm:mb-1'>Materi</h1>
       <form onSubmit={submitHandler} method='POST'>
         <div className='grid grid-cols-6 gap-3 sm:gap-4'>
+          {/* Judul */}
           <div className='col-span-6 sm:col-span-4'>
-            <label className='block text-sm font-medium text-primary'>
-              Judul
-            </label>
-            <input
-              type='text'
-              name='judul-materi'
+            <Input
+              label='Judul'
+              styleType='primary'
+              name='judulMateri'
               placeholder='Judul Materi'
-              className='mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm'
             />
           </div>
 
-          <div class='col-span-6 sm:col-span-2'>
-            <label class='block text-sm font-medium text-primary'>Divisi</label>
-            <select
+          {/* Divisi */}
+          <div class='col-span-6 sm:col-span-2 flex flex-col gap-1'>
+            <SelectOptionDivisi
+              label='Divisi'
               name='divisi'
-              className='mt-1 block w-full rounded-md border border-gray-300 py-[9px] px-3 shadow-sm sm:text-sm'
-            >
-              <option>United States</option>
-              <option>Canada</option>
-              <option>Mexico</option>
-            </select>
+              styleType='primary'
+            />
           </div>
 
+          {/* Deskripsi */}
           <div className='col-span-6'>
             <label
               htmlFor='about'
@@ -50,7 +51,7 @@ const AddMateri = () => {
                 id='about'
                 name='about'
                 rows={3}
-                className='mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm resize-none'
+                className='input-primary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
                 placeholder='Deskripsi materi'
               />
             </div>
@@ -59,9 +60,10 @@ const AddMateri = () => {
             </p>
           </div>
 
+          {/* Thumbnail */}
           <div className='col-span-6'>
             <label className='block text-sm font-medium text-primary'>
-              Cover photo
+              Thumbnail
             </label>
             <div className='mt-1 flex justify-center rounded-md  bg-white px-6 pt-5 pb-6'>
               <div className='space-y-1 text-center'>
@@ -82,7 +84,7 @@ const AddMateri = () => {
                 <div className='flex text-sm text-gray-600'>
                   <label
                     htmlFor='file-upload'
-                    className='relative cursor-pointer rounded-md bg-white font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500'
+                    className='relative cursor-pointer rounded-md bg-white font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:text-primary'
                   >
                     <span>Upload a file</span>
                     <input
@@ -101,7 +103,7 @@ const AddMateri = () => {
             </div>
           </div>
 
-          <div className='col-span-6 sm:col-span-2 mt-2 flex gap-3 sm:gap-4'>
+          <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-2 flex gap-3 sm:gap-4'>
             <Button
               onClick={backButtonHandler}
               type='textOnly'

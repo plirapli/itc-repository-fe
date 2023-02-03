@@ -94,13 +94,16 @@ const Register = ({ msg, errorHandler }) => {
           label='Password'
           placeholder='Masukkan password'
         />
-        <SelectOptionDivisi
-          name='id_division'
-          value={inputData.id_division}
-          handler={inputHandler}
-          options={divisi}
-          label='Divisi'
-        />
+        <div className='flex flex-col gap-1 sm:w-2/5'>
+          <SelectOptionDivisi
+            styleType='secondary'
+            name='id_division'
+            value={inputData.id_division}
+            handler={inputHandler}
+            options={divisi}
+            label='Divisi'
+          />
+        </div>
         <section className='mt-4 w-full'>
           <Button type='textOnly' text='Daftar' />
         </section>

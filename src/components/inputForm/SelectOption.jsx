@@ -1,88 +1,63 @@
-import React from 'react';
-import { Icon } from '@iconify/react';
+export const SelectOptionDivisi = ({
+  styleType,
+  label,
+  name,
+  value,
+  options,
+  ...props
+}) => {
+  const textLabel = styleType === 'primary' && 'text-primary';
+  const input = styleType === 'primary' ? 'input-primary' : 'input-secondary';
 
-export const SelectOptionDivisi = ({ options, ...props }) => {
   return (
-    <div className={`w-full sm:w-fit flex flex-col gap-1 ${props.style || ''}`}>
-      <label htmlFor={''} className='font-medium text-black'>
-        {props.label || 'Label'}
+    <>
+      <label className={`min-w-max text-sm font-medium ${textLabel}`}>
+        {label || 'Label'}
       </label>
-      <div className='flex items-center relative text-white'>
-        <select
-          id={props.for || ''}
-          className='
-            w-full px-4 py-2.5 sm:pr-8
-            bg-primary rounded-md shadow
-            transition-all hover:bg-opacity-80 cursor-pointer
-            focus:outline-none appearance-none overflow-ellipsis
-          '
-          value={props.value}
-          onChange={(e) => {
-            props.handler(e, props.name);
-          }}
-          required
-        >
-          {props.isOptional && (
-            <option value='0' className='bg-white text-primary'>
-              Semua
-            </option>
-          )}
-          {options?.map((data) => (
-            <option
-              key={data.id}
-              value={data.id}
-              className='bg-white text-primary'
-            >
-              {data.divisionName}{' '}
-            </option>
-          ))}
-        </select>
-        <Icon
-          className='absolute right-2'
-          icon='eva:chevron-down-fill'
-          width='20'
-        />
-      </div>
-    </div>
+      <select
+        className={`block w-full px-3 py-[9px] rounded-md shadow-sm focus-primary sm:text-sm ${input}`}
+        value={value}
+        onChange={(e) => props.handler(e, name)}
+        required
+      >
+        {props.isOptional && <option value='0'>Semua</option>}
+        {options?.map((data) => (
+          <option className='bg-white' key={data.id} value={data.id}>
+            {data.divisionName}{' '}
+          </option>
+        ))}
+      </select>
+    </>
   );
 };
 
-export const SelectOption = ({ options, ...props }) => {
+export const SelectOption = ({
+  styleType,
+  label,
+  name,
+  value,
+  options,
+  ...props
+}) => {
+  const textLabel = styleType === 'primary' && 'text-primary';
+  const input = styleType === 'primary' ? 'input-primary' : 'input-secondary';
+
   return (
-    <div className={`w-full sm:w-fit flex flex-col gap-1 ${props.style || ''}`}>
-      <label htmlFor={''} className='font-medium text-black'>
-        {props.label || 'Label'}
+    <>
+      <label className={`min-w-max text-sm font-medium ${textLabel}`}>
+        {label || 'Label'}
       </label>
-      <div className='flex items-center relative text-white'>
-        <select
-          id={props.for || ''}
-          className='
-            w-full px-4 py-2.5 sm:pr-8
-            bg-primary rounded-md shadow
-            transition-all hover:bg-opacity-80 cursor-pointer
-            focus:outline-none appearance-none overflow-ellipsis
-          '
-          value={props.value}
-          onChange={(e) => {
-            props.handler(e, props.name);
-          }}
-        >
-          {options?.map((data) => (
-            <option
-              key={data.id}
-              value={data.id}
-              className='bg-white text-primary'
-            >
-              {data.name}{' '}
-            </option>
-          ))}
-        </select>
-        <Icon
-          className='absolute right-2'
-          icon='eva:chevron-down-fill'
-          width='20'
-        />
-      </div>
-    </div>
+      <select
+        className={`block w-full px-3 py-[9px] rounded-md shadow focus-primary sm:text-sm ${input}`}
+        value={value}
+        onChange={(e) => props.handler(e, name)}
+      >
+        {options?.map((data) => (
+          <option className='bg-white' key={data.id} value={data.id}>
+            {data.name}{' '}
+          </option>
+        ))}
+      </select>
+    </>
   );
 };

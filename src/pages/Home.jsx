@@ -5,7 +5,7 @@ import { getCourses, getDivisi } from '../Utils/getData';
 // Component
 import Navbar from '../components/navbar/Navbar';
 import Button from '../components/buttons/Button';
-import SearchBar from '../components/SearchBar';
+import SearchBar from '../components/inputForm/SearchBar';
 import {
   SelectOption,
   SelectOptionDivisi,
@@ -93,18 +93,21 @@ const Home = ({ userData, ...props }) => {
         </div>
 
         {/* Sort, Filter, Search */}
-        <div className='flex flex-col-reverse sm:flex-row items-center justify-between sm:items-end mt-3 sm:mt-1 gap-2 sm:gap-4'>
-          <div className='w-full flex flex-col sm:flex-row  items-center gap-2 sm:gap-5'>
+        <div className='mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
+          <div className='col-span-12 sm:col-span-7 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
             <SelectOptionDivisi
+              styleType='secondary'
               label='Divisi'
               value={selectedDivisi}
               handler={filterSelectHandler}
               options={divisi}
               isOptional={true}
             />
+          </div>
+          <div className='col-span-12 sm:col-span-5 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
             <SelectOption label='Sort By' options={sortOptions} />
           </div>
-          <div className='w-full sm:max-w-sm'>
+          <div className='col-span-12 lg:col-span-4'>
             <SearchBar />
           </div>
         </div>

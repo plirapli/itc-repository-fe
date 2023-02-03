@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import { DiskusiCard } from '../../components/cards/index';
-import SearchBar from '../../components/SearchBar';
+import SearchBar from '../../components/inputForm/SearchBar';
 
 const Diskusi = () => {
   const diskusiList = ['1', '2', '3', '4']; // Dummy
@@ -10,8 +10,8 @@ const Diskusi = () => {
     <>
       <div className='w-full py-4 px-5 sm:py-6 sm:px-0'>
         {/* Header */}
-        <div className='flex justify-between items-center'>
-          <h1 className='h1-sm sm:h1-md leading-none'>Materi</h1>
+        <div className='flex justify-between items-end'>
+          <h1 className='h1-sm sm:h1-md leading-none'>Diskusi</h1>
           <Button
             type='iconRight'
             text='Ajukan Pertanyaan'

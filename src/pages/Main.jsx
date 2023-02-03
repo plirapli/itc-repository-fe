@@ -14,6 +14,7 @@ import { Home } from './index';
 import { Overview, Diskusi, Komentar } from './course/index';
 import { ForgotPassword, Login, Register } from './login/index';
 import { AddMateri } from './manageMateri';
+import ListMateri from './manageMateri/ListMateri';
 
 const Main = () => {
   const [token, setToken] = useState('');
@@ -46,6 +47,7 @@ const Main = () => {
             path='materi/'
             element={<LayoutManageMateri userData={userData} />}
           >
+            <Route index element={<ListMateri />} />
             <Route exact path='add' element={<AddMateri />} />
           </Route>
 
