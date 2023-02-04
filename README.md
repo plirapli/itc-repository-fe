@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# ITC Repository FE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
 
-## Available Scripts
+- [ITC Repository (FE)](#itc-repository-fe)
+- [Table of Contents](#table-of-contents)
+- [Installation](#installation)
+- [Components](#component)
+	- [Button](#button)
+	- [Form Element](#form-element)
+		- [Input](#input)
+		- [Select](select) [ON PROGRESS]
+	- [Search Bar](#search-bar) [ON PROGRESS]
+	- [Navbar](#navbar)
+	- [Card](#card)
+		- [Materi Card](#materi-card)
+		- [List Materi Card](#list-materi-card)
+		- [Diskusi Card](#diskusi-card)
+		- [Komentar Card](#komentar-card)
+	- [Tags](#tags) [ON PROGRESS]
+- Feature [ON PROGRESS]
+---
 
-In the project directory, you can run:
+## Installation
 
-### `npm start`
+ - Install Node
+ - Install package with command:
+ 
+ ```text
+npm install
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Create .env file based on .env.example
+- Start backend server [here](https://github.com/riobintang/repo_itc/)
+- Start server with command
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```text
+npm run start
+```
 
-### `npm test`
+## Components
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Button
 
-### `npm run build`
+Props:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Name | Value |
+|--|--|
+| `color` | `primary (default)` `secondary` `gray` `danger` `transparent` |
+| `variant` | `textOnly (default)` `iconRight` `iconLeft` `iconOnly` |
+| `text` | (string) |
+| `icon` (only for button with icon variant) | (icon name based on [iconify](https://iconify.design/)) |
+| `onClick` (optional) | (void) |
+| `attrType` (optional) | Button type (string) |
+| `textClassname` | Optional CSS class for text (string) |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Form Eelement
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Input
 
-### `npm run eject`
+Props
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Name | Value |
+|--|--|
+| `label` | Input Label (string) |
+| `color` | `primary (default)` `secondary` |
+| `onChange` (optional) | (void) |
+| `inputType` | text (default) |
+| `name (optional)` | (string) |
+| `value (optional)` | (string) |
+| `placeholder (optional)` | (string) |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Search Bar [ON PROGRESS]
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Navbar
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Card
 
-## Learn More
+### Tags [ON PROGRESS]
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Feature [ON PROGRESS]
