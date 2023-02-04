@@ -122,7 +122,7 @@ const ListBabPage = () => {
                     <Button
                       onClick={closeModalAdd}
                       type='textOnly'
-                      text='Kembali'
+                      text='Tutup'
                       styleType='gray'
                     />
                     <Button
@@ -187,7 +187,7 @@ const ListBabPage = () => {
                     <Button
                       onClick={closeModalEdit}
                       type='textOnly'
-                      text='Kembali'
+                      text='Tutup'
                       styleType='gray'
                     />
                     <Button
@@ -206,7 +206,7 @@ const ListBabPage = () => {
 
       {/* Delete bab dialog (modal) */}
       <Transition appear show={isModalDeleteOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={closeModalAdd}>
+        <Dialog as='div' className='relative z-10' onClose={closeModalDelete}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -239,9 +239,12 @@ const ListBabPage = () => {
                   </Dialog.Title>
 
                   {/* Body */}
-                  <div className='mt-2'>
+                  <div className='mt-3'>
                     <p className='text-sm text-gray-500'>
-                      Apakah anda yakin ingin menghapus Bab [Judul Bab]?
+                      Apakah anda yakin ingin menghapus Bab:
+                    </p>
+                    <p className='mt-1 font-bold text-base text-black'>
+                      [Judul Bab]?
                     </p>
                   </div>
 
@@ -249,7 +252,7 @@ const ListBabPage = () => {
                     <Button
                       onClick={closeModalDelete}
                       type='textOnly'
-                      text='Keluar'
+                      text='Tutup'
                       styleType='gray'
                     />
                     <Button
