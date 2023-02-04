@@ -9,18 +9,27 @@ import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 
 const ListBabPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openModalAdd = () => setIsModalAddOpen(true);
+  const closeModalAdd = () => setIsModalAddOpen(false);
 
   const openModalDelete = () => setIsModalDeleteOpen(true);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
 
+  const openModalEdit = () => setIsModalEditOpen(true);
+  const closeModalEdit = () => setIsModalEditOpen(false);
+
   const onClickDeleteHandler = (e) => {
     e.preventDefault();
     openModalDelete();
+  };
+
+  const onClickEditHandler = (e) => {
+    e.preventDefault();
+    openModalEdit();
   };
 
   const babList = ['1', '2', '3', '4']; // Dummy
@@ -39,7 +48,7 @@ const ListBabPage = () => {
             </p>
           </div>
           <Button
-            onClick={openModal}
+            onClick={openModalAdd}
             type='iconRight'
             text='Tambah bab'
             icon='akar-icons:plus'
@@ -58,6 +67,7 @@ const ListBabPage = () => {
               <ListMateriCard
                 type='bab'
                 subtext='8 Artikel'
+                onClickEdit={onClickEditHandler}
                 onClickDelete={onClickDeleteHandler}
               />
             </Link>
@@ -66,8 +76,8 @@ const ListBabPage = () => {
       </div>
 
       {/* Add bab dialog (modal) */}
-      <Transition appear show={isModalOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={closeModal}>
+      <Transition appear show={isModalAddOpen} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={closeModalAdd}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -110,13 +120,78 @@ const ListBabPage = () => {
 
                   <div className='mt-4 flex gap-2'>
                     <Button
-                      onClick={closeModal}
+                      onClick={closeModalAdd}
                       type='textOnly'
-                      text='Keluar'
+                      text='Kembali'
                       styleType='gray'
                     />
                     <Button
-                      onClick={closeModal}
+                      onClick={closeModalAdd}
+                      type='textOnly'
+                      text='Simpan'
+                    />
+                  </div>
+                </Dialog.Panel>
+                {/* End Main Container */}
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
+      {/* Edit bab dialog (modal) */}
+      <Transition appear show={isModalEditOpen} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={closeModalEdit}>
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-300'
+            enterFrom='opacity-0'
+            enterTo='opacity-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <div className='fixed inset-0 bg-black bg-opacity-25' />
+          </Transition.Child>
+          <div className='fixed inset-0 overflow-y-auto'>
+            <div className='flex min-h-full items-center justify-center p-4 text-center'>
+              <Transition.Child
+                as={Fragment}
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
+              >
+                {/* Main Container */}
+                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                  <Dialog.Title
+                    as='h3'
+                    className='text-lg font-medium leading-6 text-gray-900'
+                  >
+                    Edit Bab
+                  </Dialog.Title>
+
+                  {/* Body */}
+                  <div className='mt-2'>
+                    <Input
+                      label='Judul'
+                      value='Lorem ipsum dolor sit amet'
+                      placeholder='Masukkan judul bab'
+                      styleType='secondary'
+                    />
+                  </div>
+
+                  <div className='mt-4 flex gap-2'>
+                    <Button
+                      onClick={closeModalEdit}
+                      type='textOnly'
+                      text='Kembali'
+                      styleType='gray'
+                    />
+                    <Button
+                      onClick={closeModalEdit}
                       type='textOnly'
                       text='Simpan'
                     />
@@ -131,7 +206,7 @@ const ListBabPage = () => {
 
       {/* Delete bab dialog (modal) */}
       <Transition appear show={isModalDeleteOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={closeModal}>
+        <Dialog as='div' className='relative z-10' onClose={closeModalAdd}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
