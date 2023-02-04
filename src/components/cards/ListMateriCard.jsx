@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../buttons/Button';
 import Tags from '../tags/Tags';
 
-const ListMateriCard = ({ text, subtext, type }) => {
+const ListMateriCard = ({ text, subtext, type, ...props }) => {
   return (
     <div className='w-full p-3 bg-white flex flex-col sm:flex-row sm:items-center gap-3 rounded-md shadow-sm'>
       <div className='w-full sm:text-sm text-left'>
@@ -21,11 +21,26 @@ const ListMateriCard = ({ text, subtext, type }) => {
 
       {/* Action Button */}
       <div className='grid grid-flow-col sm:flex gap-1'>
-        <Button type='iconOnly' styleType='secondary' icon='bxs:pencil' />
+        <Button
+          onClick={props.onClickEdit}
+          type='iconOnly'
+          styleType='secondary'
+          icon='bxs:pencil'
+        />
         {type === 'materi' && (
-          <Button type='iconOnly' styleType='secondary' icon='bxs:detail' />
+          <Button
+            onClick={props.onClickDetail}
+            type='iconOnly'
+            styleType='secondary'
+            icon='bxs:detail'
+          />
         )}
-        <Button type='iconOnly' styleType='danger' icon='bxs:trash' />
+        <Button
+          onClick={props.onClickDelete}
+          type='iconOnly'
+          styleType='danger'
+          icon='bxs:trash'
+        />
       </div>
     </div>
   );
