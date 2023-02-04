@@ -1,13 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logoutHandler } from '../../Utils/auth';
+import Button from '../buttons/Button';
 
-const Navbar = ({ user }) => {
+const NavbarBack = ({ user }) => {
+  const navigate = useNavigate();
   const [hover, setHover] = useState(false);
+  const backButtonHandler = () => navigate(-1);
 
   return (
-    <nav className='w-full bg-primary flex items-center justify-between pl-4 sm:pl-8 relative'>
-      <h2 className='text-accent h2-sm sm:h2-md'>ITC Repository</h2>
+    <nav className='w-full bg-primary flex items-center justify-between pl-1 sm:pl-6 relative'>
+      <Button
+        onClick={backButtonHandler}
+        type='iconLeft'
+        styleType='transparent'
+        text='Kembali'
+        icon='eva:arrow-back-fill'
+        isResponsive={true}
+        textClassName='hidden sm:block'
+      />
 
       <div
         onMouseEnter={() => setHover(true)}
@@ -57,13 +68,9 @@ const OverlayMenu = ({ id_role = 1 }) => {
               Daftar Materi
             </div>
           )}
-
-          {/* Pembatas */}
           <div className='px-4 py-1'>
             <div className='w-full h-[1px] bg-gray-light'></div>
           </div>
-          {/* End Pembatas */}
-
           <div onClick={logout} className={`${listClassName} text-danger-main`}>
             Keluar
           </div>
@@ -73,4 +80,4 @@ const OverlayMenu = ({ id_role = 1 }) => {
   );
 };
 
-export default Navbar;
+export default NavbarBack;

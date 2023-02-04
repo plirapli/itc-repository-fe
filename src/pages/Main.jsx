@@ -4,10 +4,22 @@ import { getLocalAccessToken } from '../Utils/auth';
 import jwt from 'jwt-decode';
 
 // Components
-import { Layout, LayoutLogin, LayoutMateri } from './layout/index';
+import {
+  Layout,
+  LayoutLogin,
+  LayoutManageMateri,
+  LayoutMateri,
+} from './layout/index';
 import { Home } from './index';
 import { Overview, Diskusi, Komentar } from './course/index';
 import { ForgotPassword, Login, Register } from './login/index';
+import {
+  ListArtikelPage,
+  ListBabPage,
+  ListMateri,
+  AddMateri,
+} from './manageMateri';
+import AddDiskusiPage from './course/AddDiskusiPage';
 
 const Main = () => {
   const [token, setToken] = useState('');
@@ -34,10 +46,28 @@ const Main = () => {
             path='home/'
             element={<Home userData={userData} errorHandler={errorHandler} />}
           />
-          <Route path='course/:id/' element={<LayoutMateri />}>
+
+          {/* Manage Materi - Admin Only */}
+          <Route
+            path='materi/'
+            element={<LayoutManageMateri userData={userData} />}
+          >
+            <Route index element={<ListMateri />} />
+            <Route exact path='add/' element={<AddMateri />} />
+            <Route exact path=':id_materi/' element={<ListBabPage />} />
+            <Route
+              exact
+              path=':id_materi/:id_bab'
+              element={<ListArtikelPage />}
+            />
+          </Route>
+
+          {/* Course */}
+          <Route path='course/:id_materi/' element={<LayoutMateri />}>
             <Route index element={<Overview />} />
             <Route exact path='diskusi/' element={<Diskusi />} />
-            <Route exact path='diskusi/:id/' element={<Komentar />} />
+            <Route exact path='diskusi/add/' element={<AddDiskusiPage />} />
+            <Route exact path='diskusi/:id_diskusi/' element={<Komentar />} />
           </Route>
 
           {/* Login, Register Page */}

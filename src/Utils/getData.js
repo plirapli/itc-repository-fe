@@ -31,7 +31,7 @@ const getCourses = async () => {
 // Get user detail
 const getUserDetail = async (id) => {
   try {
-    const response = await api.get(`/user/${id}`);
+    const response = await authApi.get(`/user/${id}`);
     return response.data;
   } catch (error) {
     return error.message;
