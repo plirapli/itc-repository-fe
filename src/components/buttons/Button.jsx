@@ -16,6 +16,10 @@ const Button = ({
       style: 'bg-secondary text-primary shadow-sm hover:bg-secondaryHover',
     },
     {
+      type: 'gray',
+      style: 'bg-black bg-opacity-10 text-gray-dark',
+    },
+    {
       type: 'danger',
       style: 'bg-danger-sub text-danger-main hover:bg-danger-hover',
     },
