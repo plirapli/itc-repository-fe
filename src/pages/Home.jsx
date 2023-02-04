@@ -79,7 +79,7 @@ const Home = ({ userData, ...props }) => {
     <>
       <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
         <div className='flex items-center justify-between'>
-          <h1 className='h1-sm sm:h1-md'>Materi</h1>
+          <h1 className='text-2xl'>Materi</h1>
           {userData?.id_role === 2 && (
             <Button
               onClick={navigateAddMateri}
@@ -93,7 +93,7 @@ const Home = ({ userData, ...props }) => {
         </div>
 
         {/* Sort, Filter, Search */}
-        <div className='mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
+        <div className='mt-2 sm:mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
           <div className='col-span-12 sm:col-span-7 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
             <SelectOptionDivisi
               styleType='secondary'

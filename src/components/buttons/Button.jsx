@@ -17,7 +17,8 @@ const Button = ({
     },
     {
       type: 'gray',
-      style: 'bg-black bg-opacity-10 text-gray-dark',
+      style:
+        'bg-black bg-opacity-10 text-black text-opacity-70 hover:bg-opacity-20',
     },
     {
       type: 'danger',

@@ -15,7 +15,10 @@ const AddDiskusiPage = () => {
 
   return (
     <div className='w-full py-4 px-5 sm:py-6 sm:px-0'>
-      <h1 className='text-2xl leading-none'>Materi</h1>
+      <h1 className='text-xl sm:text-2xl'>Diskusi</h1>
+      <p className='text-gray-dark text-sm'>
+        Lorem ipsum dolor sit amet (Judul Materi)
+      </p>
       <form onSubmit={submitHandler} method='POST'>
         <div className='mt-3 grid grid-cols-6 gap-3'>
           {/* Judul */}
@@ -61,8 +64,6 @@ const AddDiskusiPage = () => {
             <Button type='textOnly' text='Kirim' attrType='submit' />
           </div>
         </div>
-
-        {/* Footer */}
       </form>
     </div>
   );

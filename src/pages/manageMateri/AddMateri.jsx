@@ -102,9 +102,9 @@ const AddMateri = () => {
             </div>
           </div>
 
-          <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-2 flex gap-3 sm:gap-4'>
+          <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-8 flex gap-3 sm:gap-4'>
             <Button
-              styleType='secondary'
+              styleType='gray'
               onClick={backButtonHandler}
               type='textOnly'
               text='Kembali'
@@ -113,8 +113,6 @@ const AddMateri = () => {
             <Button type='textOnly' text='Kirim' attrType='submit' />
           </div>
         </div>
-
-        {/* Footer */}
       </form>
     </>
   );
