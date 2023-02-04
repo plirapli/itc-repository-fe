@@ -9,9 +9,28 @@ import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 
 const ListBabPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const [isModalAddOpen, setIsModalAddOpen] = useState(false);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+
+  const openModalAdd = () => setIsModalAddOpen(true);
+  const closeModalAdd = () => setIsModalAddOpen(false);
+
+  const openModalDelete = () => setIsModalDeleteOpen(true);
+  const closeModalDelete = () => setIsModalDeleteOpen(false);
+
+  const openModalEdit = () => setIsModalEditOpen(true);
+  const closeModalEdit = () => setIsModalEditOpen(false);
+
+  const onClickDeleteHandler = (e) => {
+    e.preventDefault();
+    openModalDelete();
+  };
+
+  const onClickEditHandler = (e) => {
+    e.preventDefault();
+    openModalEdit();
+  };
 
   const babList = ['1', '2', '3', '4']; // Dummy
 
@@ -29,7 +48,7 @@ const ListBabPage = () => {
             </p>
           </div>
           <Button
-            onClick={openModal}
+            onClick={openModalAdd}
             type='iconRight'
             text='Tambah bab'
             icon='akar-icons:plus'
@@ -45,14 +64,20 @@ const ListBabPage = () => {
         <section className='mt-4 flex flex-col gap-4'>
           {babList.map((bab, i) => (
             <Link key={i} to={`${i}`}>
-              <ListMateriCard type='bab' subtext='8 Artikel' />
+              <ListMateriCard
+                type='bab'
+                subtext='8 Artikel'
+                onClickEdit={onClickEditHandler}
+                onClickDelete={onClickDeleteHandler}
+              />
             </Link>
           ))}
         </section>
       </div>
 
-      <Transition appear show={isModalOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={closeModal}>
+      {/* Add bab dialog (modal) */}
+      <Transition appear show={isModalAddOpen} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={closeModalAdd}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -64,7 +89,6 @@ const ListBabPage = () => {
           >
             <div className='fixed inset-0 bg-black bg-opacity-25' />
           </Transition.Child>
-
           <div className='fixed inset-0 overflow-y-auto'>
             <div className='flex min-h-full items-center justify-center p-4 text-center'>
               <Transition.Child
@@ -96,23 +120,147 @@ const ListBabPage = () => {
 
                   <div className='mt-4 flex gap-2'>
                     <Button
-                      onClick={closeModal}
+                      onClick={closeModalAdd}
                       type='textOnly'
-                      text='Keluar'
+                      text='Tutup'
                       styleType='gray'
                     />
                     <Button
-                      onClick={closeModal}
+                      onClick={closeModalAdd}
                       type='textOnly'
                       text='Simpan'
                     />
-                    {/* <button
-                      type='button'
-                      className='inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
-                      onClick={closeModal}
-                    >
-                      Got it, thanks!
-                    </button> */}
+                  </div>
+                </Dialog.Panel>
+                {/* End Main Container */}
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
+      {/* Edit bab dialog (modal) */}
+      <Transition appear show={isModalEditOpen} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={closeModalEdit}>
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-300'
+            enterFrom='opacity-0'
+            enterTo='opacity-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <div className='fixed inset-0 bg-black bg-opacity-25' />
+          </Transition.Child>
+          <div className='fixed inset-0 overflow-y-auto'>
+            <div className='flex min-h-full items-center justify-center p-4 text-center'>
+              <Transition.Child
+                as={Fragment}
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
+              >
+                {/* Main Container */}
+                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                  <Dialog.Title
+                    as='h3'
+                    className='text-lg font-medium leading-6 text-gray-900'
+                  >
+                    Edit Bab
+                  </Dialog.Title>
+
+                  {/* Body */}
+                  <div className='mt-2'>
+                    <Input
+                      label='Judul'
+                      value='Lorem ipsum dolor sit amet'
+                      placeholder='Masukkan judul bab'
+                      styleType='secondary'
+                    />
+                  </div>
+
+                  <div className='mt-4 flex gap-2'>
+                    <Button
+                      onClick={closeModalEdit}
+                      type='textOnly'
+                      text='Tutup'
+                      styleType='gray'
+                    />
+                    <Button
+                      onClick={closeModalEdit}
+                      type='textOnly'
+                      text='Simpan'
+                    />
+                  </div>
+                </Dialog.Panel>
+                {/* End Main Container */}
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
+      {/* Delete bab dialog (modal) */}
+      <Transition appear show={isModalDeleteOpen} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={closeModalDelete}>
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-300'
+            enterFrom='opacity-0'
+            enterTo='opacity-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <div className='fixed inset-0 bg-black bg-opacity-25' />
+          </Transition.Child>
+          <div className='fixed inset-0 overflow-y-auto'>
+            <div className='flex min-h-full items-center justify-center p-4 text-center'>
+              <Transition.Child
+                as={Fragment}
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
+              >
+                {/* Main Container */}
+                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                  <Dialog.Title
+                    as='h3'
+                    className='text-lg font-medium leading-6 text-gray-900'
+                  >
+                    Hapus Bab
+                  </Dialog.Title>
+
+                  {/* Body */}
+                  <div className='mt-3'>
+                    <p className='text-sm text-gray-500'>
+                      Apakah anda yakin ingin menghapus Bab:
+                    </p>
+                    <p className='mt-1 font-bold text-base text-black'>
+                      [Judul Bab]?
+                    </p>
+                  </div>
+
+                  <div className='mt-4 flex gap-2'>
+                    <Button
+                      onClick={closeModalDelete}
+                      type='textOnly'
+                      text='Tutup'
+                      styleType='gray'
+                    />
+                    <Button
+                      onClick={closeModalDelete}
+                      type='textOnly'
+                      text='Hapus'
+                      styleType='danger'
+                    />
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}

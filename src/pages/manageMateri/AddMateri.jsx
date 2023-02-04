@@ -1,4 +1,6 @@
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from '../../api/api';
 
 // Components
 import Button from '../../components/buttons/Button';
@@ -6,35 +8,73 @@ import Input from '../../components/inputForm/Input';
 import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
 
 const AddMateri = () => {
+  const formRef = useRef();
+  const inputTitleRef = useRef();
+  const inputDescRef = useRef();
   const navigate = useNavigate();
 
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [divisi, setDivisi] = useState(3);
+  const [img, setImg] = useState();
+
   const backButtonHandler = () => navigate(-1);
+  const inputTitleHandler = (e) => setTitle(e.target.value);
+  const inputDescHandler = (e) => setDesc(e.target.value);
+  const inputImgHandler = (e) => setImg(e.target.files[0]);
+
+  // Submit Course
   const submitHandler = (e) => {
     e.preventDefault();
+    const data = new FormData();
+    data.append('title', inputTitleRef.current?.value);
+    data.append('description', inputDescRef.current?.value);
+    data.append('id_division', 3);
+    data.append('image', img);
+
+    authApi
+      .post('/course', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then((res) => console.log(res.json()));
   };
 
   return (
     <>
       <h1 className='text-2xl mb-3 sm:mb-1'>Materi</h1>
-      <form onSubmit={submitHandler} method='POST'>
+      <form
+        onSubmit={submitHandler}
+        method='POST'
+        encType='multipart/form-data'
+        ref={formRef}
+      >
         <div className='grid grid-cols-6 gap-3 sm:gap-4'>
           {/* Judul */}
           <div className='col-span-6 sm:col-span-4'>
-            <Input
-              label='Judul'
-              styleType='primary'
-              name='judulMateri'
+            <label
+              htmlFor='judul'
+              className='block text-sm font-medium text-primary'
+            >
+              Judul
+            </label>
+            <input
+              type='text'
+              id='judul'
+              name='judul'
+              ref={inputTitleRef}
+              className='mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm input-primary'
               placeholder='Judul Materi'
+              required
             />
           </div>
 
           {/* Divisi */}
-          <div class='col-span-6 sm:col-span-2 flex flex-col gap-1'>
-            <SelectOptionDivisi
+          <div className='col-span-6 sm:col-span-2 flex flex-col gap-1'>
+            {/* <SelectOptionDivisi
               label='Divisi'
               name='divisi'
               styleType='primary'
-            />
+            /> */}
           </div>
 
           {/* Deskripsi */}
@@ -49,9 +89,11 @@ const AddMateri = () => {
               <textarea
                 id='about'
                 name='about'
+                ref={inputDescRef}
                 rows={3}
                 className='input-primary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
                 placeholder='Deskripsi materi'
+                required
               />
             </div>
             <p className='mt-1 text-sm text-gray-500'>
@@ -61,7 +103,22 @@ const AddMateri = () => {
 
           {/* Thumbnail */}
           <div className='col-span-6'>
-            <label className='block text-sm font-medium text-primary'>
+            <label
+              htmlFor='thumbnail'
+              className='block text-sm font-medium text-primary'
+            >
+              Thumbnail
+            </label>
+            <input
+              onChange={inputImgHandler}
+              type='file'
+              id='thumbnail'
+              name='thumbnail'
+              accept='image/*'
+              className='mt-1'
+            />
+
+            {/* <label className='block text-sm font-medium text-primary'>
               Thumbnail
             </label>
             <div className='mt-1 flex justify-center rounded-md  bg-white px-6 pt-5 pb-6'>
@@ -82,14 +139,16 @@ const AddMateri = () => {
                 </svg>
                 <div className='flex text-sm text-gray-600'>
                   <label
-                    htmlFor='file-upload'
+                    htmlFor='thumbnail'
                     className='relative cursor-pointer rounded-md bg-white font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:text-primary'
                   >
                     <span>Upload a file</span>
                     <input
-                      id='file-upload'
-                      name='file-upload'
+                      onc
                       type='file'
+                      id='thumbnail'
+                      name='thumbnail'
+                      accept='image/*'
                       className='sr-only'
                     />
                   </label>
@@ -99,7 +158,7 @@ const AddMateri = () => {
                   PNG, JPG, GIF up to 10MB
                 </p>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-8 flex gap-3 sm:gap-4'>
