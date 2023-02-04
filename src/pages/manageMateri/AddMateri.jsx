@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+
+// Components
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
-import {
-  SelectOption,
-  SelectOptionDivisi,
-} from '../../components/inputForm/SelectOption';
+import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
 
 const AddMateri = () => {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ const AddMateri = () => {
 
   return (
     <>
-      <h1 className='h1-sm sm:h1-md mb-3 sm:mb-1'>Materi</h1>
+      <h1 className='text-2xl mb-3 sm:mb-1'>Materi</h1>
       <form onSubmit={submitHandler} method='POST'>
         <div className='grid grid-cols-6 gap-3 sm:gap-4'>
           {/* Judul */}

@@ -19,6 +19,7 @@ import {
   ListMateri,
   AddMateri,
 } from './manageMateri';
+import AddDiskusiPage from './course/AddDiskusiPage';
 
 const Main = () => {
   const [token, setToken] = useState('');
@@ -46,7 +47,7 @@ const Main = () => {
             element={<Home userData={userData} errorHandler={errorHandler} />}
           />
 
-          {/* Manage Materi */}
+          {/* Manage Materi - Admin Only */}
           <Route
             path='materi/'
             element={<LayoutManageMateri userData={userData} />}
@@ -62,14 +63,11 @@ const Main = () => {
           </Route>
 
           {/* Course */}
-          <Route path='course/:id/' element={<LayoutMateri />}>
+          <Route path='course/:id_materi/' element={<LayoutMateri />}>
             <Route index element={<Overview />} />
             <Route exact path='diskusi/' element={<Diskusi />} />
-            <Route
-              exact
-              path='diskusi/:id_materi/:id_bab'
-              element={<Komentar />}
-            />
+            <Route exact path='diskusi/add/' element={<AddDiskusiPage />} />
+            <Route exact path='diskusi/:id_diskusi/' element={<Komentar />} />
           </Route>
 
           {/* Login, Register Page */}
