@@ -18,7 +18,8 @@
 		- [Diskusi Card](#diskusi-card)
 		- [Komentar Card](#komentar-card)
 	- [Tags](#tags) [ON PROGRESS]
-- Feature [ON PROGRESS]
+- [Feature] [ON PROGRESS]
+
 ---
 
 ## Installation
@@ -54,7 +55,7 @@ Props:
 | `attrType` (optional) | Button type (string) |
 | `textClassname` | Optional CSS class for text (string) |
 
-### Form Eelement
+### Form Element
 
 #### Input
 
@@ -70,12 +71,22 @@ Props
 | `value (optional)` | (string) |
 | `placeholder (optional)` | (string) |
 
-### Search Bar [ON PROGRESS]
+#### Select
+
+### Search Bar
 
 ### Navbar
 
 ### Card
 
-### Tags [ON PROGRESS]
+#### Materi Card
 
-## Feature [ON PROGRESS]
+#### List Materi Card
+
+#### Diskusi Card
+
+#### Komentar Card
+
+### Tags
+
+## Feature
