@@ -5,12 +5,7 @@ import {
   setLocalAccessToken,
 } from '../Utils/auth';
 
-const config = {
-  baseURL: process.env.REACT_APP_BASE_URL || '3001',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
+const config = { baseURL: process.env.REACT_APP_BASE_URL || '3001' };
 
 const api = axios.create(config);
 const authApi = axios.create(config);

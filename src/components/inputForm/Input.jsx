@@ -23,6 +23,7 @@ const Input = ({
         value={value}
         className={`mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm ${input}`}
         placeholder={props.placeholder || 'Placeholder'}
+        required
       />
     </div>
   );

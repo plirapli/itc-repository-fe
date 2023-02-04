@@ -19,27 +19,32 @@ const Komentar = () => {
 
       {/* Input Reply */}
       {showReply && (
-        <div className='mt-4'>
-          <div className='text-primary font-medium'>Tambah Komentar</div>
-          <form onSubmit={submitHandler} className='mt-1.5'>
+        <form onSubmit={submitHandler} className='mt-4'>
+          <label
+            htmlFor='komentar'
+            className='text-sm font-medium text-primary'
+          >
+            Tambah komentar
+          </label>
+          <div className='mt-1'>
             <textarea
-              className='w-full px-3 py-1.5 outline-none rounded resize-none'
-              name=''
-              id=''
-              rows='7'
-              placeholder='Tuliskan Komentar Anda'
-            ></textarea>
-            <div className='mt-3 flex gap-3'>
-              <Button
-                onClick={displayReplyHandler}
-                type='textOnly'
-                styleType='secondary'
-                text='Kembali'
-              />
-              <Button type='textOnly' text='Kirim' attrType='submit' />
-            </div>
-          </form>
-        </div>
+              id='komentar'
+              name='komentar'
+              rows={7}
+              className='input-primary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
+              placeholder='Tuliskan komentar anda'
+            />
+          </div>
+          <div className='mt-3 flex gap-3'>
+            <Button
+              onClick={displayReplyHandler}
+              type='textOnly'
+              styleType='gray'
+              text='Kembali'
+            />
+            <Button type='textOnly' text='Kirim' attrType='submit' />
+          </div>
+        </form>
       )}
 
       {/* Komentar */}

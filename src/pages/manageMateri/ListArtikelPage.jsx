@@ -6,7 +6,6 @@ import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { Dialog, Transition } from '@headlessui/react';
-import { Input } from 'postcss';
 
 const ListArtikelPage = () => {
   const navigate = useNavigate();
