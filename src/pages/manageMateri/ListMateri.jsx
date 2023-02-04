@@ -10,7 +10,7 @@ import { ListMateriCard } from '../../components/cards';
 
 const ListMateri = () => {
   const navigate = useNavigate();
-  const navigateAddMateri = () => navigate('add/');
+  const toAddMateri = () => navigate('add/');
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
@@ -43,7 +43,7 @@ const ListMateri = () => {
           <p className='text-gray-dark text-sm'>4 Materi</p>
         </div>
         <Button
-          onClick={navigateAddMateri}
+          onClick={toAddMateri}
           type='iconRight'
           text='Tambah materi'
           icon='akar-icons:plus'
