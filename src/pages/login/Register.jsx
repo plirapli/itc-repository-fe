@@ -61,38 +61,38 @@ const Register = ({ msg, errorHandler }) => {
       )}
       <form onSubmit={submitHandler} className='mt-2 flex flex-col gap-3'>
         <Input
+          onChange={(e) => inputHandler(e, 'fullName')}
           label='Nama'
           name='fullName'
           value={inputData.nama}
-          handler={inputHandler}
-          styleType='secondary'
           placeholder='Masukkan nama'
+          styleType='secondary'
         />
         <Input
-          styleType='secondary'
+          onChange={(e) => inputHandler(e, 'username')}
           label='Username'
-          handler={inputHandler}
           name='username'
           value={inputData.username}
           placeholder='Masukkan username'
+          styleType='secondary'
         />
         <Input
-          styleType='secondary'
+          onChange={(e) => inputHandler(e, 'email')}
           label='Email'
-          handler={inputHandler}
           inputType='email'
           name='email'
           value={inputData.email}
           placeholder='Masukkan alamat email'
+          styleType='secondary'
         />
         <Input
-          styleType='secondary'
+          onChange={(e) => inputHandler(e, 'password')}
           label='Password'
-          handler={inputHandler}
           inputType='password'
           name='password'
           value={inputData.password}
           placeholder='Masukkan password'
+          styleType='secondary'
         />
         <div className='flex flex-col gap-1 sm:w-2/5'>
           <SelectOptionDivisi

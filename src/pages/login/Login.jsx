@@ -60,23 +60,23 @@ const Login = ({ token, msg, errorHandler }) => {
         method='POST'
       >
         <Input
+          onChange={(e) => inputHandler(e, 'emailUsername')}
+          label='Email atau Username'
+          inputType='text'
           name='emailUsername'
           value={inputData.emailUsername}
-          handler={inputHandler}
-          inputType='text'
-          styleType='secondary'
-          label='Email atau Username'
           placeholder='Masukkan email atau username'
+          styleType='secondary'
         />
         <section className='flex flex-col w-full'>
           <Input
+            onChange={(e) => inputHandler(e, 'password')}
+            label='Password'
+            inputType='password'
             name='password'
             value={inputData.password}
-            handler={inputHandler}
-            inputType='password'
-            styleType='secondary'
-            label='Password'
             placeholder='Masukkan password'
+            styleType='secondary'
           />
           <div className='mt-2.5 text-end text-sm font-medium text-primary underline'>
             <Link to='/forgot-password'>Lupa Kata Sandi?</Link>
