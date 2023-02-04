@@ -3,23 +3,23 @@ import Button from '../../components/buttons/Button';
 import { ListMateriCard } from '../../components/cards';
 import SearchBar from '../../components/inputForm/SearchBar';
 
-const ListMateri = () => {
+const ListArtikelPage = () => {
   const navigate = useNavigate();
-  const navigateAddMateri = () => navigate('add/');
-  const materiList = ['1', '2', '3', '4']; // Dummy
+  const navigateAddArtikel = () => navigate('add/');
+  const artikelList = ['1', '2', '3', '4']; // Dummy
 
   return (
     <div>
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
-          <h1 className='h2-sm sm:h2-md'>Daftar Materi</h1>
-          <p className='text-gray-dark text-sm'>4 Materi</p>
+          <h1 className='h2-sm sm:h2-md'>[Judul Bab]</h1>
+          <p className='text-gray-dark text-sm'>8 Artikel</p>
         </div>
         <Button
-          onClick={navigateAddMateri}
+          onClick={navigateAddArtikel}
           type='iconRight'
-          text='Tambah materi'
+          text='Tambah artikel'
           icon='akar-icons:plus'
         />
       </div>
@@ -31,9 +31,9 @@ const ListMateri = () => {
 
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-4'>
-        {materiList.map((materi, i) => (
+        {artikelList.map((artikel, i) => (
           <Link key={i} to={`${i}`}>
-            <ListMateriCard type='materi' />
+            <ListMateriCard type='artikel' />
           </Link>
         ))}
       </section>
@@ -41,4 +41,4 @@ const ListMateri = () => {
   );
 };
 
-export default ListMateri;
+export default ListArtikelPage;

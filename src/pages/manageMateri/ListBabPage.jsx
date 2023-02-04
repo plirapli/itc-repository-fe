@@ -1,27 +1,24 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import { ListMateriCard } from '../../components/cards';
 import SearchBar from '../../components/inputForm/SearchBar';
 
-const ListMateri = () => {
-  const navigate = useNavigate();
-  const navigateAddMateri = () => navigate('add/');
-  const materiList = ['1', '2', '3', '4']; // Dummy
+const ListBabPage = () => {
+  const babList = ['1', '2', '3', '4']; // Dummy
 
   return (
     <div>
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
-          <h1 className='h2-sm sm:h2-md'>Daftar Materi</h1>
-          <p className='text-gray-dark text-sm'>4 Materi</p>
+          <h1 className='h2-sm sm:h2-md'>[Judul Materi]</h1>
+          <p className='text-gray-dark text-sm'>
+            4 Bab
+            <span className='text-black'> | </span>
+            34 Artikel
+          </p>
         </div>
-        <Button
-          onClick={navigateAddMateri}
-          type='iconRight'
-          text='Tambah materi'
-          icon='akar-icons:plus'
-        />
+        <Button type='iconRight' text='Tambah bab' icon='akar-icons:plus' />
       </div>
 
       {/* Search Bar */}
@@ -31,9 +28,9 @@ const ListMateri = () => {
 
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-4'>
-        {materiList.map((materi, i) => (
+        {babList.map((bab, i) => (
           <Link key={i} to={`${i}`}>
-            <ListMateriCard type='materi' />
+            <ListMateriCard type='bab' subtext='8 Artikel' />
           </Link>
         ))}
       </section>
@@ -41,4 +38,4 @@ const ListMateri = () => {
   );
 };
 
-export default ListMateri;
+export default ListBabPage;

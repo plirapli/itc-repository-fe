@@ -63,7 +63,11 @@ const OverlayMenu = ({ id_role = 1 }) => {
       <div className='min-w-[180px] absolute right-0 sm:right-2 transform translate-y-full bottom-0 p-2'>
         <div className='bg-white py-1 rounded shadow-md'>
           <div className={listClassName}>Profile</div>
-          {id_role === 2 && <div className={listClassName}>Daftar Materi</div>}
+          {id_role === 2 && (
+            <div onClick={daftarMateri} className={listClassName}>
+              Daftar Materi
+            </div>
+          )}
           <div className='px-4 py-1'>
             <div className='w-full h-[1px] bg-gray-light'></div>
           </div>

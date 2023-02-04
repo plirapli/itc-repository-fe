@@ -13,7 +13,12 @@ import {
 import { Home } from './index';
 import { Overview, Diskusi, Komentar } from './course/index';
 import { ForgotPassword, Login, Register } from './login/index';
-import { AddMateri, ListMateri } from './manageMateri';
+import {
+  ListArtikelPage,
+  ListBabPage,
+  ListMateri,
+  AddMateri,
+} from './manageMateri';
 
 const Main = () => {
   const [token, setToken] = useState('');
@@ -47,14 +52,24 @@ const Main = () => {
             element={<LayoutManageMateri userData={userData} />}
           >
             <Route index element={<ListMateri />} />
-            <Route exact path='add' element={<AddMateri />} />
+            <Route exact path='add/' element={<AddMateri />} />
+            <Route exact path=':id_materi/' element={<ListBabPage />} />
+            <Route
+              exact
+              path=':id_materi/:id_bab'
+              element={<ListArtikelPage />}
+            />
           </Route>
 
           {/* Course */}
           <Route path='course/:id/' element={<LayoutMateri />}>
             <Route index element={<Overview />} />
             <Route exact path='diskusi/' element={<Diskusi />} />
-            <Route exact path='diskusi/:id/' element={<Komentar />} />
+            <Route
+              exact
+              path='diskusi/:id_materi/:id_bab'
+              element={<Komentar />}
+            />
           </Route>
 
           {/* Login, Register Page */}
