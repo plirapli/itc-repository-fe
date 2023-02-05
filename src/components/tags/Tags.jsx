@@ -1,37 +1,21 @@
 import { useEffect, useState } from 'react';
 
-const Tags = ({ id = 1, divisi }) => {
-  const [selectedDiv, setSelectedDiv] = useState({});
+const Tags = ({ id }) => {
   const divisions = [
-    { id: 1, divisionName: 'Back-end Developer' },
-    { id: 2, divisionName: 'Front-end Developer' },
-    { id: 3, divisionName: 'Mobile Developer' },
-    { id: 4, divisionName: 'Public Relations' },
-    { id: 5, divisionName: 'Project Manager' },
+    { name: 'Back-end Developer', style: 'bg-divisi-be' },
+    { name: 'Front-end Developer', style: 'bg-divisi-fe' },
+    { name: 'Mobile Developer', style: 'bg-divisi-mobile' },
+    { name: 'Public Relations', style: 'bg-divisi-pr' },
+    { name: 'Project Manager', style: 'bg-divisi-pm' },
   ];
+  const [div, setDiv] = useState(divisions[id - 1]);
 
-  useEffect(() => {
-    let selected;
-
-    if (divisi) {
-      selected = divisi.filter((div) => div.id === id)[0];
-    } else {
-      selected = divisions.filter((div) => div.id === id)[0];
-    }
-    setSelectedDiv(() => selected);
-  }, [id, divisi]);
-
-  let style = [
-    'bg-divisi-be',
-    'bg-divisi-fe',
-    'bg-divisi-mobile',
-    'bg-divisi-pr',
-    'bg-divisi-pm',
-  ];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => setDiv(divisions[id - 1]), [id]);
 
   return (
-    <div className={`px-2 text-white text-sm rounded ${style[id - 1]}`}>
-      {selectedDiv?.divisionName}
+    <div className={`px-2 text-white text-sm rounded ${div?.style}`}>
+      {div?.name}
     </div>
   );
 };

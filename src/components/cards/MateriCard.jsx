@@ -20,15 +20,6 @@ const MateriCard = ({ data, ...props }) => {
     };
   }, []);
 
-  const getAuthor = async (id) => {
-    try {
-      const response = await getUserDetail(id);
-      return response?.data.fullName;
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
   return (
     <div className='bg-white shadow-md rounded-lg p-3 sm:p-4'>
       <div
@@ -48,12 +39,12 @@ const MateriCard = ({ data, ...props }) => {
         <div className='flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2'>
           <div className='flex items-center gap-1.5 text-gray-dark'>
             <Icon icon='ic:round-date-range' width='18' />
-            <span className='text-xs'>{materi?.createdAt}</span>
+            <span className='text-sm'>{materi?.createdAt}</span>
           </div>
           <span className='hidden sm:inline'>|</span>
           <div className='flex items-center gap-1.5 text-gray-dark pl-0.5 sm:pl-0'>
             <Icon icon='fluent-mdl2:date-time-12' width='16' />
-            <span className='text-xs'>{materi?.updatedAt}</span>
+            <span className='text-sm'>{materi?.updatedAt}</span>
           </div>
         </div>
       </div>

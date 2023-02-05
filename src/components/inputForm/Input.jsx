@@ -3,26 +3,25 @@ import React from 'react';
 const Input = ({
   label,
   onChange,
-  inputType,
+  inputType = 'text',
   value,
   styleType = 'primary',
   ...props
 }) => {
-  const textLabel = styleType === 'primary' && 'text-primary';
-  const input = styleType === 'primary' ? 'input-primary' : 'input-secondary';
+  const textStyle = styleType === 'primary' && 'text-primary';
+  const style = styleType === 'primary' ? 'input-primary' : 'input-secondary';
 
   return (
     <div>
-      <label htmlFor='' className={`block text-sm font-medium ${textLabel}`}>
-        {label || 'Label'}
+      <label className={`block text-sm font-medium ${textStyle}`}>
+        {label}
       </label>
       <input
         onChange={onChange}
-        type={inputType || 'text'}
-        name={props.name}
+        type={inputType}
         value={value}
-        className={`mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm ${input}`}
-        placeholder={props.placeholder || 'Placeholder'}
+        className={`mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm ${style}`}
+        placeholder={props.placeholder}
         required
       />
     </div>

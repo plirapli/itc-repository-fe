@@ -1,11 +1,10 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // Components
 import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
-import { Dialog, Transition } from '@headlessui/react';
 import { ModalDelete } from '../../components/modal';
 
 const ListArtikelPage = () => {
