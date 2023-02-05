@@ -25,8 +25,6 @@ const AddDiskusiPage = () => {
           <div className='col-span-6'>
             <Input
               label='Judul Pertanyaan'
-              styleType='primary'
-              name='judulPertanyaan'
               placeholder='Masukkan judul pertanyaan'
             />
           </div>

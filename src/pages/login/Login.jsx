@@ -57,25 +57,27 @@ const Login = ({ token }) => {
         className='flex flex-col gap-3 mt-1.5'
         method='POST'
       >
-        <Input
-          onChange={(e) => inputHandler(e, 'emailUsername')}
-          label='Email atau Username'
-          inputType='text'
-          name='emailUsername'
-          value={inputData.emailUsername}
-          placeholder='Masukkan email atau username'
-          styleType='secondary'
-        />
-        <section className='flex flex-col w-full'>
+        <div>
           <Input
-            onChange={(e) => inputHandler(e, 'password')}
-            label='Password'
-            inputType='password'
-            name='password'
-            value={inputData.password}
-            placeholder='Masukkan password'
-            styleType='secondary'
+            onChange={(e) => inputHandler(e, 'emailUsername')}
+            label='Email atau Username'
+            type='text'
+            value={inputData.emailUsername}
+            color='secondary'
+            placeholder='Masukkan email atau username'
           />
+        </div>
+        <section className='flex flex-col w-full'>
+          <div>
+            <Input
+              onChange={(e) => inputHandler(e, 'password')}
+              label='Password'
+              type='password'
+              value={inputData.password}
+              color='secondary'
+              placeholder='Masukkan password'
+            />
+          </div>
           <div className='mt-2.5 text-end text-sm font-medium text-primary underline'>
             <Link to='/forgot-password'>Lupa Kata Sandi?</Link>
           </div>

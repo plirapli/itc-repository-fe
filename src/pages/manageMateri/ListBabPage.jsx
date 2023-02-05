@@ -115,7 +115,7 @@ const ListBabPage = () => {
                   <div className='mt-2'>
                     <Input
                       label='Judul'
-                      styleType='secondary'
+                      color='secondary'
                       placeholder='Masukkan judul bab'
                     />
                   </div>
@@ -173,8 +173,8 @@ const ListBabPage = () => {
                     <Input
                       label='Judul'
                       value='Lorem ipsum dolor sit amet'
+                      color='secondary'
                       placeholder='Masukkan judul bab'
-                      styleType='secondary'
                     />
                   </div>
 

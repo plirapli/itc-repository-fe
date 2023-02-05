@@ -53,40 +53,44 @@ const Register = ({ divisi }) => {
         </div>
       )}
       <form onSubmit={submitHandler} className='mt-1.5 flex flex-col gap-3'>
-        <Input
-          onChange={(e) => inputHandler(e, 'fullName')}
-          label='Nama'
-          name='fullName'
-          value={inputData.nama}
-          placeholder='Masukkan nama'
-          styleType='secondary'
-        />
-        <Input
-          onChange={(e) => inputHandler(e, 'username')}
-          label='Username'
-          name='username'
-          value={inputData.username}
-          placeholder='Masukkan username'
-          styleType='secondary'
-        />
-        <Input
-          onChange={(e) => inputHandler(e, 'email')}
-          label='Email'
-          inputType='email'
-          name='email'
-          value={inputData.email}
-          placeholder='Masukkan alamat email'
-          styleType='secondary'
-        />
-        <Input
-          onChange={(e) => inputHandler(e, 'password')}
-          label='Password'
-          inputType='password'
-          name='password'
-          value={inputData.password}
-          placeholder='Masukkan password'
-          styleType='secondary'
-        />
+        <div>
+          <Input
+            onChange={(e) => inputHandler(e, 'fullName')}
+            label='Nama'
+            value={inputData.nama}
+            color='secondary'
+            placeholder='Masukkan nama'
+          />
+        </div>
+        <div>
+          <Input
+            onChange={(e) => inputHandler(e, 'username')}
+            label='Username'
+            value={inputData.username}
+            color='secondary'
+            placeholder='Masukkan username'
+          />
+        </div>
+        <div>
+          <Input
+            onChange={(e) => inputHandler(e, 'email')}
+            label='Email'
+            type='email'
+            value={inputData.email}
+            color='secondary'
+            placeholder='Masukkan alamat email'
+          />
+        </div>
+        <div>
+          <Input
+            onChange={(e) => inputHandler(e, 'password')}
+            label='Password'
+            type='password'
+            value={inputData.password}
+            color='secondary'
+            placeholder='Masukkan password'
+          />
+        </div>
         <div className='flex flex-col gap-1 sm:w-2/5'>
           <Select
             onChange={(e) => inputHandler(e, 'id_division')}

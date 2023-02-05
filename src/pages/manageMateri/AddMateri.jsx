@@ -67,7 +67,6 @@ const AddMateri = () => {
               onChange={inputTitleHandler}
               label='Judul'
               value={title}
-              styleType='primary'
               placeholder='Masukkan judul materi'
             />
           </div>

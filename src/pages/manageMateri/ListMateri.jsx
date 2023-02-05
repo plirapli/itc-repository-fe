@@ -110,8 +110,8 @@ const ListMateri = () => {
                     <Input
                       label='Judul'
                       value='Lorem ipsum dolor sit amet'
+                      color='secondary'
                       placeholder='Masukkan judul materi'
-                      styleType='secondary'
                     />
                   </div>
 
