@@ -48,6 +48,36 @@
     @apply focus:ring-primary focus:border-primary;
   }
 
+  /* Button Component */
+  .text-only {
+    @apply w-full px-4 py-2;
+  }
+  .icon-right {
+    @apply px-4 py-2 gap-3;
+  }
+  .icon-left {
+    @apply px-4 py-2 flex-row-reverse gap-3;
+  }
+  .icon-only {
+    @apply p-2.5;
+  }
+
+  .btn.primary {
+    @apply bg-primary text-white shadow-sm hover:bg-opacity-80;
+  }
+  .btn.secondary {
+    @apply bg-secondary text-primary shadow-sm hover:bg-secondaryHover;
+  }
+  .btn.gray {
+    @apply bg-black bg-opacity-10 text-black text-opacity-70 hover:bg-opacity-20;
+  }
+  .btn.danger {
+    @apply bg-danger-sub text-danger-main hover:bg-danger-hover;
+  }
+  .btn.transparent {
+    @apply text-white shadow-none hover:bg-white hover:bg-opacity-25;
+  }
+
   /* Input Component */
   .input-primary {
     @apply border-gray-300;
