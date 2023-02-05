@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Ava } from '../../assets';
 import { logoutHandler } from '../../Utils/auth';
 
 const Navbar = ({ user }) => {
+  const { fullName, division, photoProfile } = user;
   const [hover, setHover] = useState(false);
 
   return (
@@ -17,19 +19,15 @@ const Navbar = ({ user }) => {
       >
         {/* User info */}
         <div className='hidden sm:block'>
-          <p className='font-medium text-white'>
-            {user ? user?.username : 'Loading...'}
-          </p>
-          <p className='text-xs text-accent'>
-            {user ? user?.division : 'Loading...'}
-          </p>
+          <p className='font-medium text-white'>{fullName || 'Loading...'}</p>
+          <p className='text-xs text-accent'>{division || 'Loading...'}</p>
         </div>
 
         {/* Profile img */}
         <img
-          className='w-8 h-8 sm:w-11 sm:h-11 border rounded bg-cover overflow-hidden'
-          src=''
-          alt=''
+          className='w-8 h-8 sm:w-11 sm:h-11 border-2 rounded bg-cover overflow-hidden'
+          src={photoProfile || Ava}
+          alt='Profile'
         />
         {hover && <OverlayMenu id_role={user?.id_role} />}
       </div>

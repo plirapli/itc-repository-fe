@@ -1,3 +1,4 @@
-import Logo from './logo-itc.png';
+import Logo from './logo_itc.png';
+import Ava from './default_ava.jpg';
 
-export { Logo };
+export { Logo, Ava };

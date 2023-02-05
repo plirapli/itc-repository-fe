@@ -20,57 +20,53 @@ import {
   AddMateri,
 } from './manageMateri';
 import AddDiskusiPage from './course/AddDiskusiPage';
-import { getDivisi } from '../Utils/getData';
+import { getDivisi, getUserDetail } from '../Utils/getData';
 
 const Main = () => {
   const [token, setToken] = useState('');
-  const [msg, setMsg] = useState('');
   const [divisi, setDivisi] = useState([]);
   const [userData, setUserData] = useState({});
 
-  const errorHandler = (errMsg) => setMsg(() => errMsg);
   const setTokenHandler = (token) => setToken(() => token);
 
   useEffect(() => {
     getDivisi()
-      .then((data) => setDivisi(data))
+      .then(setDivisi)
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
     const accessToken = getLocalAccessToken() || token;
-    accessToken && setUserData(() => jwt(getLocalAccessToken()));
+    if (accessToken) {
+      const { id, id_role, division } = jwt(accessToken);
+      getUserDetail(id).then(({ data }) => {
+        const { email, fullName, username, photoProfile } = data;
+        setUserData({
+          id_role,
+          email,
+          fullName,
+          username,
+          photoProfile,
+          division,
+        });
+      });
+    }
   }, [token]);
 
   return (
     <div className='min-h-screen bg-gray-light'>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route
-            index
-            element={
-              <Home
-                userData={userData}
-                divisi={divisi}
-                errorHandler={errorHandler}
-              />
-            }
-          />
+          <Route index element={<Home userData={userData} divisi={divisi} />} />
           <Route
             path='home/'
-            element={
-              <Home
-                userData={userData}
-                divisi={divisi}
-                errorHandler={errorHandler}
-              />
-            }
+            element={<Home userData={userData} divisi={divisi} />}
           />
 
           {/* Manage Materi - Admin Only */}
           <Route
             path='materi/'
-            element={<LayoutManageMateri userData={userData} />}
+            element={<LayoutManageMateri userData={userData} divisi={divisi} />}
           >
             <Route index element={<ListMateri />} />
             <Route exact path='add/' element={<AddMateri />} />
@@ -93,26 +89,9 @@ const Main = () => {
 
         {/* Login, Register Page */}
         <Route element={<LayoutLogin />}>
-          <Route
-            path='login/'
-            element={
-              <Login
-                token={setTokenHandler}
-                msg={msg}
-                errorHandler={errorHandler}
-              />
-            }
-          />
-          <Route
-            path='forgot-password/'
-            element={<ForgotPassword msg={msg} errorHandler={errorHandler} />}
-          />
-          <Route
-            path='register/'
-            element={
-              <Register msg={msg} divisi={divisi} errorHandler={errorHandler} />
-            }
-          />
+          <Route path='login/' element={<Login token={setTokenHandler} />} />
+          <Route path='forgot-password/' element={<ForgotPassword />} />
+          <Route path='register/' element={<Register divisi={divisi} />} />
         </Route>
       </Routes>
     </div>

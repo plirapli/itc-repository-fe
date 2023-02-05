@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { api, authApi } from '../../api/api';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { api } from '../../api/api';
 import { loginHandler } from '../../Utils/auth';
 
 // Components
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 
-const Login = ({ token, msg, errorHandler }) => {
+const Login = ({ token }) => {
   const navigate = useNavigate();
-  const initialState = {
-    emailUsername: '',
-    password: '',
-  };
+  const initialState = { emailUsername: '', password: '' };
+  const [errMessage, setErrMessage] = useOutletContext();
   const [inputData, setInputData] = useState(initialState);
 
   const inputHandler = (e, key) => {
@@ -24,39 +22,39 @@ const Login = ({ token, msg, errorHandler }) => {
     api
       .post('/user/login', inputData)
       .then(({ data }) => {
-        errorHandler(''); // Delete error msg
+        setErrMessage(''); // Delete error msg
         setInputData(initialState); // Delete input data
         loginHandler(data, token); // Login process
         navigate('/'); // Redirect to home page
       })
       .catch((err) => {
-        errorHandler(`Error: ${err.response.data.message}!`);
+        setErrMessage(`Error: ${err.response.data.message}!`);
       });
   };
 
   useEffect(() => {
-    if (msg.includes('Error')) {
-      errorHandler('');
+    if (errMessage.includes('Error')) {
+      setErrMessage('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <h1 className='mt-4 h2-sm sm:h2-md'>Masuk</h1>
-      {msg &&
-        (msg.includes('Error') ? (
+      <h1 className='mt-4 text-xl sm:text-2xl'>Masuk</h1>
+      {errMessage &&
+        (errMessage.includes('Error') ? (
           <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
-            {msg}
+            {errMessage}
           </div>
         ) : (
           <div className='mt-2 mb-4 py-2 px-4 bg-green-100 text-green-600 rounded-md w-max max-w-full'>
-            {msg}
+            {errMessage}
           </div>
         ))}
       <form
         onSubmit={submitHandler}
-        className='flex flex-col gap-3 mt-2'
+        className='flex flex-col gap-3 mt-1.5'
         method='POST'
       >
         <Input

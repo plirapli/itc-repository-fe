@@ -1,26 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { api } from '../../api/api';
-import { getDivisi } from '../../Utils/getData';
 
 // Components
 import Input from '../../components/inputForm/Input';
 import Button from '../../components/buttons/Button';
-import {
-  Select,
-  SelectOptionDivisi,
-} from '../../components/inputForm/SelectOption';
+import { Select } from '../../components/inputForm/SelectOption';
 
-const Register = ({ msg, divisi, errorHandler }) => {
+const Register = ({ divisi }) => {
   const navigate = useNavigate();
   const initialState = {
     username: '',
     fullName: '',
     email: '',
     password: '',
-    id_division: null,
+    id_division: 1,
   };
+  const [errMessage, setErrMessage] = useOutletContext();
   const [inputData, setInputData] = useState(initialState);
 
   const inputHandler = (e, key) => {
@@ -33,29 +30,29 @@ const Register = ({ msg, divisi, errorHandler }) => {
       const data = { ...inputData, id_division: id_division };
       const response = await api.post('/user/register', data);
 
-      errorHandler('Akun anda berhasil dibuat, silakan login.');
+      setErrMessage('Akun anda berhasil dibuat, silakan login.');
       setInputData(initialState);
       if (response) {
         navigate('/login');
       }
     } catch (err) {
-      errorHandler(`Error: ${err.response.data.message}!`);
+      setErrMessage(`Error: ${err.response.data.message}!`);
     }
   };
 
   useEffect(() => {
-    errorHandler('');
+    setErrMessage('');
   }, []);
 
   return (
     <>
-      <h1 className='mt-4 h2-sm sm:h2-md'>Daftar</h1>
-      {msg && (
+      <h1 className='mt-4 text-xl sm:text-2xl'>Daftar</h1>
+      {errMessage && (
         <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
-          {msg}
+          {errMessage}
         </div>
       )}
-      <form onSubmit={submitHandler} className='mt-2 flex flex-col gap-3'>
+      <form onSubmit={submitHandler} className='mt-1.5 flex flex-col gap-3'>
         <Input
           onChange={(e) => inputHandler(e, 'fullName')}
           label='Nama'
@@ -97,7 +94,6 @@ const Register = ({ msg, divisi, errorHandler }) => {
             label='Divisi'
             value={inputData.id_division}
           >
-            <option hidden>Semua</option>
             {divisi.map(({ id, divisionName }) => (
               <option className='bg-white' key={id} value={id}>
                 {divisionName}

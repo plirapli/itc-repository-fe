@@ -6,17 +6,13 @@ import { getCourses } from '../Utils/getData';
 import Navbar from '../components/navbar/Navbar';
 import Button from '../components/buttons/Button';
 import SearchBar from '../components/inputForm/SearchBar';
-import {
-  Select,
-  SelectOption,
-  SelectOptionDivisi,
-} from '../components/inputForm/SelectOption';
+import { Select } from '../components/inputForm/SelectOption';
 import { MateriCard } from '../components/cards/index';
 
 const Home = ({ userData, divisi, ...props }) => {
   const navigate = useNavigate();
   const navbar = useOutletContext();
-  const jwt_token = localStorage.getItem('token');
+  const toAddMateri = () => navigate('materi/add/');
 
   let sortOptions = [
     { id: 1, name: 'A-Z' },
@@ -32,15 +28,20 @@ const Home = ({ userData, divisi, ...props }) => {
   const [filteredCourse, setFilteredCourse] = useState([]);
 
   const filterSelectHandler = (e) => setSelectedDivisi(e.target.value);
-  const navigateAddMateri = () => navigate('materi/add/');
+  const filterCourseHandler = (course) =>
+    course.id_division === parseInt(selectedDivisi);
 
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
 
-    props.errorHandler('');
-    getCourses(jwt_token)
-      .then(isMounted && setCourses)
+    getCourses()
+      .then((data) => {
+        if (isMounted) {
+          setCourses(data);
+          setFilteredCourse(data);
+        }
+      })
       .catch(() => navigate('/login/'));
 
     // Cleanup
@@ -54,17 +55,11 @@ const Home = ({ userData, divisi, ...props }) => {
 
   useEffect(() => {
     if (selectedDivisi !== '0') {
-      setFilteredCourse(
-        courses.filter((course) => course.id_division == selectedDivisi)
-      );
+      setFilteredCourse(courses.filter(filterCourseHandler));
     } else {
       setFilteredCourse(courses);
     }
   }, [selectedDivisi]);
-
-  useEffect(() => {
-    setFilteredCourse(courses);
-  }, [courses]);
 
   useEffect(() => {
     navbar(<Navbar user={userData} />);
@@ -78,7 +73,7 @@ const Home = ({ userData, divisi, ...props }) => {
           <h1 className='text-2xl'>Materi</h1>
           {userData?.id_role === 2 && (
             <Button
-              onClick={navigateAddMateri}
+              onClick={toAddMateri}
               variant='icon-right'
               icon='akar-icons:plus'
             >
@@ -105,10 +100,16 @@ const Home = ({ userData, divisi, ...props }) => {
             </Select>
           </div>
           <div className='col-span-12 sm:col-span-5 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
-            <SelectOption label='Sort By' options={sortOptions} />
+            <Select label='Sort By' color='secondary'>
+              {sortOptions.map(({ id, name }) => (
+                <option className='bg-white' key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Select>
           </div>
           <div className='col-span-12 lg:col-span-4'>
-            <SearchBar />
+            <SearchBar placeholder='Cari materi' />
           </div>
         </div>
 

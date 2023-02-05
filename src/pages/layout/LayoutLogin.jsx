@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Logo } from '../../assets';
 
 const LayoutLogin = () => {
+  const [errorMsg, setErrorMsg] = useState('');
+  const errorMsgHandler = (errMsg) => setErrorMsg(errMsg);
+
   return (
     <div className='min-h-screen sm:p-6 flex sm:justify-center sm:items-center'>
       <div className='w-full max-w-screen-sm p-10 pt-8 bg-white sm:rounded-xl sm:shadow-md'>
@@ -12,7 +15,7 @@ const LayoutLogin = () => {
             ITC Repository
           </p>
         </div>
-        <Outlet />
+        <Outlet context={[errorMsg, errorMsgHandler]} />
       </div>
     </div>
   );

@@ -1,22 +1,25 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 
-const ForgotPassword = ({ errorHandler, msg }) => {
+const ForgotPassword = (props) => {
+  const [errMessage, setErrMessage] = useOutletContext();
+
   useEffect(() => {
-    errorHandler('');
+    setErrMessage('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <h1 className='mt-4 h2-sm sm:h2-md'>Lupa Kata Sandi</h1>
-      {msg && (
+      <h1 className='mt-4 text-xl sm:text-2xl'>Lupa Kata Sandi</h1>
+      {errMessage && (
         <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
-          {msg}
+          {errMessage}
         </div>
       )}
-      <form className='mt-2 flex flex-col gap-3' method='POST'>
+      <form className='mt-1.5 flex flex-col gap-3' method='POST'>
         <Input
           inputType='email'
           styleType='secondary'

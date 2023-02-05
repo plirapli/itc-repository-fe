@@ -27,13 +27,10 @@ const getCourses = async () => {
 };
 
 // Get user detail
-const getUserDetail = async (id) => {
-  try {
-    const response = await authApi.get(`/user/${id}`);
-    return response.data;
-  } catch (error) {
-    return error.message;
-  }
-};
+const getUserDetail = async (id) =>
+  authApi
+    .get(`/user/${id}`)
+    .then(({ data }) => data)
+    .catch((err) => Promise.reject(err));
 
 export { getDivisi, getCourses, getUserDetail };

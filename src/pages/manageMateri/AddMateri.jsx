@@ -1,26 +1,27 @@
+import { Fragment, useState } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 import { Icon } from '@iconify/react';
-import { Fragment, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../api/api';
 
 // Components
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
-import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
+import { Select } from '../../components/inputForm/SelectOption';
 
 const AddMateri = () => {
   const navigate = useNavigate();
-
+  const divisi = useOutletContext();
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
-  const [divisi, setDivisi] = useState(3);
+  const [selectedDiv, setSelectedDiv] = useState(1);
   const [img, setImg] = useState({});
 
   const isLoadingClose = () => setIsLoading(true);
   const backButtonHandler = () => navigate(-1);
   const inputTitleHandler = (e) => setTitle(e.target.value);
+  const inputDivHandler = (e) => setSelectedDiv(e.target.value);
   const inputDescHandler = (e) => setDesc(e.target.value);
   const inputImgHandler = (e) => setImg(e.target.files[0]);
 
@@ -32,14 +33,14 @@ const AddMateri = () => {
     const data = new FormData();
     data.append('title', title);
     data.append('description', desc);
-    data.append('id_division', 3);
+    data.append('id_division', selectedDiv);
     data.append('image', img);
 
     authApi
       .post('/course', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
-      .then((res) => {
+      .then(() => {
         // Reset state
         setIsLoading(false);
         setTitle('');
@@ -47,7 +48,7 @@ const AddMateri = () => {
         setImg({});
 
         // Redirect to list materi page
-        navigate('/materi/');
+        navigate('/');
       });
   };
 
@@ -73,11 +74,17 @@ const AddMateri = () => {
 
           {/* Divisi */}
           <div className='col-span-6 sm:col-span-2 flex flex-col gap-1'>
-            {/* <SelectOptionDivisi
+            <Select
+              onChange={inputDivHandler}
               label='Divisi'
-              name='divisi'
-              styleType='primary'
-            /> */}
+              value={selectedDiv}
+            >
+              {divisi.map(({ id, divisionName }) => (
+                <option key={id} value={id}>
+                  {divisionName}
+                </option>
+              ))}
+            </Select>
           </div>
 
           {/* Deskripsi */}

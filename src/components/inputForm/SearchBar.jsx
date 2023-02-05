@@ -1,12 +1,10 @@
-const SearchBar = (props) => {
-  const style = '';
-
+const SearchBar = ({ onChange, ...props }) => {
   return (
     <input
       type='text'
-      onChange={props.search}
-      value={props.input}
-      className={`search-bar block w-full rounded-md border-gray-300 shadow-sm focus-primary sm:text-sm ${style}`}
+      onChange={onChange}
+      value={props.value}
+      className='search-bar block w-full rounded-md border-gray-300 shadow-sm focus-primary sm:text-sm'
       placeholder={props.placeholder || 'Cari'}
     />
   );

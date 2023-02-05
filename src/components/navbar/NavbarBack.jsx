@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Ava } from '../../assets';
 import { logoutHandler } from '../../Utils/auth';
 import Button from '../buttons/Button';
 
 const NavbarBack = ({ user }) => {
   const navigate = useNavigate();
+  const { fullName, division, photoProfile } = user;
   const [hover, setHover] = useState(false);
   const toBack = () => navigate(-1);
 
@@ -28,19 +30,15 @@ const NavbarBack = ({ user }) => {
       >
         {/* User info */}
         <div className='hidden sm:block'>
-          <p className='font-medium text-white'>
-            {user ? user?.username : 'Loading...'}
-          </p>
-          <p className='text-xs text-accent'>
-            {user ? user?.division : 'Loading...'}
-          </p>
+          <p className='font-medium text-white'>{fullName || 'Loading...'}</p>
+          <p className='text-xs text-accent'>{division || 'Loading...'}</p>
         </div>
 
         {/* Profile img */}
         <img
           className='w-8 h-8 sm:w-11 sm:h-11 border rounded bg-cover overflow-hidden'
-          src=''
-          alt=''
+          src={photoProfile || Ava}
+          alt='Profile'
         />
         {hover && <OverlayMenu id_role={user?.id_role} />}
       </div>
