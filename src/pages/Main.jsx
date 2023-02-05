@@ -20,14 +20,22 @@ import {
   AddMateri,
 } from './manageMateri';
 import AddDiskusiPage from './course/AddDiskusiPage';
+import { getDivisi } from '../Utils/getData';
 
 const Main = () => {
   const [token, setToken] = useState('');
   const [msg, setMsg] = useState('');
+  const [divisi, setDivisi] = useState([]);
   const [userData, setUserData] = useState({});
 
   const errorHandler = (errMsg) => setMsg(() => errMsg);
   const setTokenHandler = (token) => setToken(() => token);
+
+  useEffect(() => {
+    getDivisi()
+      .then((data) => setDivisi(data))
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     const accessToken = getLocalAccessToken() || token;
@@ -40,11 +48,23 @@ const Main = () => {
         <Route path='/' element={<Layout />}>
           <Route
             index
-            element={<Home userData={userData} errorHandler={errorHandler} />}
+            element={
+              <Home
+                userData={userData}
+                divisi={divisi}
+                errorHandler={errorHandler}
+              />
+            }
           />
           <Route
             path='home/'
-            element={<Home userData={userData} errorHandler={errorHandler} />}
+            element={
+              <Home
+                userData={userData}
+                divisi={divisi}
+                errorHandler={errorHandler}
+              />
+            }
           />
 
           {/* Manage Materi - Admin Only */}
@@ -69,28 +89,28 @@ const Main = () => {
             <Route exact path='diskusi/add/' element={<AddDiskusiPage />} />
             <Route exact path='diskusi/:id_diskusi/' element={<Komentar />} />
           </Route>
+        </Route>
 
-          {/* Login, Register Page */}
-          <Route element={<LayoutLogin />}>
-            <Route
-              path='login/'
-              element={
-                <Login
-                  token={setTokenHandler}
-                  msg={msg}
-                  errorHandler={errorHandler}
-                />
-              }
-            />
-            <Route
-              path='forgot-password/'
-              element={<ForgotPassword msg={msg} errorHandler={errorHandler} />}
-            />
-            <Route
-              path='register/'
-              element={<Register msg={msg} errorHandler={errorHandler} />}
-            />
-          </Route>
+        {/* Login, Register Page */}
+        <Route element={<LayoutLogin />}>
+          <Route
+            path='login/'
+            element={
+              <Login
+                token={setTokenHandler}
+                msg={msg}
+                errorHandler={errorHandler}
+              />
+            }
+          />
+          <Route
+            path='forgot-password/'
+            element={<ForgotPassword msg={msg} errorHandler={errorHandler} />}
+          />
+          <Route
+            path='register/'
+            element={<Register msg={msg} errorHandler={errorHandler} />}
+          />
         </Route>
       </Routes>
     </div>

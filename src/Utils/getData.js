@@ -6,9 +6,7 @@ const getDivisi = () =>
   api
     .get('/division')
     .then((res) => res.data.data)
-    .catch((err) => {
-      throw new Error(err.message);
-    });
+    .catch((err) => Promise.reject(err));
 
 // Get all courses
 const getCourses = async () => {

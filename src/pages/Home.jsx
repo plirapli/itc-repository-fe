@@ -12,7 +12,7 @@ import {
 } from '../components/inputForm/SelectOption';
 import { MateriCard } from '../components/cards/index';
 
-const Home = ({ userData, ...props }) => {
+const Home = ({ userData, divisi, ...props }) => {
   const navigate = useNavigate();
   const navbar = useOutletContext();
   const jwt_token = localStorage.getItem('token');
@@ -26,7 +26,6 @@ const Home = ({ userData, ...props }) => {
     { id: 6, name: 'Update at (Desc)' },
   ];
   // const [sort, setSort] = useState([]);
-  const [divisi, setDivisi] = useState([]);
   const [selectedDivisi, setSelectedDivisi] = useState('0');
   const [courses, setCourses] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState([]);
@@ -50,10 +49,6 @@ const Home = ({ userData, ...props }) => {
     };
 
     //eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    getDivisi().then(setDivisi);
   }, []);
 
   useEffect(() => {

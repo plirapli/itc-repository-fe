@@ -15,7 +15,7 @@ const MateriCard = ({ data, ...props }) => {
         img: data?.image_thumbnail,
         createdAt: data?.createdAt || '14/09/2021',
         updatedAt: data?.updatedAt || '15/10/2022',
-        author: await getAuthor(data?.id_user),
+        author: 'Fulan',
       });
     };
   }, []);

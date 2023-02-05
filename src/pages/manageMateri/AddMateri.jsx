@@ -67,6 +67,7 @@ const AddMateri = () => {
               label='Judul'
               value={title}
               styleType='primary'
+              placeholder='Masukkan judul materi'
             />
           </div>
 
