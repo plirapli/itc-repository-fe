@@ -109,7 +109,9 @@ const Main = () => {
           />
           <Route
             path='register/'
-            element={<Register msg={msg} errorHandler={errorHandler} />}
+            element={
+              <Register msg={msg} divisi={divisi} errorHandler={errorHandler} />
+            }
           />
         </Route>
       </Routes>

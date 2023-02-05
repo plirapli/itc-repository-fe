@@ -7,19 +7,21 @@ import { getDivisi } from '../../Utils/getData';
 // Components
 import Input from '../../components/inputForm/Input';
 import Button from '../../components/buttons/Button';
-import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
+import {
+  Select,
+  SelectOptionDivisi,
+} from '../../components/inputForm/SelectOption';
 
-const Register = ({ msg, errorHandler }) => {
+const Register = ({ msg, divisi, errorHandler }) => {
   const navigate = useNavigate();
   const initialState = {
     username: '',
     fullName: '',
     email: '',
     password: '',
-    id_division: '1',
+    id_division: null,
   };
   const [inputData, setInputData] = useState(initialState);
-  const [divisi, setDivisi] = useState([]);
 
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
@@ -40,12 +42,6 @@ const Register = ({ msg, errorHandler }) => {
       errorHandler(`Error: ${err.response.data.message}!`);
     }
   };
-
-  useEffect(() => {
-    return async () => {
-      setDivisi(await getDivisi());
-    };
-  }, []);
 
   useEffect(() => {
     errorHandler('');
@@ -95,14 +91,19 @@ const Register = ({ msg, errorHandler }) => {
           styleType='secondary'
         />
         <div className='flex flex-col gap-1 sm:w-2/5'>
-          <SelectOptionDivisi
-            styleType='secondary'
+          <Select
+            onChange={(e) => inputHandler(e, 'id_division')}
+            color='secondary'
             label='Divisi'
-            name='id_division'
             value={inputData.id_division}
-            handler={inputHandler}
-            options={divisi}
-          />
+          >
+            <option hidden>Semua</option>
+            {divisi.map(({ id, divisionName }) => (
+              <option className='bg-white' key={id} value={id}>
+                {divisionName}
+              </option>
+            ))}
+          </Select>
         </div>
         <section className='mt-4 w-full'>
           <Button type='submit'>Daftar</Button>

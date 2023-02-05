@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { getCourses, getDivisi } from '../Utils/getData';
+import { getCourses } from '../Utils/getData';
 
 // Component
 import Navbar from '../components/navbar/Navbar';
 import Button from '../components/buttons/Button';
 import SearchBar from '../components/inputForm/SearchBar';
 import {
+  Select,
   SelectOption,
   SelectOptionDivisi,
 } from '../components/inputForm/SelectOption';
@@ -30,7 +31,7 @@ const Home = ({ userData, divisi, ...props }) => {
   const [courses, setCourses] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState([]);
 
-  const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
+  const filterSelectHandler = (e) => setSelectedDivisi(e.target.value);
   const navigateAddMateri = () => navigate('materi/add/');
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const Home = ({ userData, divisi, ...props }) => {
   useEffect(() => {
     if (selectedDivisi !== '0') {
       setFilteredCourse(
-        courses.filter((course) => course.id_division === selectedDivisi)
+        courses.filter((course) => course.id_division == selectedDivisi)
       );
     } else {
       setFilteredCourse(courses);
@@ -89,14 +90,19 @@ const Home = ({ userData, divisi, ...props }) => {
         {/* Sort, Filter, Search */}
         <div className='mt-2 sm:mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
           <div className='col-span-12 sm:col-span-7 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
-            <SelectOptionDivisi
-              styleType='secondary'
+            <Select
+              color='secondary'
               label='Divisi'
               value={selectedDivisi}
-              handler={filterSelectHandler}
-              options={divisi}
-              isOptional={true}
-            />
+              onChange={filterSelectHandler}
+            >
+              <option value='0'>Semua</option>
+              {divisi.map(({ id, divisionName }) => (
+                <option className='bg-white' key={id} value={id}>
+                  {divisionName}
+                </option>
+              ))}
+            </Select>
           </div>
           <div className='col-span-12 sm:col-span-5 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
             <SelectOption label='Sort By' options={sortOptions} />

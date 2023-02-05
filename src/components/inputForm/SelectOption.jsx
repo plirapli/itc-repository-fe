@@ -1,31 +1,26 @@
-export const SelectOptionDivisi = ({
-  styleType,
+export const Select = ({
+  onChange,
+  color = 'primary',
   label,
-  name,
   value,
-  options,
+  children,
   ...props
 }) => {
-  const textLabel = styleType === 'primary' && 'text-primary';
-  const input = styleType === 'primary' ? 'input-primary' : 'input-secondary';
+  const textStyle = color === 'primary' && 'text-primary';
+  const style = color === 'primary' ? 'input-primary' : 'input-secondary';
 
   return (
     <>
-      <label className={`min-w-max text-sm font-medium ${textLabel}`}>
+      <label className={`min-w-max text-sm font-medium ${textStyle}`}>
         {label || 'Label'}
       </label>
       <select
-        className={`block w-full px-3 py-[9px] rounded-md shadow-sm focus-primary sm:text-sm ${input}`}
+        className={`block w-full px-3 py-[9px] rounded-md shadow-sm focus-primary sm:text-sm ${style}`}
         value={value}
-        onChange={(e) => props.handler(e, name)}
+        onChange={onChange}
         required
       >
-        {props.isOptional && <option value='0'>Semua</option>}
-        {options?.map((data) => (
-          <option className='bg-white' key={data.id} value={data.id}>
-            {data.divisionName}{' '}
-          </option>
-        ))}
+        {children}
       </select>
     </>
   );
