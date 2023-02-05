@@ -84,7 +84,7 @@ const Login = ({ token, msg, errorHandler }) => {
         </section>
 
         <section className='mt-4 w-full'>
-          <Button type='textOnly' text='Masuk' />
+          <Button type='submit'>Masuk</Button>
         </section>
       </form>
       <div className='mt-2.5 text-center'>

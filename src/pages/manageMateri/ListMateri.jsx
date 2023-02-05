@@ -44,15 +44,16 @@ const ListMateri = () => {
         </div>
         <Button
           onClick={toAddMateri}
-          type='iconRight'
-          text='Tambah materi'
+          variant='icon-right'
           icon='akar-icons:plus'
-        />
+        >
+          Tambah Materi
+        </Button>
       </div>
 
       {/* Search Bar */}
       <div className='mt-4 sm:mt-3'>
-        <SearchBar />
+        <SearchBar placeholder='Cari Materi' />
       </div>
 
       {/* Card List */}
@@ -69,7 +70,7 @@ const ListMateri = () => {
         ))}
       </section>
 
-      {/* Edit bab dialog (modal) */}
+      {/* Edit dialog (modal) */}
       <Transition appear show={isModalEditOpen} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={closeModalEdit}>
           <Transition.Child
@@ -114,17 +115,10 @@ const ListMateri = () => {
                   </div>
 
                   <div className='mt-4 flex gap-2'>
-                    <Button
-                      onClick={closeModalEdit}
-                      type='textOnly'
-                      text='Tutup'
-                      styleType='gray'
-                    />
-                    <Button
-                      onClick={closeModalEdit}
-                      type='textOnly'
-                      text='Simpan'
-                    />
+                    <Button onClick={closeModalEdit} color='gray'>
+                      Tutup
+                    </Button>
+                    <Button onClick={closeModalEdit}>Simpan</Button>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}
@@ -134,7 +128,7 @@ const ListMateri = () => {
         </Dialog>
       </Transition>
 
-      {/* Delete bab dialog (modal) */}
+      {/* Delete dialog (modal) */}
       <Transition appear show={isModalDeleteOpen} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={closeModalDelete}>
           <Transition.Child
@@ -179,18 +173,12 @@ const ListMateri = () => {
                   </div>
 
                   <div className='mt-4 flex gap-2'>
-                    <Button
-                      onClick={closeModalDelete}
-                      type='textOnly'
-                      text='Tutup'
-                      styleType='gray'
-                    />
-                    <Button
-                      onClick={closeModalDelete}
-                      type='textOnly'
-                      text='Hapus'
-                      styleType='danger'
-                    />
+                    <Button onClick={closeModalDelete} color='gray'>
+                      Tutup
+                    </Button>
+                    <Button onClick={closeModalDelete} color='danger'>
+                      Hapus
+                    </Button>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}

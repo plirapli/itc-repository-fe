@@ -36,13 +36,10 @@ const Komentar = () => {
             />
           </div>
           <div className='mt-3 flex gap-3'>
-            <Button
-              onClick={displayReplyHandler}
-              type='textOnly'
-              styleType='gray'
-              text='Kembali'
-            />
-            <Button type='textOnly' text='Kirim' attrType='submit' />
+            <Button onClick={displayReplyHandler} color='gray'>
+              Kembali
+            </Button>
+            <Button type='submit'>Kirim</Button>
           </div>
         </form>
       )}

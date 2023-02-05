@@ -32,10 +32,11 @@ const ListArtikelPage = () => {
         </div>
         <Button
           onClick={toAddArtikel}
-          type='iconRight'
-          text='Tambah artikel'
+          variant='icon-right'
           icon='akar-icons:plus'
-        />
+        >
+          Tambah Artikel
+        </Button>
       </div>
 
       {/* Search Bar */}
@@ -100,18 +101,12 @@ const ListArtikelPage = () => {
                   </div>
 
                   <div className='mt-4 flex gap-2'>
-                    <Button
-                      onClick={closeModalDelete}
-                      type='textOnly'
-                      text='Tutup'
-                      styleType='gray'
-                    />
-                    <Button
-                      onClick={closeModalDelete}
-                      type='textOnly'
-                      text='Hapus'
-                      styleType='danger'
-                    />
+                    <Button onClick={closeModalDelete} color='gray'>
+                      Tutup
+                    </Button>
+                    <Button onClick={closeModalDelete} color='danger'>
+                      Hapus
+                    </Button>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}

@@ -3,50 +3,9 @@ import Button from '../../components/buttons/Button';
 
 // Component
 import Tags from '../../components/tags/Tags';
-import { getCourses, getDivisi } from '../../Utils/getData';
+// import { getCourses, getDivisi } from '../../Utils/getData';
 
-const Overview = ({ ...props }) => {
-  // const navigate = useNavigate();
-  // const jwt_token = localStorage.getItem('token');
-
-  // const [divisi, setDivisi] = useState([]);
-  // const [selectedDivisi, setSelectedDivisi] = useState('0');
-  // const [courses, setCourses] = useState([]);
-
-  // const getCoursesApi = async () => {
-  //   getCourses(jwt_token).then(({ status, data }) => {
-  //     if (status) {
-  //       setCourses(data);
-  //     } else {
-  //       navigate('/login');
-  //     }
-  //   });
-  // };
-
-  // const filterHandler = () => {
-  //   if (selectedDivisi !== '0') {
-  //     setFilteredCourse(
-  //       courses.filter((course) => course.id_division == selectedDivisi)
-  //     );
-  //   } else {
-  //     setFilteredCourse(courses);
-  //   }
-  // };
-
-  // const filterSelectHandler = (e) => setSelectedDivisi(() => e.target.value);
-
-  // useEffect(() => {
-  //   getDivisi().then(setDivisi);
-  // }, []);
-
-  // useEffect(() => {
-  //   filterHandler();
-  // }, [selectedDivisi]);
-
-  // useEffect(() => {
-  //   setFilteredCourse(courses);
-  // }, [courses]);
-
+const OverviewPage = ({ ...props }) => {
   return (
     <>
       <div className='w-full py-4 px-5 sm:py-6 sm:px-0 flex flex-col gap-3 sm:gap-6'>
@@ -81,12 +40,12 @@ const Overview = ({ ...props }) => {
         </div>
 
         {/* CTA Btn */}
-        <Button type='textOnly' text='Belajar Sekarang' />
+        <Button variant='text-only'>Belajar Sekarang</Button>
 
         {/* Deskripsi */}
         <div>
-          <h2 className='h2-sm sm:h2-md'>Deskripsi</h2>
-          <p className='mt-2'>
+          <h2 className='text-xl sm:text-2xl'>Deskripsi</h2>
+          <p className='mt-0.5 sm:mt-1'>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae
             tellus nisl. Aliquam erat volutpat. In hac habitasse platea
             dictumst. Duis sit amet orci maximus, iaculis justo sollicitudin,
@@ -100,4 +59,4 @@ const Overview = ({ ...props }) => {
   );
 };
 
-export default Overview;
+export default OverviewPage;

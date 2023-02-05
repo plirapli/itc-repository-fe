@@ -35,8 +35,6 @@ const AddMateri = () => {
     data.append('id_division', 3);
     data.append('image', img);
 
-    console.log('Loading...');
-
     authApi
       .post('/course', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -126,13 +124,15 @@ const AddMateri = () => {
 
           <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-8 flex gap-3 sm:gap-4'>
             <Button
-              styleType='gray'
               onClick={backButtonHandler}
-              type='textOnly'
-              text='Kembali'
-              attrType='button'
-            />
-            <Button type='textOnly' text='Kirim' attrType='submit' />
+              variant='text-only'
+              color='gray'
+            >
+              Kembali
+            </Button>
+            <Button type='submit' variant='text-only'>
+              Kirim
+            </Button>
           </div>
         </div>
       </form>

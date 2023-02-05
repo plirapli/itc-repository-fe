@@ -49,15 +49,16 @@ const ListBabPage = () => {
           </div>
           <Button
             onClick={openModalAdd}
-            type='iconRight'
-            text='Tambah bab'
+            variant='icon-right'
             icon='akar-icons:plus'
-          />
+          >
+            Tambah Bab
+          </Button>
         </div>
 
         {/* Search Bar */}
         <div className='mt-4 sm:mt-3'>
-          <SearchBar />
+          <SearchBar placeholder='Cari bab' />
         </div>
 
         {/* Card List */}
@@ -119,17 +120,10 @@ const ListBabPage = () => {
                   </div>
 
                   <div className='mt-4 flex gap-2'>
-                    <Button
-                      onClick={closeModalAdd}
-                      type='textOnly'
-                      text='Tutup'
-                      styleType='gray'
-                    />
-                    <Button
-                      onClick={closeModalAdd}
-                      type='textOnly'
-                      text='Simpan'
-                    />
+                    <Button onClick={closeModalAdd} color='gray'>
+                      Tutup
+                    </Button>
+                    <Button onClick={closeModalAdd}>Simpan</Button>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}
@@ -184,17 +178,10 @@ const ListBabPage = () => {
                   </div>
 
                   <div className='mt-4 flex gap-2'>
-                    <Button
-                      onClick={closeModalEdit}
-                      type='textOnly'
-                      text='Tutup'
-                      styleType='gray'
-                    />
-                    <Button
-                      onClick={closeModalEdit}
-                      type='textOnly'
-                      text='Simpan'
-                    />
+                    <Button onClick={closeModalEdit} color='gray'>
+                      Tutup
+                    </Button>
+                    <Button onClick={closeModalEdit}>Simpan</Button>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}
@@ -249,18 +236,12 @@ const ListBabPage = () => {
                   </div>
 
                   <div className='mt-4 flex gap-2'>
-                    <Button
-                      onClick={closeModalDelete}
-                      type='textOnly'
-                      text='Tutup'
-                      styleType='gray'
-                    />
-                    <Button
-                      onClick={closeModalDelete}
-                      type='textOnly'
-                      text='Hapus'
-                      styleType='danger'
-                    />
+                    <Button onClick={closeModalDelete} color='gray'>
+                      Tutup
+                    </Button>
+                    <Button onClick={closeModalDelete} color='danger'>
+                      Hapus
+                    </Button>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}

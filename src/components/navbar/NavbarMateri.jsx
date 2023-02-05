@@ -14,33 +14,33 @@ const NavbarMateri = ({ courseID }) => {
     <nav className='w-full bg-primary flex items-center justify-between p-1 sm:px-6 sm:py-3 relative'>
       <div onClick={backButtonHandler}>
         <Button
-          type='iconLeft'
-          styleType='transparent'
-          text='Kembali'
+          variant='icon-left'
+          color='transparent'
           icon={icon.backBtn}
-          isResponsive={true}
-          textClassName='hidden sm:block'
-        />
+          isResponsive
+        >
+          Kembali
+        </Button>
       </div>
       <div className='flex'>
         <Link to={`/course/${courseID}/diskusi/`}>
           <Button
-            type='iconLeft'
-            styleType='transparent'
-            text='Diskusi'
+            variant='icon-left'
+            color='transparent'
             icon={icon.diskusi}
-            isResponsive={true}
-            textClassName='hidden sm:block'
-          />
+            isResponsive
+          >
+            Diskusi
+          </Button>
         </Link>
         <Button
-          type='iconLeft'
-          styleType='transparent'
-          text='Daftar Materi'
+          variant='icon-left'
+          color='transparent'
           icon={icon.listMateri}
-          isResponsive={true}
-          textClassName='hidden sm:block'
-        />
+          isResponsive
+        >
+          Daftar Materi
+        </Button>
       </div>
     </nav>
   );

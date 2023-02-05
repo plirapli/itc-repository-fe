@@ -1,5 +1,5 @@
-import Overview from './Overview';
+import OverviewPage from './OverviewPage';
 import Diskusi from './Diskusi';
 import Komentar from './Komentar';
 
-export { Overview, Diskusi, Komentar };
+export { OverviewPage, Diskusi, Komentar };

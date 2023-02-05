@@ -24,7 +24,7 @@ const ForgotPassword = ({ errorHandler, msg }) => {
           placeholder='Masukkan alamat email'
         />
         <section className='mt-4 w-full'>
-          <Button type='textOnly' text='Kirim' />
+          <Button>Kirim</Button>
         </section>
       </form>
       <div className='mt-2.5 text-center'>

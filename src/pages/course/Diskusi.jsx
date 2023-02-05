@@ -16,13 +16,14 @@ const Diskusi = () => {
           <h1 className='text-2xl leading-none'>Diskusi</h1>
           <Button
             onClick={toAddDiskusiPage}
-            type='iconRight'
-            text='Buat Pertanyaan'
+            variant='icon-right'
             icon='akar-icons:plus'
-          />
+          >
+            Buat Pertanyaan
+          </Button>
         </div>
         <div className='w-full mt-3'>
-          <SearchBar />
+          <SearchBar placeholder='Cari Pertanyaan' />
         </div>
 
         {/* List Diskusi */}

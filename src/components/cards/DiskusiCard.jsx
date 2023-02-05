@@ -37,12 +37,13 @@ const DiskusiCard = (props) => {
       {props.isReply && (
         <div className='mt-4 mb-1'>
           <Button
-            type='iconLeft'
-            styleType='secondary'
-            text='Balas'
-            icon='ic:baseline-reply'
             onClick={props.onClick}
-          />
+            variant='icon-left'
+            color='secondary'
+            icon='ic:baseline-reply'
+          >
+            Balas
+          </Button>
         </div>
       )}
     </div>

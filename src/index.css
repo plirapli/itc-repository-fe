@@ -50,13 +50,13 @@
 
   /* Button Component */
   .text-only {
-    @apply w-full px-4 py-2;
+    @apply w-full;
   }
   .icon-right {
-    @apply px-4 py-2 gap-3;
+    @apply gap-3;
   }
   .icon-left {
-    @apply px-4 py-2 flex-row-reverse gap-3;
+    @apply flex-row-reverse gap-3;
   }
   .icon-only {
     @apply p-2.5;

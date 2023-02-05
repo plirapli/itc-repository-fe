@@ -54,14 +54,10 @@ const AddDiskusiPage = () => {
           </div>
 
           <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-8 flex gap-3 sm:gap-4'>
-            <Button
-              styleType='gray'
-              onClick={backButtonHandler}
-              type='textOnly'
-              text='Kembali'
-              attrType='button'
-            />
-            <Button type='textOnly' text='Kirim' attrType='submit' />
+            <Button onClick={backButtonHandler} color='gray'>
+              Kembali
+            </Button>
+            <Button type='submit'>Kirim</Button>
           </div>
         </div>
       </form>

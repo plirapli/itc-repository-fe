@@ -105,7 +105,7 @@ const Register = ({ msg, errorHandler }) => {
           />
         </div>
         <section className='mt-4 w-full'>
-          <Button type='textOnly' text='Daftar' />
+          <Button type='submit'>Daftar</Button>
         </section>
       </form>
       <div className='mt-2.5 text-center'>

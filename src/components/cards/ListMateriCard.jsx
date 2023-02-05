@@ -23,22 +23,22 @@ const ListMateriCard = ({ text, subtext, type, ...props }) => {
       <div className='grid grid-flow-col sm:flex gap-1'>
         <Button
           onClick={props.onClickEdit}
-          type='iconOnly'
-          styleType='secondary'
+          variant='icon-only'
+          color='secondary'
           icon='bxs:pencil'
         />
         {type === 'materi' && (
           <Button
             onClick={props.onClickDetail}
-            type='iconOnly'
-            styleType='secondary'
+            variant='icon-only'
+            color='secondary'
             icon='bxs:detail'
           />
         )}
         <Button
           onClick={props.onClickDelete}
-          type='iconOnly'
-          styleType='danger'
+          variant='icon-only'
+          color='danger'
           icon='bxs:trash'
         />
       </div>

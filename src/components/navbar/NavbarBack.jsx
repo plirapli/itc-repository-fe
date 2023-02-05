@@ -6,19 +6,19 @@ import Button from '../buttons/Button';
 const NavbarBack = ({ user }) => {
   const navigate = useNavigate();
   const [hover, setHover] = useState(false);
-  const backButtonHandler = () => navigate(-1);
+  const toBack = () => navigate(-1);
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between pl-1 sm:pl-6 relative'>
       <Button
-        onClick={backButtonHandler}
-        type='iconLeft'
-        styleType='transparent'
-        text='Kembali'
+        onClick={toBack}
+        variant='icon-left'
+        color='transparent'
         icon='eva:arrow-back-fill'
-        isResponsive={true}
-        textClassName='hidden sm:block'
-      />
+        isResponsive
+      >
+        Kembali
+      </Button>
 
       <div
         onMouseEnter={() => setHover(true)}

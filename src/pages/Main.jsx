@@ -11,7 +11,7 @@ import {
   LayoutMateri,
 } from './layout/index';
 import { Home } from './index';
-import { Overview, Diskusi, Komentar } from './course/index';
+import { OverviewPage, Diskusi, Komentar } from './course/index';
 import { ForgotPassword, Login, Register } from './login/index';
 import {
   ListArtikelPage,
@@ -64,7 +64,7 @@ const Main = () => {
 
           {/* Course */}
           <Route path='course/:id_materi/' element={<LayoutMateri />}>
-            <Route index element={<Overview />} />
+            <Route index element={<OverviewPage />} />
             <Route exact path='diskusi/' element={<Diskusi />} />
             <Route exact path='diskusi/add/' element={<AddDiskusiPage />} />
             <Route exact path='diskusi/:id_diskusi/' element={<Komentar />} />

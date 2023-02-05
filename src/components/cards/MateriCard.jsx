@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { getUserDetail } from '../../Utils/getData';
 import Tags from '../tags/Tags';
 import { Icon } from '@iconify/react';
-import { getUserDetail } from '../../Utils/getData';
 
 const MateriCard = ({ data, ...props }) => {
   const [materi, setMateri] = useState({});
@@ -47,13 +47,13 @@ const MateriCard = ({ data, ...props }) => {
         </div>
         <div className='flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2'>
           <div className='flex items-center gap-1.5 text-gray-dark'>
-            <Icon icon='ic:round-date-range' width='20' />
-            <span className='text-sm'>{materi?.createdAt}</span>
+            <Icon icon='ic:round-date-range' width='18' />
+            <span className='text-xs'>{materi?.createdAt}</span>
           </div>
           <span className='hidden sm:inline'>|</span>
           <div className='flex items-center gap-1.5 text-gray-dark pl-0.5 sm:pl-0'>
-            <Icon icon='fluent-mdl2:date-time-12' width='18' />
-            <span className='text-sm'>{materi?.updatedAt}</span>
+            <Icon icon='fluent-mdl2:date-time-12' width='16' />
+            <span className='text-xs'>{materi?.updatedAt}</span>
           </div>
         </div>
       </div>

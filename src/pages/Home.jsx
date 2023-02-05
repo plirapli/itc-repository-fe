@@ -78,17 +78,16 @@ const Home = ({ userData, ...props }) => {
   return (
     <>
       <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
-        <div className='flex items-center justify-between'>
+        <div className='flex flex-col gap-2 sm:flex-row sm:items-center justify-between'>
           <h1 className='text-2xl'>Materi</h1>
           {userData?.id_role === 2 && (
             <Button
               onClick={navigateAddMateri}
-              type='iconRight'
-              text='Tambah Materi'
+              variant='icon-right'
               icon='akar-icons:plus'
-              isResponsive={true}
-              textClassName='hidden sm:inline'
-            />
+            >
+              Tambah Materi
+            </Button>
           )}
         </div>
 
