@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Fragment, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 // Components
 import Button from '../../components/buttons/Button';
@@ -8,8 +8,11 @@ import Input from '../../components/inputForm/Input';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
+import { authApi } from '../../api/api';
 
 const ListBabPage = () => {
+  const { id_materi } = useParams();
+  const [chapters, setChapters] = useState([]);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
@@ -33,6 +36,19 @@ const ListBabPage = () => {
     openModalEdit();
   };
 
+  useEffect(() => {
+    authApi
+      .get(`/course/${id_materi}/chapter/article`)
+      .then(({ data }) => setChapters(data.data))
+      .catch((err) => console.err(err));
+  }, []);
+
+  const getTotalArticles = () => {
+    let totalArticles = 0;
+    chapters?.map(({ Articles }) => (totalArticles += Articles.length));
+    return totalArticles;
+  };
+
   const babList = ['1', '2', '3', '4']; // Dummy
 
   return (
@@ -41,11 +57,11 @@ const ListBabPage = () => {
         {/* Header */}
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
           <div>
-            <h1 className='h2-sm sm:h2-md'>[Judul Materi]</h1>
+            <h1 className='text-xl sm:text-2xl'>[Judul Materi]</h1>
             <p className='text-gray-dark text-sm'>
-              4 Bab
+              {chapters.length} Bab
               <span className='text-black'> | </span>
-              34 Artikel
+              {getTotalArticles()} Artikel
             </p>
           </div>
           <Button
@@ -64,15 +80,17 @@ const ListBabPage = () => {
 
         {/* Card List */}
         <section className='mt-4 flex flex-col gap-4'>
-          {babList.map((bab, i) => (
-            <Link key={i} to={`${i}`}>
+          {chapters.map(({ id, title, ...chapter }) => (
+            <Link key={id} to={`${id}`}>
               <ListMateriCard
                 type='bab'
                 onClickEdit={onClickEditHandler}
                 onClickDelete={onClickDeleteHandler}
               >
-                <p>{'Lorem ipsum dolor sit amet'}</p>
-                <p className='text-sm text-gray-dark'>8 Artikel</p>
+                <p>{title}</p>
+                <p className='text-sm text-gray-dark'>
+                  {chapter.Articles?.length} Artikel
+                </p>
               </ListMateriCard>
             </Link>
           ))}

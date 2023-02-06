@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 
 // Component
@@ -40,15 +40,13 @@ const ListMateri = () => {
     getCourses().then(setCourses);
   }, []);
 
-  const materiList = ['1', '2', '3', '4']; // Dummy
-
   return (
     <>
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
-          <h1 className='h2-sm sm:h2-md'>Daftar Materi</h1>
-          <p className='text-gray-dark text-sm'>4 Materi</p>
+          <h1 className='text-xl sm:text-2xl'>Daftar Materi</h1>
+          <p className='text-gray-dark text-sm'>{courses.length} Materi</p>
         </div>
         <Button
           onClick={toAddMateri}

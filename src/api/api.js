@@ -47,7 +47,6 @@ authApi.interceptors.response.use(
             getLocalRefreshToken()
           );
           const { accessToken } = await data.data;
-          console.log(await accessToken);
           setLocalAccessToken(await accessToken);
 
           if (accessToken) {
