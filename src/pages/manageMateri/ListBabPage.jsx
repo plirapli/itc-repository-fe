@@ -68,10 +68,12 @@ const ListBabPage = () => {
             <Link key={i} to={`${i}`}>
               <ListMateriCard
                 type='bab'
-                subtext='8 Artikel'
                 onClickEdit={onClickEditHandler}
                 onClickDelete={onClickDeleteHandler}
-              />
+              >
+                <p>{'Lorem ipsum dolor sit amet'}</p>
+                <p className='text-sm text-gray-dark'>8 Artikel</p>
+              </ListMateriCard>
             </Link>
           ))}
         </section>

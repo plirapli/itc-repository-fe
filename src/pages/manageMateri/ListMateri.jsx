@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 
@@ -8,10 +8,13 @@ import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
+import { getCourses } from '../../Utils/getData';
+import Tags from '../../components/tags/Tags';
 
 const ListMateri = () => {
   const navigate = useNavigate();
   const toAddMateri = () => navigate('add/');
+  const [courses, setCourses] = useState([]);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
@@ -32,6 +35,10 @@ const ListMateri = () => {
     e.preventDefault();
     openModalDelete();
   };
+
+  useEffect(() => {
+    getCourses().then(setCourses);
+  }, []);
 
   const materiList = ['1', '2', '3', '4']; // Dummy
 
@@ -59,14 +66,19 @@ const ListMateri = () => {
 
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-4'>
-        {materiList.map((materi, i) => (
-          <Link key={i} to={`${i}`}>
+        {courses.map(({ id, title, ...courses }) => (
+          <Link key={id} to={`${id}`}>
             <ListMateriCard
-              type='materi'
-              onClickDetail={(e) => onClickDetailHandler(e, i)}
+              onClickDetail={(e) => onClickDetailHandler(e, id)}
               onClickEdit={onClickEditHandler}
               onClickDelete={onClickDeleteHandler}
-            />
+            >
+              <p>{title}</p>
+              <p className='text-sm text-gray-dark'>4 Bab | 34 Artikel</p>
+              <div className='w-max mt-1.5'>
+                <Tags id={courses.id_division} />
+              </div>
+            </ListMateriCard>
           </Link>
         ))}
       </section>

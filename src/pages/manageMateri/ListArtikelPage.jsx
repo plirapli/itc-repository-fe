@@ -48,10 +48,9 @@ const ListArtikelPage = () => {
       <section className='mt-4 flex flex-col gap-4'>
         {artikelList.map((artikel, i) => (
           <Link key={i} to={`${i}`}>
-            <ListMateriCard
-              type='artikel'
-              onClickDelete={onClickDeleteHandler}
-            />
+            <ListMateriCard type='artikel' onClickDelete={onClickDeleteHandler}>
+              <p>{'Lorem ipsum dolor sit amet'}</p>
+            </ListMateriCard>
           </Link>
         ))}
       </section>
