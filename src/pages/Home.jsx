@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { getCourses } from '../Utils/getData';
+import { getCourses, getCoursesDetail } from '../Utils/getData';
 
 // Component
 import Navbar from '../components/navbar/Navbar';
@@ -35,7 +35,7 @@ const Home = ({ userData, divisi, ...props }) => {
     let isMounted = true;
     const controller = new AbortController();
 
-    getCourses()
+    getCoursesDetail()
       .then((data) => {
         if (isMounted) {
           setCourses(data);

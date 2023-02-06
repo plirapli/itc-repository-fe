@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getUserDetail } from '../../Utils/getData';
 import Tags from '../tags/Tags';
 import { Icon } from '@iconify/react';
 
@@ -7,17 +6,14 @@ const MateriCard = ({ data, ...props }) => {
   const [materi, setMateri] = useState({});
 
   useEffect(() => {
-    return async () => {
-      setMateri({
-        ...materi,
-        title: data?.title,
-        id_divisi: data?.id_division,
-        img: data?.image_thumbnail,
-        createdAt: data?.createdAt || '14/09/2021',
-        updatedAt: data?.updatedAt || '15/10/2022',
-        author: 'Fulan',
-      });
-    };
+    setMateri({
+      title: data.title,
+      id_divisi: data.id_division,
+      img: data.image_thumbnail,
+      createdAt: data.createdAt || '14/09/2021',
+      updatedAt: data.updatedAt || '15/10/2022',
+      author: data.user,
+    });
   }, []);
 
   return (
