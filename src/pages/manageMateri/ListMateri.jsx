@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 
 // Component
@@ -10,11 +10,13 @@ import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
 import { getCourses } from '../../Utils/getData';
 import Tags from '../../components/tags/Tags';
+import { deleteCourse } from '../../Utils/course';
 
 const ListMateri = () => {
   const navigate = useNavigate();
   const toAddMateri = () => navigate('add/');
   const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState({});
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
@@ -31,9 +33,18 @@ const ListMateri = () => {
     e.preventDefault();
     openModalEdit();
   };
-  const onClickDeleteHandler = (e) => {
+  const onClickDeleteHandler = (e, course) => {
     e.preventDefault();
+    setSelectedCourse(course);
     openModalDelete();
+  };
+  const deleteCourseHandler = () => {
+    deleteCourse(selectedCourse.id)
+      .then((data) => {
+        console.log('Berhasil menghapus data!');
+        closeModalDelete();
+      })
+      .catch(({ response }) => console.log(response.data.message));
   };
 
   useEffect(() => {
@@ -69,7 +80,7 @@ const ListMateri = () => {
             <ListMateriCard
               onClickDetail={(e) => onClickDetailHandler(e, id)}
               onClickEdit={onClickEditHandler}
-              onClickDelete={onClickDeleteHandler}
+              onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
             >
               <p>{title}</p>
               <p className='text-sm text-gray-dark'>4 Bab | 34 Artikel</p>
@@ -143,13 +154,15 @@ const ListMateri = () => {
       <ModalDelete
         show={isModalDeleteOpen}
         onClose={closeModalDelete}
-        onClickDelete={closeModalDelete}
+        onClickDelete={deleteCourseHandler}
         title='Hapus Materi'
       >
         <p className='text-sm text-gray-500'>
           Apakah anda yakin ingin menghapus Materi:
         </p>
-        <p className='mt-1 font-bold text-base text-black'>[Judul Materi]?</p>
+        <p className='mt-1 font-bold text-base text-black'>
+          {selectedCourse.title}
+        </p>
       </ModalDelete>
     </>
   );
