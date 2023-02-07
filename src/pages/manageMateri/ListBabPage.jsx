@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 // Components
@@ -9,16 +9,22 @@ import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
 import { authApi } from '../../api/api';
+import { addChapter } from '../../Utils/chapter';
 
 const ListBabPage = () => {
   const { id_materi } = useParams();
+  const [newChapter, setNewChapter] = useState('');
   const [chapters, setChapters] = useState([]);
+  const [errMessage, setErrMessage] = useState('');
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
 
   const openModalAdd = () => setIsModalAddOpen(true);
-  const closeModalAdd = () => setIsModalAddOpen(false);
+  const closeModalAdd = () => {
+    setIsModalAddOpen(false);
+    setErrMessage('');
+  };
 
   const openModalDelete = () => setIsModalDeleteOpen(true);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
@@ -30,17 +36,30 @@ const ListBabPage = () => {
     e.preventDefault();
     openModalDelete();
   };
-
   const onClickEditHandler = (e) => {
     e.preventDefault();
     openModalEdit();
   };
 
-  useEffect(() => {
+  const getChapterHandler = () => {
     authApi
       .get(`/course/${id_materi}/chapter/article`)
       .then(({ data }) => setChapters(data.data))
       .catch((err) => console.err(err));
+  };
+  const addChapterHandler = (e) => {
+    e.preventDefault();
+    addChapter(id_materi, newChapter)
+      .then(() => {
+        setNewChapter('');
+        closeModalAdd();
+        getChapterHandler();
+      })
+      .catch(({ data }) => setErrMessage(data.message));
+  };
+
+  useEffect(() => {
+    getChapterHandler();
   }, []);
 
   const getTotalArticles = () => {
@@ -48,8 +67,6 @@ const ListBabPage = () => {
     chapters?.map(({ Articles }) => (totalArticles += Articles.length));
     return totalArticles;
   };
-
-  const babList = ['1', '2', '3', '4']; // Dummy
 
   return (
     <>
@@ -80,7 +97,7 @@ const ListBabPage = () => {
 
         {/* Card List */}
         <section className='mt-4 flex flex-col gap-4'>
-          {chapters.map(({ id, title, ...chapter }) => (
+          {chapters?.map(({ id, title, ...chapter }) => (
             <Link key={id} to={`${id}`}>
               <ListMateriCard
                 type='bab'
@@ -133,18 +150,28 @@ const ListBabPage = () => {
 
                   {/* Body */}
                   <div className='mt-2'>
-                    <Input
-                      label='Judul'
-                      color='secondary'
-                      placeholder='Masukkan judul bab'
-                    />
-                  </div>
+                    <form onSubmit={addChapterHandler} action=''>
+                      <Input
+                        onChange={(e) => setNewChapter(e.target.value)}
+                        label='Judul'
+                        value={newChapter}
+                        color='secondary'
+                        placeholder='Masukkan judul bab'
+                        // required
+                      />
+                      {errMessage && (
+                        <span className='mt-1 text-danger-main text-sm'>
+                          Error: {errMessage}
+                        </span>
+                      )}
 
-                  <div className='mt-4 flex gap-2'>
-                    <Button onClick={closeModalAdd} color='gray'>
-                      Tutup
-                    </Button>
-                    <Button onClick={closeModalAdd}>Simpan</Button>
+                      <div className='mt-4 flex gap-2'>
+                        <Button onClick={closeModalAdd} color='gray'>
+                          Tutup
+                        </Button>
+                        <Button type='submit'>Simpan</Button>
+                      </div>
+                    </form>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}

@@ -4,7 +4,6 @@ const Input = ({
   label,
   onChange,
   type = 'text',
-  value,
   color = 'primary',
   ...props
 }) => {
@@ -19,10 +18,8 @@ const Input = ({
       <input
         onChange={onChange}
         type={type}
-        value={value}
         className={`mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm ${style}`}
-        placeholder={props.placeholder}
-        required
+        {...props}
       />
     </>
   );
