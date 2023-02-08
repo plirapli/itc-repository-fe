@@ -21,6 +21,7 @@ import {
 } from './manageMateri';
 import AddDiskusiPage from './course/AddDiskusiPage';
 import { getDivisi, getUserDetail } from '../Utils/getData';
+import AddArtikelPage from './manageMateri/AddArtikelPage';
 
 const Main = () => {
   const [token, setToken] = useState('');
@@ -73,8 +74,13 @@ const Main = () => {
             <Route exact path=':id_materi/' element={<ListBabPage />} />
             <Route
               exact
-              path=':id_materi/:id_bab'
+              path=':id_materi/:id_bab/'
               element={<ListArtikelPage />}
+            />
+            <Route
+              exact
+              path=':id_materi/:id_bab/add/'
+              element={<AddArtikelPage />}
             />
           </Route>
 
