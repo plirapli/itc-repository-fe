@@ -6,14 +6,16 @@ const MateriCard = ({ data, ...props }) => {
   const [materi, setMateri] = useState({});
 
   useEffect(() => {
-    setMateri({
-      title: data.title,
-      id_divisi: data.id_division,
-      img: data.image_thumbnail,
-      createdAt: data.createdAt || '14/09/2021',
-      updatedAt: data.updatedAt || '15/10/2022',
-      author: data.user,
-    });
+    if (data) {
+      setMateri({
+        title: data.title,
+        id_divisi: data.id_division,
+        img: data.image_thumbnail,
+        createdAt: data.createdAt || '14/09/2021',
+        updatedAt: data.updatedAt || '15/10/2022',
+        author: data.user,
+      });
+    }
   }, []);
 
   return (

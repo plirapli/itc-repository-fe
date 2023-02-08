@@ -20,23 +20,23 @@ const getCourses = async () => {
 // Get all courses detail
 const getCoursesDetail = async () => {
   const controller = new AbortController();
+
+  // Get All User
+  const { data } = await authApi.get('/user');
+  const users = data.data;
+
   return authApi
     .get('/course', { signal: controller.signal })
-    .then(async ({ data }) => {
-      const courses = data.data.map(async ({ id_user, ...course }) => {
-        return getUserDetail(id_user)
-          .then(({ data }) => {
-            const { fullName } = data;
-            return {
-              ...course,
-              user: fullName,
-              createdAt: showFormattedDate(course?.createdAt),
-              updatedAt: showFormattedDate(course?.updatedAt),
-            };
-          })
-          .then((p) => p);
+    .then(({ data }) => {
+      return data.data.map(({ id_user, ...course }) => {
+        const { fullName } = users.filter(({ id }) => id === id_user)[0];
+        return {
+          ...course,
+          user: fullName,
+          createdAt: showFormattedDate(course?.createdAt),
+          updatedAt: showFormattedDate(course?.updatedAt),
+        };
       });
-      return Promise.all(courses).then((data) => data);
     })
     .catch((err) => Promise.reject(err));
 };

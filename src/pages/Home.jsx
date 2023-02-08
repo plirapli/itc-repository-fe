@@ -42,7 +42,10 @@ const Home = ({ userData, divisi, ...props }) => {
           setFilteredCourse(data);
         }
       })
-      .catch(() => navigate('/login/'));
+      .catch((err) => {
+        console.log(err);
+        navigate('/login/');
+      });
 
     // Cleanup
     return () => {
