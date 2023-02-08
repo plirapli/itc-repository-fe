@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 // Components
@@ -9,12 +9,17 @@ import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
 import { authApi } from '../../api/api';
-import { addChapter } from '../../Utils/chapter';
+import {
+  addChapter,
+  deleteChapter,
+  getChapterDetail,
+} from '../../Utils/chapter';
 
 const ListBabPage = () => {
   const { id_materi } = useParams();
   const [newChapter, setNewChapter] = useState('');
   const [chapters, setChapters] = useState([]);
+  const [selectedChapter, setSelectedChapter] = useState({});
   const [errMessage, setErrMessage] = useState('');
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
@@ -28,32 +33,41 @@ const ListBabPage = () => {
 
   const openModalDelete = () => setIsModalDeleteOpen(true);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
-
   const openModalEdit = () => setIsModalEditOpen(true);
   const closeModalEdit = () => setIsModalEditOpen(false);
 
-  const onClickDeleteHandler = (e) => {
-    e.preventDefault();
-    openModalDelete();
-  };
   const onClickEditHandler = (e) => {
     e.preventDefault();
     openModalEdit();
   };
-
-  const getChapterHandler = () => {
-    authApi
-      .get(`/course/${id_materi}/chapter/article`)
-      .then(({ data }) => setChapters(data.data))
-      .catch((err) => console.err(err));
+  const onClickDeleteHandler = (e, chapter) => {
+    e.preventDefault();
+    setSelectedChapter(chapter);
+    openModalDelete();
   };
+
+  const getChapterHandler = () =>
+    getChapterDetail(id_materi)
+      .then(setChapters)
+      .catch((err) => console.log(err));
+
+  const deleteChapterHandler = () => {
+    deleteChapter(id_materi, selectedChapter.id)
+      .then((data) => {
+        setSelectedChapter({}); // Reset state
+        getChapterHandler(); // Get chapter after deelte
+        closeModalDelete(); // Close modal
+      })
+      .catch(({ data }) => console.log(data.message));
+  };
+
   const addChapterHandler = (e) => {
     e.preventDefault();
     addChapter(id_materi, newChapter)
       .then(() => {
-        setNewChapter('');
-        closeModalAdd();
-        getChapterHandler();
+        setNewChapter(''); // Reset state
+        getChapterHandler(); // Get chapter after create
+        closeModalAdd(); // Close modal
       })
       .catch(({ data }) => setErrMessage(data.message));
   };
@@ -102,7 +116,7 @@ const ListBabPage = () => {
               <ListMateriCard
                 type='bab'
                 onClickEdit={onClickEditHandler}
-                onClickDelete={onClickDeleteHandler}
+                onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
               >
                 <p>{title}</p>
                 <p className='text-sm text-gray-dark'>
@@ -243,13 +257,15 @@ const ListBabPage = () => {
       <ModalDelete
         show={isModalDeleteOpen}
         onClose={closeModalDelete}
-        onClickDelete={closeModalDelete}
+        onClickDelete={deleteChapterHandler}
         title='Hapus Bab'
       >
         <p className='text-sm text-gray-500'>
           Apakah anda yakin ingin menghapus Bab:
         </p>
-        <p className='mt-1 font-bold text-base text-black'>[Judul Bab]?</p>
+        <p className='mt-1 font-bold text-base text-black'>
+          {selectedChapter.title}
+        </p>
       </ModalDelete>
     </>
   );

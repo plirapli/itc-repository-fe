@@ -38,17 +38,20 @@ const ListMateri = () => {
     setSelectedCourse(course);
     openModalDelete();
   };
+
+  const getCourseHandler = () => getCourses().then(setCourses);
   const deleteCourseHandler = () => {
     deleteCourse(selectedCourse.id)
       .then((data) => {
-        console.log('Berhasil menghapus data!');
-        closeModalDelete();
+        setSelectedCourse({}); // Reset state
+        getCourseHandler(); // Get courses after delete
+        closeModalDelete(); // Close modal
       })
       .catch(({ response }) => console.log(response.data.message));
   };
 
   useEffect(() => {
-    getCourses().then(setCourses);
+    getCourseHandler();
   }, []);
 
   return (

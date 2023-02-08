@@ -1,9 +1,23 @@
 import { authApi } from '../api/api';
 
-const addChapter = async (id, title) =>
+const url = '/course';
+
+const getChapterDetail = (id_course) =>
   authApi
-    .post(`/course/${id}/chapter`, { title })
+    .get(`${url}/${id_course}/chapter/article`)
+    .then(({ data }) => data.data)
+    .catch((err) => console.err(err));
+
+const addChapter = async (id_course, title) =>
+  authApi
+    .post(`${url}/${id_course}/chapter`, { title })
     .then((data) => data)
     .catch(({ response }) => Promise.reject(response));
 
-export { addChapter };
+const deleteChapter = async (id_course, id_chapter) =>
+  authApi
+    .delete(`${url}/${id_course}/chapter/${id_chapter}`)
+    .then((data) => data)
+    .catch(({ response }) => Promise.reject(response));
+
+export { getChapterDetail, addChapter, deleteChapter };
