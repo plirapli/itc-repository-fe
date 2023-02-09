@@ -66,7 +66,7 @@ const Home = ({ userData, divisi, isAuthed, setIsAuthed, ...props }) => {
   }, [selectedDivisi]);
 
   useEffect(() => {
-    navbar(<Navbar user={userData} />);
+    navbar(<Navbar user={userData} setIsAuthed={setIsAuthed} />);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 

@@ -24,21 +24,25 @@ import { getDivisi, getUserDetail } from "../Utils/getData";
 import AddArtikelPage from "./manageMateri/AddArtikelPage";
 
 const Main = () => {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(() => {
+    const token = getLocalAccessToken();
+    if (token) return token;
+    return null;
+  });
   const [divisi, setDivisi] = useState([]);
   const [userData, setUserData] = useState({});
-  const [isAuthed, setIsAuthed] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(() => {
+    if (getLocalAccessToken()) return true;
+    return false;
+  });
 
   const setTokenHandler = (token) => setToken(() => token);
-
   useEffect(() => {
     getDivisi()
       .then(setDivisi)
       .catch((err) => console.log(err));
-  }, []);
 
-  useEffect(() => {
-    setToken(getLocalAccessToken() || token);
+    setToken(getLocalAccessToken());
     console.log(token);
     if (token) {
       const { id, id_role, division } = jwt(token);
@@ -54,7 +58,7 @@ const Main = () => {
         });
       });
     }
-  }, []);
+  }, [token]);
 
   if (isAuthed === false)
     return (
@@ -62,7 +66,12 @@ const Main = () => {
         <Routes>
           {/* Login, Register Page */}
           <Route element={<LayoutLogin />}>
-            <Route path="/*" element={<Login token={setTokenHandler} />} />
+            <Route
+              path="/*"
+              element={
+                <Login token={setTokenHandler} setIsAuthed={setIsAuthed} />
+              }
+            />
             <Route path="forgot-password/" element={<ForgotPassword />} />
             <Route path="register/" element={<Register divisi={divisi} />} />
           </Route>
