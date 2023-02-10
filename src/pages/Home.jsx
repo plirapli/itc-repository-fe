@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { getCourses, getCoursesDetail } from '../Utils/getData';
+import { getCoursesDetail } from '../Utils/getData';
 
 // Component
 import Navbar from '../components/navbar/Navbar';
