@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const Tags = ({ id }) => {
+const Tags = ({ id = 1 }) => {
   const divisions = [
     { name: 'Back-end Developer', style: 'bg-divisi-be' },
     { name: 'Front-end Developer', style: 'bg-divisi-fe' },
