@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Ava } from '../../assets';
-import { logoutHandler } from '../../Utils/auth';
 import Button from '../buttons/Button';
+import OverlayNavbar from './OverlayNavbar';
 
-const NavbarBack = ({ user }) => {
+const NavbarBack = ({ user, setIsAuthed }) => {
   const navigate = useNavigate();
   const { fullName, division, photoProfile } = user;
   const [hover, setHover] = useState(false);
@@ -40,41 +40,11 @@ const NavbarBack = ({ user }) => {
           src={photoProfile || Ava}
           alt='Profile'
         />
-        {hover && <OverlayMenu id_role={user?.id_role} />}
+        {hover && (
+          <OverlayNavbar id_role={user?.id_role} setIsAuthed={setIsAuthed} />
+        )}
       </div>
     </nav>
-  );
-};
-
-const OverlayMenu = ({ id_role = 1 }) => {
-  const navigate = useNavigate();
-  const daftarMateri = () => navigate('/materi/');
-  const logout = () => {
-    logoutHandler();
-    navigate('/login');
-  };
-  const listClassName =
-    'px-4 py-2 transition-all cursor-pointer hover:bg-black hover:bg-opacity-10';
-
-  return (
-    <>
-      <div className='min-w-[180px] absolute right-0 sm:right-2 transform translate-y-full bottom-0 p-2'>
-        <div className='bg-white py-1 rounded shadow-md'>
-          <div className={listClassName}>Profile</div>
-          {id_role === 2 && (
-            <div onClick={daftarMateri} className={listClassName}>
-              Daftar Materi
-            </div>
-          )}
-          <div className='px-4 py-1'>
-            <div className='w-full h-[1px] bg-gray-light'></div>
-          </div>
-          <div onClick={logout} className={`${listClassName} text-danger-main`}>
-            Keluar
-          </div>
-        </div>
-      </div>
-    </>
   );
 };
 
