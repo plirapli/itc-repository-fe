@@ -12,17 +12,17 @@ import {
   LayoutManageMateri,
   LayoutMateri,
 } from './layout/index';
-import { Home } from './index';
-import { OverviewPage, Diskusi, Komentar } from './course/index';
-import { ForgotPassword, Login, Register } from './login/index';
+import { Home } from './';
+import { OverviewPage, Diskusi, AddDiskusiPage, Komentar } from './course';
+import { ForgotPassword, Login, Register } from './login';
 import {
   ListArtikelPage,
   ListBabPage,
   ListMateri,
   AddMateri,
+  AddArtikelPage,
 } from './manageMateri';
-import AddDiskusiPage from './course/AddDiskusiPage';
-import AddArtikelPage from './manageMateri/AddArtikelPage';
+import ListUserPage from './manageUser/ListUserPage';
 
 const Main = () => {
   const [token, setToken] = useState(() => {
@@ -109,7 +109,13 @@ const Main = () => {
           {/* Manage Materi - Admin Only */}
           <Route
             path='materi/'
-            element={<LayoutManageMateri userData={userData} divisi={divisi} />}
+            element={
+              <LayoutManageMateri
+                userData={userData}
+                divisi={divisi}
+                setIsAuthed={setIsAuthed}
+              />
+            }
           >
             <Route index element={<ListMateri />} />
             <Route exact path='add/' element={<AddMateri />} />
@@ -124,6 +130,20 @@ const Main = () => {
               path=':id_materi/:id_bab/add/'
               element={<AddArtikelPage />}
             />
+          </Route>
+
+          {/* Manage User - Admin Only */}
+          <Route
+            path='manage/user/'
+            element={
+              <LayoutManageMateri
+                userData={userData}
+                divisi={divisi}
+                setIsAuthed={setIsAuthed}
+              />
+            }
+          >
+            <Route index element={<ListUserPage divisi={divisi} />} />
           </Route>
 
           {/* Course */}
