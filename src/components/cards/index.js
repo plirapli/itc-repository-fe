@@ -1,6 +1,7 @@
 import MateriCard from './MateriCard';
+import ListUserCard from './ListUserCard';
+import ListMateriCard from './ListMateriCard';
 import DiskusiCard from './DiskusiCard';
 import KomentarCard from './KomentarCard';
-import ListMateriCard from './ListMateriCard';
 
-export { MateriCard, ListMateriCard, DiskusiCard, KomentarCard };
+export { MateriCard, ListUserCard, ListMateriCard, DiskusiCard, KomentarCard };
