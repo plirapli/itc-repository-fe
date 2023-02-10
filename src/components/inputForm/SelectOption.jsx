@@ -11,11 +11,13 @@ export const Select = ({
 
   return (
     <>
-      <label className={`min-w-max text-sm font-medium ${textStyle}`}>
-        {label || 'Label'}
-      </label>
+      {label && (
+        <label className={`min-w-max text-sm font-medium ${textStyle}`}>
+          {label}
+        </label>
+      )}
       <select
-        className={`block w-full px-3 py-[9px] rounded-md shadow-sm focus-primary sm:text-sm ${style}`}
+        className={`block w-full pl-3 pr-10 py-[9px] rounded-md shadow-sm focus-primary sm:text-sm ${style}`}
         value={value}
         onChange={onChange}
         required
