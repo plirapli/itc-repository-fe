@@ -52,7 +52,7 @@ const ListArtikelPage = () => {
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
           <h1 className='text-xl sm:text-2xl'>Artikel</h1>
-          <p className='text-gray-dark text-sm'>{'8 Artikel'}</p>
+          <p className='text-gray-dark text-sm'>{articles.length} Artikel</p>
         </div>
         <Button
           onClick={toAddArtikel}
