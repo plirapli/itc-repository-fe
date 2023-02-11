@@ -1,17 +1,15 @@
+import React, { useEffect, useState } from 'react';
 import { Disclosure } from '@headlessui/react';
 import { Icon } from '@iconify/react';
-import React, { useEffect, useState } from 'react';
-import { ListUserCard } from '../../components/cards';
-import SearchBar from '../../components/inputForm/SearchBar';
-import { Select } from '../../components/inputForm/SelectOption';
 import { getAllUser } from '../../Utils/user';
 
+// Components
+import { ListUserCard } from '../../components/cards';
+import SearchBar from '../../components/inputForm/SearchBar';
+
 const ListUserPage = ({ divisi, ...props }) => {
-  const [selectedDivisi, setSelectedDivisi] = useState('0');
   const [verifiedUsers, setVerifiedUsers] = useState([]);
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
-
-  const filterSelectHandler = (e) => setSelectedDivisi(e.target.value);
 
   const getAllUserHandler = () => {
     getAllUser()

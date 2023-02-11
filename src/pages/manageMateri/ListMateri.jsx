@@ -8,7 +8,7 @@ import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
-import { getCourses } from '../../Utils/getData';
+import { getCourses } from '../../Utils/course';
 import Tags from '../../components/tags/Tags';
 import { deleteCourse } from '../../Utils/course';
 
@@ -42,12 +42,12 @@ const ListMateri = () => {
   const getCourseHandler = () => getCourses().then(setCourses);
   const deleteCourseHandler = () => {
     deleteCourse(selectedCourse.id)
-      .then((data) => {
+      .then(() => {
         setSelectedCourse({}); // Reset state
         getCourseHandler(); // Get courses after delete
         closeModalDelete(); // Close modal
       })
-      .catch(({ response }) => console.log(response.data.message));
+      .catch(({ data }) => console.log(data.message));
   };
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const ListMateri = () => {
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
-          <h1 className='text-xl sm:text-2xl'>Daftar Materi</h1>
+          <h1 className='text-xl'>Daftar Materi</h1>
           <p className='text-gray-dark text-sm'>{courses.length} Materi</p>
         </div>
         <Button
@@ -78,7 +78,7 @@ const ListMateri = () => {
 
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-4'>
-        {courses.map(({ id, title, ...courses }) => (
+        {courses.map(({ id, title, ...course }) => (
           <Link key={id} to={`${id}`}>
             <ListMateriCard
               onClickDetail={(e) => onClickDetailHandler(e, id)}
@@ -86,9 +86,11 @@ const ListMateri = () => {
               onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
             >
               <p>{title}</p>
-              <p className='text-sm text-gray-dark'>4 Bab | 34 Artikel</p>
+              <p className='text-sm text-gray-dark'>
+                {course.length.chapters} Bab | {course.length.articles} Artikel
+              </p>
               <div className='w-max mt-1.5'>
-                <Tags id={courses.id_division} />
+                <Tags id={course.id_division} />
               </div>
             </ListMateriCard>
           </Link>

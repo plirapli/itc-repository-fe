@@ -5,6 +5,20 @@ import { getUserDetail } from './getData';
 
 const url = '/course';
 
+// Get all courses
+const getCourses = async () => {
+  return authApi
+    .get(url)
+    .then(({ data }) => {
+      const courses = data.data.map(async (course) => {
+        const length = await getChapterArticleLength(course.id);
+        return { ...course, length };
+      });
+      return Promise.all(courses).then((data) => data);
+    })
+    .catch(({ response }) => Promise.reject(response));
+};
+
 const getCourseById = async (id) => {
   return authApi
     .get(`${url}/${id}`)
@@ -22,13 +36,13 @@ const getCourseById = async (id) => {
         updatedAt: showFormattedDateDetail(course.updatedAt),
       };
     })
-    .catch((err) => Promise.reject(err));
+    .catch(({ response }) => Promise.reject(response));
 };
 
 const deleteCourse = async (id) =>
   authApi
     .delete(`${url}/${id}`)
     .then((data) => data)
-    .catch((err) => Promise.reject(err));
+    .catch(({ response }) => Promise.reject(response));
 
-export { getCourseById, deleteCourse };
+export { getCourses, getCourseById, deleteCourse };

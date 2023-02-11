@@ -8,13 +8,13 @@ import Input from '../../components/inputForm/Input';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
-import { authApi } from '../../api/api';
 import {
   addChapter,
   deleteChapter,
   editChapter,
   getChapterDetail,
 } from '../../Utils/chapter';
+import { getCourseById } from '../../Utils/course';
 
 const ListBabPage = () => {
   const { id_materi } = useParams();
@@ -25,6 +25,7 @@ const ListBabPage = () => {
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [courseOverview, setCourseOverview] = useState({});
 
   const openModalAdd = () => setIsModalAddOpen(true);
   const openModalDelete = () => setIsModalDeleteOpen(true);
@@ -89,14 +90,9 @@ const ListBabPage = () => {
 
   useEffect(() => {
     getChapterHandler();
+    getCourseById(id_materi).then(setCourseOverview);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getTotalArticles = () => {
-    let totalArticles = 0;
-    chapters?.map(({ Articles }) => (totalArticles += Articles.length));
-    return totalArticles;
-  };
 
   return (
     <>
@@ -104,11 +100,11 @@ const ListBabPage = () => {
         {/* Header */}
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
           <div>
-            <h1 className='text-xl sm:text-2xl'>[Judul Materi]</h1>
+            <h1 className='text-xl'>{courseOverview?.title}</h1>
             <p className='text-gray-dark text-sm'>
-              {chapters.length} Bab
+              {courseOverview?.length?.chapters} Bab
               <span className='text-black'> | </span>
-              {getTotalArticles()} Artikel
+              {courseOverview?.length?.articles} Artikel
             </p>
           </div>
           <Button

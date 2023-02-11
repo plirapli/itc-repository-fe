@@ -8,15 +8,6 @@ const getDivisi = () =>
     .then(({ data }) => data.data)
     .catch((err) => Promise.reject(err));
 
-// Get all courses
-const getCourses = async () => {
-  const controller = new AbortController();
-  return authApi
-    .get('/course', { signal: controller.signal })
-    .then(({ data }) => data.data.map((course) => course))
-    .catch((err) => Promise.reject(err));
-};
-
 // Get all courses detail
 const getCoursesDetail = async () => {
   const controller = new AbortController();
@@ -48,4 +39,4 @@ const getUserDetail = async (id) =>
     .then(({ data }) => data)
     .catch((err) => Promise.reject(err));
 
-export { getDivisi, getCourses, getCoursesDetail, getUserDetail };
+export { getDivisi, getCoursesDetail, getUserDetail };
