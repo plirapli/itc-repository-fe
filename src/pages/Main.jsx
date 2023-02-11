@@ -23,6 +23,7 @@ import {
   AddArtikelPage,
 } from './manageMateri';
 import ListUserPage from './manageUser/ListUserPage';
+import ArticlePage from './course/ArticlePage';
 
 const Main = () => {
   const [token, setToken] = useState(() => {
@@ -149,6 +150,11 @@ const Main = () => {
           {/* Course */}
           <Route path='course/:id_materi/' element={<LayoutMateri />}>
             <Route index element={<OverviewPage />} />
+            <Route
+              exact
+              path='chapter/:id_chapter/article/:id_article'
+              element={<ArticlePage />}
+            />
             <Route exact path='diskusi/' element={<Diskusi />} />
             <Route exact path='diskusi/add/' element={<AddDiskusiPage />} />
             <Route exact path='diskusi/:id_diskusi/' element={<Komentar />} />

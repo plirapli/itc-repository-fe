@@ -23,7 +23,10 @@ const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
 
       {/* Chapter & Article Card */}
       {materiList.map(({ id: chapterID, title, Articles }) => (
-        <div className='bg-secondary rounded-md overflow-hidden'>
+        <div
+          key={chapterID}
+          className='bg-secondary rounded-md overflow-hidden'
+        >
           <Disclosure>
             {({ open }) => (
               <>
@@ -52,6 +55,7 @@ const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
                   <Disclosure.Panel>
                     {Articles.map(({ id: articleID, title }) => (
                       <Link
+                        key={articleID}
                         to={`course/${courseID}/chapter/${chapterID}/article/${articleID}`}
                       >
                         <div className='px-4 py-3 bg-secondary truncate hover:bg-secondaryHover'>

@@ -30,8 +30,12 @@ const NavbarBack = ({ user, setIsAuthed }) => {
       >
         {/* User info */}
         <div className='hidden sm:block'>
-          <p className='font-medium text-white'>{fullName || 'Loading...'}</p>
-          <p className='text-xs text-accent'>{division || 'Loading...'}</p>
+          <p className='text-sm font-medium text-white'>
+            {fullName || 'Loading...'}
+          </p>
+          <p className='hidden sm:block text-xs text-accent'>
+            {division || 'Loading...'}
+          </p>
         </div>
 
         {/* Profile img */}
