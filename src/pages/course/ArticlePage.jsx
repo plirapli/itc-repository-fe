@@ -14,7 +14,7 @@ const ArticlePage = () => {
         setArticle({ ...data, body });
       })
       .catch(({ data }) => console.log(data.message));
-  }, []);
+  }, [id_article, id_chapter, id_materi]);
 
   return (
     <div className='p-4 bg-white min-h-full flex flex-col'>

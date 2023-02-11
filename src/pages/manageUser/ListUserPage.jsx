@@ -1,12 +1,30 @@
+import { Disclosure } from '@headlessui/react';
 import { Icon } from '@iconify/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ListUserCard } from '../../components/cards';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { Select } from '../../components/inputForm/SelectOption';
+import { getAllUser } from '../../Utils/user';
 
 const ListUserPage = ({ divisi, ...props }) => {
   const [selectedDivisi, setSelectedDivisi] = useState('0');
+  const [verifiedUsers, setVerifiedUsers] = useState([]);
+  const [unverifiedUsers, setUnverifiedUsers] = useState([]);
+
   const filterSelectHandler = (e) => setSelectedDivisi(e.target.value);
+
+  const getAllUserHandler = () => {
+    getAllUser()
+      .then((users) => {
+        setVerifiedUsers(users.filter(({ verify }) => verify));
+        setUnverifiedUsers(users.filter(({ verify }) => !verify));
+      })
+      .catch(({ data }) => console.log(data.message));
+  };
+
+  useEffect(() => {
+    getAllUserHandler();
+  }, []);
 
   return (
     <>
@@ -15,66 +33,54 @@ const ListUserPage = ({ divisi, ...props }) => {
       </div>
 
       {/* Sort, Filter, Search */}
-      <div className='mt-2 sm:mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
-        <div className='col-span-12 sm:col-span-6 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
-          <Select
-            color='secondary'
-            label='Divisi'
-            value={selectedDivisi}
-            onChange={filterSelectHandler}
-          >
-            <option value='0'>Semua</option>
-            {divisi.map(({ id, divisionName }) => (
-              <option className='bg-white' key={id} value={id}>
-                {divisionName}
-              </option>
-            ))}
-          </Select>
-        </div>
-        <div className='col-span-12 sm:col-span-6 lg:col-span-4 lg:col-start-9'>
-          <SearchBar placeholder='Cari pengguna' />
-        </div>
+      <div className='mt-2 sm:mt-3'>
+        <SearchBar placeholder='Cari pengguna' />
       </div>
 
       {/* Main */}
       <main className='mt-3 sm:mt-4'>
         {/* Verified Section */}
-        <section>
-          <div className='flex items-center gap-2'>
-            <h3 className='min-w-max font-medium'>Terverifikasi</h3>
-            <div className='w-full h-[1px] bg-[#D6D6D6]'></div>
-            <div className='bg-[#D6D6D6] rounded-full'>
-              <Icon icon='eva:arrow-ios-upward-fill' width='20' />
-            </div>
-          </div>
+        <ListUserContainer title='Terverifikasi'>
+          {verifiedUsers?.map((user) => (
+            <ListUserCard key={user.id} user={user} />
+          ))}
+        </ListUserContainer>
 
-          {/* Container */}
-          <div className='mt-2 bg-white rounded-md'>
-            <ListUserCard />
-            <ListUserCard />
-            <ListUserCard />
-            <ListUserCard />
-          </div>
-        </section>
-        {/* Verified Section */}
-        <section className='mt-4'>
-          <div className='flex items-center gap-2'>
-            <h3 className='min-w-max font-medium'>Belum Terverifikasi</h3>
-            <div className='w-full h-[1px] bg-[#D6D6D6]'></div>
-            <div className='bg-[#D6D6D6] rounded-full'>
-              <Icon icon='eva:arrow-ios-upward-fill' width='20' />
-            </div>
-          </div>
-
-          {/* Container */}
-          <div className='mt-2 bg-white rounded-md'>
-            <ListUserCard />
-            <ListUserCard />
-            <ListUserCard />
-            <ListUserCard />
-          </div>
-        </section>
+        {/* Unverified Section */}
+        <ListUserContainer title='Belum Terverifikasi'>
+          {unverifiedUsers?.map((user) => (
+            <ListUserCard key={user.id} user={user} />
+          ))}
+        </ListUserContainer>
       </main>
+    </>
+  );
+};
+
+const ListUserContainer = ({ title, children }) => {
+  return (
+    <>
+      <section className='mt-3 bg-white rounded-md overflow-hidden'>
+        <Disclosure>
+          {({ open }) => (
+            <>
+              <Disclosure.Button className='flex w-full justify-between items-center px-4 py-2 bg-white font-medium hover:bg-black hover:bg-opacity-5 focus:outline-none focus-visible:ring focus-visible:ring-primary focus-visible:ring-opacity-75'>
+                <h3 className='min-w-max font-medium'>{title}</h3>
+                <Icon
+                  icon='eva:arrow-ios-downward-fill'
+                  className={`transition-all ${
+                    open ? 'rotate-180 transform' : ''
+                  }`}
+                  width='20'
+                />
+              </Disclosure.Button>
+              <Disclosure.Panel className='bg-white'>
+                {children}
+              </Disclosure.Panel>
+            </>
+          )}
+        </Disclosure>
+      </section>
     </>
   );
 };
