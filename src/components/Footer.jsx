@@ -1,4 +1,3 @@
-import { Logo } from '../assets';
 import { Icon } from '@iconify/react';
 
 const Footer = () => {
@@ -8,48 +7,43 @@ const Footer = () => {
     <footer className='w-full bg-primary flex flex-col items-center'>
       <div className='w-full max-w-screen-xl px-5 sm:px-6'>
         {/* Upper Layer */}
-        <div className='py-3 sm:py-4 flex flex-col md:flex-row gap-2 sm:gap-5 sm:justify-between'>
+        <div className='py-2.5 flex flex-col md:flex-row gap-2 md:gap-4 sm:justify-between md:items-center'>
           {/* Logo & Tulisan ITC */}
-          <div className='flex items-center gap-5'>
-            <div className='px-5 py-2 bg-secondary rounded hidden sm:block md:hidden lg:block'>
-              <img src={Logo} alt='Logo ITC' className='max-w-[2rem]' />
+          <div>
+            <div className='w-max text-accent font-bold'>
+              Information Technology Club
             </div>
-            <div>
-              <div className='w-max text-accent font-bold h2-sm sm:h2-md'>
-                Information Technology Club
-              </div>
-              <div className='w-max text-white font-medium sm:text-xl'>
-                UPN "Veteran" Yogyakarta
-              </div>
+            <div className='w-max text-white font-medium text-sm'>
+              UPN "Veteran" Yogyakarta
             </div>
           </div>
 
-          <div className='flex flex-col gap-2 sm:flex-row sm:gap-8 md:justify-evenly'>
+          <div className='flex gap-4'>
             {/* Lokasi */}
-            <div className='text-white flex flex-col gap-1.5 w-100'>
-              <div className='font-bold sm:text-xl'>Lokasi</div>
-              <div className='w-full h-[2px] bg-white'></div>
-              <div>
+            <div className='text-white flex flex-col gap-1 w-100'>
+              <div className='font-bold text-sm'>Lokasi</div>
+              <hr />
+              <div className='text-xs sm:text-sm'>
                 Jl. Tambak Bayan No. 22, Janti, Caturtunggal, Kec. Depok, Kab.
                 Sleman, Daerah Istimewa Yogyakarta 55281
               </div>
             </div>
 
             {/* Kontak */}
-            <div className='text-white flex flex-col gap-1.5 w-100 md:w-auto'>
-              <div className='w-max font-bold sm:text-xl'>Kontak Kami</div>
-              <div className='w-full h-[2px] bg-white'></div>
-              <div className='flex gap-1.5'>
+            <div className='text-white flex flex-col gap-1 w-100 md:w-auto'>
+              <div className='w-max font-bold text-sm'>Kontak Kami</div>
+              <hr />
+              <div className='flex gap-1'>
                 <a
                   target='_blank'
                   href='https://instagram.com/itcupnyk'
                   rel='noreferrer'
                 >
-                  <div className='w-8 sm:w-9 transition-all hover:text-accent'>
+                  <div className='w-6 sm:w-7 transition-all hover:text-accent'>
                     <Icon icon='mdi:instagram' width='100%' />
                   </div>
                 </a>
-                <div className='w-8 sm:w-9 transition-all hover:text-accent'>
+                <div className='w-6 sm:w-7 transition-all hover:text-accent'>
                   <Icon icon='ic:baseline-whatsapp' width='100%' />
                 </div>
               </div>
@@ -57,9 +51,10 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
       {/* Lower Layer */}
-      <div className='w-full px-5 sm:px-6 bg-black bg-opacity-20'>
-        <div className='py-3 sm:py-4 text-xs sm:text-base text-center font-medium text-accent'>
+      <div className='w-full px-4 bg-black bg-opacity-20'>
+        <div className='py-2.5 text-xs sm:text-sm text-center text-accent'>
           &copy; {year} Developed by ITC UPN "Veteran" Yogyakarta
         </div>
       </div>

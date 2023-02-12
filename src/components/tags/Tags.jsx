@@ -14,7 +14,7 @@ const Tags = ({ id = 1 }) => {
   useEffect(() => setDiv(divisions[id - 1]), [id]);
 
   return (
-    <div className={`px-2 text-white text-sm rounded ${div?.style}`}>
+    <div className={`px-1.5 text-white text-xs rounded ${div?.style}`}>
       {div?.name}
     </div>
   );

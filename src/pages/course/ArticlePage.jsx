@@ -18,7 +18,7 @@ const ArticlePage = () => {
 
   return (
     <div className='p-4 bg-white min-h-full flex flex-col'>
-      <h1 className='text-2xl mb-2'>{article?.title}</h1>
+      <h1 className='text-xl mb-2'>{article?.title}</h1>
       <hr />
       <div className='my-2 flex-1'>{article?.body}</div>
       <hr />

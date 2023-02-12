@@ -51,7 +51,7 @@ const ListArtikelPage = () => {
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
-          <h1 className='text-xl sm:text-2xl'>Artikel</h1>
+          <h1 className='text-xl'>Artikel</h1>
           <p className='text-gray-dark text-sm'>{articles.length} Artikel</p>
         </div>
         <Button

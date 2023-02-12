@@ -8,7 +8,7 @@ const Navbar = ({ user, setIsAuthed }) => {
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between pl-4 sm:pl-8 relative'>
-      <h2 className='text-accent h2-sm sm:h2-md'>ITC Repository</h2>
+      <h2 className='text-accent text-xl'>ITC Repository</h2>
 
       <div
         onMouseEnter={() => setHover(true)}
