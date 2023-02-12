@@ -11,7 +11,7 @@ const OverlayNavbar = ({ id_role = 1, setIsAuthed }) => {
     navigate('/login');
   };
   const listClassName =
-    'px-4 py-2 transition-all cursor-pointer hover:bg-black hover:bg-opacity-10';
+    'px-4 py-2 text-sm transition-all cursor-pointer hover:bg-black hover:bg-opacity-10';
 
   return (
     <>
