@@ -72,8 +72,8 @@ const Main = () => {
       });
   }, []);
 
-  if (isLoading === false) {
-    if (isAuthed === false)
+  if (!isLoading) {
+    if (!isAuthed)
       return (
         <div className='min-h-screen bg-gray-light'>
           <Routes>
@@ -140,12 +140,16 @@ const Main = () => {
               element={
                 <LayoutManageMateri
                   userData={userData}
-                  divisi={divisi}
                   setIsAuthed={setIsAuthed}
                 />
               }
             >
-              <Route index element={<ListUserPage divisi={divisi} />} />
+              <Route
+                index
+                element={
+                  <ListUserPage divisi={divisi} setIsAuthed={setIsAuthed} />
+                }
+              />
             </Route>
 
             {/* Course */}

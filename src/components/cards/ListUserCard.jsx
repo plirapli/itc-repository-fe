@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../buttons/Button';
 import { Select } from '../inputForm/SelectOption';
 
-const ListUserCard = ({ user }) => {
+const ListUserCard = ({ user, setRole }) => {
   return (
     <div className='px-4 pt-3.5'>
       <div className='grid grid-cols-6 gap-2.5 sm:flex sm:gap-2 items-center'>
@@ -12,7 +12,11 @@ const ListUserCard = ({ user }) => {
         </div>
         <div className='col-span-6 order-3 sm:order-2 flex gap-2'>
           <div className='w-full sm:w-32'>
-            <Select value={user?.id_role} color='secondary'>
+            <Select
+              onChange={(e) => setRole(e.target.value, user.id)}
+              value={user?.id_role}
+              color='secondary'
+            >
               <option className='bg-white' value='1'>
                 User
               </option>
