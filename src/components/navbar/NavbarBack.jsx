@@ -1,6 +1,6 @@
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Menu, Transition } from '@headlessui/react';
 import { Ava } from '../../assets';
 import Button from '../buttons/Button';
 import OverlayNavbar from './OverlayNavbar';
@@ -8,7 +8,6 @@ import OverlayNavbar from './OverlayNavbar';
 const NavbarBack = ({ user, setIsAuthed }) => {
   const navigate = useNavigate();
   const { fullName, division, photoProfile } = user;
-  const [hover, setHover] = useState(false);
   const toBack = () => navigate(-1);
 
   return (
@@ -54,7 +53,7 @@ const NavbarBack = ({ user, setIsAuthed }) => {
           leaveFrom='transform opacity-100 scale-100'
           leaveTo='transform opacity-0 scale-95'
         >
-          <Menu.Items className='absolute right-0 w-56 origin-top-right'>
+          <Menu.Items className='absolute right-0 origin-top-right'>
             <Menu.Item>
               <OverlayNavbar
                 id_role={user?.id_role}

@@ -1,5 +1,5 @@
-import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
 import { Ava } from '../../assets';
 import OverlayNavbar from './OverlayNavbar';
 
@@ -40,7 +40,7 @@ const Navbar = ({ user, setIsAuthed }) => {
           leaveFrom='transform opacity-100 scale-100'
           leaveTo='transform opacity-0 scale-95'
         >
-          <Menu.Items className='absolute right-0 w-56 origin-top-right'>
+          <Menu.Items className='absolute right-0 origin-top-right'>
             <Menu.Item>
               <OverlayNavbar
                 id_role={user?.id_role}

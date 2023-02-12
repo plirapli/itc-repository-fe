@@ -27,21 +27,24 @@ const OverviewPage = (props) => {
             src={course.image_thumbnail}
             alt='course-thumbnail'
           />
-          <div className='flex flex-col items-start gap-1.5'>
-            <div>
-              <h2 className='text-lg font-medium clamp'>{course.title}</h2>
-              <div className='text-gray-dark text-sm mt-1'>
-                {course.length?.chapters} Bab
-                <span className='text-black'> | </span>
-                {course.length?.articles} Artikel
+          <div className='flex flex-col items-start justify-between'>
+            <div className='flex flex-col gap-1.5'>
+              <div>
+                <h2 className='text-lg font-medium clamp'>{course.title}</h2>
+                <div className='text-gray-dark text-sm mt-1'>
+                  {course.length?.chapters} Bab
+                  <span className='text-black'> | </span>
+                  {course.length?.articles} Artikel
+                </div>
+              </div>
+              <Tags id={course.id_division} />
+              <div className='flex items-center gap-1.5 text-black'>
+                <Icon icon='carbon:user-avatar-filled' width='20' />
+                <span className='text-sm'>{course.user}</span>
               </div>
             </div>
-            <Tags id={course.id_division} />
-            <div className='flex items-center gap-1.5 text-black'>
-              <Icon icon='carbon:user-avatar-filled' width='20' />
-              <span className='text-sm'>{course.user}</span>
-            </div>
-            <div className='mt-2'>
+
+            <div className='mt-1.5'>
               <p className='text-sm text-gray-dark'>
                 Dibuat pada {course.createdAt}
               </p>
