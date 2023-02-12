@@ -23,14 +23,14 @@ const OverviewPage = (props) => {
         {/* Overview */}
         <div className='w-full flex flex-col sm:flex-row gap-3 sm:gap-4'>
           <img
-            className='w-full h-48 sm:w-[19rem] object-cover bg-zinc-400 rounded-lg overflow-hidden'
+            className='w-full h-48 sm:max-w-[19rem] object-cover bg-zinc-400 rounded-lg overflow-hidden'
             src={course.image_thumbnail}
             alt='course-thumbnail'
           />
-          <div className='flex flex-col items-start gap-2'>
+          <div className='flex flex-col items-start gap-1.5'>
             <div>
-              <h2 className='h2-sm sm:h2-md clamp'>{course.title}</h2>
-              <div className='text-gray-dark'>
+              <h2 className='text-lg font-medium clamp'>{course.title}</h2>
+              <div className='text-gray-dark text-sm mt-1'>
                 {course.length?.chapters} Bab
                 <span className='text-black'> | </span>
                 {course.length?.articles} Artikel
@@ -41,13 +41,14 @@ const OverviewPage = (props) => {
               <Icon icon='carbon:user-avatar-filled' width='20' />
               <span className='text-sm'>{course.user}</span>
             </div>
-            <div className='flex items-center gap-1.5 text-black'>
-              <Icon icon='ic:round-date-range' width='20' />
-              <span className='text-sm'>{course.createdAt}</span>
+            <div className='mt-2'>
+              <p className='text-sm text-gray-dark'>
+                Dibuat pada {course.createdAt}
+              </p>
+              <p className='mt-0.5 text-sm text-gray-dark'>
+                Diperbarui pada {course.updatedAt}
+              </p>
             </div>
-            <p className='text-sm text-gray-dark'>
-              Diperbarui pada {course.updatedAt}
-            </p>
           </div>
         </div>
 
@@ -56,7 +57,7 @@ const OverviewPage = (props) => {
 
         {/* Deskripsi */}
         <div>
-          <h2 className='text-xl'>Deskripsi</h2>
+          <h2 className='text-lg'>Deskripsi</h2>
           <p className='mt-0.5 sm:mt-1'>{course.description}</p>
         </div>
       </div>
