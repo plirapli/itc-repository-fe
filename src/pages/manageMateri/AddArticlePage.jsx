@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 
 // Components
-import Input from '../../components/inputForm/Input';
+import Input from '../../components/forms/Input';
 import Button from '../../components/buttons/Button';
 import { authApi } from '../../api/api';
 

@@ -6,8 +6,7 @@ import { authApi } from '../../api/api';
 
 // Components
 import Button from '../../components/buttons/Button';
-import Input from '../../components/inputForm/Input';
-import { Select } from '../../components/inputForm/SelectOption';
+import { Input, Select } from '../../components/forms';
 
 const AddCoursePage = ({ divisi }) => {
   const navigate = useNavigate();

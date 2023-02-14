@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import Button from '../buttons/Button';
 
-const DiskusiCard = (props) => {
+const DiscussionCard = (props) => {
   return (
     <div className='bg-white px-4 pt-3 pb-4 rounded-lg shadow'>
       {/* Header Card */}
@@ -50,4 +50,4 @@ const DiskusiCard = (props) => {
   );
 };
 
-export default DiskusiCard;
+export default DiscussionCard;

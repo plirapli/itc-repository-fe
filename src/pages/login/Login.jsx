@@ -5,7 +5,7 @@ import { loginHandler } from '../../utils/auth';
 
 // Components
 import Button from '../../components/buttons/Button';
-import Input from '../../components/inputForm/Input';
+import { Input } from '../../components/forms';
 
 const Login = ({ token, setIsAuthed }) => {
   window.history.pushState({}, null, '/login');

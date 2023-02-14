@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DiskusiCard, KomentarCard } from '../../components/cards/index';
+import { DiscussionCard, CommentCard } from '../../components/cards/index';
 import Button from '../../components/buttons/Button';
 
 const CommentPage = () => {
@@ -15,7 +15,7 @@ const CommentPage = () => {
   return (
     <div className='w-full py-4 px-5 sm:py-6 sm:px-0'>
       {/* Pertanyaan */}
-      <DiskusiCard isReply={true} onClick={displayReplyHandler} />
+      <DiscussionCard isReply={true} onClick={displayReplyHandler} />
 
       {/* Input Reply */}
       {showReply && (
@@ -49,7 +49,7 @@ const CommentPage = () => {
         <h3 className='font-bold text-lg'>Komentar</h3>
         <div className='mt-1.5 flex flex-col gap-3'>
           {komentarList.map((komentar, i) => (
-            <KomentarCard key={i} />
+            <CommentCard key={i} />
           ))}
         </div>
       </section>

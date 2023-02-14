@@ -30,8 +30,8 @@ import {
   AddCoursePage,
   AddArticlePage,
 } from './manageMateri';
-import ListUserPage from './manageUser/ListUserPage';
-import { Profile } from './user';
+import ManageUsersPage from './manageUser/ManageUsersPage';
+import { ProfilePage } from './user';
 
 const Main = () => {
   const [token, setToken] = useState(getLocalAccessToken());
@@ -120,7 +120,7 @@ const Main = () => {
               path='u/:username/'
               element={<LayoutNavbar userData={userData} />}
             >
-              <Route path='profile' element={<Profile />} />
+              <Route path='profile' element={<ProfilePage />} />
             </Route>
 
             {/* Manage - Admin Only */}
@@ -135,7 +135,10 @@ const Main = () => {
                 <Route
                   index
                   element={
-                    <ListUserPage divisi={divisi} setIsAuthed={setIsAuthed} />
+                    <ManageUsersPage
+                      divisi={divisi}
+                      setIsAuthed={setIsAuthed}
+                    />
                   }
                 />
               </Route>

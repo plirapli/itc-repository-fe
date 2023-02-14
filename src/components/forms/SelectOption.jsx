@@ -1,4 +1,4 @@
-export const Select = ({
+const Select = ({
   onChange,
   color = 'primary',
   label,
@@ -27,3 +27,5 @@ export const Select = ({
     </>
   );
 };
+
+export default Select;

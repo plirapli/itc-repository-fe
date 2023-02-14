@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Tags from '../tags/Tags';
 import { Icon } from '@iconify/react';
 
-const MateriCard = ({ data, ...props }) => {
+const CourseCard = ({ data, ...props }) => {
   const [materi, setMateri] = useState({});
 
   useEffect(() => {
@@ -60,4 +60,4 @@ const MateriCard = ({ data, ...props }) => {
   );
 };
 
-export default MateriCard;
+export default CourseCard;

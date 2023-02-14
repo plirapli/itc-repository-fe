@@ -4,9 +4,8 @@ import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { api } from '../../api/api';
 
 // Components
-import Input from '../../components/inputForm/Input';
+import { Input, Select } from '../../components/forms';
 import Button from '../../components/buttons/Button';
-import { Select } from '../../components/inputForm/SelectOption';
 
 const Register = ({ divisi }) => {
   const navigate = useNavigate();

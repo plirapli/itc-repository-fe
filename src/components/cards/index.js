@@ -1,7 +1,13 @@
-import MateriCard from './MateriCard';
-import ListUserCard from './ListUserCard';
-import ListMateriCard from './ListMateriCard';
-import DiskusiCard from './DiskusiCard';
-import KomentarCard from './KomentarCard';
+import CourseCard from './CourseCard';
+import ManageUserCard from './ManageUserCard';
+import ManageCourseCard from './ManageCourseCard';
+import DiscussionCard from './DiscussionCard';
+import CommentCard from './CommentCard';
 
-export { MateriCard, ListUserCard, ListMateriCard, DiskusiCard, KomentarCard };
+export {
+  CourseCard,
+  ManageUserCard,
+  ManageCourseCard,
+  DiscussionCard,
+  CommentCard,
+};

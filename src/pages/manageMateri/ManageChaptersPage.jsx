@@ -11,9 +11,8 @@ import { getCourseById } from '../../utils/course';
 // Components
 import { Dialog, Transition } from '@headlessui/react';
 import Button from '../../components/buttons/Button';
-import Input from '../../components/inputForm/Input';
-import SearchBar from '../../components/inputForm/SearchBar';
-import { ListMateriCard } from '../../components/cards';
+import { Input, SearchBar } from '../../components/forms';
+import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
 
 const ManageChaptersPage = () => {
@@ -100,20 +99,22 @@ const ManageChaptersPage = () => {
         {/* Header */}
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
           <div>
-            <h1 className='text-xl'>{courseOverview?.title}</h1>
+            <h1 className='text-xl clamp'>{courseOverview?.title}</h1>
             <p className='text-gray-dark text-sm'>
               {courseOverview?.length?.chapters} Bab
               <span className='text-black'> | </span>
               {courseOverview?.length?.articles} Artikel
             </p>
           </div>
-          <Button
-            onClick={openModalAdd}
-            variant='icon-right'
-            icon='akar-icons:plus'
-          >
-            Tambah Bab
-          </Button>
+          <div className='min-w-max'>
+            <Button
+              onClick={openModalAdd}
+              variant='icon-right'
+              icon='akar-icons:plus'
+            >
+              Tambah Bab
+            </Button>
+          </div>
         </div>
 
         {/* Search Bar */}
@@ -125,7 +126,7 @@ const ManageChaptersPage = () => {
         <section className='mt-4 flex flex-col gap-4'>
           {chapters?.map(({ id, title, ...chapter }) => (
             <Link key={id} to={`${id}`}>
-              <ListMateriCard
+              <ManageCourseCard
                 type='bab'
                 onClickEdit={(e) => onClickEditHandler(e, { id, title })}
                 onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
@@ -134,7 +135,7 @@ const ManageChaptersPage = () => {
                 <p className='text-sm text-gray-dark'>
                   {chapter.Articles?.length} Artikel
                 </p>
-              </ListMateriCard>
+              </ManageCourseCard>
             </Link>
           ))}
         </section>

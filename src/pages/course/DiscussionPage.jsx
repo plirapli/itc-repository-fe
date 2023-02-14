@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
-import { DiskusiCard } from '../../components/cards/index';
-import SearchBar from '../../components/inputForm/SearchBar';
+import { DiscussionCard } from '../../components/cards/index';
+import SearchBar from '../../components/forms/SearchBar';
 
 const DiscussionPage = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const DiscussionPage = () => {
         <div className='mt-3 flex flex-col gap-5'>
           {diskusiList.map((diskusi, i) => (
             <Link key={i} to={`${i}`}>
-              <DiskusiCard />
+              <DiscussionCard />
             </Link>
           ))}
         </div>

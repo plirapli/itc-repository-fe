@@ -7,14 +7,14 @@ import {
   changeUserVerify,
 } from '../../utils/user';
 import { getLocalAccessToken, logoutHandler } from '../../utils/auth';
-import { Dialog, Disclosure, Transition } from '@headlessui/react';
-import { Icon } from '@iconify/react';
 
 // Components
-import { ListUserCard } from '../../components/cards';
-import SearchBar from '../../components/inputForm/SearchBar';
+import { Dialog, Disclosure, Transition } from '@headlessui/react';
+import { ManageUserCard } from '../../components/cards';
+import { SearchBar } from '../../components/forms';
+import { Icon } from '@iconify/react';
 
-const ListUserPage = ({ setIsAuthed }) => {
+const ManageUsersPage = ({ setIsAuthed }) => {
   const navigate = useNavigate();
   const [verifiedUsers, setVerifiedUsers] = useState([]);
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
@@ -88,7 +88,7 @@ const ListUserPage = ({ setIsAuthed }) => {
         {/* Verified Section */}
         <ListUserContainer title='Terverifikasi'>
           {verifiedUsers?.map((user) => (
-            <ListUserCard
+            <ManageUserCard
               key={user.id}
               user={user}
               setRole={onChangeRoleHandler}
@@ -100,7 +100,7 @@ const ListUserPage = ({ setIsAuthed }) => {
         {/* Unverified Section */}
         <ListUserContainer title='Belum Terverifikasi'>
           {unverifiedUsers?.map((user) => (
-            <ListUserCard
+            <ManageUserCard
               key={user.id}
               user={user}
               setRole={onChangeRoleHandler}
@@ -186,4 +186,4 @@ const ListUserContainer = ({ title, children }) => {
   );
 };
 
-export default ListUserPage;
+export default ManageUsersPage;

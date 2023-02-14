@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 
-const KomentarCard = (props) => {
+const CommentCard = (props) => {
   return (
     <div className='bg-white flex gap-3 px-4 pt-3 pb-4 rounded-lg shadow'>
       <img
@@ -26,4 +26,4 @@ const KomentarCard = (props) => {
   );
 };
 
-export default KomentarCard;
+export default CommentCard;

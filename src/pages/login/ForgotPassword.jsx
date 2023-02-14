@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
-import Input from '../../components/inputForm/Input';
+import Input from '../../components/forms/Input';
 
 const ForgotPassword = (props) => {
   const [errMessage, setErrMessage] = useOutletContext();

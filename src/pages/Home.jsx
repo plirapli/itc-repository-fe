@@ -5,9 +5,8 @@ import { getAllCoursesDetail } from '../utils/course';
 // Component
 import Navbar from '../components/navbar/Navbar';
 import Button from '../components/buttons/Button';
-import SearchBar from '../components/inputForm/SearchBar';
-import { Select } from '../components/inputForm/SelectOption';
-import { MateriCard } from '../components/cards/index';
+import { Select, SearchBar } from '../components/forms';
+import { CourseCard } from '../components/cards/index';
 
 const Home = ({ userData, divisi, setIsAuthed }) => {
   window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
@@ -118,7 +117,7 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
         <main className='materi-layout mt-3 sm:mt-4'>
           {filteredCourse?.map((course) => (
             <Link to={`/course/${course.id}/`} key={course.id}>
-              <MateriCard
+              <CourseCard
                 isAdmin={userData?.id_role === 2}
                 data={course}
                 divisi={divisi}

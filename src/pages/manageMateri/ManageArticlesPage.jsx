@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { deleteArticle, getAllArticles } from '../../utils/article';
 
 // Components
 import Button from '../../components/buttons/Button';
-import SearchBar from '../../components/inputForm/SearchBar';
-import { ListMateriCard } from '../../components/cards';
+import { SearchBar } from '../../components/forms';
+import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
-import { deleteArticle, getAllArticles } from '../../utils/article';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();
@@ -73,12 +73,12 @@ const ManageArticlesPage = () => {
       <section className='mt-4 flex flex-col gap-4'>
         {articles?.map(({ id, title }) => (
           <Link key={id} to={`${id}`}>
-            <ListMateriCard
+            <ManageCourseCard
               type='artikel'
               onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
             >
               <p>{title}</p>
-            </ListMateriCard>
+            </ManageCourseCard>
           </Link>
         ))}
       </section>

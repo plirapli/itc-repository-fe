@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Components
 import Button from '../../components/buttons/Button';
-import Input from '../../components/inputForm/Input';
+import Input from '../../components/forms/Input';
 
 const AddDiscussionPage = () => {
   const navigate = useNavigate();

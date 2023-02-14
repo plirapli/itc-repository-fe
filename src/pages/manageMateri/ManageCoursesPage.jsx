@@ -3,13 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getAllCourses, deleteCourse } from '../../utils/course';
 
 // Component
-import Input from '../../components/inputForm/Input';
+import { Dialog, Transition } from '@headlessui/react';
 import Button from '../../components/buttons/Button';
-import SearchBar from '../../components/inputForm/SearchBar';
-import { ListMateriCard } from '../../components/cards';
+import { Input, SearchBar } from '../../components/forms/';
+import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
 import Tags from '../../components/tags/Tags';
-import { Dialog, Transition } from '@headlessui/react';
 
 const ManageCoursesPage = () => {
   const navigate = useNavigate();
@@ -79,7 +78,7 @@ const ManageCoursesPage = () => {
       <section className='mt-4 flex flex-col gap-4'>
         {courses.map(({ id, title, ...course }) => (
           <Link key={id} to={`${id}`}>
-            <ListMateriCard
+            <ManageCourseCard
               onClickDetail={(e) => onClickDetailHandler(e, id)}
               onClickEdit={onClickEditHandler}
               onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
@@ -91,7 +90,7 @@ const ManageCoursesPage = () => {
               <div className='w-max mt-1.5'>
                 <Tags id={course.id_division} />
               </div>
-            </ListMateriCard>
+            </ManageCourseCard>
           </Link>
         ))}
       </section>

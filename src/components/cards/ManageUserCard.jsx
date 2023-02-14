@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from '../buttons/Button';
-import { Select } from '../inputForm/SelectOption';
+import { Select } from '../forms';
 
-const ListUserCard = ({ user, setRole, setVerify }) => {
+const ManageUserCard = ({ user, setRole, setVerify }) => {
   return (
     <div className='px-4 pt-3.5'>
       <div className='grid grid-cols-6 gap-2.5 sm:flex sm:gap-2 items-center'>
@@ -51,4 +51,4 @@ const ListUserCard = ({ user, setRole, setVerify }) => {
   );
 };
 
-export default ListUserCard;
+export default ManageUserCard;
