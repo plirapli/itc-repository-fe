@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { api } from '../api/api';
 import { getLocalAccessToken, getLocalRefreshToken } from '../utils/auth';
 import { getAllDivisions } from '../utils/division';
-import { getAllUsersDetail } from '../utils/user';
+import { getUserById } from '../utils/user';
 import jwt from 'jwt-decode';
 
 // Components
@@ -45,16 +45,8 @@ const Main = () => {
   useEffect(() => {
     if (token) {
       const { id, division } = jwt(token);
-      getAllUsersDetail(id).then(({ data }) => {
-        const { fullName, email, username, id_role, photoProfile } = data;
-        setUserData({
-          fullName,
-          email,
-          username,
-          id_role,
-          division,
-          photoProfile,
-        });
+      getUserById(id).then((data) => {
+        setUserData({ id, division, ...data });
       });
     }
   }, [token]);
@@ -120,7 +112,10 @@ const Main = () => {
               path='u/:username/'
               element={<LayoutNavbar userData={userData} />}
             >
-              <Route path='profile' element={<ProfilePage />} />
+              <Route
+                path='profile'
+                element={<ProfilePage userData={userData} divisi={divisi} />}
+              />
             </Route>
 
             {/* Manage - Admin Only */}

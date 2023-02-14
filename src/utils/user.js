@@ -8,11 +8,11 @@ const getAllUsers = async () =>
     .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 
-// Get user detail
-const getAllUsersDetail = async (id) =>
+// Get user by id
+const getUserById = async (id) =>
   authApi
     .get(`${url}/${id}`)
-    .then(({ data }) => data)
+    .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 
 const changeUserRole = async (id, id_role) =>
@@ -28,4 +28,19 @@ const changeUserVerify = async (id, verify) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-export { getAllUsers, getAllUsersDetail, changeUserRole, changeUserVerify };
+const getGeneration = () => {
+  let angkatanList = [];
+  const yearNow = new Date().getFullYear();
+  for (let i = 2018; i < yearNow; i++) {
+    angkatanList.push(i);
+  }
+  return angkatanList;
+};
+
+export {
+  getAllUsers,
+  getUserById,
+  changeUserRole,
+  changeUserVerify,
+  getGeneration,
+};

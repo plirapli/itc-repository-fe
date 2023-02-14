@@ -43,7 +43,7 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
           setFilteredCourse(data);
         }
       })
-      .catch(({ data }) => console.log(data.message));
+      .catch((err) => console.log(err));
 
     // Cleanup
     return () => {

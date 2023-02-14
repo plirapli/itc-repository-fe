@@ -1,7 +1,7 @@
 import { authApi } from '../api/api';
 import { getChapterArticleLength } from './chapter';
 import { formatDate, formatDateWithHour } from './dateConverter';
-import { getAllUsersDetail } from './user';
+import { getAllUsers, getUserById } from './user';
 
 const url = '/course';
 
@@ -24,8 +24,7 @@ const getAllCoursesDetail = async () => {
   const controller = new AbortController();
 
   // Get All User
-  const { data } = await authApi.get('/user');
-  const users = data.data;
+  const users = await getAllUsers();
 
   return authApi
     .get('/course', { signal: controller.signal })
@@ -40,7 +39,7 @@ const getAllCoursesDetail = async () => {
         };
       });
     })
-    .catch(({ response }) => Promise.reject(response));
+    .catch((err) => Promise.reject(err));
 };
 
 const getCourseById = async (id) => {
@@ -48,7 +47,7 @@ const getCourseById = async (id) => {
     .get(`${url}/${id}`)
     .then(async ({ data }) => {
       let { id_user, ...course } = data.data;
-      const { data: user } = await getAllUsersDetail(id_user);
+      const { data: user } = await getUserById(id_user);
       const { fullName } = await user;
       const length = await getChapterArticleLength(id);
 

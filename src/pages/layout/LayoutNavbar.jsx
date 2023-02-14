@@ -3,10 +3,10 @@ import { Outlet, useOutletContext } from 'react-router-dom';
 import Navbar from '../../components/navbar/Navbar';
 
 const LayoutNavbar = ({ userData, divisi, setIsAuthed }) => {
-  const navbar = useOutletContext();
+  const setNavbar = useOutletContext();
 
   useEffect(() => {
-    navbar(<Navbar user={userData} setIsAuthed={setIsAuthed} />);
+    setNavbar(<Navbar user={userData} setIsAuthed={setIsAuthed} />);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
