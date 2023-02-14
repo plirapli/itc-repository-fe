@@ -22,14 +22,14 @@ import {
   AddDiscussionPage,
   CommentPage,
 } from './course';
-import { ForgotPassword, Login, Register } from './login';
+import { ForgotPassword, Login, Register } from './auth';
 import {
   ManageArticlesPage,
   ManageChaptersPage,
   ManageCoursesPage,
   AddCoursePage,
   AddArticlePage,
-} from './manageMateri';
+} from './manageCourse';
 import ManageUsersPage from './manageUser/ManageUsersPage';
 import { ProfilePage } from './user';
 
