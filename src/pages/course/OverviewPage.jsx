@@ -5,14 +5,14 @@ import Button from '../../components/buttons/Button';
 
 // Component
 import Tags from '../../components/tags/Tags';
-import { getCourseById } from '../../Utils/course';
+import { getCourseById } from '../../utils/course';
 
 const OverviewPage = (props) => {
   const [course, setCourse] = useState({});
-  const { id_materi } = useParams();
+  const { id_course } = useParams();
 
   useEffect(() => {
-    getCourseById(id_materi)
+    getCourseById(id_course)
       .then(setCourse)
       .catch((error) => console.log(error));
   }, []);

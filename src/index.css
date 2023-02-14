@@ -18,27 +18,7 @@
 }
 
 @layer components {
-  /* Typography */
-  .h1-md {
-    /* 30px */
-    font-size: 1.875rem;
-  }
-  .h2-md {
-    /* 24px */
-    font-size: 1.5rem;
-  }
-
-  .h1-sm {
-    /* 24px */
-    font-size: 1.5rem;
-  }
-  .h2-sm {
-    /* 20px */
-    font-size: 1.25rem;
-  }
-
   .materi-layout {
-    /* max-width: 2400px; */
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));

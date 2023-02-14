@@ -1,29 +1,37 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { api } from '../api/api';
-import { getLocalAccessToken, getLocalRefreshToken } from '../Utils/auth';
-import { getDivisi, getUserDetail } from '../Utils/getData';
+import { getLocalAccessToken, getLocalRefreshToken } from '../utils/auth';
+import { getAllDivisions } from '../utils/division';
+import { getUserById } from '../utils/user';
 import jwt from 'jwt-decode';
 
 // Components
 import {
   Layout,
   LayoutLogin,
-  LayoutManageMateri,
-  LayoutMateri,
+  LayoutManage,
+  LayoutCourse,
+  LayoutNavbar,
 } from './layout/index';
 import { Home } from './';
-import { OverviewPage, Diskusi, AddDiskusiPage, Komentar } from './course';
-import { ForgotPassword, Login, Register } from './login';
 import {
-  ListArtikelPage,
-  ListBabPage,
-  ListMateri,
-  AddMateri,
-  AddArtikelPage,
-} from './manageMateri';
-import ListUserPage from './manageUser/ListUserPage';
-import ArticlePage from './course/ArticlePage';
+  OverviewPage,
+  ArticlePage,
+  DiscussionPage,
+  AddDiscussionPage,
+  CommentPage,
+} from './course';
+import { ForgotPassword, Login, Register } from './auth';
+import {
+  ManageArticlesPage,
+  ManageChaptersPage,
+  ManageCoursesPage,
+  AddCoursePage,
+  AddArticlePage,
+} from './manageCourse';
+import ManageUsersPage from './manageUser/ManageUsersPage';
+import { ProfilePage } from './user';
 
 const Main = () => {
   const [token, setToken] = useState(getLocalAccessToken());
@@ -36,24 +44,16 @@ const Main = () => {
 
   useEffect(() => {
     if (token) {
-      const { id, id_role, division } = jwt(token);
-      getUserDetail(id).then(({ data }) => {
-        const { email, fullName, username, photoProfile } = data;
-        setUserData({
-          id_role,
-          email,
-          fullName,
-          username,
-          photoProfile,
-          division,
-        });
+      const { id, division } = jwt(token);
+      getUserById(id).then((data) => {
+        setUserData({ id, division, ...data });
       });
     }
   }, [token]);
 
   useEffect(() => {
     // Get divisi
-    getDivisi()
+    getAllDivisions()
       .then(setDivisi)
       .catch((err) => console.log(err));
 
@@ -102,67 +102,87 @@ const Main = () => {
                 <Home
                   userData={userData}
                   divisi={divisi}
-                  isAuthed
                   setIsAuthed={setIsAuthed}
                 />
               }
             />
 
-            {/* Manage Materi - Admin Only */}
+            {/* User */}
             <Route
-              path='materi/'
-              element={
-                <LayoutManageMateri
-                  userData={userData}
-                  divisi={divisi}
-                  setIsAuthed={setIsAuthed}
-                />
-              }
+              path='u/:username/'
+              element={<LayoutNavbar userData={userData} />}
             >
-              <Route index element={<ListMateri />} />
-              <Route exact path='add/' element={<AddMateri />} />
-              <Route exact path=':id_materi/' element={<ListBabPage />} />
               <Route
-                exact
-                path=':id_materi/:id_bab/'
-                element={<ListArtikelPage />}
-              />
-              <Route
-                exact
-                path=':id_materi/:id_bab/add/'
-                element={<AddArtikelPage />}
+                path='profile'
+                element={<ProfilePage userData={userData} divisi={divisi} />}
               />
             </Route>
 
-            {/* Manage User - Admin Only */}
+            {/* Manage - Admin Only */}
             <Route
-              path='manage/user/'
+              path='manage/'
               element={
-                <LayoutManageMateri
-                  userData={userData}
-                  setIsAuthed={setIsAuthed}
-                />
+                <LayoutManage userData={userData} setIsAuthed={setIsAuthed} />
               }
             >
-              <Route
-                index
-                element={
-                  <ListUserPage divisi={divisi} setIsAuthed={setIsAuthed} />
-                }
-              />
+              {/* Manage User */}
+              <Route path='user/'>
+                <Route
+                  index
+                  element={
+                    <ManageUsersPage
+                      divisi={divisi}
+                      setIsAuthed={setIsAuthed}
+                    />
+                  }
+                />
+              </Route>
+
+              {/* Manage Materi */}
+              <Route path='course/'>
+                <Route index element={<ManageCoursesPage />} />
+                <Route
+                  exact
+                  path='add/'
+                  element={<AddCoursePage divisi={divisi} />}
+                />
+                <Route
+                  exact
+                  path=':id_materi/'
+                  element={<ManageChaptersPage />}
+                />
+                <Route
+                  exact
+                  path=':id_materi/:id_bab/'
+                  element={<ManageArticlesPage />}
+                />
+                <Route
+                  exact
+                  path=':id_materi/:id_bab/add/'
+                  element={<AddArticlePage />}
+                />
+              </Route>
             </Route>
 
             {/* Course */}
-            <Route path='course/:id_materi/' element={<LayoutMateri />}>
+            <Route path='course/:id_course/' element={<LayoutCourse />}>
               <Route index element={<OverviewPage />} />
               <Route
                 exact
                 path='chapter/:id_chapter/article/:id_article'
                 element={<ArticlePage />}
               />
-              <Route exact path='diskusi/' element={<Diskusi />} />
-              <Route exact path='diskusi/add/' element={<AddDiskusiPage />} />
-              <Route exact path='diskusi/:id_diskusi/' element={<Komentar />} />
+              <Route exact path='discussion/' element={<DiscussionPage />} />
+              <Route
+                exact
+                path='discussion/add/'
+                element={<AddDiscussionPage />}
+              />
+              <Route
+                exact
+                path='discussion/:id_discussion/'
+                element={<CommentPage />}
+              />
             </Route>
           </Route>
         </Routes>
