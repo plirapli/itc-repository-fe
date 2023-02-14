@@ -4,7 +4,7 @@ import { logoutHandler } from '../../Utils/auth';
 const OverlayNavbar = ({ user, setIsAuthed }) => {
   const navigate = useNavigate();
   const toProfile = () => navigate(`/u/${user?.username}/profile`);
-  const toDaftarMateri = () => navigate('/materi/');
+  const toDaftarMateri = () => navigate('manage/course/');
   const toDaftarPengguna = () => navigate('/manage/user/');
   const logout = () => {
     logoutHandler();

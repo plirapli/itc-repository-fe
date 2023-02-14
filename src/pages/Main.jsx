@@ -9,8 +9,10 @@ import jwt from 'jwt-decode';
 import {
   Layout,
   LayoutLogin,
+  LayoutManage,
   LayoutManageMateri,
   LayoutMateri,
+  LayoutNavbar,
 } from './layout/index';
 import { Home } from './';
 import { OverviewPage, Diskusi, AddDiskusiPage, Komentar } from './course';
@@ -110,52 +112,50 @@ const Main = () => {
             />
 
             {/* User */}
-            <Route path='u/:username/'>
+            <Route
+              path='u/:username/'
+              element={<LayoutNavbar userData={userData} />}
+            >
               <Route path='profile' element={<Profile />} />
             </Route>
 
-            {/* Manage Materi - Admin Only */}
+            {/* Manage - Admin Only */}
             <Route
-              path='materi/'
+              path='manage/'
               element={
-                <LayoutManageMateri
-                  userData={userData}
-                  divisi={divisi}
-                  setIsAuthed={setIsAuthed}
-                />
+                <LayoutManage userData={userData} setIsAuthed={setIsAuthed} />
               }
             >
-              <Route index element={<ListMateri />} />
-              <Route exact path='add/' element={<AddMateri />} />
-              <Route exact path=':id_materi/' element={<ListBabPage />} />
-              <Route
-                exact
-                path=':id_materi/:id_bab/'
-                element={<ListArtikelPage />}
-              />
-              <Route
-                exact
-                path=':id_materi/:id_bab/add/'
-                element={<AddArtikelPage />}
-              />
-            </Route>
+              {/* Manage User */}
+              <Route path='user/'>
+                <Route
+                  index
+                  element={
+                    <ListUserPage divisi={divisi} setIsAuthed={setIsAuthed} />
+                  }
+                />
+              </Route>
 
-            {/* Manage User - Admin Only */}
-            <Route
-              path='manage/user/'
-              element={
-                <LayoutManageMateri
-                  userData={userData}
-                  setIsAuthed={setIsAuthed}
+              {/* Manage Materi */}
+              <Route path='course/'>
+                <Route index element={<ListMateri />} />
+                <Route
+                  exact
+                  path='add/'
+                  element={<AddMateri divisi={divisi} />}
                 />
-              }
-            >
-              <Route
-                index
-                element={
-                  <ListUserPage divisi={divisi} setIsAuthed={setIsAuthed} />
-                }
-              />
+                <Route exact path=':id_materi/' element={<ListBabPage />} />
+                <Route
+                  exact
+                  path=':id_materi/:id_bab/'
+                  element={<ListArtikelPage />}
+                />
+                <Route
+                  exact
+                  path=':id_materi/:id_bab/add/'
+                  element={<AddArtikelPage />}
+                />
+              </Route>
             </Route>
 
             {/* Course */}

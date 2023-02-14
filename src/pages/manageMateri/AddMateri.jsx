@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 import { Icon } from '@iconify/react';
 import { authApi } from '../../api/api';
@@ -9,9 +9,8 @@ import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 import { Select } from '../../components/inputForm/SelectOption';
 
-const AddMateri = () => {
+const AddMateri = ({ divisi }) => {
   const navigate = useNavigate();
-  const divisi = useOutletContext();
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');

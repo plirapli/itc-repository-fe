@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import NavbarBack from '../../components/navbar/NavbarBack';
 
-const LayoutManageMateri = ({ userData, divisi, setIsAuthed }) => {
+const LayoutManage = ({ userData, setIsAuthed }) => {
   const navbar = useOutletContext();
 
   useEffect(() => {
@@ -12,9 +12,9 @@ const LayoutManageMateri = ({ userData, divisi, setIsAuthed }) => {
 
   return (
     <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
-      <Outlet context={divisi} />
+      <Outlet />
     </div>
   );
 };
 
-export default LayoutManageMateri;
+export default LayoutManage;

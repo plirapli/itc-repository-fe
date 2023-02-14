@@ -13,7 +13,7 @@ const Home = ({ userData, divisi, isAuthed, setIsAuthed, ...props }) => {
   window.history.pushState({}, null, '/');
   const navigate = useNavigate();
   const navbar = useOutletContext();
-  const toAddMateri = () => navigate('materi/add/');
+  const toAddMateri = () => navigate('manage/course/add/');
 
   let sortOptions = [
     { id: 1, name: 'A-Z' },
