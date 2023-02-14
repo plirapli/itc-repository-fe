@@ -5,7 +5,7 @@ import Button from '../../components/buttons/Button';
 
 // Component
 import Tags from '../../components/tags/Tags';
-import { getCourseById } from '../../Utils/course';
+import { getCourseById } from '../../utils/course';
 
 const OverviewPage = (props) => {
   const [course, setCourse] = useState({});

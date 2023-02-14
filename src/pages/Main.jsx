@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { api } from '../api/api';
-import { getLocalAccessToken, getLocalRefreshToken } from '../Utils/auth';
-import { getAllDivisions } from '../Utils/division';
-import { getAllUsersDetail } from '../Utils/user';
+import { getLocalAccessToken, getLocalRefreshToken } from '../utils/auth';
+import { getAllDivisions } from '../utils/division';
+import { getAllUsersDetail } from '../utils/user';
 import jwt from 'jwt-decode';
 
 // Components

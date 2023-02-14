@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { logoutHandler } from '../../Utils/auth';
+import { logoutHandler } from '../../utils/auth';
 
 const OverlayNavbar = ({ user, setIsAuthed }) => {
   const navigate = useNavigate();

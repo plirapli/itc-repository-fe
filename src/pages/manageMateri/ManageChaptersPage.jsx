@@ -5,8 +5,8 @@ import {
   addChapter,
   editChapter,
   deleteChapter,
-} from '../../Utils/chapter';
-import { getCourseById } from '../../Utils/course';
+} from '../../utils/chapter';
+import { getCourseById } from '../../utils/course';
 
 // Components
 import { Dialog, Transition } from '@headlessui/react';

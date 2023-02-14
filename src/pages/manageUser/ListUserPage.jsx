@@ -5,8 +5,8 @@ import {
   getAllUsers,
   changeUserRole,
   changeUserVerify,
-} from '../../Utils/user';
-import { getLocalAccessToken, logoutHandler } from '../../Utils/auth';
+} from '../../utils/user';
+import { getLocalAccessToken, logoutHandler } from '../../utils/auth';
 import { Dialog, Disclosure, Transition } from '@headlessui/react';
 import { Icon } from '@iconify/react';
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { api } from '../../api/api';
-import { loginHandler } from '../../Utils/auth';
+import { loginHandler } from '../../utils/auth';
 
 // Components
 import Button from '../../components/buttons/Button';

@@ -6,7 +6,7 @@ import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
-import { deleteArticle, getAllArticles } from '../../Utils/article';
+import { deleteArticle, getAllArticles } from '../../utils/article';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();

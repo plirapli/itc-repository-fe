@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllChaptersDetail } from '../../Utils/chapter';
+import { getAllChaptersDetail } from '../../utils/chapter';
 import Button from '../buttons/Button';
 import OverlayMateriList from '../overlay/OverlayMateriList';
 

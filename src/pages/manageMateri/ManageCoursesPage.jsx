@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllCourses, deleteCourse } from '../../Utils/course';
+import { getAllCourses, deleteCourse } from '../../utils/course';
 
 // Component
 import Input from '../../components/inputForm/Input';
