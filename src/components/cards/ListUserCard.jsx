@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../buttons/Button';
 import { Select } from '../inputForm/SelectOption';
 
-const ListUserCard = ({ user, setRole }) => {
+const ListUserCard = ({ user, setRole, setVerify }) => {
   return (
     <div className='px-4 pt-3.5'>
       <div className='grid grid-cols-6 gap-2.5 sm:flex sm:gap-2 items-center'>
@@ -26,7 +26,11 @@ const ListUserCard = ({ user, setRole }) => {
             </Select>
           </div>
           <div className='w-full sm:w-48'>
-            <Select value={user?.verify} color='secondary'>
+            <Select
+              onChange={(e) => setVerify(e.target.value, user.id)}
+              value={user?.verify}
+              color='secondary'
+            >
               <option className='bg-white' value={true}>
                 Terverifikasi
               </option>

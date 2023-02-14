@@ -144,6 +144,7 @@ const AddMateri = () => {
         </div>
       </form>
 
+      {/* Loading screen */}
       <Transition
         appear
         show={isLoading}

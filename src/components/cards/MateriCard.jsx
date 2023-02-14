@@ -1,7 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tags from '../tags/Tags';
 import { Icon } from '@iconify/react';
-import { Menu, Transition } from '@headlessui/react';
 
 const MateriCard = ({ data, ...props }) => {
   const [materi, setMateri] = useState({});
@@ -27,51 +26,12 @@ const MateriCard = ({ data, ...props }) => {
       ></div>
       <div className='mt-1'>
         {/* Tags */}
-        <div className='flex items-center justify-between gap-1'>
+        <div className='mt-2 w-fit'>
           <Tags id={materi.id_divisi} divisi={props.divisi} />
-
-          {/* Overlay Menu */}
-          {props.isAdmin && (
-            <Menu as='div' className='relative mt-1'>
-              <Menu.Button>
-                <Icon icon='bx:dots-vertical-rounded' width='20' />
-              </Menu.Button>
-
-              <Transition
-                as={Fragment}
-                enter='transition ease-out duration-100'
-                enterFrom='transform opacity-0 scale-95'
-                enterTo='transform opacity-100 scale-100'
-                leave='transition ease-in duration-75'
-                leaveFrom='transform opacity-100 scale-100'
-                leaveTo='transform opacity-0 scale-95'
-              >
-                <Menu.Items className='min-w-[8rem] absolute right-0 rounded shadow overflow-hidden transform translate-y-full bottom-0 border'>
-                  <Menu.Item>
-                    <div className='bg-white py-1'>
-                      <div className='px-3 py-1.5 overlay-text'>
-                        Atur Materi
-                      </div>
-
-                      {/* Pembatas */}
-                      <div className='px-3 py-1'>
-                        <div className='w-full h-[1px] bg-gray-light'></div>
-                      </div>
-                      {/* End Pembatas */}
-
-                      <div className='px-3 py-1.5 overlay-text text-danger-main'>
-                        Hapus
-                      </div>
-                    </div>
-                  </Menu.Item>
-                </Menu.Items>
-              </Transition>
-            </Menu>
-          )}
         </div>
 
         {/* Title */}
-        <p className='w-full -mt-1 text-sm clamp'>{materi?.title}</p>
+        <p className='w-full mt-1 text-sm clamp'>{materi?.title}</p>
 
         {/* Author */}
         <div className='mt-1 flex items-center gap-1 text-gray-dark'>

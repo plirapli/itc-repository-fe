@@ -1,15 +1,24 @@
 import { authApi } from '../api/api';
 
+const url = '/user';
+
 const getAllUser = async () =>
   authApi
-    .get('/user')
+    .get(url)
     .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 
-const changeUserRole = async (id, data) =>
+const changeUserRole = async (id, id_role) =>
   authApi
-    .put(`/user/role/${id}`, { id_role: data })
+    .put(`${url}/role/${id}`, { id_role })
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 
-export { getAllUser, changeUserRole };
+const changeUserVerify = async (id, verify) => {
+  return authApi
+    .put(`${url}/verify/${id}`, { verify })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+};
+
+export { getAllUser, changeUserRole, changeUserVerify };
