@@ -1,7 +1,7 @@
 import { authApi } from '../api/api';
-import { showFormattedDateDetail } from './dateConverter';
+import { formatDateWithHour } from './dateConverter';
 
-const getAllArticle = async (courseID, chapterID) =>
+const getAllArticles = async (courseID, chapterID) =>
   authApi
     .get(`/course/${courseID}/chapter/${chapterID}/article`)
     .then(({ data }) => data.data)
@@ -14,8 +14,8 @@ const getArticleByID = async (courseID, chapterID, articleID) =>
       const { data: article } = data;
       return {
         ...article,
-        createdAt: showFormattedDateDetail(article.createdAt),
-        updatedAt: showFormattedDateDetail(article.updatedAt),
+        createdAt: formatDateWithHour(article.createdAt),
+        updatedAt: formatDateWithHour(article.updatedAt),
       };
     })
     .catch(({ response }) => Promise.reject(response));
@@ -26,4 +26,4 @@ const deleteArticle = async (courseID, chapterID, articleID) =>
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 
-export { getAllArticle, getArticleByID, deleteArticle };
+export { getAllArticles, getArticleByID, deleteArticle };

@@ -1,7 +1,13 @@
-import ListMateri from './ListMateri';
-import ListBabPage from './ListBabPage';
-import ListArtikelPage from './ListArtikelPage';
-import AddMateri from './AddMateri';
-import AddArtikelPage from './AddArtikelPage';
+import ManageCoursesPage from './ManageCoursesPage';
+import ManageChaptersPage from './ManageChaptersPage';
+import ManageArticlesPage from './ManageArticlesPage';
+import AddCoursePage from './AddCoursePage';
+import AddArticlePage from './AddArticlePage';
 
-export { ListMateri, ListBabPage, ListArtikelPage, AddMateri, AddArtikelPage };
+export {
+  ManageCoursesPage,
+  ManageChaptersPage,
+  ManageArticlesPage,
+  AddCoursePage,
+  AddArticlePage,
+};

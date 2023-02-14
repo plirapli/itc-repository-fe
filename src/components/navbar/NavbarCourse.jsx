@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getChapterDetail } from '../../Utils/chapter';
+import { getAllChaptersDetail } from '../../Utils/chapter';
 import Button from '../buttons/Button';
 import OverlayMateriList from '../overlay/OverlayMateriList';
 
@@ -17,7 +17,7 @@ const NavbarCourse = ({ courseID }) => {
   const setIsClickedHandler = () => setIsClicked((prev) => !prev);
 
   useEffect(() => {
-    getChapterDetail(courseID)
+    getAllChaptersDetail(courseID)
       .then(setChapterArticle)
       .catch(({ data }) => console.log(data.message));
   }, []);

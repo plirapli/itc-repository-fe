@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { api } from '../api/api';
 import { getLocalAccessToken, getLocalRefreshToken } from '../Utils/auth';
-import { getDivisi, getUserDetail } from '../Utils/getData';
+import { getAllDivisions } from '../Utils/division';
+import { getAllUsersDetail } from '../Utils/user';
 import jwt from 'jwt-decode';
 
 // Components
@@ -16,20 +17,20 @@ import {
 import { Home } from './';
 import {
   OverviewPage,
+  ArticlePage,
   DiscussionPage,
   AddDiscussionPage,
   CommentPage,
 } from './course';
 import { ForgotPassword, Login, Register } from './login';
 import {
-  ListArtikelPage,
-  ListBabPage,
-  ListMateri,
-  AddMateri,
-  AddArtikelPage,
+  ManageArticlesPage,
+  ManageChaptersPage,
+  ManageCoursesPage,
+  AddCoursePage,
+  AddArticlePage,
 } from './manageMateri';
 import ListUserPage from './manageUser/ListUserPage';
-import ArticlePage from './course/ArticlePage';
 import { Profile } from './user';
 
 const Main = () => {
@@ -43,16 +44,16 @@ const Main = () => {
 
   useEffect(() => {
     if (token) {
-      const { id, id_role, division } = jwt(token);
-      getUserDetail(id).then(({ data }) => {
-        const { email, fullName, username, photoProfile } = data;
+      const { id, division } = jwt(token);
+      getAllUsersDetail(id).then(({ data }) => {
+        const { fullName, email, username, id_role, photoProfile } = data;
         setUserData({
-          id_role,
-          email,
           fullName,
+          email,
           username,
-          photoProfile,
+          id_role,
           division,
+          photoProfile,
         });
       });
     }
@@ -60,7 +61,7 @@ const Main = () => {
 
   useEffect(() => {
     // Get divisi
-    getDivisi()
+    getAllDivisions()
       .then(setDivisi)
       .catch((err) => console.log(err));
 
@@ -109,7 +110,6 @@ const Main = () => {
                 <Home
                   userData={userData}
                   divisi={divisi}
-                  isAuthed
                   setIsAuthed={setIsAuthed}
                 />
               }
@@ -142,22 +142,26 @@ const Main = () => {
 
               {/* Manage Materi */}
               <Route path='course/'>
-                <Route index element={<ListMateri />} />
+                <Route index element={<ManageCoursesPage />} />
                 <Route
                   exact
                   path='add/'
-                  element={<AddMateri divisi={divisi} />}
+                  element={<AddCoursePage divisi={divisi} />}
                 />
-                <Route exact path=':id_materi/' element={<ListBabPage />} />
+                <Route
+                  exact
+                  path=':id_materi/'
+                  element={<ManageChaptersPage />}
+                />
                 <Route
                   exact
                   path=':id_materi/:id_bab/'
-                  element={<ListArtikelPage />}
+                  element={<ManageArticlesPage />}
                 />
                 <Route
                   exact
                   path=':id_materi/:id_bab/add/'
-                  element={<AddArtikelPage />}
+                  element={<AddArticlePage />}
                 />
               </Route>
             </Route>

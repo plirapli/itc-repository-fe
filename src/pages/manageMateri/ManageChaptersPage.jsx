@@ -1,22 +1,22 @@
-import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import {
+  getAllChaptersDetail,
+  addChapter,
+  editChapter,
+  deleteChapter,
+} from '../../Utils/chapter';
+import { getCourseById } from '../../Utils/course';
 
 // Components
+import { Dialog, Transition } from '@headlessui/react';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
-import {
-  addChapter,
-  deleteChapter,
-  editChapter,
-  getChapterDetail,
-} from '../../Utils/chapter';
-import { getCourseById } from '../../Utils/course';
 
-const ListBabPage = () => {
+const ManageChaptersPage = () => {
   const { id_materi } = useParams();
   const [newChapter, setNewChapter] = useState('');
   const [chapters, setChapters] = useState([]);
@@ -53,7 +53,7 @@ const ListBabPage = () => {
   };
 
   const getChapterHandler = () =>
-    getChapterDetail(id_materi)
+    getAllChaptersDetail(id_materi)
       .then(setChapters)
       .catch(({ data }) => console.log(data.message));
 
@@ -290,4 +290,4 @@ const ListBabPage = () => {
   );
 };
 
-export default ListBabPage;
+export default ManageChaptersPage;

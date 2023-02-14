@@ -2,7 +2,7 @@ import { authApi } from '../api/api';
 
 const url = '/course';
 
-const getChapterDetail = (id_course) =>
+const getAllChaptersDetail = (id_course) =>
   authApi
     .get(`${url}/${id_course}/chapter/article`)
     .then(({ data }) => data.data)
@@ -39,7 +39,7 @@ const deleteChapter = async (id_course, id_chapter) =>
     .catch(({ response }) => Promise.reject(response));
 
 export {
-  getChapterDetail,
+  getAllChaptersDetail,
   getChapterArticleLength,
   addChapter,
   editChapter,

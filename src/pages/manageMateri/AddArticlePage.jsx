@@ -7,7 +7,7 @@ import Input from '../../components/inputForm/Input';
 import Button from '../../components/buttons/Button';
 import { authApi } from '../../api/api';
 
-const AddArtikelPage = () => {
+const AddArticlePage = () => {
   const navigate = useNavigate();
   const { id_materi, id_bab } = useParams();
   const url = `/course/${id_materi}/chapter/${id_bab}/article`;
@@ -179,4 +179,4 @@ const AddArtikelPage = () => {
   );
 };
 
-export default AddArtikelPage;
+export default AddArticlePage;

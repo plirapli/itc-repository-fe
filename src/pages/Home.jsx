@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { getCoursesDetail } from '../Utils/getData';
+import { getAllCoursesDetail } from '../Utils/course';
 
 // Component
 import Navbar from '../components/navbar/Navbar';
@@ -9,8 +9,9 @@ import SearchBar from '../components/inputForm/SearchBar';
 import { Select } from '../components/inputForm/SelectOption';
 import { MateriCard } from '../components/cards/index';
 
-const Home = ({ userData, divisi, isAuthed, setIsAuthed, ...props }) => {
-  window.history.pushState({}, null, '/');
+const Home = ({ userData, divisi, setIsAuthed }) => {
+  window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
+
   const navigate = useNavigate();
   const navbar = useOutletContext();
   const toAddMateri = () => navigate('manage/course/add/');
@@ -36,18 +37,14 @@ const Home = ({ userData, divisi, isAuthed, setIsAuthed, ...props }) => {
     let isMounted = true;
     const controller = new AbortController();
 
-    getCoursesDetail()
+    getAllCoursesDetail()
       .then((data) => {
         if (isMounted) {
           setCourses(data);
           setFilteredCourse(data);
         }
-        setIsAuthed(true);
       })
-      .catch((err) => {
-        console.log(err);
-        navigate('/login/');
-      });
+      .catch(({ data }) => console.log(data.message));
 
     // Cleanup
     return () => {
@@ -71,69 +68,67 @@ const Home = ({ userData, divisi, isAuthed, setIsAuthed, ...props }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
-  if (isAuthed)
-    return (
-      <>
-        <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
-          <div className='flex flex-col gap-2 sm:flex-row sm:items-center justify-between'>
-            <h1 className='text-2xl'>Materi</h1>
-            {userData?.id_role === 2 && (
-              <Button
-                onClick={toAddMateri}
-                variant='icon-right'
-                icon='akar-icons:plus'
-              >
-                Tambah Materi
-              </Button>
-            )}
-          </div>
-
-          {/* Sort, Filter, Search */}
-          <div className='mt-2 sm:mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
-            <div className='col-span-12 sm:col-span-7 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
-              <Select
-                color='secondary'
-                label='Divisi'
-                value={selectedDivisi}
-                onChange={filterSelectHandler}
-              >
-                <option value='0'>Semua</option>
-                {divisi.map(({ id, divisionName }) => (
-                  <option className='bg-white' key={id} value={id}>
-                    {divisionName}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div className='col-span-12 sm:col-span-5 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
-              <Select label='Sort By' color='secondary'>
-                {sortOptions.map(({ id, name }) => (
-                  <option className='bg-white' key={id} value={id}>
-                    {name}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div className='col-span-12 lg:col-span-4'>
-              <SearchBar placeholder='Cari materi' />
-            </div>
-          </div>
-
-          <main className='materi-layout mt-3 sm:mt-4'>
-            {filteredCourse?.map((course) => (
-              <Link to={`/course/${course.id}/`} key={course.id}>
-                <MateriCard
-                  isAdmin={userData?.id_role === 2}
-                  data={course}
-                  divisi={divisi}
-                />
-              </Link>
-            ))}
-          </main>
+  return (
+    <>
+      <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
+        <div className='flex flex-col gap-2 sm:flex-row sm:items-center justify-between'>
+          <h1 className='text-2xl'>Materi</h1>
+          {userData?.id_role === 2 && (
+            <Button
+              onClick={toAddMateri}
+              variant='icon-right'
+              icon='akar-icons:plus'
+            >
+              Tambah Materi
+            </Button>
+          )}
         </div>
-      </>
-    );
-  return null;
+
+        {/* Sort, Filter, Search */}
+        <div className='mt-2 sm:mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
+          <div className='col-span-12 sm:col-span-7 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
+            <Select
+              color='secondary'
+              label='Divisi'
+              value={selectedDivisi}
+              onChange={filterSelectHandler}
+            >
+              <option value='0'>Semua</option>
+              {divisi.map(({ id, divisionName }) => (
+                <option className='bg-white' key={id} value={id}>
+                  {divisionName}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className='col-span-12 sm:col-span-5 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
+            <Select label='Sort By' color='secondary'>
+              {sortOptions.map(({ id, name }) => (
+                <option className='bg-white' key={id} value={id}>
+                  {name}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className='col-span-12 lg:col-span-4'>
+            <SearchBar placeholder='Cari materi' />
+          </div>
+        </div>
+
+        <main className='materi-layout mt-3 sm:mt-4'>
+          {filteredCourse?.map((course) => (
+            <Link to={`/course/${course.id}/`} key={course.id}>
+              <MateriCard
+                isAdmin={userData?.id_role === 2}
+                data={course}
+                divisi={divisi}
+              />
+            </Link>
+          ))}
+        </main>
+      </div>
+    </>
+  );
 };
 
 export default Home;

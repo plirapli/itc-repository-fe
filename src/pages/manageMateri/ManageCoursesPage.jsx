@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Dialog, Transition } from '@headlessui/react';
+import { getAllCourses, deleteCourse } from '../../Utils/course';
 
 // Component
 import Input from '../../components/inputForm/Input';
@@ -8,11 +8,10 @@ import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
-import { getCourses } from '../../Utils/course';
 import Tags from '../../components/tags/Tags';
-import { deleteCourse } from '../../Utils/course';
+import { Dialog, Transition } from '@headlessui/react';
 
-const ListMateri = () => {
+const ManageCoursesPage = () => {
   const navigate = useNavigate();
   const toAddMateri = () => navigate('add/');
   const [courses, setCourses] = useState([]);
@@ -39,7 +38,7 @@ const ListMateri = () => {
     openModalDelete();
   };
 
-  const getCourseHandler = () => getCourses().then(setCourses);
+  const getCourseHandler = () => getAllCourses().then(setCourses);
   const deleteCourseHandler = () => {
     deleteCourse(selectedCourse.id)
       .then(() => {
@@ -173,4 +172,4 @@ const ListMateri = () => {
   );
 };
 
-export default ListMateri;
+export default ManageCoursesPage;

@@ -2,10 +2,17 @@ import { authApi } from '../api/api';
 
 const url = '/user';
 
-const getAllUser = async () =>
+const getAllUsers = async () =>
   authApi
     .get(url)
     .then(({ data }) => data.data)
+    .catch(({ response }) => Promise.reject(response));
+
+// Get user detail
+const getAllUsersDetail = async (id) =>
+  authApi
+    .get(`${url}/${id}`)
+    .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response));
 
 const changeUserRole = async (id, id_role) =>
@@ -21,4 +28,4 @@ const changeUserVerify = async (id, verify) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-export { getAllUser, changeUserRole, changeUserVerify };
+export { getAllUsers, getAllUsersDetail, changeUserRole, changeUserVerify };

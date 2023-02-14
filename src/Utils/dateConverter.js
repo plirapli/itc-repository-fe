@@ -1,4 +1,4 @@
-const showFormattedDate = (date) => {
+const formatDate = (date) => {
   const options = {
     day: '2-digit',
     month: '2-digit',
@@ -7,7 +7,7 @@ const showFormattedDate = (date) => {
   return new Date(date).toLocaleDateString('id-ID', options);
 };
 
-const showFormattedDateDetail = (date) => {
+const formatDateWithHour = (date) => {
   const options = {
     day: '2-digit',
     month: '2-digit',
@@ -18,4 +18,4 @@ const showFormattedDateDetail = (date) => {
   return new Date(date).toLocaleDateString('id-ID', options);
 };
 
-export { showFormattedDate, showFormattedDateDetail };
+export { formatDate, formatDateWithHour };

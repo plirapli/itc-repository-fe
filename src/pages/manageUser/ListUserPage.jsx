@@ -1,14 +1,18 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwt from 'jwt-decode';
-import { changeUserRole, changeUserVerify, getAllUser } from '../../Utils/user';
+import {
+  getAllUsers,
+  changeUserRole,
+  changeUserVerify,
+} from '../../Utils/user';
+import { getLocalAccessToken, logoutHandler } from '../../Utils/auth';
 import { Dialog, Disclosure, Transition } from '@headlessui/react';
 import { Icon } from '@iconify/react';
 
 // Components
 import { ListUserCard } from '../../components/cards';
 import SearchBar from '../../components/inputForm/SearchBar';
-import { getLocalAccessToken, logoutHandler } from '../../Utils/auth';
 
 const ListUserPage = ({ setIsAuthed }) => {
   const navigate = useNavigate();
@@ -18,7 +22,7 @@ const ListUserPage = ({ setIsAuthed }) => {
 
   const getAllUserHandler = () => {
     setIsLoading(true); // Show loading screen
-    getAllUser()
+    getAllUsers()
       .then((users) => {
         setIsLoading(false); // Remove loading screen
         setVerifiedUsers(users.filter(({ verify }) => verify));

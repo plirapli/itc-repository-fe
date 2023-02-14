@@ -9,7 +9,7 @@ import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
 import { Select } from '../../components/inputForm/SelectOption';
 
-const AddMateri = ({ divisi }) => {
+const AddCoursePage = ({ divisi }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
@@ -192,4 +192,4 @@ const AddMateri = ({ divisi }) => {
   );
 };
 
-export default AddMateri;
+export default AddCoursePage;

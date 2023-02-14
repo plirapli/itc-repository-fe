@@ -6,11 +6,12 @@ import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
-import { deleteArticle, getAllArticle } from '../../Utils/article';
+import { deleteArticle, getAllArticles } from '../../Utils/article';
 
-const ListArtikelPage = () => {
+const ManageArticlesPage = () => {
   const navigate = useNavigate();
   const { id_materi, id_bab } = useParams();
+
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
@@ -26,7 +27,7 @@ const ListArtikelPage = () => {
   };
 
   const getAllArticleHandler = () => {
-    getAllArticle(id_materi, id_bab)
+    getAllArticles(id_materi, id_bab)
       .then(setArticles)
       .catch(({ data }) => console.log(data.message));
   };
@@ -100,4 +101,4 @@ const ListArtikelPage = () => {
   );
 };
 
-export default ListArtikelPage;
+export default ManageArticlesPage;
