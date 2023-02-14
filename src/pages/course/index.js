@@ -1,6 +1,6 @@
 import OverviewPage from './OverviewPage';
-import Diskusi from './Diskusi';
-import AddDiskusiPage from './AddDiskusiPage';
-import Komentar from './Komentar';
+import DiscussionPage from './DiscussionPage';
+import AddDiscussionPage from './AddDiscussionPage';
+import CommentPage from './CommentPage';
 
-export { OverviewPage, Diskusi, AddDiskusiPage, Komentar };
+export { OverviewPage, DiscussionPage, AddDiscussionPage, CommentPage };

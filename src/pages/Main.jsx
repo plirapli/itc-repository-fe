@@ -10,12 +10,16 @@ import {
   Layout,
   LayoutLogin,
   LayoutManage,
-  LayoutManageMateri,
-  LayoutMateri,
+  LayoutCourse,
   LayoutNavbar,
 } from './layout/index';
 import { Home } from './';
-import { OverviewPage, Diskusi, AddDiskusiPage, Komentar } from './course';
+import {
+  OverviewPage,
+  DiscussionPage,
+  AddDiscussionPage,
+  CommentPage,
+} from './course';
 import { ForgotPassword, Login, Register } from './login';
 import {
   ListArtikelPage,
@@ -159,16 +163,24 @@ const Main = () => {
             </Route>
 
             {/* Course */}
-            <Route path='course/:id_materi/' element={<LayoutMateri />}>
+            <Route path='course/:id_course/' element={<LayoutCourse />}>
               <Route index element={<OverviewPage />} />
               <Route
                 exact
                 path='chapter/:id_chapter/article/:id_article'
                 element={<ArticlePage />}
               />
-              <Route exact path='diskusi/' element={<Diskusi />} />
-              <Route exact path='diskusi/add/' element={<AddDiskusiPage />} />
-              <Route exact path='diskusi/:id_diskusi/' element={<Komentar />} />
+              <Route exact path='discussion/' element={<DiscussionPage />} />
+              <Route
+                exact
+                path='discussion/add/'
+                element={<AddDiscussionPage />}
+              />
+              <Route
+                exact
+                path='discussion/:id_discussion/'
+                element={<CommentPage />}
+              />
             </Route>
           </Route>
         </Routes>

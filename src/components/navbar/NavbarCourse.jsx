@@ -4,7 +4,7 @@ import { getChapterDetail } from '../../Utils/chapter';
 import Button from '../buttons/Button';
 import OverlayMateriList from '../overlay/OverlayMateriList';
 
-const NavbarMateri = ({ courseID }) => {
+const NavbarCourse = ({ courseID }) => {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
   const [chapterArticle, setChapterArticle] = useState([]);
@@ -35,7 +35,7 @@ const NavbarMateri = ({ courseID }) => {
         </Button>
       </div>
       <div className='flex'>
-        <Link to={`/course/${courseID}/diskusi/`}>
+        <Link to={`/course/${courseID}/discussion/`}>
           <Button
             variant='icon-left'
             color='transparent'
@@ -67,4 +67,4 @@ const NavbarMateri = ({ courseID }) => {
   );
 };
 
-export default NavbarMateri;
+export default NavbarCourse;

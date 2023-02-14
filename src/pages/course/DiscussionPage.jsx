@@ -3,7 +3,7 @@ import Button from '../../components/buttons/Button';
 import { DiskusiCard } from '../../components/cards/index';
 import SearchBar from '../../components/inputForm/SearchBar';
 
-const Diskusi = () => {
+const DiscussionPage = () => {
   const navigate = useNavigate();
   const diskusiList = ['1', '2', '3', '4']; // Dummy
   const toAddDiskusiPage = () => navigate('add');
@@ -39,4 +39,4 @@ const Diskusi = () => {
   );
 };
 
-export default Diskusi;
+export default DiscussionPage;

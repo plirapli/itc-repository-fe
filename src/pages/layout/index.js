@@ -1,7 +1,7 @@
 import Layout from './Layout';
 import LayoutLogin from './LayoutLogin';
 import LayoutManage from './LayoutManage';
-import LayoutMateri from './LayoutMateri';
+import LayoutCourse from './LayoutCourse';
 import LayoutNavbar from './LayoutNavbar';
 
-export { Layout, LayoutLogin, LayoutManage, LayoutMateri, LayoutNavbar };
+export { Layout, LayoutLogin, LayoutManage, LayoutCourse, LayoutNavbar };

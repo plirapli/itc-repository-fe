@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 // Components
 import Button from '../../components/buttons/Button';
 import Input from '../../components/inputForm/Input';
-import { SelectOptionDivisi } from '../../components/inputForm/SelectOption';
 
-const AddDiskusiPage = () => {
+const AddDiscussionPage = () => {
   const navigate = useNavigate();
 
   const backButtonHandler = () => navigate(-1);
@@ -63,4 +62,4 @@ const AddDiskusiPage = () => {
   );
 };
 
-export default AddDiskusiPage;
+export default AddDiscussionPage;

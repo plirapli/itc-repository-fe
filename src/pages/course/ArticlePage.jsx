@@ -4,17 +4,17 @@ import parse from 'html-react-parser';
 import { getArticleByID } from '../../Utils/article';
 
 const ArticlePage = () => {
-  const { id_materi, id_chapter, id_article } = useParams();
+  const { id_course, id_chapter, id_article } = useParams();
   const [article, setArticle] = useState({});
 
   useEffect(() => {
-    getArticleByID(id_materi, id_chapter, id_article)
+    getArticleByID(id_course, id_chapter, id_article)
       .then((data) => {
         const body = parse(data.body);
         setArticle({ ...data, body });
       })
       .catch(({ data }) => console.log(data.message));
-  }, [id_article, id_chapter, id_materi]);
+  }, [id_article, id_chapter, id_course]);
 
   return (
     <div className='p-4 bg-white min-h-full flex flex-col'>

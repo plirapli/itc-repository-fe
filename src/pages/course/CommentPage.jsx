@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { DiskusiCard, KomentarCard } from '../../components/cards/index';
 import Button from '../../components/buttons/Button';
 
-const Komentar = () => {
+const CommentPage = () => {
   const [showReply, setShowReply] = useState(false);
 
   const displayReplyHandler = () => setShowReply((prev) => !prev);
@@ -57,4 +57,4 @@ const Komentar = () => {
   );
 };
 
-export default Komentar;
+export default CommentPage;
