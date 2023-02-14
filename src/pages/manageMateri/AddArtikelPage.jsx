@@ -1,20 +1,54 @@
-import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 
 // Components
 import Input from '../../components/inputForm/Input';
 import Button from '../../components/buttons/Button';
+import { authApi } from '../../api/api';
 
 const AddArtikelPage = () => {
   const navigate = useNavigate();
-  const editorRef = useRef(null);
+  const { id_materi, id_bab } = useParams();
+  const url = `/course/${id_materi}/chapter/${id_bab}/article`;
+
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState();
+
   const backButtonHandler = () => navigate(-1);
+
+  const imgUploadHandler = async (blobInfo, progress) =>
+    new Promise((resolve, reject) => {
+      const formData = new FormData();
+      formData.append('image', blobInfo.blob(), blobInfo.filename());
+
+      authApi
+        .post(`${url}/image`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(({ data }) => {
+          console.log(data.location);
+          resolve(data.location);
+        })
+        .catch(({ response }) => reject(response.data.message));
+    });
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
+
+    if (content) {
+      const articleContent = content.getContent();
+      const newArticle = { title, content: articleContent };
+
+      authApi.post(url, newArticle).then(() => {
+        // Reset state
+        // setIsLoading(false);
+        setTitle('');
+        setContent('');
+
+        // Redirect to list materi page
+        navigate(-1);
+      });
     }
   };
 
@@ -29,6 +63,8 @@ const AddArtikelPage = () => {
         <div className='grid grid-cols-6 gap-3 sm:gap-4'>
           <div className='col-span-6'>
             <Input
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
               label='Judul'
               placeholder='Masukkan judul artikel'
               required
@@ -39,83 +75,79 @@ const AddArtikelPage = () => {
             <label className='block mb-1 text-sm font-medium text-primary'>
               Isi materi
             </label>
+
+            {/* WYSIWYG Editor */}
             <Editor
               apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
-              onInit={(evt, editor) => (editorRef.current = editor)}
+              onInit={(evt, editor) => setContent(editor)}
               initialValue='<p>This is the initial content of the editor.</p>'
               init={{
-                plugins:
-                  'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+                plugins: [
+                  'preview',
+                  'searchreplace',
+                  'autolink',
+                  'autosave',
+                  'save',
+                  'directionality',
+                  'code',
+                  'fullscreen',
+                  'image',
+                  'link',
+                  'codesample',
+                  'table',
+                  'charmap',
+                  'nonbreaking',
+                  'anchor',
+                  'lists',
+                  'wordcount',
+                  'help',
+                  'charmap',
+                  'quickbars',
+                  'emoticons',
+                ],
                 editimage_cors_hosts: ['picsum.photos'],
                 menubar: 'file edit view insert format tools table help',
                 toolbar:
-                  'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+                  'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | charmap emoticons | fullscreen preview save print | image link anchor codesample | ltr rtl',
                 toolbar_sticky: true,
                 autosave_ask_before_unload: true,
                 autosave_interval: '30s',
                 autosave_prefix: '{path}{query}-{id}-',
                 autosave_restore_when_empty: false,
                 autosave_retention: '2m',
-                image_advtab: true,
-                link_list: [
-                  { title: 'My page 1', value: 'https://www.tiny.cloud' },
-                  { title: 'My page 2', value: 'http://www.moxiecode.com' },
-                ],
-                image_list: [
-                  { title: 'My page 1', value: 'https://www.tiny.cloud' },
-                  { title: 'My page 2', value: 'http://www.moxiecode.com' },
-                ],
-                image_class_list: [
-                  { title: 'None', value: '' },
-                  { title: 'Some class', value: 'class-name' },
-                ],
-                importcss_append: true,
+                image_title: true,
+                images_upload_handler: imgUploadHandler,
                 file_picker_callback: (callback, value, meta) => {
-                  /* Provide file and text for the link dialog */
-                  if (meta.filetype === 'file') {
-                    callback('https://www.google.com/logos/google.jpg', {
-                      text: 'My text',
-                    });
-                  }
+                  const input = document.createElement('input');
+                  input.setAttribute('type', 'file');
+                  input.setAttribute('accept', 'image/*');
 
-                  /* Provide image and alt text for the image dialog */
-                  if (meta.filetype === 'image') {
-                    callback('https://www.google.com/logos/google.jpg', {
-                      alt: 'My alt text',
-                    });
-                  }
+                  input.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
 
-                  /* Provide alternative source and posted for the media dialog */
-                  if (meta.filetype === 'media') {
-                    callback('movie.mp4', {
-                      source2: 'alt.ogg',
-                      poster: 'https://www.google.com/logos/google.jpg',
+                    const reader = new FileReader();
+                    reader.addEventListener('load', () => {
+                      /*
+                      Note: Now we need to register the blob in TinyMCEs image blob
+                      registry. In the next release this part hopefully won't be
+                      necessary, as we are looking to handle it internally.
+                      */
+                      const id = 'blobid' + new Date().getTime();
+                      const blobCache =
+                        window.tinymce.activeEditor.editorUpload.blobCache;
+                      const base64 = reader.result.split(',')[1];
+                      const blobInfo = blobCache.create(id, file, base64);
+                      blobCache.add(blobInfo);
+
+                      /* call the callback and populate the Title field with the file name */
+                      callback(blobInfo.blobUri(), { title: file.name });
                     });
-                  }
+                    reader.readAsDataURL(file);
+                  });
+
+                  input.click();
                 },
-                templates: [
-                  {
-                    title: 'New Table',
-                    description: 'creates a new table',
-                    content:
-                      '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>',
-                  },
-                  {
-                    title: 'Starting my story',
-                    description: 'A cure for writers block',
-                    content: 'Once upon a time...',
-                  },
-                  {
-                    title: 'New list with dates',
-                    description: 'New List with dates',
-                    content:
-                      '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>',
-                  },
-                ],
-                template_cdate_format:
-                  '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
-                template_mdate_format:
-                  '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+                file_picker_types: 'image',
                 height: 500,
                 image_caption: true,
                 quickbars_selection_toolbar:

@@ -4,8 +4,12 @@ const getLocalAccessToken = () => {
 };
 
 const getLocalRefreshToken = () => {
-  const { username, refreshToken } = JSON.parse(localStorage.getItem('user'));
-  return JSON.stringify({ username, refreshToken });
+  const user = localStorage.getItem('user');
+  if (user) {
+    const { username, refreshToken } = JSON.parse(user);
+    return JSON.stringify({ username, refreshToken });
+  }
+  return null;
 };
 
 const setLocalAccessToken = (token) => {

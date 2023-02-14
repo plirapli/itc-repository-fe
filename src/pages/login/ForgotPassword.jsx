@@ -20,12 +20,14 @@ const ForgotPassword = (props) => {
         </div>
       )}
       <form className='mt-1.5 flex flex-col gap-3' method='POST'>
-        <Input
-          inputType='email'
-          styleType='secondary'
-          label='Email'
-          placeholder='Masukkan alamat email'
-        />
+        <div>
+          <Input
+            type='email'
+            color='secondary'
+            label='Email'
+            placeholder='Masukkan alamat email'
+          />
+        </div>
         <section className='mt-4 w-full'>
           <Button>Kirim</Button>
         </section>

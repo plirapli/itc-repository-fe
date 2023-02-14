@@ -8,12 +8,13 @@ import Input from '../../components/inputForm/Input';
 import SearchBar from '../../components/inputForm/SearchBar';
 import { ListMateriCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
-import { authApi } from '../../api/api';
 import {
   addChapter,
   deleteChapter,
+  editChapter,
   getChapterDetail,
 } from '../../Utils/chapter';
+import { getCourseById } from '../../Utils/course';
 
 const ListBabPage = () => {
   const { id_materi } = useParams();
@@ -24,20 +25,25 @@ const ListBabPage = () => {
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [courseOverview, setCourseOverview] = useState({});
 
   const openModalAdd = () => setIsModalAddOpen(true);
+  const openModalDelete = () => setIsModalDeleteOpen(true);
+  const openModalEdit = () => setIsModalEditOpen(true);
+
   const closeModalAdd = () => {
     setIsModalAddOpen(false);
     setErrMessage('');
   };
-
-  const openModalDelete = () => setIsModalDeleteOpen(true);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
-  const openModalEdit = () => setIsModalEditOpen(true);
-  const closeModalEdit = () => setIsModalEditOpen(false);
+  const closeModalEdit = () => {
+    setIsModalEditOpen(false);
+    setErrMessage('');
+  };
 
-  const onClickEditHandler = (e) => {
+  const onClickEditHandler = (e, chapter) => {
     e.preventDefault();
+    setSelectedChapter(chapter);
     openModalEdit();
   };
   const onClickDeleteHandler = (e, chapter) => {
@@ -49,17 +55,7 @@ const ListBabPage = () => {
   const getChapterHandler = () =>
     getChapterDetail(id_materi)
       .then(setChapters)
-      .catch((err) => console.log(err));
-
-  const deleteChapterHandler = () => {
-    deleteChapter(id_materi, selectedChapter.id)
-      .then((data) => {
-        setSelectedChapter({}); // Reset state
-        getChapterHandler(); // Get chapter after deelte
-        closeModalDelete(); // Close modal
-      })
       .catch(({ data }) => console.log(data.message));
-  };
 
   const addChapterHandler = (e) => {
     e.preventDefault();
@@ -72,15 +68,31 @@ const ListBabPage = () => {
       .catch(({ data }) => setErrMessage(data.message));
   };
 
+  const editChapterHandler = (e) => {
+    e.preventDefault();
+    editChapter(id_materi, selectedChapter.id, selectedChapter.title)
+      .then(() => {
+        getChapterHandler(); // Get Chapter after edit
+        closeModalEdit(); // Close modal
+      })
+      .catch(({ data }) => setErrMessage(data.message));
+  };
+
+  const deleteChapterHandler = () => {
+    deleteChapter(id_materi, selectedChapter.id)
+      .then(() => {
+        setSelectedChapter({}); // Reset state
+        getChapterHandler(); // Get chapter after delete
+        closeModalDelete(); // Close modal
+      })
+      .catch(({ data }) => console.log(data.message));
+  };
+
   useEffect(() => {
     getChapterHandler();
+    getCourseById(id_materi).then(setCourseOverview);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getTotalArticles = () => {
-    let totalArticles = 0;
-    chapters?.map(({ Articles }) => (totalArticles += Articles.length));
-    return totalArticles;
-  };
 
   return (
     <>
@@ -88,11 +100,11 @@ const ListBabPage = () => {
         {/* Header */}
         <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
           <div>
-            <h1 className='text-xl sm:text-2xl'>[Judul Materi]</h1>
+            <h1 className='text-xl'>{courseOverview?.title}</h1>
             <p className='text-gray-dark text-sm'>
-              {chapters.length} Bab
+              {courseOverview?.length?.chapters} Bab
               <span className='text-black'> | </span>
-              {getTotalArticles()} Artikel
+              {courseOverview?.length?.articles} Artikel
             </p>
           </div>
           <Button
@@ -115,7 +127,7 @@ const ListBabPage = () => {
             <Link key={id} to={`${id}`}>
               <ListMateriCard
                 type='bab'
-                onClickEdit={onClickEditHandler}
+                onClickEdit={(e) => onClickEditHandler(e, { id, title })}
                 onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
               >
                 <p>{title}</p>
@@ -231,19 +243,26 @@ const ListBabPage = () => {
 
                   {/* Body */}
                   <div className='mt-2'>
-                    <Input
-                      label='Judul'
-                      value='Lorem ipsum dolor sit amet'
-                      color='secondary'
-                      placeholder='Masukkan judul bab'
-                    />
-                  </div>
-
-                  <div className='mt-4 flex gap-2'>
-                    <Button onClick={closeModalEdit} color='gray'>
-                      Tutup
-                    </Button>
-                    <Button onClick={closeModalEdit}>Simpan</Button>
+                    <form onSubmit={editChapterHandler} action=''>
+                      <Input
+                        onChange={(e) =>
+                          setSelectedChapter((prev) => ({
+                            ...prev,
+                            title: e.target.value,
+                          }))
+                        }
+                        label='Judul'
+                        value={selectedChapter.title}
+                        color='secondary'
+                        placeholder='Masukkan judul bab'
+                      />
+                      <div className='mt-4 flex gap-2'>
+                        <Button onClick={closeModalEdit} color='gray'>
+                          Tutup
+                        </Button>
+                        <Button onClick={closeModalEdit}>Simpan</Button>
+                      </div>
+                    </form>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}
