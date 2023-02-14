@@ -24,6 +24,7 @@ import {
 } from './manageMateri';
 import ListUserPage from './manageUser/ListUserPage';
 import ArticlePage from './course/ArticlePage';
+import { Profile } from './user';
 
 const Main = () => {
   const [token, setToken] = useState(getLocalAccessToken());
@@ -107,6 +108,11 @@ const Main = () => {
                 />
               }
             />
+
+            {/* User */}
+            <Route path='u/:username/'>
+              <Route path='profile' element={<Profile />} />
+            </Route>
 
             {/* Manage Materi - Admin Only */}
             <Route

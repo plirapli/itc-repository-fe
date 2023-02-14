@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { logoutHandler } from '../../Utils/auth';
 
-const OverlayNavbar = ({ id_role = 1, setIsAuthed }) => {
+const OverlayNavbar = ({ user, setIsAuthed }) => {
   const navigate = useNavigate();
+  const toProfile = () => navigate(`/u/${user?.username}/profile`);
   const toDaftarMateri = () => navigate('/materi/');
   const toDaftarPengguna = () => navigate('/manage/user/');
   const logout = () => {
@@ -17,8 +18,10 @@ const OverlayNavbar = ({ id_role = 1, setIsAuthed }) => {
     <>
       <div className='min-w-[180px] absolute right-0 sm:right-2 transform translate-y-full bottom-0 p-2'>
         <div className='bg-white py-1 rounded shadow-md'>
-          <div className={listClassName}>Profile</div>
-          {id_role === 2 && (
+          <div onClick={toProfile} className={listClassName}>
+            Profile
+          </div>
+          {user?.id_role === 2 && (
             <>
               <div onClick={toDaftarPengguna} className={listClassName}>
                 Daftar Pengguna

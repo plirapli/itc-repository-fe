@@ -55,10 +55,7 @@ const NavbarBack = ({ user, setIsAuthed }) => {
         >
           <Menu.Items className='absolute right-0 origin-top-right'>
             <Menu.Item>
-              <OverlayNavbar
-                id_role={user?.id_role}
-                setIsAuthed={setIsAuthed}
-              />
+              <OverlayNavbar user={user} setIsAuthed={setIsAuthed} />
             </Menu.Item>
           </Menu.Items>
         </Transition>

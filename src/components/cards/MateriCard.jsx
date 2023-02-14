@@ -26,7 +26,7 @@ const MateriCard = ({ data, ...props }) => {
       ></div>
       <div className='mt-1'>
         {/* Tags */}
-        <div className='mt-2 w-fit'>
+        <div className='mt-2'>
           <Tags id={materi.id_divisi} divisi={props.divisi} />
         </div>
 
