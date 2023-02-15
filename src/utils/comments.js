@@ -19,4 +19,12 @@ const getAllDiscussionsComments = async (courseId, discussionId) => {
     .catch(({ response }) => Promise.reject(response));
 }
 
-export { getAllDiscussionsComments }
+// add comment to discussion
+const addComment = async ({courseId, discussionId, body}) => {
+  return authApi
+    .post(`/course/${courseId}/discussion/${discussionId}/comment`, {body})
+    .then(({ data }) => data)
+    .catch(({ response }) => Promise.reject(response));
+};
+
+export { getAllDiscussionsComments, addComment }

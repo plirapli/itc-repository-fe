@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 
 const CommentCard = ({ comment, props }) => {
-  console.log(comment);
   return (
     <div className="bg-white flex gap-3 px-4 pt-3 pb-4 rounded-lg shadow">
       <img
