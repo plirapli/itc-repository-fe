@@ -15,6 +15,7 @@ const NavbarBack = ({ user, setIsAuthed }) => {
       <Button
         onClick={toBack}
         variant='icon-left'
+        size='small'
         color='transparent'
         icon='eva:arrow-back-fill'
         isResponsive

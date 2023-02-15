@@ -42,6 +42,18 @@
     @apply p-2.5;
   }
 
+  /* Button size */
+  .text.small {
+    @apply text-sm;
+  }
+  .icon.small {
+    @apply text-lg;
+  }
+  .icon.medium {
+    @apply text-xl;
+  }
+
+  /* Button color */
   .btn.primary {
     @apply bg-primary text-white shadow-sm hover:bg-opacity-80;
   }
