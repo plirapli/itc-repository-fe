@@ -1,7 +1,7 @@
 import { authApi } from '../api/api';
 import { getChapterArticleLength } from './chapter';
-import { formatDate, formatDateWithHour } from './dateConverter';
 import { getAllUsers, getUserById } from './user';
+import { formatDate, formatDateWithHour } from './dateConverter';
 
 const url = '/courses';
 
@@ -23,7 +23,7 @@ const getAllCourses = async () => {
 const getAllCoursesDetail = async () => {
   const controller = new AbortController();
 
-  // Get All User
+  // Get all user
   const users = await getAllUsers();
 
   return authApi
@@ -42,6 +42,7 @@ const getAllCoursesDetail = async () => {
     .catch((err) => Promise.reject(err));
 };
 
+// Get course by ID
 const getCourseById = async (id) => {
   return authApi
     .get(`${url}/${id}`)
@@ -61,10 +62,26 @@ const getCourseById = async (id) => {
     .catch((err) => Promise.reject(err));
 };
 
+// Add course
+const addCourse = async (newCourse) =>
+  authApi
+    .post(url, newCourse, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+
+// Delete course
 const deleteCourse = async (id) =>
   authApi
     .delete(`${url}/${id}`)
     .then((data) => data)
     .catch(({ response }) => Promise.reject(response));
 
-export { getAllCourses, getAllCoursesDetail, getCourseById, deleteCourse };
+export {
+  getAllCourses,
+  getAllCoursesDetail,
+  getCourseById,
+  addCourse,
+  deleteCourse,
+};
