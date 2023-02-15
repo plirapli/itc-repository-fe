@@ -1,6 +1,6 @@
 import { authApi } from '../api/api';
 
-const url = '/user';
+const url = '/users';
 
 const getAllUsers = async () =>
   authApi

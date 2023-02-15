@@ -18,21 +18,21 @@ const ManageUsersPage = ({ setIsAuthed }) => {
   const navigate = useNavigate();
   const [verifiedUsers, setVerifiedUsers] = useState([]);
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getAllUserHandler = () => {
-    setIsLoading(true); // Show loading screen
     getAllUsers()
       .then((users) => {
-        setIsLoading(false); // Remove loading screen
         setVerifiedUsers(users.filter(({ verify }) => verify));
         setUnverifiedUsers(users.filter(({ verify }) => !verify));
       })
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsLoading(false));
   };
 
   const onChangeRoleHandler = (value, id) => {
     setIsLoading(true); // Show loading screen
+
     changeUserRole(id, value)
       .then(() => {
         // Check kalo yang diubah diri sendiri
@@ -42,11 +42,9 @@ const ManageUsersPage = ({ setIsAuthed }) => {
           setIsAuthed(false);
           navigate('/login');
         }
-
-        // Get all user after update
-        getAllUserHandler();
       })
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => getAllUserHandler());
   };
 
   const onChangeVerifyHandler = (value, id) => {
@@ -65,7 +63,8 @@ const ManageUsersPage = ({ setIsAuthed }) => {
         // Get all user after update
         getAllUserHandler();
       })
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => getAllUserHandler());
   };
 
   useEffect(() => {

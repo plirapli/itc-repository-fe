@@ -3,13 +3,13 @@ import { getChapterArticleLength } from './chapter';
 import { formatDate, formatDateWithHour } from './dateConverter';
 import { getAllUsers, getUserById } from './user';
 
-const url = '/course';
+const url = '/courses';
 
 // Get all courses
 const getAllCourses = async () => {
   return authApi
     .get(url)
-    .then(({ data }) => {
+    .then(async ({ data }) => {
       const courses = data.data.map(async (course) => {
         const length = await getChapterArticleLength(course.id);
         return { ...course, length };
@@ -27,7 +27,7 @@ const getAllCoursesDetail = async () => {
   const users = await getAllUsers();
 
   return authApi
-    .get('/course', { signal: controller.signal })
+    .get(url, { signal: controller.signal })
     .then(({ data }) => {
       return data.data.map(({ id_user, ...course }) => {
         const { fullName } = users.filter(({ id }) => id === id_user)[0];
@@ -47,8 +47,7 @@ const getCourseById = async (id) => {
     .get(`${url}/${id}`)
     .then(async ({ data }) => {
       let { id_user, ...course } = data.data;
-      const { data: user } = await getUserById(id_user);
-      const { fullName } = await user;
+      const { fullName } = await getUserById(id_user);
       const length = await getChapterArticleLength(id);
 
       return {
@@ -59,7 +58,7 @@ const getCourseById = async (id) => {
         updatedAt: formatDateWithHour(course.updatedAt),
       };
     })
-    .catch(({ response }) => Promise.reject(response));
+    .catch((err) => Promise.reject(err));
 };
 
 const deleteCourse = async (id) =>

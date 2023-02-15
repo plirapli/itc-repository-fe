@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { api } from '../api/api';
-import { getLocalAccessToken, getLocalRefreshToken } from '../utils/auth';
+import { getAccessToken, getLocalAccessToken } from '../utils/auth';
 import { getAllDivisions } from '../utils/division';
 import { getUserById } from '../utils/user';
 import jwt from 'jwt-decode';
@@ -44,32 +43,35 @@ const Main = () => {
 
   useEffect(() => {
     if (token) {
-      const { id, division } = jwt(token);
+      const { id } = jwt(token);
       getUserById(id).then((data) => {
-        setUserData({ id, division, ...data });
+        setUserData({ id, ...data });
+        const credential = JSON.parse(localStorage.getItem('user'));
+
+        if (!credential.username) {
+          localStorage.setItem(
+            'user',
+            JSON.stringify({ ...credential, username: data.username })
+          );
+        }
       });
     }
-  }, [token]);
+  }, [divisi, token]);
 
   useEffect(() => {
     // Get divisi
     getAllDivisions()
       .then(setDivisi)
-      .catch((err) => console.log(err));
+      .catch(({ data }) => console.log(data.message));
 
     // Check is login exist
-    api
-      .post('/user/refresh-token', getLocalRefreshToken())
-      .then(({ data }) => {
-        const { accessToken } = data.data;
+    getAccessToken()
+      .then((data) => {
+        const { accessToken } = data;
         setToken(accessToken);
         setIsAuthed(true);
-        setIsLoading(false);
       })
-      .catch(() => {
-        setIsAuthed(false);
-        setIsLoading(false);
-      });
+      .finally(() => setIsLoading(false));
   }, []);
 
   if (!isLoading) {
@@ -82,7 +84,7 @@ const Main = () => {
               <Route
                 path='/*'
                 element={
-                  <Login token={setTokenHandler} setIsAuthed={setIsAuthed} />
+                  <Login setToken={setTokenHandler} setIsAuthed={setIsAuthed} />
                 }
               />
               <Route path='forgot-password/' element={<ForgotPassword />} />

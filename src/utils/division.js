@@ -3,7 +3,7 @@ import { api } from '../api/api';
 // Get all divisions
 const getAllDivisions = () =>
   api
-    .get('/division')
+    .get('/divisions')
     .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 

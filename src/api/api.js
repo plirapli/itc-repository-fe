@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {
+  getAccessToken,
   getLocalAccessToken,
-  getLocalRefreshToken,
   setLocalAccessToken,
 } from '../utils/auth';
 
@@ -25,9 +25,7 @@ authApi.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 authApi.interceptors.response.use(
@@ -42,11 +40,7 @@ authApi.interceptors.response.use(
 
         try {
           // Get access token from refresh token
-          const { data } = await api.post(
-            '/user/refresh-token',
-            getLocalRefreshToken()
-          );
-          const { accessToken } = await data.data;
+          const { accessToken } = await getAccessToken();
           setLocalAccessToken(await accessToken);
 
           if (accessToken) {
@@ -57,8 +51,8 @@ authApi.interceptors.response.use(
           }
 
           return authApi(config);
-        } catch (_error) {
-          return Promise.reject(_error);
+        } catch ({ response }) {
+          return Promise.reject(response);
         }
       }
     }

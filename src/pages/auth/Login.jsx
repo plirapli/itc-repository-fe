@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { api } from '../../api/api';
-import { loginHandler } from '../../utils/auth';
+import { loginHandler, sendLogin } from '../../utils/auth';
 
 // Components
 import Button from '../../components/buttons/Button';
 import { Input } from '../../components/forms';
 
-const Login = ({ token, setIsAuthed }) => {
+const Login = ({ setToken, setIsAuthed }) => {
   window.history.pushState({}, null, '/login');
   const navigate = useNavigate();
   const initialState = { emailUsername: '', password: '' };
@@ -21,25 +20,19 @@ const Login = ({ token, setIsAuthed }) => {
   // Submit process
   const submitHandler = (e) => {
     e.preventDefault();
-    api
-      .post('/user/login', inputData)
-      .then(({ data }) => {
-        setErrMessage(''); // Delete error msg
+    sendLogin(inputData)
+      .then((data) => {
         setInputData(initialState); // Set input data to initial state
-        loginHandler(data, token); // Login process
+        loginHandler(data, setToken); // Login process
         setIsAuthed(true); // Set isAuthed to true
         navigate('/'); // Redirect to home page
       })
-      .catch((err) => {
-        setErrMessage(`Error: ${err.response.data.message}!`);
-      });
+      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`));
   };
 
-  // Error handling
+  // Remove err msg on first render
   useEffect(() => {
-    if (errMessage.includes('Error')) {
-      setErrMessage('');
-    }
+    if (errMessage.includes('Error')) setErrMessage('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
