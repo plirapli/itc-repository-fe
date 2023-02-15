@@ -3,6 +3,8 @@ import { DiscussionCard, CommentCard } from "../../components/cards/index";
 import Button from "../../components/buttons/Button";
 import { getDiscussionById } from "../../utils/discussions";
 import { useParams } from "react-router-dom";
+import CommentLists from "../../components/lists/CommentLists";
+import { getAllDiscussionsComments } from "../../utils/comments";
 
 const CommentPage = () => {
   const [showReply, setShowReply] = useState(false);
@@ -14,6 +16,7 @@ const CommentPage = () => {
   };
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     getDiscussionById(id_course, id_discussion)
@@ -22,13 +25,22 @@ const CommentPage = () => {
         setInitializing(false);
       })
       .catch(({ data }) => console.log(data.message));
+
+    getAllDiscussionsComments(id_course, id_discussion)
+      .then((data) => {
+        setComments(data);
+        setInitializing(false);
+      })
+      .catch(({ data }) => console.log(data.message));
   }, []);
 
-  const komentarList = ["1", "2", "3", "4"]; // Dummy
+  console.log(comments);
+
+  // const comments = ["1", "2", "3", "4"]; // Dummy
 
   if (initializing) return null;
 
-  console.log(discussion);
+  // console.log(discussion);
   return (
     <div className="w-full py-4 px-5 sm:py-6 sm:px-0">
       {/* Pertanyaan */}
@@ -66,14 +78,7 @@ const CommentPage = () => {
       )}
 
       {/* Komentar */}
-      <section className="mt-4">
-        <h3 className="font-bold text-lg">Komentar</h3>
-        <div className="mt-1.5 flex flex-col gap-3">
-          {komentarList.map((komentar, i) => (
-            <CommentCard key={i} />
-          ))}
-        </div>
-      </section>
+      <CommentLists comments={comments}></CommentLists>
     </div>
   );
 };

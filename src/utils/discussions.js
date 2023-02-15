@@ -10,7 +10,7 @@ const getAllDiscussions = async (courseId) => {
         return {
           ...discussion,
           fullName: discussion.User.fullName,
-          createdAt: formatDate(discussion.createdAt),
+          createdAt: formatDateWithHour(discussion.createdAt),
           updatedAt: formatDateWithHour(discussion.updatedAt),
         };
       });
@@ -26,7 +26,21 @@ const getDiscussionById = async (courseId, discussionId) => {
       return {
         ...data.data,
         fullName: data.data.User.fullName,
-        createdAt: formatDate(data.data.createdAt),
+        createdAt: formatDateWithHour(data.data.createdAt),
+        updatedAt: formatDateWithHour(data.data.updatedAt),
+      };
+    })
+    .catch(({ response }) => Promise.reject(response));
+};
+
+// add discussion to the course
+const addDiscussion = async ({courseId, title, body }) => {
+  return authApi
+    .post(`/course/${courseId}/discussion`, {title, body})
+    .then(({ data }) => {
+      return {
+        ...data.data,
+        createdAt: formatDateWithHour(data.data.createdAt),
         updatedAt: formatDateWithHour(data.data.updatedAt),
       };
     })
@@ -34,4 +48,5 @@ const getDiscussionById = async (courseId, discussionId) => {
 };
 
 
-export { getAllDiscussions, getDiscussionById };
+
+export { getAllDiscussions, getDiscussionById, addDiscussion };

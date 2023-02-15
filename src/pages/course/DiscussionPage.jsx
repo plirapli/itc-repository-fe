@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/buttons/Button";
-import { DiscussionCard } from "../../components/cards/index";
 import SearchBar from "../../components/forms/SearchBar";
 import { getAllDiscussions } from "../../utils/discussions";
-import parse from "html-react-parser";
+import DiscussionLists from "../../components/lists/DiscussionLists";
 
 const DiscussionPage = () => {
   const navigate = useNavigate();
-  const diskusiList = ["1", "2", "3", "4"]; // Dummy
   const toAddDiskusiPage = () => navigate("add");
   const [discussions, setDiscussions] = useState([]);
   const { id_course } = useParams();
@@ -25,7 +23,6 @@ const DiscussionPage = () => {
 
   if (initializing) return null;
 
-  console.log(discussions);
   return (
     <>
       <div className="w-full py-4 px-5 sm:py-6 sm:px-0">
@@ -45,13 +42,7 @@ const DiscussionPage = () => {
         </div>
 
         {/* List Diskusi */}
-        <div className="mt-3 flex flex-col gap-5">
-          {discussions.map((discussion, i) => (
-            <Link key={discussion.id} to={`${discussion.id}`}>
-              <DiscussionCard discussion={discussion} />
-            </Link>
-          ))}
-        </div>
+        <DiscussionLists discussions={discussions} />
       </div>
     </>
   );
