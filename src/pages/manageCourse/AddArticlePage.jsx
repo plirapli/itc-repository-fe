@@ -6,12 +6,15 @@ import { Editor } from '@tinymce/tinymce-react';
 import Input from '../../components/forms/Input';
 import Button from '../../components/buttons/Button';
 import { authApi } from '../../api/api';
+import { addArticle } from '../../utils/article';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const AddArticlePage = () => {
   const navigate = useNavigate();
   const { id_materi, id_bab } = useParams();
   const url = `/course/${id_materi}/chapter/${id_bab}/article`;
 
+  const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState();
 
@@ -40,15 +43,18 @@ const AddArticlePage = () => {
       const articleContent = content.getContent();
       const newArticle = { title, content: articleContent };
 
-      authApi.post(url, newArticle).then(() => {
-        // Reset state
-        // setIsLoading(false);
-        setTitle('');
-        setContent('');
+      setIsLoading(true);
+      addArticle(id_materi, id_bab, newArticle)
+        .then(() => {
+          // Reset state
+          setTitle('');
+          setContent('');
 
-        // Redirect to list materi page
-        navigate(-1);
-      });
+          // Redirect to list materi page
+          navigate(-1);
+        })
+        .catch(({ data }) => data.message)
+        .finally(() => setIsLoading(false));
     }
   };
 
@@ -175,6 +181,11 @@ const AddArticlePage = () => {
           </div>
         </div>
       </form>
+
+      <OverlayLoading
+        loadingState={isLoading}
+        onClose={() => setIsLoading(true)}
+      />
     </>
   );
 };
