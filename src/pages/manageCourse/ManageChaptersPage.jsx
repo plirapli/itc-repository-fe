@@ -14,9 +14,11 @@ import Button from '../../components/buttons/Button';
 import { Input, SearchBar } from '../../components/forms';
 import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageChaptersPage = () => {
   const { id_materi } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [newChapter, setNewChapter] = useState('');
   const [chapters, setChapters] = useState([]);
   const [selectedChapter, setSelectedChapter] = useState({});
@@ -54,17 +56,23 @@ const ManageChaptersPage = () => {
   const getChapterHandler = () =>
     getAllChaptersDetail(id_materi)
       .then(setChapters)
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsLoading(false));
 
   const addChapterHandler = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     addChapter(id_materi, newChapter)
       .then(() => {
-        setNewChapter(''); // Reset state
-        getChapterHandler(); // Get chapter after create
         closeModalAdd(); // Close modal
+        setNewChapter('');
+        getChapterHandler();
       })
-      .catch(({ data }) => setErrMessage(data.message));
+      .catch(({ data }) => {
+        setErrMessage(data.message);
+        setIsLoading(false);
+      });
   };
 
   const editChapterHandler = (e) => {
@@ -184,7 +192,7 @@ const ManageChaptersPage = () => {
                         value={newChapter}
                         color='secondary'
                         placeholder='Masukkan judul bab'
-                        // required
+                        required
                       />
                       {errMessage && (
                         <span className='mt-1 text-danger-main text-sm'>
@@ -287,6 +295,12 @@ const ManageChaptersPage = () => {
           {selectedChapter.title}
         </p>
       </ModalDelete>
+
+      {/* Loading screen */}
+      <OverlayLoading
+        loadingState={isLoading}
+        onClose={() => setIsLoading(true)}
+      />
     </>
   );
 };

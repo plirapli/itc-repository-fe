@@ -7,11 +7,12 @@ import Button from '../../components/buttons/Button';
 import { SearchBar } from '../../components/forms';
 import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();
   const { id_materi, id_bab } = useParams();
-
+  const [isLoading, setIsLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
@@ -29,17 +30,18 @@ const ManageArticlesPage = () => {
   const getAllArticleHandler = () => {
     getAllArticles(id_materi, id_bab)
       .then(setArticles)
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsLoading(false));
   };
 
   const deleteArticleHandler = () => {
+    closeModalDelete(); // Close modal
+    setIsLoading(true);
+
     deleteArticle(id_materi, id_bab, selectedArticle.id)
-      .then(() => {
-        setSelectedArticle({}); // Reset state
-        getAllArticleHandler(); // Get article after delete
-        closeModalDelete(); // Close modal
-      })
-      .catch(({ data }) => console.log(data.message));
+      .then(() => setSelectedArticle({}))
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => getAllArticleHandler());
   };
 
   useEffect(() => {
@@ -48,7 +50,7 @@ const ManageArticlesPage = () => {
   }, []);
 
   return (
-    <div>
+    <>
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
@@ -97,7 +99,13 @@ const ManageArticlesPage = () => {
           {selectedArticle.title}
         </p>
       </ModalDelete>
-    </div>
+
+      {/* Loading screen */}
+      <OverlayLoading
+        loadingState={isLoading}
+        onClose={() => setIsLoading(true)}
+      />
+    </>
   );
 };
 

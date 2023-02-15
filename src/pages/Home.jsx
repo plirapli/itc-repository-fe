@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { getAllCoursesDetail } from '../utils/course';
 
@@ -7,6 +7,7 @@ import Navbar from '../components/navbar/Navbar';
 import Button from '../components/buttons/Button';
 import { Select, SearchBar } from '../components/forms';
 import { CourseCard } from '../components/cards/index';
+import OverlayLoading from '../components/overlay/OverlayLoading';
 
 const Home = ({ userData, divisi, setIsAuthed }) => {
   window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
@@ -24,6 +25,7 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
     { id: 6, name: 'Update at (Desc)' },
   ];
   // const [sort, setSort] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedDivisi, setSelectedDivisi] = useState('0');
   const [courses, setCourses] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState([]);
@@ -43,7 +45,8 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
           setFilteredCourse(data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
 
     // Cleanup
     return () => {
@@ -126,6 +129,11 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
           ))}
         </main>
       </div>
+
+      <OverlayLoading
+        loadingState={isLoading}
+        onClose={() => setIsLoading(true)}
+      />
     </>
   );
 };

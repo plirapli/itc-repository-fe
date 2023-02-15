@@ -9,10 +9,12 @@ import { Input, SearchBar } from '../../components/forms/';
 import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
 import Tags from '../../components/tags/Tags';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageCoursesPage = () => {
   const navigate = useNavigate();
   const toAddMateri = () => navigate('add/');
+  const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState({});
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
@@ -37,15 +39,20 @@ const ManageCoursesPage = () => {
     openModalDelete();
   };
 
-  const getCourseHandler = () => getAllCourses().then(setCourses);
+  const getCourseHandler = () =>
+    getAllCourses()
+      .then(setCourses)
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsLoading(false));
+
   const deleteCourseHandler = () => {
+    closeModalDelete(); // Close modal
+    setIsLoading(true); // Loading
+
     deleteCourse(selectedCourse.id)
-      .then(() => {
-        setSelectedCourse({}); // Reset state
-        getCourseHandler(); // Get courses after delete
-        closeModalDelete(); // Close modal
-      })
-      .catch(({ data }) => console.log(data.message));
+      .then(() => setSelectedCourse({}))
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => getCourseHandler());
   };
 
   useEffect(() => {
@@ -167,6 +174,12 @@ const ManageCoursesPage = () => {
           {selectedCourse.title}
         </p>
       </ModalDelete>
+
+      {/* Loading screen */}
+      <OverlayLoading
+        loadingState={isLoading}
+        onClose={() => setIsLoading(true)}
+      />
     </>
   );
 };
