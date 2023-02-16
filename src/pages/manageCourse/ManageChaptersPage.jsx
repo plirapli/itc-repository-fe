@@ -118,6 +118,7 @@ const ManageChaptersPage = () => {
             <Button
               onClick={openModalAdd}
               variant='icon-right'
+              size='small'
               icon='akar-icons:plus'
             >
               Tambah Bab

@@ -60,6 +60,7 @@ const ManageArticlesPage = () => {
         <Button
           onClick={toAddArtikel}
           variant='icon-right'
+          size='small'
           icon='akar-icons:plus'
         >
           Tambah Artikel

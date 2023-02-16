@@ -70,6 +70,7 @@ const ManageCoursesPage = () => {
         <Button
           onClick={toAddMateri}
           variant='icon-right'
+          size='small'
           icon='akar-icons:plus'
         >
           Tambah Materi
