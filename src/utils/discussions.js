@@ -1,7 +1,7 @@
 import { authApi } from '../api/api';
 import { formatDateWithHour } from './dateConverter';
 
-// getAllDiscussions
+// Get all discussions
 const getAllDiscussions = async (courseId) => {
   return authApi
     .get(`/courses/${courseId}/discussions`)
@@ -18,7 +18,7 @@ const getAllDiscussions = async (courseId) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-// getDiscussionById
+// Get discussion by ID
 const getDiscussionById = async (courseId, discussionId) => {
   return authApi
     .get(`/courses/${courseId}/discussions/${discussionId}`)
@@ -33,10 +33,10 @@ const getDiscussionById = async (courseId, discussionId) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-// add discussion to the course
-const addDiscussion = async ({ courseID, title, body }) => {
+// Add discussion to the course
+const addDiscussion = async (courseID, newDiscussion) => {
   return authApi
-    .post(`/course/${courseID}/discussion`, { title, body })
+    .post(`/courses/${courseID}/discussions`, newDiscussion)
     .then(({ data }) => {
       return {
         ...data.data,
