@@ -34,9 +34,9 @@ const getDiscussionById = async (courseId, discussionId) => {
 };
 
 // add discussion to the course
-const addDiscussion = async ({ courseId, title, body }) => {
+const addDiscussion = async ({ courseID, title, body }) => {
   return authApi
-    .post(`/course/${courseId}/discussion`, { title, body })
+    .post(`/course/${courseID}/discussion`, { title, body })
     .then(({ data }) => {
       return {
         ...data.data,

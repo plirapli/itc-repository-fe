@@ -2,7 +2,7 @@ import { authApi } from '../api/api';
 import { formatDateWithHour } from './dateConverter';
 
 // get All Discussions Comments
-const getAllDiscussionsComments = async (courseId, discussionId) => {
+const getAllComments = async (courseId, discussionId) => {
   return authApi
     .get(`/courses/${courseId}/discussions/${discussionId}/comments`)
     .then(({ data }) => {
@@ -19,11 +19,11 @@ const getAllDiscussionsComments = async (courseId, discussionId) => {
 };
 
 // add comment to discussion
-const addComment = async ({ courseId, discussionId, body }) => {
+const addComment = async (courseID, discussionID, body) => {
   return authApi
-    .post(`/courses/${courseId}/discussions/${discussionId}/comments`, { body })
-    .then(({ data }) => data)
+    .post(`/courses/${courseID}/discussions/${discussionID}/comments`, { body })
+    .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 };
 
-export { getAllDiscussionsComments, addComment };
+export { getAllComments, addComment };

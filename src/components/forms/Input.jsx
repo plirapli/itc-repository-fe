@@ -12,13 +12,17 @@ const Input = ({
 
   return (
     <>
-      <label className={`block text-sm font-medium ${textStyle}`}>
-        {label}
-      </label>
+      {label && (
+        <label className={`block text-sm font-medium ${textStyle}`}>
+          {label}
+        </label>
+      )}
       <input
         onChange={onChange}
         type={type}
-        className={`mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm ${style}`}
+        className={`${
+          label && 'mt-1'
+        } block w-full rounded-md shadow-sm focus-primary sm:text-sm ${style}`}
         {...props}
       />
     </>
