@@ -25,20 +25,22 @@ const ManageUserCard = ({ user, setRole, setVerify }) => {
               </option>
             </Select>
           </div>
-          <div className='w-full sm:w-48'>
-            <Select
-              onChange={(e) => setVerify(e.target.value, user.id)}
-              value={user?.verify}
-              color='secondary'
-            >
-              <option className='bg-white' value={true}>
-                Terverifikasi
-              </option>
-              <option className='bg-white' value={false}>
-                Belum Terverifikasi
-              </option>
-            </Select>
-          </div>
+          {setVerify && (
+            <div className='w-full sm:w-48'>
+              <Select
+                onChange={(e) => setVerify(e.target.value, user.id)}
+                value={user?.verify}
+                color='secondary'
+              >
+                <option className='bg-white' value={true}>
+                  Terverifikasi
+                </option>
+                <option className='bg-white' value={false}>
+                  Belum Terverifikasi
+                </option>
+              </Select>
+            </div>
+          )}
         </div>
         <div className='justify-self-end order-2 sm:order-last'>
           <Button variant='icon-only' color='danger' icon='bxs:trash' />

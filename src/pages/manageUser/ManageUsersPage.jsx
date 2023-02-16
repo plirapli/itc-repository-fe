@@ -91,7 +91,6 @@ const ManageUsersPage = ({ setIsAuthed }) => {
               key={user.id}
               user={user}
               setRole={onChangeRoleHandler}
-              setVerify={onChangeVerifyHandler}
             />
           ))}
         </ListUserContainer>
