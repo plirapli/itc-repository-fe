@@ -7,10 +7,11 @@ import DiscussionLists from '../../components/lists/DiscussionLists';
 
 const DiscussionPage = () => {
   const navigate = useNavigate();
-  const toAddDiskusiPage = () => navigate('add');
-  const [discussions, setDiscussions] = useState([]);
   const { id_course } = useParams();
+  const [discussions, setDiscussions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const toAddDiskusiPage = () => navigate('add');
 
   const getAllDiscussionsHandler = () => {
     getAllDiscussions(id_course)
@@ -34,6 +35,7 @@ const DiscussionPage = () => {
           <Button
             onClick={toAddDiskusiPage}
             variant='icon-right'
+            size='small'
             icon='akar-icons:plus'
           >
             Buat Pertanyaan
