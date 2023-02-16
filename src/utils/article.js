@@ -25,8 +25,16 @@ const getArticleByID = async (courseID, chapterID, articleID) =>
 
 const addArticle = async (courseID, chapterID, newArticle) =>
   authApi
-    .post(`${url(courseID, chapterID)}/article`, newArticle)
+    .post(`${url(courseID, chapterID)}/articles`, newArticle)
     .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+
+const addImageArticle = async (courseID, chapterID, newImage) =>
+  authApi
+    .post(`${url(courseID, chapterID)}/articles/image`, newImage, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response));
 
 const deleteArticle = async (courseID, chapterID, articleID) =>
@@ -35,4 +43,10 @@ const deleteArticle = async (courseID, chapterID, articleID) =>
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 
-export { getAllArticles, getArticleByID, addArticle, deleteArticle };
+export {
+  getAllArticles,
+  getArticleByID,
+  addArticle,
+  addImageArticle,
+  deleteArticle,
+};

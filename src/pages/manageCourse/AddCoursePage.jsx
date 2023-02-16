@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '../../api/api';
+import { addCourse } from '../../utils/course';
 
 // Components
 import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
-import { addCourse } from '../../utils/course';
 
 const AddCoursePage = ({ divisi }) => {
   const navigate = useNavigate();
