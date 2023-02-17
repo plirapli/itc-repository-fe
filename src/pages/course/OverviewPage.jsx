@@ -24,6 +24,7 @@ const OverviewPage = (props) => {
         <div className='w-full flex flex-col sm:flex-row gap-3 sm:gap-4'>
           <img
             className='w-full h-48 sm:max-w-[19rem] object-cover bg-zinc-400 rounded-lg overflow-hidden'
+            loading='lazy'
             src={course?.image_thumbnail}
             alt='course-thumbnail'
           />

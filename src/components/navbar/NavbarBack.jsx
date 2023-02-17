@@ -39,6 +39,7 @@ const NavbarBack = ({ user, setIsAuthed }) => {
             {/* Profile img */}
             <img
               className='w-8 h-8 sm:w-9 sm:h-9 border-2 rounded bg-cover overflow-hidden'
+              loading='lazy'
               src={photoProfile || Ava}
               alt='Profile'
             />

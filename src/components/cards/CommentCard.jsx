@@ -5,6 +5,7 @@ const CommentCard = ({ comment }) => {
     <div className='bg-white flex gap-2.5 p-2.5 pr-1 rounded-lg shadow'>
       <img
         className='bg-slate-400 max-w-[2rem] h-8 rounded-full overflow-hidden'
+        loading='lazy'
         src=''
         alt='profile'
       />

@@ -8,6 +8,7 @@ const DiscussionCard = ({ discussion, ...props }) => {
       <div className='flex justify-between items-center gap-2'>
         <img
           className='bg-slate-400 max-w-[2rem] h-8 rounded-full overflow-hidden'
+          loading='lazy'
           src=''
           alt='profil'
         />
