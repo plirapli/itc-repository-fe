@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 import { Ava } from '../../assets';
 import OverlayNavbar from '../overlay/OverlayNavbar';
-import { Link } from 'react-router-dom';
 
 const Navbar = ({ user, setIsAuthed }) => {
   const { fullName, username, photoProfile } = user;

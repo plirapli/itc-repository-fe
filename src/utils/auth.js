@@ -1,5 +1,4 @@
 import { api } from '../api/api';
-import jwt from 'jwt-decode';
 
 const getLocalAccessToken = () => {
   const user = JSON.parse(localStorage.getItem('user'));

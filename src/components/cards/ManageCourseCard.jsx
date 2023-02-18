@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '../buttons/Button';
 
 const ManageCourseCard = ({ type, children, ...props }) => {
