@@ -10,9 +10,13 @@ import { getLocalAccessToken, logoutHandler } from '../../utils/auth';
 
 // Components
 import { Dialog, Disclosure, Transition } from '@headlessui/react';
-import { ManageUserCard } from '../../components/cards';
+import {
+  ManageUserVerifiedCard,
+  ManageUserNotVerifiedCard,
+} from '../../components/cards';
 import { SearchBar } from '../../components/forms';
 import { Icon } from '@iconify/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
 const ManageUsersPage = ({ setIsAuthed }) => {
   const navigate = useNavigate();
@@ -26,7 +30,7 @@ const ManageUsersPage = ({ setIsAuthed }) => {
         setVerifiedUsers(users.filter(({ verify }) => verify));
         setUnverifiedUsers(users.filter(({ verify }) => !verify));
       })
-      .catch(({ data }) => console.log(data.message))
+      .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   };
 
@@ -87,7 +91,7 @@ const ManageUsersPage = ({ setIsAuthed }) => {
         {/* Verified Section */}
         <ListUserContainer title='Terverifikasi'>
           {verifiedUsers?.map((user) => (
-            <ManageUserCard
+            <ManageUserVerifiedCard
               key={user.id}
               user={user}
               setRole={onChangeRoleHandler}
@@ -98,7 +102,7 @@ const ManageUsersPage = ({ setIsAuthed }) => {
         {/* Unverified Section */}
         <ListUserContainer title='Belum Terverifikasi'>
           {unverifiedUsers?.map((user) => (
-            <ManageUserCard
+            <ManageUserNotVerifiedCard
               key={user.id}
               user={user}
               setRole={onChangeRoleHandler}
@@ -163,14 +167,13 @@ const ListUserContainer = ({ title, children }) => {
         <Disclosure>
           {({ open }) => (
             <>
-              <Disclosure.Button className='flex w-full justify-between items-center px-4 py-2 bg-white hover:bg-black hover:bg-opacity-5 focus:outline-none focus-visible:ring focus-visible:ring-primary focus-visible:ring-opacity-75'>
+              <Disclosure.Button className='flex w-full justify-between items-center px-4 py-2 border-b bg-white hover:bg-black hover:bg-opacity-5 focus:outline-none focus-visible:ring focus-visible:ring-primary focus-visible:ring-opacity-75'>
                 <h3 className='min-w-max'>{title}</h3>
-                <Icon
-                  icon='eva:arrow-ios-downward-fill'
-                  className={`transition-all ${
-                    open ? 'rotate-180 transform' : ''
+                <ChevronDownIcon
+                  className={`-mr-1 h-5 w-5 text-gray-dark transition-all ${
+                    open && 'rotate-180'
                   }`}
-                  width='20'
+                  aria-hidden='true'
                 />
               </Disclosure.Button>
               <Disclosure.Panel className='bg-white'>
