@@ -5,9 +5,9 @@ import AddDiscussionPage from './AddDiscussionPage';
 import CommentPage from './CommentPage';
 
 export {
-  OverviewPage,
-  ArticlePage,
-  DiscussionPage,
-  AddDiscussionPage,
-  CommentPage,
+  OverviewPage as Overview,
+  ArticlePage as Article,
+  DiscussionPage as Discussions,
+  AddDiscussionPage as AddDiscussion,
+  CommentPage as Comments,
 };
