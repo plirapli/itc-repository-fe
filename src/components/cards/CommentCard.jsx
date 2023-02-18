@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 
 const CommentCard = ({ comment }) => {
   return (
@@ -12,9 +12,7 @@ const CommentCard = ({ comment }) => {
       <div className='w-full'>
         <div className='flex'>
           <div className='w-full font-medium text-sm'>{comment.fullName}</div>
-          <span className='text-gray-dark'>
-            <Icon icon='bx:dots-vertical-rounded' width='16' />
-          </span>
+          <EllipsisVerticalIcon className='w-4 text-gray-dark' />
         </div>
         <p className='text-sm'>{comment.body}</p>
       </div>

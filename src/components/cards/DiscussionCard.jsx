@@ -1,32 +1,28 @@
-import { Icon } from '@iconify/react';
 import Button from '../buttons/Button';
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 
 const DiscussionCard = ({ discussion, ...props }) => {
   return (
     <div className='bg-white px-3.5 py-3 pr-2 rounded-lg shadow'>
       {/* Header Card */}
-      <div className='flex justify-between items-center gap-2'>
+      <div className='flex items-center gap-2'>
         <img
           className='bg-slate-400 max-w-[2rem] h-8 rounded-full overflow-hidden'
           loading='lazy'
           src=''
           alt='profil'
         />
-        <div className='w-full flex flex-col sm:flex-row sm:items-center sm:justify-between sm:mt-0.5'>
-          <p className='text-sm'>{discussion.fullName}</p>
-          <div className='text-xs sm:text-sm text-gray-dark'>
-            {discussion.createdAt}
-          </div>
+        <div className='w-full flex flex-col'>
+          <p className='text-sm truncate'>{discussion.fullName}</p>
+          <div className='text-xs text-gray-dark'>{discussion.createdAt}</div>
         </div>
-        <span className='text-gray-dark'>
-          <Icon icon='bx:dots-vertical-rounded' width='18' />
-        </span>
+        <EllipsisVerticalIcon className='self-start -mr-1 w-4 text-gray-dark' />
       </div>
 
       {/* Isi Card */}
       <main className='mt-1.5'>
-        <div className='font-bold'>{discussion.title}</div>
-        <p>{discussion.body}</p>
+        <div>{discussion.title}</div>
+        <p className='text-gray-dark text-sm clamp'>{discussion.body}</p>
       </main>
 
       {/* Reply Button */}
