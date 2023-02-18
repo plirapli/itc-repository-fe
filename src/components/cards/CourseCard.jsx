@@ -1,58 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Tags from '../tags/Tags';
-import { Icon } from '@iconify/react';
+import {
+  UserCircleIcon,
+  CalendarIcon,
+  ArrowPathIcon,
+} from '@heroicons/react/20/solid';
 
 const CourseCard = ({ data, ...props }) => {
   const [materi, setMateri] = useState({});
 
   useEffect(() => {
-    if (data) {
-      setMateri({
-        title: data.title,
-        id_divisi: data.id_division,
-        img: data.image_thumbnail,
-        createdAt: data.createdAt || '14/09/2021',
-        updatedAt: data.updatedAt || '15/10/2022',
-        author: data.user,
-      });
-    }
-  }, []);
+    if (data) setMateri({ ...data });
+  }, [data]);
 
   return (
     <div className='bg-white shadow rounded-lg p-3 h-full'>
       <div
         className='w-full h-40 max-h-80 bg-zinc-300 bg-cover rounded'
-        style={{ backgroundImage: `url(${materi.img})` }}
+        style={{ backgroundImage: `url(${materi.image_thumbnail})` }}
       ></div>
-      <div className='mt-1'>
+      <div className='mt-1 flex flex-col gap-1'>
         {/* Tags */}
-        <div className='mt-2'>
-          <Tags id={materi.id_divisi} divisi={props.divisi} />
+        <div className='mt-1'>
+          <Tags id={materi.id_division} divisi={props.divisi} />
         </div>
 
         {/* Title */}
-        <p className='w-full mt-1 text-sm clamp'>{materi?.title}</p>
+        <p className='w-full text-sm clamp'>{materi?.title}</p>
 
         {/* Author */}
-        <div className='mt-1 flex items-center gap-1 text-gray-dark'>
-          <Icon icon='carbon:user-avatar-filled' width='16' />
-          <span className='text-sm'>{materi?.author}</span>
+        <div className='flex items-center gap-1 text-gray-dark'>
+          <UserCircleIcon className='w-4' />
+          <span className='text-sm'>{materi?.user}</span>
         </div>
 
         {/* Date */}
-        <div className='mt-1 sm:mt-0 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2'>
-          <div className='flex items-center gap-1 text-gray-dark'>
-            <Icon icon='ic:round-date-range' width='16' />
-            <span className='text-xs'>{materi?.createdAt}</span>
+        <div className='-mt-0.5 flex flex-row items-center gap-1.5 text-gray-dark text-xs'>
+          <div className='flex items-center gap-1'>
+            <CalendarIcon className='w-4' />
+            <p>{materi?.createdAt}</p>
           </div>
-          <span className='hidden sm:inline'>|</span>
-          <div className='flex items-center gap-1 text-gray-dark pl-0.5 sm:pl-0'>
-            <Icon
-              className='mt-0.5'
-              icon='fluent-mdl2:date-time-12'
-              width='14'
-            />
-            <span className='text-xs'>{materi?.updatedAt}</span>
+          <span className='text-sm'>|</span>
+          <div className='flex items-center gap-1'>
+            <ArrowPathIcon className='w-4' />
+            <p>{materi?.updatedAt}</p>
           </div>
         </div>
       </div>
