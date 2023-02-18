@@ -22,10 +22,10 @@ const ManageUserNotVerifiedCard = ({ user, setVerify }) => {
           </div>
         </div>
         <div className='flex gap-0.5'>
-          <button className='transition-all hover:text-gray-dark'>
+          <button className='transition-all text-primary hover:text-opacity-50'>
             <CheckCircleIcon className='w-[1.75rem]' />
           </button>
-          <button className='text-danger-main transition-all hover:text-danger-hover'>
+          <button className='text-danger-main transition-all hover:text-opacity-50'>
             <XCircleIcon className='w-[1.75rem]' />
           </button>
         </div>
