@@ -1,10 +1,4 @@
-const Input = ({
-  label,
-  onChange,
-  type = 'text',
-  color = 'primary',
-  ...props
-}) => {
+const Input = ({ label, type = 'text', color = 'primary', ...props }) => {
   const textStyle = color === 'primary' && 'text-primary';
   const style = color === 'primary' ? 'input-primary' : 'input-secondary';
 
