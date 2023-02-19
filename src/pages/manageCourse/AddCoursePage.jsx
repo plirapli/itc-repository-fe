@@ -142,7 +142,7 @@ const AddCoursePage = ({ divisi }) => {
       </form>
 
       {/* Loading screen */}
-      <OverlayLoading loadingState={isLoading} onClose={isLoadingClose} />
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

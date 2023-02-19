@@ -115,10 +115,7 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
         </main>
       </div>
 
-      <OverlayLoading
-        loadingState={isLoading}
-        onClose={() => setIsLoading(true)}
-      />
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

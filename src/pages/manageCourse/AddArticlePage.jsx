@@ -174,10 +174,7 @@ const AddArticlePage = () => {
         </div>
       </form>
 
-      <OverlayLoading
-        loadingState={isLoading}
-        onClose={() => setIsLoading(true)}
-      />
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

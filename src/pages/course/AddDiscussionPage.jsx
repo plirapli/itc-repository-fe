@@ -82,10 +82,7 @@ const AddDiscussionPage = () => {
         </form>
       </div>
 
-      <OverlayLoading
-        loadingState={isLoading}
-        onClose={() => setIsLoading(true)}
-      />
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

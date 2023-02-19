@@ -73,10 +73,7 @@ const CommentPage = () => {
         <CommentLists comments={comments}></CommentLists>
       </div>
 
-      <OverlayLoading
-        loadingState={initializing}
-        onClose={() => setInitializing(true)}
-      />
+      <OverlayLoading loadingState={initializing} />
     </>
   );
 };

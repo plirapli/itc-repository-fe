@@ -299,10 +299,7 @@ const ManageChaptersPage = () => {
       </ModalDelete>
 
       {/* Loading screen */}
-      <OverlayLoading
-        loadingState={isLoading}
-        onClose={() => setIsLoading(true)}
-      />
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

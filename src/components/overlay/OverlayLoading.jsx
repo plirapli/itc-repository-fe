@@ -1,11 +1,11 @@
 import { Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { Icon } from '@iconify/react';
+import { Transition } from '@headlessui/react';
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 
-const OverlayLoading = ({ loadingState, onClose }) => {
+const OverlayLoading = ({ loadingState }) => {
   return (
-    <Transition appear show={loadingState} as={Fragment} onClose={onClose}>
-      <Dialog as='div' className='relative z-10'>
+    <Transition appear show={loadingState} as={Fragment}>
+      <div className='relative z-10'>
         <Transition.Child
           as={Fragment}
           enter='ease-out duration-300'
@@ -29,19 +29,16 @@ const OverlayLoading = ({ loadingState, onClose }) => {
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <Dialog.Panel className='w-full max-w-xs -mt-32 transform overflow-hidden rounded-2xl bg-white px-6 py-12 text-left align-middle shadow-xl transition-all'>
-                <div className='mt-2 flex justify-center'>
-                  <Icon width={64} icon='line-md:loading-twotone-loop' />
+              <div className='w-60 -mt-32 transform overflow-hidden rounded-xl bg-white px-6 py-12 text-left align-middle shadow-xl transition-all'>
+                <div className='flex justify-center'>
+                  <EllipsisHorizontalIcon className='w-16' />
                 </div>
-
-                <div className='mt-4'>
-                  <p className='text-center'>Memproses data</p>
-                </div>
-              </Dialog.Panel>
+                <p className='text-center'>Memproses data</p>
+              </div>
             </Transition.Child>
           </div>
         </div>
-      </Dialog>
+      </div>
     </Transition>
   );
 };
