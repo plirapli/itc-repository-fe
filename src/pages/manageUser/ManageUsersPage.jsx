@@ -51,10 +51,9 @@ const ManageUsersPage = ({ setIsAuthed }) => {
       .finally(() => getAllUserHandler());
   };
 
-  const onChangeVerifyHandler = (value, id) => {
+  const setVerifyHandler = (id) => {
     setIsLoading(true);
-
-    changeUserVerify(id, value)
+    changeUserVerify(id, true)
       .then(() => {
         // Check kalo yang diubah diri sendiri
         const { id: userID } = jwt(getLocalAccessToken());
@@ -63,12 +62,13 @@ const ManageUsersPage = ({ setIsAuthed }) => {
           setIsAuthed(false);
           navigate('/login');
         }
-
         // Get all user after update
         getAllUserHandler();
       })
-      .catch(({ data }) => console.log(data.message))
-      .finally(() => getAllUserHandler());
+      .catch(({ data }) => {
+        console.log(data.message);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -105,8 +105,7 @@ const ManageUsersPage = ({ setIsAuthed }) => {
             <ManageUserNotVerifiedCard
               key={user.id}
               user={user}
-              setRole={onChangeRoleHandler}
-              setVerify={onChangeVerifyHandler}
+              acceptUser={setVerifyHandler}
             />
           ))}
         </ListUserContainer>

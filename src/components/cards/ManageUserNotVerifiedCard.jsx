@@ -1,9 +1,8 @@
 import { formatDateWithHour } from '../../utils/dateConverter';
-import Button from '../buttons/Button';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import Tags from '../tags/Tags';
 
-const ManageUserNotVerifiedCard = ({ user, setVerify }) => {
+const ManageUserNotVerifiedCard = ({ user, acceptUser, rejectUser }) => {
   return (
     <>
       <div className='w-full px-4 py-3 flex justify-between items-center gap-2 border-b bg-white focus:outline-none focus-visible:ring focus-visible:ring-primary focus-visible:ring-opacity-75'>
@@ -22,10 +21,16 @@ const ManageUserNotVerifiedCard = ({ user, setVerify }) => {
           </div>
         </div>
         <div className='flex gap-0.5'>
-          <button className='transition-all text-primary hover:text-opacity-50'>
+          <button
+            onClick={() => acceptUser(user?.id)}
+            className='text-primary transition-all hover:text-opacity-50'
+          >
             <CheckCircleIcon className='w-[1.75rem]' />
           </button>
-          <button className='text-danger-main transition-all hover:text-opacity-50'>
+          <button
+            onClick={rejectUser}
+            className='text-danger-main transition-all hover:text-opacity-50'
+          >
             <XCircleIcon className='w-[1.75rem]' />
           </button>
         </div>
