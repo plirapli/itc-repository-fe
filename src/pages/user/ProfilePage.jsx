@@ -23,7 +23,7 @@ const ProfilePage = ({ userData, divisi }) => {
       >
         <div className='mt-3 grid grid-cols-12 gap-3'>
           {/* Thumbnail */}
-          <div className='col-span-12'>
+          <div>
             <label
               htmlFor='thumbnail'
               className='block text-sm font-medium text-primary'
