@@ -11,7 +11,7 @@ import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();
-  const { id_materi, id_bab } = useParams();
+  const { id_materi: course_id, id_bab: chapter_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState({});
@@ -28,7 +28,7 @@ const ManageArticlesPage = () => {
   };
 
   const getAllArticleHandler = () => {
-    getAllArticles(id_materi, id_bab)
+    getAllArticles(course_id, chapter_id)
       .then(setArticles)
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
@@ -38,7 +38,7 @@ const ManageArticlesPage = () => {
     closeModalDelete(); // Close modal
     setIsLoading(true);
 
-    deleteArticle(id_materi, id_bab, selectedArticle.id)
+    deleteArticle(course_id, chapter_id, selectedArticle.id)
       .then(() => setSelectedArticle({}))
       .catch(({ data }) => console.log(data.message))
       .finally(() => getAllArticleHandler());
@@ -75,7 +75,10 @@ const ManageArticlesPage = () => {
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-4'>
         {articles?.map(({ id, title }) => (
-          <Link key={id} to={`${id}`}>
+          <Link
+            key={id}
+            to={`/course/${course_id}/chapter/${chapter_id}/article/${id}`}
+          >
             <ManageCourseCard
               type='artikel'
               onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
