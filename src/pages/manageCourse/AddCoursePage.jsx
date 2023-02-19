@@ -15,7 +15,6 @@ const AddCoursePage = ({ divisi }) => {
   const [selectedDiv, setSelectedDiv] = useState(1);
   const [img, setImg] = useState({});
 
-  const isLoadingClose = () => setIsLoading(true);
   const backButtonHandler = () => navigate(-1);
   const inputTitleHandler = (e) => setTitle(e.target.value);
   const inputDivHandler = (e) => setSelectedDiv(e.target.value);
