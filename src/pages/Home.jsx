@@ -82,10 +82,11 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
           <div className='col-span-12 sm:col-span-6 md:col-span-4'>
             <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
               <Select
-                color='secondary'
-                label='Divisi'
-                value={selectedDivisi}
                 onChange={filterSelectHandler}
+                value={selectedDivisi}
+                label='Divisi'
+                color='secondary'
+                required
               >
                 <option value='0'>Semua</option>
                 {divisi.map(({ id, divisionName }) => (

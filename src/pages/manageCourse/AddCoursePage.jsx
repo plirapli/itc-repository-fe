@@ -63,6 +63,7 @@ const AddCoursePage = ({ divisi }) => {
               label='Judul'
               value={title}
               placeholder='Masukkan judul materi'
+              required
             />
           </div>
 
@@ -72,6 +73,7 @@ const AddCoursePage = ({ divisi }) => {
               onChange={inputDivHandler}
               label='Divisi'
               value={selectedDiv}
+              required
             >
               {divisi.map(({ id, divisionName }) => (
                 <option key={id} value={id}>

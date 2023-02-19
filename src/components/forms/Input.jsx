@@ -16,7 +16,6 @@ const Input = ({
         </label>
       )}
       <input
-        onChange={onChange}
         type={type}
         className={`${
           label && 'mt-1'

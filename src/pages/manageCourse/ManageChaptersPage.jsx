@@ -265,6 +265,7 @@ const ManageChaptersPage = () => {
                         value={selectedChapter.title}
                         color='secondary'
                         placeholder='Masukkan judul bab'
+                        required
                       />
                       <div className='mt-4 flex gap-2'>
                         <Button onClick={closeModalEdit} color='gray'>

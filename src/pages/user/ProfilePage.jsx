@@ -103,6 +103,7 @@ const ProfilePage = ({ userData, divisi }) => {
               // onChange={inputDivHandler}
               label='Divisi'
               value={user?.id_division}
+              required
             >
               {divisi.map(({ id, divisionName }) => (
                 <option key={id} value={id}>
@@ -118,6 +119,7 @@ const ProfilePage = ({ userData, divisi }) => {
               // onChange={inputDivHandler}
               label='Angkatan'
               value={user?.generation}
+              reqired
             >
               <option value='0' hidden>
                 Angkatan

@@ -1,11 +1,4 @@
-const Select = ({
-  onChange,
-  color = 'primary',
-  label,
-  value,
-  children,
-  ...props
-}) => {
+const Select = ({ color = 'primary', label, children, ...props }) => {
   const textStyle = color === 'primary' && 'text-primary';
   const style = color === 'primary' ? 'input-primary' : 'input-secondary';
 
@@ -18,9 +11,7 @@ const Select = ({
       )}
       <select
         className={`block w-full pl-3 pr-10 py-[9px] rounded-md shadow-sm focus-primary sm:text-sm ${style}`}
-        value={value}
-        onChange={onChange}
-        required
+        {...props}
       >
         {children}
       </select>

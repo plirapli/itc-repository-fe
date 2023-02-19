@@ -44,6 +44,7 @@ const AddDiscussionPage = () => {
                 onChange={inputTitleHandler}
                 label='Judul Pertanyaan'
                 placeholder='Masukkan judul pertanyaan'
+                required
               />
             </div>
 
@@ -63,6 +64,7 @@ const AddDiscussionPage = () => {
                   rows={10}
                   className='input-primary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
                   placeholder='Masukkan isi pertanyaan'
+                  required
                 />
               </div>
               <p className='mt-1 text-sm text-gray-500'>

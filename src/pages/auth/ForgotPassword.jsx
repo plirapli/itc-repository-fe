@@ -26,6 +26,7 @@ const ForgotPassword = (props) => {
             color='secondary'
             label='Email'
             placeholder='Masukkan alamat email'
+            required
           />
         </div>
         <section className='mt-4 w-full'>

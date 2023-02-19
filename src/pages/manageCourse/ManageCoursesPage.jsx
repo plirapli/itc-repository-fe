@@ -144,6 +144,7 @@ const ManageCoursesPage = () => {
                       value='Lorem ipsum dolor sit amet'
                       color='secondary'
                       placeholder='Masukkan judul materi'
+                      required
                     />
                   </div>
 

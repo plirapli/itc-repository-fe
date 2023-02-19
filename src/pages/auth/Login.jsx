@@ -62,6 +62,7 @@ const Login = ({ setToken, setIsAuthed }) => {
             value={inputData.emailUsername}
             color='secondary'
             placeholder='Masukkan email atau username'
+            required
           />
         </div>
         <section className='flex flex-col w-full'>
@@ -73,6 +74,7 @@ const Login = ({ setToken, setIsAuthed }) => {
               value={inputData.password}
               color='secondary'
               placeholder='Masukkan password'
+              required
             />
           </div>
           <div className='mt-2.5 text-end text-sm font-medium text-primary underline'>

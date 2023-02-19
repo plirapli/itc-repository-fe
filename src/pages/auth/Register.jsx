@@ -56,6 +56,7 @@ const Register = ({ divisi }) => {
             value={inputData.nama}
             color='secondary'
             placeholder='Masukkan nama'
+            required
           />
         </div>
         <div>
@@ -65,6 +66,7 @@ const Register = ({ divisi }) => {
             value={inputData.username}
             color='secondary'
             placeholder='Masukkan username'
+            required
           />
         </div>
         <div>
@@ -75,6 +77,7 @@ const Register = ({ divisi }) => {
             value={inputData.email}
             color='secondary'
             placeholder='Masukkan alamat email'
+            required
           />
         </div>
         <div>
@@ -85,14 +88,16 @@ const Register = ({ divisi }) => {
             value={inputData.password}
             color='secondary'
             placeholder='Masukkan password'
+            required
           />
         </div>
         <div className='flex flex-col gap-1 sm:w-2/5'>
           <Select
             onChange={(e) => inputHandler(e, 'id_division')}
-            color='secondary'
             label='Divisi'
             value={inputData.id_division}
+            color='secondary'
+            required
           >
             {divisi.map(({ id, divisionName }) => (
               <option className='bg-white' key={id} value={id}>
