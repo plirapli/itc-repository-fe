@@ -5,6 +5,7 @@ import {
   getAllUsers,
   changeUserRole,
   changeUserVerify,
+  deleteUser,
 } from '../../utils/user';
 import { getLocalAccessToken, logoutHandler } from '../../utils/auth';
 
@@ -71,6 +72,16 @@ const ManageUsersPage = ({ setIsAuthed }) => {
       });
   };
 
+  const deleteUserHandler = (id) => {
+    setIsLoading(true);
+    deleteUser(id)
+      .then(() => getAllUserHandler())
+      .catch(({ data }) => {
+        console.log(data.message);
+        setIsLoading(false);
+      });
+  };
+
   useEffect(() => {
     getAllUserHandler();
   }, []);
@@ -106,6 +117,7 @@ const ManageUsersPage = ({ setIsAuthed }) => {
               key={user.id}
               user={user}
               acceptUser={setVerifyHandler}
+              rejectUser={deleteUserHandler}
             />
           ))}
         </ListUserContainer>

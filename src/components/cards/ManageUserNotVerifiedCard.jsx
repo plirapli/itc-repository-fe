@@ -28,7 +28,7 @@ const ManageUserNotVerifiedCard = ({ user, acceptUser, rejectUser }) => {
             <CheckCircleIcon className='w-[1.75rem]' />
           </button>
           <button
-            onClick={rejectUser}
+            onClick={() => rejectUser(user?.id)}
             className='text-danger-main transition-all hover:text-opacity-50'
           >
             <XCircleIcon className='w-[1.75rem]' />
