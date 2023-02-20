@@ -11,7 +11,9 @@ const AddCommentForm = ({ onSubmit, onChange, body }) => {
         required
       />
       <div className='mt-3'>
-        <Button type='submit'>Kirim</Button>
+        <Button type='submit' size='small'>
+          Kirim
+        </Button>
       </div>
     </form>
   );

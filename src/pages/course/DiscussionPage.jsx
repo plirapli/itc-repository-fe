@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getAllDiscussions } from '../../utils/discussions';
 import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/forms/SearchBar';
-import { getAllDiscussions } from '../../utils/discussions';
 import DiscussionLists from '../../components/lists/DiscussionLists';
 
 const DiscussionPage = () => {
