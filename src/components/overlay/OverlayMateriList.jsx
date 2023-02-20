@@ -1,4 +1,3 @@
-import React from 'react';
 import { Disclosure, Transition } from '@headlessui/react';
 import Button from '../buttons/Button';
 import { Icon } from '@iconify/react';

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms/';
-import { getGeneration } from '../../utils/user';
+import { getAllGenerations } from '../../utils/user';
 
 const ProfilePage = ({ userData, divisi }) => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const ProfilePage = ({ userData, divisi }) => {
       >
         <div className='mt-3 grid grid-cols-12 gap-3'>
           {/* Thumbnail */}
-          <div className='col-span-12'>
+          <div>
             <label
               htmlFor='thumbnail'
               className='block text-sm font-medium text-primary'
@@ -74,18 +74,6 @@ const ProfilePage = ({ userData, divisi }) => {
             />
           </div>
 
-          {/* Password */}
-          <div className='col-span-12 sm:col-span-6'>
-            <Input
-              // onChange={inputTitleHandler}
-              label='Password'
-              type='password'
-              value={user?.password}
-              placeholder='Masukkan password'
-              required
-            />
-          </div>
-
           {/* No. Telepon */}
           <div className='col-span-12 sm:col-span-6'>
             <Input
@@ -93,7 +81,6 @@ const ProfilePage = ({ userData, divisi }) => {
               label='Nomor Telepon'
               value={user?.phoneNumber}
               placeholder='Masukkan nomor telepon'
-              required
             />
           </div>
 
@@ -103,6 +90,7 @@ const ProfilePage = ({ userData, divisi }) => {
               // onChange={inputDivHandler}
               label='Divisi'
               value={user?.id_division}
+              required
             >
               {divisi.map(({ id, divisionName }) => (
                 <option key={id} value={id}>
@@ -122,7 +110,7 @@ const ProfilePage = ({ userData, divisi }) => {
               <option value='0' hidden>
                 Angkatan
               </option>
-              {getGeneration().map((gen) => (
+              {getAllGenerations().map((gen) => (
                 <option key={gen} value={gen}>
                   {gen}
                 </option>
@@ -132,14 +120,20 @@ const ProfilePage = ({ userData, divisi }) => {
 
           <div className='hidden sm:block sm:col-span-full'></div>
 
-          {/* Submit & Back button */}
-          <div className='mt-6 col-span-12 sm:col-span-2 sm:col-start-9'>
-            <Button onClick={toHome} type='submit' color='gray'>
-              Kembali
-            </Button>
-          </div>
-          <div className='sm:mt-6 col-span-12 sm:col-span-2 sm:col-start-11'>
-            <Button type='submit'>Simpan</Button>
+          <div className='mt-6 col-span-12 grid grid-cols-12 gap-3'>
+            <div className='col-span-12 sm:col-span-6 md:col-span-3'>
+              <Button color='gray'>Ganti Password</Button>
+            </div>
+
+            {/* Submit & Back button */}
+            <div className='col-span-12 sm:col-span-2 sm:col-start-9'>
+              <Button onClick={toHome} type='submit' color='gray'>
+                Kembali
+              </Button>
+            </div>
+            <div className='col-span-12 sm:col-span-2 sm:col-start-11'>
+              <Button type='submit'>Simpan</Button>
+            </div>
           </div>
         </div>
       </form>

@@ -5,9 +5,9 @@ import AddCoursePage from './AddCoursePage';
 import AddArticlePage from './AddArticlePage';
 
 export {
-  ManageCoursesPage,
-  ManageChaptersPage,
-  ManageArticlesPage,
-  AddCoursePage,
-  AddArticlePage,
+  ManageCoursesPage as Courses,
+  ManageChaptersPage as Chapters,
+  ManageArticlesPage as Articles,
+  AddCoursePage as AddCourse,
+  AddArticlePage as AddArticle,
 };

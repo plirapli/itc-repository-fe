@@ -1,13 +1,15 @@
 import CourseCard from './CourseCard';
-import ManageUserCard from './ManageUserCard';
 import ManageCourseCard from './ManageCourseCard';
+import ManageUserVerifiedCard from './ManageUserVerifiedCard';
+import ManageUserNotVerifiedCard from './ManageUserNotVerifiedCard';
 import DiscussionCard from './DiscussionCard';
 import CommentCard from './CommentCard';
 
 export {
   CourseCard,
-  ManageUserCard,
   ManageCourseCard,
+  ManageUserVerifiedCard,
+  ManageUserNotVerifiedCard,
   DiscussionCard,
   CommentCard,
 };

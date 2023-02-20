@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/forms/Input';
@@ -26,6 +26,7 @@ const ForgotPassword = (props) => {
             color='secondary'
             label='Email'
             placeholder='Masukkan alamat email'
+            required
           />
         </div>
         <section className='mt-4 w-full'>

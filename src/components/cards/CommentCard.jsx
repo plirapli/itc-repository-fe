@@ -1,21 +1,20 @@
-import { Icon } from "@iconify/react";
+import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 
-const CommentCard = ({ comment, props }) => {
+const CommentCard = ({ comment }) => {
   return (
-    <div className="bg-white flex gap-3 px-4 pt-3 pb-4 rounded-lg shadow">
+    <div className='bg-white flex gap-2.5 p-2.5 pr-1 rounded-lg shadow'>
       <img
-        className="bg-slate-400 max-w-[2rem] h-8 rounded overflow-hidden"
-        src=""
-        alt="Profile"
+        className='bg-slate-400 max-w-[2rem] h-8 rounded-full overflow-hidden'
+        loading='lazy'
+        src=''
+        alt='profile'
       />
-      <div className="w-full">
-        <div className="flex mb-0.5">
-          <div className="w-full font-bold">{comment.fullName}</div>
-          <span className="text-gray-dark">
-            <Icon icon="bx:dots-vertical-rounded" width="24" />
-          </span>
+      <div className='w-full'>
+        <div className='flex'>
+          <div className='w-full font-medium text-sm'>{comment.fullName}</div>
+          <EllipsisVerticalIcon className='w-4 text-gray-dark' />
         </div>
-        <p>{comment.body}</p>
+        <p className='text-sm'>{comment.body}</p>
       </div>
     </div>
   );

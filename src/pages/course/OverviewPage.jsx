@@ -1,11 +1,11 @@
-import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Button from '../../components/buttons/Button';
+import { getCourseById } from '../../utils/course';
 
 // Component
+import Button from '../../components/buttons/Button';
 import Tags from '../../components/tags/Tags';
-import { getCourseById } from '../../utils/course';
+import { Icon } from '@iconify/react';
 
 const OverviewPage = (props) => {
   const [course, setCourse] = useState({});
@@ -24,32 +24,33 @@ const OverviewPage = (props) => {
         <div className='w-full flex flex-col sm:flex-row gap-3 sm:gap-4'>
           <img
             className='w-full h-48 sm:max-w-[19rem] object-cover bg-zinc-400 rounded-lg overflow-hidden'
-            src={course.image_thumbnail}
+            loading='lazy'
+            src={course?.image_thumbnail}
             alt='course-thumbnail'
           />
           <div className='flex flex-col items-start justify-between'>
             <div className='flex flex-col gap-1.5'>
               <div>
-                <h2 className='text-lg font-medium clamp'>{course.title}</h2>
+                <h2 className='text-lg font-medium clamp'>{course?.title}</h2>
                 <div className='text-gray-dark text-sm mt-1'>
-                  {course.length?.chapters} Bab
+                  {course?.length?.chapters} Bab
                   <span className='text-black'> | </span>
-                  {course.length?.articles} Artikel
+                  {course?.length?.articles} Artikel
                 </div>
               </div>
-              <Tags id={course.id_division} />
+              <Tags id={course?.id_division} />
               <div className='flex items-center gap-1.5 text-black'>
                 <Icon icon='carbon:user-avatar-filled' width='20' />
-                <span className='text-sm'>{course.user}</span>
+                <span className='text-sm'>{course?.user}</span>
               </div>
             </div>
 
             <div className='mt-1.5'>
               <p className='text-sm text-gray-dark'>
-                Dibuat pada {course.createdAt}
+                Dibuat pada {course?.createdAt}
               </p>
               <p className='mt-0.5 text-sm text-gray-dark'>
-                Diperbarui pada {course.updatedAt}
+                Diperbarui pada {course?.updatedAt}
               </p>
             </div>
           </div>
@@ -61,7 +62,7 @@ const OverviewPage = (props) => {
         {/* Deskripsi */}
         <div>
           <h2 className='text-lg'>Deskripsi</h2>
-          <p className='mt-0.5 sm:mt-1'>{course.description}</p>
+          <p className='mt-0.5 sm:mt-1'>{course?.description}</p>
         </div>
       </div>
     </>

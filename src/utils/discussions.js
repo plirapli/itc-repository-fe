@@ -1,11 +1,11 @@
-import { authApi } from "../api/api";
-import { formatDate, formatDateWithHour } from './dateConverter';
+import { authApi } from '../api/api';
+import { formatDateWithHour } from './dateConverter';
 
-// getAllDiscussions
+// Get all discussions
 const getAllDiscussions = async (courseId) => {
   return authApi
-    .get(`/course/${courseId}/discussion`)
-    .then(({data}) => {
+    .get(`/courses/${courseId}/discussions`)
+    .then(({ data }) => {
       return data.data.map((discussion) => {
         return {
           ...discussion,
@@ -16,12 +16,12 @@ const getAllDiscussions = async (courseId) => {
       });
     })
     .catch(({ response }) => Promise.reject(response));
-}
+};
 
-// getDiscussionById 
+// Get discussion by ID
 const getDiscussionById = async (courseId, discussionId) => {
   return authApi
-    .get(`/course/${courseId}/discussion/${discussionId}`)
+    .get(`/courses/${courseId}/discussions/${discussionId}`)
     .then(({ data }) => {
       return {
         ...data.data,
@@ -33,10 +33,10 @@ const getDiscussionById = async (courseId, discussionId) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-// add discussion to the course
-const addDiscussion = async ({courseId, title, body }) => {
+// Add discussion to the course
+const addDiscussion = async (courseID, newDiscussion) => {
   return authApi
-    .post(`/course/${courseId}/discussion`, {title, body})
+    .post(`/courses/${courseID}/discussions`, newDiscussion)
     .then(({ data }) => {
       return {
         ...data.data,
@@ -46,7 +46,5 @@ const addDiscussion = async ({courseId, title, body }) => {
     })
     .catch(({ response }) => Promise.reject(response));
 };
-
-
 
 export { getAllDiscussions, getDiscussionById, addDiscussion };

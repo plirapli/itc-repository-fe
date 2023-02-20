@@ -1,15 +1,18 @@
 import { authApi } from '../api/api';
 import { formatDateWithHour } from './dateConverter';
 
+const url = (courseID, chapterID) =>
+  `/courses/${courseID}/chapters/${chapterID}`;
+
 const getAllArticles = async (courseID, chapterID) =>
   authApi
-    .get(`/course/${courseID}/chapter/${chapterID}/article`)
+    .get(`${url(courseID, chapterID)}/articles`)
     .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 
 const getArticleByID = async (courseID, chapterID, articleID) =>
   authApi
-    .get(`/course/${courseID}/chapter/${chapterID}/article/${articleID}`)
+    .get(`${url(courseID, chapterID)}/articles/${articleID}`)
     .then(({ data }) => {
       const { data: article } = data;
       return {
@@ -20,10 +23,30 @@ const getArticleByID = async (courseID, chapterID, articleID) =>
     })
     .catch(({ response }) => Promise.reject(response));
 
-const deleteArticle = async (courseID, chapterID, articleID) =>
+const addArticle = async (courseID, chapterID, newArticle) =>
   authApi
-    .delete(`/course/${courseID}/chapter/${chapterID}/article/${articleID}`)
+    .post(`${url(courseID, chapterID)}/articles`, newArticle)
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 
-export { getAllArticles, getArticleByID, deleteArticle };
+const addImageArticle = async (courseID, chapterID, newImage) =>
+  authApi
+    .post(`${url(courseID, chapterID)}/articles/image`, newImage, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then(({ data }) => data)
+    .catch(({ response }) => Promise.reject(response));
+
+const deleteArticle = async (courseID, chapterID, articleID) =>
+  authApi
+    .delete(`${url(courseID, chapterID)}/articles/${articleID}`)
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+
+export {
+  getAllArticles,
+  getArticleByID,
+  addArticle,
+  addImageArticle,
+  deleteArticle,
+};

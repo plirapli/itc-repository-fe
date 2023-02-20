@@ -23,11 +23,12 @@ const NavbarCourse = ({ courseID }) => {
   }, []);
 
   return (
-    <nav className='w-full bg-primary flex items-center justify-between p-1 sm:px-6 sm:py-3 relative'>
+    <nav className='w-full bg-primary flex items-center justify-between p-[5px] sm:px-6 sm:py-2.5 relative'>
       <div onClick={backButtonHandler}>
         <Button
           variant='icon-left'
           color='transparent'
+          size='small'
           icon={icon.backBtn}
           isResponsive
         >
@@ -38,6 +39,7 @@ const NavbarCourse = ({ courseID }) => {
         <Link to={`/course/${courseID}/discussion/`}>
           <Button
             variant='icon-left'
+            size='small'
             color='transparent'
             icon={icon.diskusi}
             isResponsive
@@ -48,6 +50,7 @@ const NavbarCourse = ({ courseID }) => {
         <Button
           onClick={setIsClickedHandler}
           variant='icon-left'
+          size='small'
           color='transparent'
           icon={icon.listMateri}
           isResponsive

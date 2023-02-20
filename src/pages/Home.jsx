@@ -7,6 +7,7 @@ import Navbar from '../components/navbar/Navbar';
 import Button from '../components/buttons/Button';
 import { Select, SearchBar } from '../components/forms';
 import { CourseCard } from '../components/cards/index';
+import OverlayLoading from '../components/overlay/OverlayLoading';
 
 const Home = ({ userData, divisi, setIsAuthed }) => {
   window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
@@ -15,15 +16,7 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
   const navbar = useOutletContext();
   const toAddMateri = () => navigate('manage/course/add/');
 
-  let sortOptions = [
-    { id: 1, name: 'A-Z' },
-    { id: 2, name: 'Z-A' },
-    { id: 3, name: 'Created at (Asc)' },
-    { id: 4, name: 'Created at (Desc)' },
-    { id: 5, name: 'Update at (Asc)' },
-    { id: 6, name: 'Update at (Desc)' },
-  ];
-  // const [sort, setSort] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedDivisi, setSelectedDivisi] = useState('0');
   const [courses, setCourses] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState([]);
@@ -43,7 +36,8 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
           setFilteredCourse(data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
 
     // Cleanup
     return () => {
@@ -85,31 +79,25 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
 
         {/* Sort, Filter, Search */}
         <div className='mt-2 sm:mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
-          <div className='col-span-12 sm:col-span-7 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
-            <Select
-              color='secondary'
-              label='Divisi'
-              value={selectedDivisi}
-              onChange={filterSelectHandler}
-            >
-              <option value='0'>Semua</option>
-              {divisi.map(({ id, divisionName }) => (
-                <option className='bg-white' key={id} value={id}>
-                  {divisionName}
-                </option>
-              ))}
-            </Select>
+          <div className='col-span-12 sm:col-span-6 md:col-span-4'>
+            <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
+              <Select
+                onChange={filterSelectHandler}
+                value={selectedDivisi}
+                label='Divisi'
+                color='secondary'
+                required
+              >
+                <option value='0'>Semua</option>
+                {divisi.map(({ id, divisionName }) => (
+                  <option className='bg-white' key={id} value={id}>
+                    {divisionName}
+                  </option>
+                ))}
+              </Select>
+            </div>
           </div>
-          <div className='col-span-12 sm:col-span-5 lg:col-span-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
-            <Select label='Sort By' color='secondary'>
-              {sortOptions.map(({ id, name }) => (
-                <option className='bg-white' key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </Select>
-          </div>
-          <div className='col-span-12 lg:col-span-4'>
+          <div className='col-span-12 md:col-start-7 sm:col-span-6'>
             <SearchBar placeholder='Cari materi' />
           </div>
         </div>
@@ -126,6 +114,8 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
           ))}
         </main>
       </div>
+
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

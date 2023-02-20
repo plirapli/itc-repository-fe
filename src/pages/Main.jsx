@@ -1,35 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { api } from '../api/api';
-import { getLocalAccessToken, getLocalRefreshToken } from '../utils/auth';
+import { getAccessToken, getLocalAccessToken } from '../utils/auth';
 import { getAllDivisions } from '../utils/division';
 import { getUserById } from '../utils/user';
 import jwt from 'jwt-decode';
 
 // Components
-import {
-  Layout,
-  LayoutLogin,
-  LayoutManage,
-  LayoutCourse,
-  LayoutNavbar,
-} from './layout/index';
+import * as Layout from './layout/index';
 import { Home } from './';
-import {
-  OverviewPage,
-  ArticlePage,
-  DiscussionPage,
-  AddDiscussionPage,
-  CommentPage,
-} from './course';
-import { ForgotPassword, Login, Register } from './auth';
-import {
-  ManageArticlesPage,
-  ManageChaptersPage,
-  ManageCoursesPage,
-  AddCoursePage,
-  AddArticlePage,
-} from './manageCourse';
+import * as CoursePage from './course';
+import * as AuthPage from './auth';
+import * as ManageCoursePage from './manageCourse';
 import ManageUsersPage from './manageUser/ManageUsersPage';
 import { ProfilePage } from './user';
 
@@ -44,49 +25,61 @@ const Main = () => {
 
   useEffect(() => {
     if (token) {
-      const { id, division } = jwt(token);
+      const { id } = jwt(token);
       getUserById(id).then((data) => {
-        setUserData({ id, division, ...data });
+        setUserData({ id, ...data });
+        const credential = JSON.parse(localStorage.getItem('user'));
+
+        if (!credential.username) {
+          localStorage.setItem(
+            'user',
+            JSON.stringify({ ...credential, username: data.username })
+          );
+        }
       });
     }
-  }, [token]);
+  }, [divisi, token]);
 
   useEffect(() => {
     // Get divisi
     getAllDivisions()
       .then(setDivisi)
-      .catch((err) => console.log(err));
+      .catch(({ data }) => console.log(data.message));
 
     // Check is login exist
-    api
-      .post('/user/refresh-token', getLocalRefreshToken())
-      .then(({ data }) => {
-        const { accessToken } = data.data;
+    getAccessToken()
+      .then((data) => {
+        const { accessToken } = data;
         setToken(accessToken);
         setIsAuthed(true);
-        setIsLoading(false);
       })
-      .catch(() => {
-        setIsAuthed(false);
-        setIsLoading(false);
-      });
+      .finally(() => setIsLoading(false));
   }, []);
 
   if (!isLoading) {
     if (!isAuthed)
       return (
-        <div className='min-h-screen bg-gray-light'>
+        <div className='min-hs-screen bg-gray-light'>
           <Routes>
             {/* Login, Register Page */}
-            <Route element={<LayoutLogin />}>
+            <Route element={<Layout.Auth />}>
               <Route
                 path='/*'
                 element={
-                  <Login token={setTokenHandler} setIsAuthed={setIsAuthed} />
+                  <AuthPage.Login
+                    setToken={setTokenHandler}
+                    setIsAuthed={setIsAuthed}
+                  />
                 }
               />
-              <Route path='forgot-password/' element={<ForgotPassword />} />
-              <Route path='register/' element={<Register divisi={divisi} />} />
+              <Route
+                path='forgot-password/'
+                element={<AuthPage.ForgotPassword />}
+              />
+              <Route
+                path='register/'
+                element={<AuthPage.Register divisi={divisi} />}
+              />
             </Route>
           </Routes>
         </div>
@@ -95,7 +88,7 @@ const Main = () => {
     return (
       <div className='min-h-screen bg-gray-light'>
         <Routes>
-          <Route element={<Layout />}>
+          <Route element={<Layout.Main />}>
             <Route
               path='/*'
               element={
@@ -110,7 +103,7 @@ const Main = () => {
             {/* User */}
             <Route
               path='u/:username/'
-              element={<LayoutNavbar userData={userData} />}
+              element={<Layout.LayoutNavbar userData={userData} />}
             >
               <Route
                 path='profile'
@@ -122,7 +115,7 @@ const Main = () => {
             <Route
               path='manage/'
               element={
-                <LayoutManage userData={userData} setIsAuthed={setIsAuthed} />
+                <Layout.Manage userData={userData} setIsAuthed={setIsAuthed} />
               }
             >
               {/* Manage User */}
@@ -140,48 +133,52 @@ const Main = () => {
 
               {/* Manage Materi */}
               <Route path='course/'>
-                <Route index element={<ManageCoursesPage />} />
+                <Route index element={<ManageCoursePage.Courses />} />
                 <Route
                   exact
                   path='add/'
-                  element={<AddCoursePage divisi={divisi} />}
+                  element={<ManageCoursePage.AddCourse divisi={divisi} />}
                 />
                 <Route
                   exact
                   path=':id_materi/'
-                  element={<ManageChaptersPage />}
+                  element={<ManageCoursePage.Chapters />}
                 />
                 <Route
                   exact
                   path=':id_materi/:id_bab/'
-                  element={<ManageArticlesPage />}
+                  element={<ManageCoursePage.Articles />}
                 />
                 <Route
                   exact
                   path=':id_materi/:id_bab/add/'
-                  element={<AddArticlePage />}
+                  element={<ManageCoursePage.AddArticle />}
                 />
               </Route>
             </Route>
 
             {/* Course */}
-            <Route path='course/:id_course/' element={<LayoutCourse />}>
-              <Route index element={<OverviewPage />} />
+            <Route path='course/:id_course/' element={<Layout.Course />}>
+              <Route index element={<CoursePage.Overview />} />
               <Route
                 exact
                 path='chapter/:id_chapter/article/:id_article'
-                element={<ArticlePage />}
+                element={<CoursePage.Article />}
               />
-              <Route exact path='discussion/' element={<DiscussionPage />} />
+              <Route
+                exact
+                path='discussion/'
+                element={<CoursePage.Discussions />}
+              />
               <Route
                 exact
                 path='discussion/add/'
-                element={<AddDiscussionPage />}
+                element={<CoursePage.AddDiscussion />}
               />
               <Route
                 exact
                 path='discussion/:id_discussion/'
-                element={<CommentPage />}
+                element={<CoursePage.Comments />}
               />
             </Route>
           </Route>

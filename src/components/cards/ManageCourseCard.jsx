@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '../buttons/Button';
 
 const ManageCourseCard = ({ type, children, ...props }) => {
@@ -11,6 +10,7 @@ const ManageCourseCard = ({ type, children, ...props }) => {
         <Button
           onClick={props.onClickEdit}
           variant='icon-only'
+          size='small'
           color='secondary'
           icon='bxs:pencil'
         />
@@ -18,6 +18,7 @@ const ManageCourseCard = ({ type, children, ...props }) => {
           <Button
             onClick={props.onClickDetail}
             variant='icon-only'
+            size='small'
             color='secondary'
             icon='bxs:detail'
           />
@@ -25,6 +26,7 @@ const ManageCourseCard = ({ type, children, ...props }) => {
         <Button
           onClick={props.onClickDelete}
           variant='icon-only'
+          size='small'
           color='danger'
           icon='bxs:trash'
         />

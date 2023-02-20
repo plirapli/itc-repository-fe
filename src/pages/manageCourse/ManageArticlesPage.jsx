@@ -7,11 +7,12 @@ import Button from '../../components/buttons/Button';
 import { SearchBar } from '../../components/forms';
 import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();
-  const { id_materi, id_bab } = useParams();
-
+  const { id_materi: course_id, id_bab: chapter_id } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
@@ -27,19 +28,20 @@ const ManageArticlesPage = () => {
   };
 
   const getAllArticleHandler = () => {
-    getAllArticles(id_materi, id_bab)
+    getAllArticles(course_id, chapter_id)
       .then(setArticles)
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsLoading(false));
   };
 
   const deleteArticleHandler = () => {
-    deleteArticle(id_materi, id_bab, selectedArticle.id)
-      .then(() => {
-        setSelectedArticle({}); // Reset state
-        getAllArticleHandler(); // Get article after delete
-        closeModalDelete(); // Close modal
-      })
-      .catch(({ data }) => console.log(data.message));
+    closeModalDelete(); // Close modal
+    setIsLoading(true);
+
+    deleteArticle(course_id, chapter_id, selectedArticle.id)
+      .then(() => setSelectedArticle({}))
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => getAllArticleHandler());
   };
 
   useEffect(() => {
@@ -48,7 +50,7 @@ const ManageArticlesPage = () => {
   }, []);
 
   return (
-    <div>
+    <>
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
@@ -58,6 +60,7 @@ const ManageArticlesPage = () => {
         <Button
           onClick={toAddArtikel}
           variant='icon-right'
+          size='small'
           icon='akar-icons:plus'
         >
           Tambah Artikel
@@ -72,7 +75,10 @@ const ManageArticlesPage = () => {
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-4'>
         {articles?.map(({ id, title }) => (
-          <Link key={id} to={`${id}`}>
+          <Link
+            key={id}
+            to={`/course/${course_id}/chapter/${chapter_id}/article/${id}`}
+          >
             <ManageCourseCard
               type='artikel'
               onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
@@ -97,7 +103,10 @@ const ManageArticlesPage = () => {
           {selectedArticle.title}
         </p>
       </ModalDelete>
-    </div>
+
+      {/* Loading screen */}
+      <OverlayLoading loadingState={isLoading} />
+    </>
   );
 };
 

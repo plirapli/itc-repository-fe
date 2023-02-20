@@ -1,8 +1,6 @@
-import React from 'react';
-import Button from '../buttons/Button';
 import { Select } from '../forms';
 
-const ManageUserCard = ({ user, setRole, setVerify }) => {
+const ManageUserVerifiedCard = ({ user, setRole, setVerify }) => {
   return (
     <div className='px-4 pt-3.5'>
       <div className='grid grid-cols-6 gap-2.5 sm:flex sm:gap-2 items-center'>
@@ -25,23 +23,6 @@ const ManageUserCard = ({ user, setRole, setVerify }) => {
               </option>
             </Select>
           </div>
-          <div className='w-full sm:w-48'>
-            <Select
-              onChange={(e) => setVerify(e.target.value, user.id)}
-              value={user?.verify}
-              color='secondary'
-            >
-              <option className='bg-white' value={true}>
-                Terverifikasi
-              </option>
-              <option className='bg-white' value={false}>
-                Belum Terverifikasi
-              </option>
-            </Select>
-          </div>
-        </div>
-        <div className='justify-self-end order-2 sm:order-last'>
-          <Button variant='icon-only' color='danger' icon='bxs:trash' />
         </div>
       </div>
 
@@ -51,4 +32,4 @@ const ManageUserCard = ({ user, setRole, setVerify }) => {
   );
 };
 
-export default ManageUserCard;
+export default ManageUserVerifiedCard;

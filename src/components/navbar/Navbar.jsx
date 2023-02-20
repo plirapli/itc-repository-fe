@@ -1,11 +1,11 @@
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 import { Ava } from '../../assets';
-import OverlayNavbar from './OverlayNavbar';
-import { Link } from 'react-router-dom';
+import OverlayNavbar from '../overlay/OverlayNavbar';
 
 const Navbar = ({ user, setIsAuthed }) => {
-  const { fullName, division, photoProfile } = user;
+  const { fullName, username, photoProfile } = user;
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between pl-4 sm:pl-8 relative'>
@@ -21,13 +21,14 @@ const Navbar = ({ user, setIsAuthed }) => {
                 {fullName || 'Loading...'}
               </p>
               <p className='hidden sm:block text-xs text-accent'>
-                {division || 'Loading...'}
+                {username || 'Loading...'}
               </p>
             </div>
 
             {/* Profile img */}
             <img
               className='w-8 h-8 sm:w-9 sm:h-9 border-2 rounded bg-cover overflow-hidden'
+              loading='lazy'
               src={photoProfile || Ava}
               alt='Profile'
             />
@@ -44,9 +45,7 @@ const Navbar = ({ user, setIsAuthed }) => {
           leaveTo='transform opacity-0 scale-95'
         >
           <Menu.Items className='absolute right-0 origin-top-right'>
-            <Menu.Item>
-              <OverlayNavbar user={user} setIsAuthed={setIsAuthed} />
-            </Menu.Item>
+            <OverlayNavbar user={user} setIsAuthed={setIsAuthed} />
           </Menu.Items>
         </Transition>
       </Menu>

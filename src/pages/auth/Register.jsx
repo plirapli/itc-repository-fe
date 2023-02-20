@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { api } from '../../api/api';
 
 // Components
 import { Input, Select } from '../../components/forms';
 import Button from '../../components/buttons/Button';
+import { sendRegister } from '../../utils/auth';
 
 const Register = ({ divisi }) => {
   const navigate = useNavigate();
@@ -24,19 +24,16 @@ const Register = ({ divisi }) => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    try {
-      const id_division = parseInt(inputData.id_division);
-      const data = { ...inputData, id_division: id_division };
-      const response = await api.post('/user/register', data);
+    const id_division = parseInt(inputData.id_division);
+    const data = { ...inputData, id_division: id_division };
 
-      setErrMessage('Akun anda berhasil dibuat, silakan login.');
-      setInputData(initialState);
-      if (response) {
-        navigate('/login');
-      }
-    } catch (err) {
-      setErrMessage(`Error: ${err.response.data.message}!`);
-    }
+    sendRegister(data)
+      .then((data) => {
+        setInputData(initialState); // Reset state
+        setErrMessage(data); // Set message
+        navigate('/login'); // Navigate to /login
+      })
+      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`));
   };
 
   useEffect(() => {
@@ -59,6 +56,7 @@ const Register = ({ divisi }) => {
             value={inputData.nama}
             color='secondary'
             placeholder='Masukkan nama'
+            required
           />
         </div>
         <div>
@@ -68,6 +66,7 @@ const Register = ({ divisi }) => {
             value={inputData.username}
             color='secondary'
             placeholder='Masukkan username'
+            required
           />
         </div>
         <div>
@@ -78,6 +77,7 @@ const Register = ({ divisi }) => {
             value={inputData.email}
             color='secondary'
             placeholder='Masukkan alamat email'
+            required
           />
         </div>
         <div>
@@ -88,14 +88,16 @@ const Register = ({ divisi }) => {
             value={inputData.password}
             color='secondary'
             placeholder='Masukkan password'
+            required
           />
         </div>
         <div className='flex flex-col gap-1 sm:w-2/5'>
           <Select
             onChange={(e) => inputHandler(e, 'id_division')}
-            color='secondary'
             label='Divisi'
             value={inputData.id_division}
+            color='secondary'
+            required
           >
             {divisi.map(({ id, divisionName }) => (
               <option className='bg-white' key={id} value={id}>

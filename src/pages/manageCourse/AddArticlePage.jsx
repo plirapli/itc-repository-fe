@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 
 // Components
 import Input from '../../components/forms/Input';
 import Button from '../../components/buttons/Button';
-import { authApi } from '../../api/api';
+import { addArticle, addImageArticle } from '../../utils/article';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const AddArticlePage = () => {
   const navigate = useNavigate();
   const { id_materi, id_bab } = useParams();
-  const url = `/course/${id_materi}/chapter/${id_bab}/article`;
 
+  const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState();
 
@@ -22,15 +23,9 @@ const AddArticlePage = () => {
       const formData = new FormData();
       formData.append('image', blobInfo.blob(), blobInfo.filename());
 
-      authApi
-        .post(`${url}/image`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        })
-        .then(({ data }) => {
-          console.log(data.location);
-          resolve(data.location);
-        })
-        .catch(({ response }) => reject(response.data.message));
+      addImageArticle(id_materi, id_bab, formData)
+        .then((data) => resolve(data.location))
+        .catch(({ data }) => reject(data.message));
     });
 
   const submitHandler = (e) => {
@@ -40,15 +35,18 @@ const AddArticlePage = () => {
       const articleContent = content.getContent();
       const newArticle = { title, content: articleContent };
 
-      authApi.post(url, newArticle).then(() => {
-        // Reset state
-        // setIsLoading(false);
-        setTitle('');
-        setContent('');
+      setIsLoading(true);
+      addArticle(id_materi, id_bab, newArticle)
+        .then(() => {
+          // Reset state
+          setTitle('');
+          setContent('');
 
-        // Redirect to list materi page
-        navigate(-1);
-      });
+          // Redirect to list materi page
+          navigate(-1);
+        })
+        .catch(({ data }) => data.message)
+        .finally(() => setIsLoading(false));
     }
   };
 
@@ -175,6 +173,8 @@ const AddArticlePage = () => {
           </div>
         </div>
       </form>
+
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };
