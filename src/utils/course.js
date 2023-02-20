@@ -1,6 +1,5 @@
 import { authApi } from '../api/api';
 import { getChapterArticleLength } from './chapter';
-import { getAllUsers, getUserById } from './user';
 import { formatDate, formatDateWithHour } from './dateConverter';
 
 const url = '/courses';
