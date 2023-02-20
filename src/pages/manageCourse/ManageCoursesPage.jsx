@@ -83,7 +83,7 @@ const ManageCoursesPage = () => {
       </div>
 
       {/* Card List */}
-      <section className='mt-4 flex flex-col gap-4'>
+      <section className='mt-4 flex flex-col gap-3'>
         {courses.map(({ id, title, ...course }) => (
           <Link key={id} to={`${id}`}>
             <ManageCourseCard
@@ -91,12 +91,22 @@ const ManageCoursesPage = () => {
               onClickEdit={onClickEditHandler}
               onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
             >
-              <p>{title}</p>
-              <p className='text-sm text-gray-dark'>
-                {course.length.chapters} Bab | {course.length.articles} Artikel
-              </p>
-              <div className='w-max mt-1.5'>
-                <Tags divName={course.Division.divisionName} />
+              <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3'>
+                <img
+                  src={course?.image_thumbnail}
+                  className='h-48 sm:w-24 sm:h-[3.875rem] object-cover rounded'
+                  alt='thumbnail'
+                />
+                <div>
+                  <p>{title}</p>
+                  <p className='text-sm text-gray-dark'>
+                    {course.length.chapters} Bab | {course.length.articles}{' '}
+                    Artikel
+                  </p>
+                  <div className='w-max mt-1.5'>
+                    <Tags divName={course.Division.divisionName} />
+                  </div>
+                </div>
               </div>
             </ManageCourseCard>
           </Link>

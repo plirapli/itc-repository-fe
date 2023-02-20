@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Tags from '../tags/Tags';
 import {
   UserCircleIcon,
@@ -6,9 +5,7 @@ import {
   ArrowPathIcon,
 } from '@heroicons/react/20/solid';
 
-const CourseCard = ({ data, ...props }) => {
-  const [materi, setMateri] = useState({ ...data });
-
+const CourseCard = ({ data: materi, ...props }) => {
   return (
     <div className='bg-white shadow rounded-lg p-3 h-full'>
       <div
