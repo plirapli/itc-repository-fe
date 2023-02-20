@@ -38,10 +38,10 @@ const OverviewPage = (props) => {
                   {course?.length?.articles} Artikel
                 </div>
               </div>
-              <Tags id={course?.id_division} />
+              <Tags divName={course?.Division?.divisionName} />
               <div className='flex items-center gap-1.5 text-black'>
                 <Icon icon='carbon:user-avatar-filled' width='20' />
-                <span className='text-sm'>{course?.user}</span>
+                <span className='text-sm'>{course?.User?.fullName}</span>
               </div>
             </div>
 

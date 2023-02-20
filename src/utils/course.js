@@ -36,27 +36,20 @@ const getAllCoursesDetail = async () => {
 };
 
 // Get course by ID
-const getCourseById = async (id) => {
-  // Get all user
-  const users = await getAllUsers();
-
-  return authApi
+const getCourseById = async (id) =>
+  authApi
     .get(`${url}/${id}`)
     .then(async ({ data }) => {
-      let { id_user, ...course } = data.data;
-      const { fullName } = users.filter(({ id }) => id === id_user)[0];
       const length = await getChapterArticleLength(id);
 
       return {
-        ...course,
-        user: fullName,
+        ...data.data,
         length,
-        createdAt: formatDate(course.createdAt),
-        updatedAt: formatDateWithHour(course.updatedAt),
+        createdAt: formatDate(data.data.createdAt),
+        updatedAt: formatDateWithHour(data.data.updatedAt),
       };
     })
     .catch((err) => Promise.reject(err));
-};
 
 // Add course
 const addCourse = async (newCourse) =>

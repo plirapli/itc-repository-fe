@@ -96,7 +96,7 @@ const ManageCoursesPage = () => {
                 {course.length.chapters} Bab | {course.length.articles} Artikel
               </p>
               <div className='w-max mt-1.5'>
-                <Tags id={course.id_division} />
+                <Tags divName={course.Division.divisionName} />
               </div>
             </ManageCourseCard>
           </Link>
