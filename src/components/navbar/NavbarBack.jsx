@@ -7,7 +7,7 @@ import OverlayNavbar from '../overlay/OverlayNavbar';
 
 const NavbarBack = ({ user, setIsAuthed }) => {
   const navigate = useNavigate();
-  const { fullName, username, photoProfile } = user;
+  const { fullName, divisionName, photoProfile } = user;
   const toBack = () => navigate(-1);
 
   return (
@@ -32,7 +32,7 @@ const NavbarBack = ({ user, setIsAuthed }) => {
                 {fullName || 'Loading...'}
               </p>
               <p className='hidden sm:block text-xs text-accent'>
-                {username || 'Loading...'}
+                {divisionName || 'Loading...'}
               </p>
             </div>
 
