@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 
-const CommentCard = ({ comment }) => {
+const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
   return (
     <>
       <div className='bg-white flex gap-2.5 p-2.5 pr-1 rounded-lg shadow'>
@@ -35,6 +35,7 @@ const CommentCard = ({ comment }) => {
                   <Menu.Item>
                     {({ active }) => (
                       <button
+                        onClick={onClickEdit}
                         className={`w-full px-4 py-1.5 rounded text-sm ${
                           active && 'bg-gray-light'
                         }`}
@@ -46,6 +47,7 @@ const CommentCard = ({ comment }) => {
                   <Menu.Item>
                     {({ active }) => (
                       <button
+                        onClick={onClickDelete}
                         className={`w-full px-4 py-1.5 rounded text-sm text-danger-main ${
                           active && 'bg-danger-main bg-opacity-10'
                         }`}

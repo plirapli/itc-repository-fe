@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAllDiscussions } from '../../utils/discussions';
 import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/forms/SearchBar';
+import { ModalDelete } from '../../components/modal';
 import DiscussionLists from '../../components/lists/DiscussionLists';
 
 const DiscussionPage = () => {
@@ -10,8 +11,18 @@ const DiscussionPage = () => {
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
   const toAddDiskusiPage = () => navigate('add');
+  const closeModalDelete = () => setIsModalDeleteOpen(false);
+
+  const onClickEditHandler = (e) => {
+    e.preventDefault();
+  };
+  const onClickDeleteHandler = (e) => {
+    e.preventDefault();
+    setIsModalDeleteOpen(true);
+  };
 
   const getAllDiscussionsHandler = () => {
     getAllDiscussions(id_course)
@@ -46,8 +57,24 @@ const DiscussionPage = () => {
         </div>
 
         {/* List Diskusi */}
-        <DiscussionLists discussions={discussions} />
+        <DiscussionLists
+          discussions={discussions}
+          onClickEdit={onClickEditHandler}
+          onClickDelete={onClickDeleteHandler}
+        />
       </div>
+
+      {/* Delete bab dialog (modal) */}
+      <ModalDelete
+        show={isModalDeleteOpen}
+        onClose={closeModalDelete}
+        onClickDelete={closeModalDelete}
+        title='Hapus Pertanyaan'
+      >
+        <p className='text-sm text-gray-500'>
+          Apakah anda yakin ingin menghapus pertanyaan ini?
+        </p>
+      </ModalDelete>
     </>
   );
 };

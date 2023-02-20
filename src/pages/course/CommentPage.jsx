@@ -6,6 +6,7 @@ import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { DiscussionCard } from '../../components/cards/index';
 import AddCommentForm from '../../components/forms/AddCommentForm';
 import CommentLists from '../../components/lists/CommentLists';
+import { ModalDelete } from '../../components/modal';
 
 const CommentPage = () => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
@@ -14,8 +15,19 @@ const CommentPage = () => {
   const [comments, setComments] = useState([]);
   const [showReply, setShowReply] = useState(false);
   const [body, setBody] = useState('');
-  const inputBodyHandler = (e) => setBody(e.target.value);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
+  const closeModalDelete = () => setIsModalDeleteOpen(false);
+
+  const onClickEditHandler = (e) => {
+    e.preventDefault();
+  };
+  const onClickDeleteHandler = (e) => {
+    e.preventDefault();
+    setIsModalDeleteOpen(true);
+  };
+
+  const inputBodyHandler = (e) => setBody(e.target.value);
   const displayReplyHandler = () => setShowReply((prev) => !prev);
 
   // Submit comment
@@ -70,9 +82,26 @@ const CommentPage = () => {
         )}
 
         {/* Komentar */}
-        <CommentLists comments={comments}></CommentLists>
+        <CommentLists
+          comments={comments}
+          onClickEdit={onClickEditHandler}
+          onClickDelete={onClickDeleteHandler}
+        />
       </div>
 
+      {/* Delete dialog (modal) */}
+      <ModalDelete
+        show={isModalDeleteOpen}
+        onClose={closeModalDelete}
+        onClickDelete={closeModalDelete}
+        title='Hapus Komentar'
+      >
+        <p className='text-sm text-gray-500'>
+          Apakah anda yakin ingin menghapus komentar ini?
+        </p>
+      </ModalDelete>
+
+      {/* Loading state */}
       <OverlayLoading loadingState={initializing} />
     </>
   );
