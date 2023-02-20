@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllCourses, deleteCourse } from '../../utils/course';
+import { getAllCourses, deleteCourse, editCourse } from '../../utils/course';
 
 // Component
 import { Dialog, Transition } from '@headlessui/react';
@@ -20,7 +20,6 @@ const ManageCoursesPage = ({ divisi }) => {
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
-  const openModalEdit = () => setIsModalEditOpen(true);
   const closeModalEdit = () => setIsModalEditOpen(false);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
 
@@ -28,13 +27,14 @@ const ManageCoursesPage = ({ divisi }) => {
     e.preventDefault();
     navigate(`/course/${id}`);
   };
-  const onClickEditHandler = (e) => {
+  const onClickEditHandler = (e, course) => {
     e.preventDefault();
-    openModalEdit();
+    setSelectedCourse({ ...course });
+    setIsModalEditOpen(true);
   };
   const onClickDeleteHandler = (e, course) => {
     e.preventDefault();
-    setSelectedCourse(course);
+    setSelectedCourse({ ...course });
     setIsModalDeleteOpen(true);
   };
 
@@ -43,6 +43,28 @@ const ManageCoursesPage = ({ divisi }) => {
       .then(setCourses)
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
+
+  const editCourseHandler = (e) => {
+    e.preventDefault();
+    closeModalEdit();
+    setIsLoading(true);
+
+    const { id, title, description, id_division } = selectedCourse;
+    const data = new FormData();
+    data.append('title', title);
+    data.append('description', description);
+    data.append('id_division', id_division);
+    if (selectedCourse.img) data.append('image', selectedCourse.img);
+
+    editCourse(id, data)
+      .then(() => {
+        setSelectedCourse({}); // Reset state
+        closeModalDelete(); // Close modal
+        getCourseHandler();
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsLoading(false));
+  };
 
   const deleteCourseHandler = () => {
     closeModalDelete(); // Close modal
@@ -83,12 +105,17 @@ const ManageCoursesPage = ({ divisi }) => {
 
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-3'>
-        {courses.map(({ id, title, ...course }) => (
-          <Link key={id} to={`${id}`}>
+        {courses.map((course) => (
+          <Link key={course?.id} to={`${course?.id}`}>
             <ManageCourseCard
-              onClickDetail={(e) => onClickDetailHandler(e, id)}
-              onClickEdit={onClickEditHandler}
-              onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
+              onClickDetail={(e) => onClickDetailHandler(e, course?.id)}
+              onClickEdit={(e) => onClickEditHandler(e, course)}
+              onClickDelete={(e) =>
+                onClickDeleteHandler(e, {
+                  id: course?.id,
+                  title: course?.title,
+                })
+              }
             >
               <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3'>
                 <img
@@ -97,13 +124,13 @@ const ManageCoursesPage = ({ divisi }) => {
                   alt='thumbnail'
                 />
                 <div>
-                  <p>{title}</p>
+                  <p>{course?.title}</p>
                   <p className='text-sm text-gray-dark'>
-                    {course.length.chapters} Bab | {course.length.articles}{' '}
+                    {course?.length?.chapters} Bab | {course?.length?.articles}{' '}
                     Artikel
                   </p>
                   <div className='w-max mt-1.5'>
-                    <Tags divName={course.Division.divisionName} />
+                    <Tags divName={course?.Division?.divisionName} />
                   </div>
                 </div>
               </div>
@@ -148,7 +175,11 @@ const ManageCoursesPage = ({ divisi }) => {
 
                   {/* Body */}
                   <div className='mt-2'>
-                    <form>
+                    <form
+                      onSubmit={editCourseHandler}
+                      method='POST'
+                      encType='multipart/form-data'
+                    >
                       <div className='grid gap-2'>
                         {/* Thumbnail */}
                         <div>
@@ -159,7 +190,9 @@ const ManageCoursesPage = ({ divisi }) => {
                             Thumbnail
                           </label>
                           <input
-                            // onChange={inputImgHandler}
+                            onChange={(e) =>
+                              setSelectedCourse((prev) => ({ ...prev }))
+                            }
                             type='file'
                             id='thumbnail'
                             name='thumbnail'
@@ -171,14 +204,14 @@ const ManageCoursesPage = ({ divisi }) => {
                         {/* Judul */}
                         <div>
                           <Input
-                            // onChange={(e) =>
-                            //   setSelectedChapter((prev) => ({
-                            //     ...prev,
-                            //     title: e.target.value,
-                            //   }))
-                            // }
+                            onChange={(e) =>
+                              setSelectedCourse((prev) => ({
+                                ...prev,
+                                title: e.target.value,
+                              }))
+                            }
                             label='Judul'
-                            // value={selectedChapter.title}
+                            value={selectedCourse?.title}
                             color='secondary'
                             placeholder='Masukkan judul materi'
                             required
@@ -187,9 +220,19 @@ const ManageCoursesPage = ({ divisi }) => {
 
                         {/* Divisi */}
                         <div>
-                          <Select label='Divisi' color='secondary'>
+                          <Select
+                            onChange={(e) =>
+                              setSelectedCourse((prev) => ({
+                                ...prev,
+                                id_division: e.target.value,
+                              }))
+                            }
+                            value={selectedCourse?.id_division}
+                            label='Divisi'
+                            color='secondary'
+                          >
                             {divisi.map(({ id, divisionName }) => (
-                              <option key={id} value={id}>
+                              <option className='bg-white' key={id} value={id}>
                                 {divisionName}
                               </option>
                             ))}
@@ -206,10 +249,15 @@ const ManageCoursesPage = ({ divisi }) => {
                           </label>
                           <div className='mt-1'>
                             <textarea
-                              // onChange={inputDescHandler}
+                              onChange={(e) =>
+                                setSelectedCourse((prev) => ({
+                                  ...prev,
+                                  description: e.target.value,
+                                }))
+                              }
                               id='about'
                               name='about'
-                              // value={desc}
+                              value={selectedCourse?.description}
                               rows={5}
                               className='input-secondary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
                               placeholder='Deskripsi materi'

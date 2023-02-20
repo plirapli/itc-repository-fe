@@ -60,6 +60,16 @@ const addCourse = async (newCourse) =>
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 
+// Edit Course
+const editCourse = async (id, editedCourse) => {
+  return authApi
+    .put(`${url}/${id}`, editedCourse, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+};
+
 // Delete course
 const deleteCourse = async (id) =>
   authApi
@@ -72,5 +82,6 @@ export {
   getAllCoursesDetail,
   getCourseById,
   addCourse,
+  editCourse,
   deleteCourse,
 };
