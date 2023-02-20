@@ -1,7 +1,7 @@
-import { Disclosure, Transition } from '@headlessui/react';
-import Button from '../buttons/Button';
-import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import Button from '../buttons/Button';
+import { Disclosure } from '@headlessui/react';
 
 const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
   return (
@@ -10,13 +10,13 @@ const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
       <div className='flex items-center gap-2'>
         <div className='w-full'>
           <h1 className='text-xl'>Daftar Materi</h1>
-          <p className='text-sm'>[Judul Materi]</p>
         </div>
         <Button
           onClick={setIsClicked}
           variant='icon-only'
           icon='eva:close-fill'
-          color='secondary'
+          color='gray'
+          size='small'
         />
       </div>
 
@@ -36,34 +36,22 @@ const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
                       {Articles.length} Artikel
                     </div>
                   </div>
-                  <Icon
-                    icon='akar-icons:chevron-down'
-                    className={`transition-all ${open && 'rotate-180'}`}
-                    width='14'
+                  <ChevronDownIcon
+                    className={`w-5 transition-all ${open && 'rotate-180'}`}
                   />
                 </Disclosure.Button>
-                <Transition
-                  show={open}
-                  enter='transition duration-100 ease-out'
-                  enterFrom='transform scale-95 opacity-0'
-                  enterTo='transform scale-100 opacity-100'
-                  leave='transition duration-75 ease-out'
-                  leaveFrom='transform scale-100 opacity-100'
-                  leaveTo='transform scale-95 opacity-0'
-                >
-                  <Disclosure.Panel>
-                    {Articles.map(({ id: articleID, title }) => (
-                      <Link
-                        key={articleID}
-                        to={`course/${courseID}/chapter/${chapterID}/article/${articleID}`}
-                      >
-                        <div className='px-4 py-3 bg-secondary truncate hover:bg-secondaryHover'>
-                          {title}
-                        </div>
-                      </Link>
-                    ))}
-                  </Disclosure.Panel>
-                </Transition>
+                <Disclosure.Panel>
+                  {Articles.map(({ id: articleID, title }) => (
+                    <Link
+                      key={articleID}
+                      to={`course/${courseID}/chapter/${chapterID}/article/${articleID}`}
+                    >
+                      <div className='px-4 py-3 bg-secondary truncate hover:bg-secondaryHover'>
+                        {title}
+                      </div>
+                    </Link>
+                  ))}
+                </Disclosure.Panel>
               </>
             )}
           </Disclosure>

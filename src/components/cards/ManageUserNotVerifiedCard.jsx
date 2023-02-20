@@ -14,7 +14,7 @@ const ManageUserNotVerifiedCard = ({ user, acceptUser, rejectUser }) => {
           </div>
           <p className='text-sm text-left text-gray-dark'>{user?.email}</p>
           <div className='mt-1.5'>
-            <Tags id={user?.id_division} />
+            <Tags divName={user?.Division?.divisionName} />
           </div>
           <div className='mt-1.5 text-xs text-gray-dark'>
             Dibuat pada {formatDateWithHour(user?.createdAt)}

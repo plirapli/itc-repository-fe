@@ -122,12 +122,7 @@ const Main = () => {
               <Route path='user/'>
                 <Route
                   index
-                  element={
-                    <ManageUsersPage
-                      divisi={divisi}
-                      setIsAuthed={setIsAuthed}
-                    />
-                  }
+                  element={<ManageUsersPage setIsAuthed={setIsAuthed} />}
                 />
               </Route>
 
