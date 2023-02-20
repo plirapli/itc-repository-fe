@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const Tags = ({ id = 1 }) => {
+const Tags = ({ divName }) => {
   const divisions = [
     { name: 'Back-end Developer', style: 'bg-divisi-be' },
     { name: 'Front-end Developer', style: 'bg-divisi-fe' },
@@ -8,15 +8,10 @@ const Tags = ({ id = 1 }) => {
     { name: 'Public Relations', style: 'bg-divisi-pr' },
     { name: 'Project Manager', style: 'bg-divisi-pm' },
   ];
-  const [div, setDiv] = useState(divisions[id - 1]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setDiv(divisions[id - 1]), [id]);
+  console.log(divName);
 
   return (
-    <div className={`w-fit px-1.5 text-white text-xs rounded ${div?.style}`}>
-      {div?.name}
-    </div>
+    <div className={`w-fit px-1.5 text-white text-xs rounded`}>{divName}</div>
   );
 };
 

@@ -15,6 +15,12 @@ const getUserById = async (id) =>
     .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 
+const getUserOwnProfile = async () =>
+  authApi
+    .get(`${url}/profile`)
+    .then(({ data }) => data.data)
+    .catch(({ response }) => Promise.reject(response));
+
 const getAllGenerations = () => {
   let angkatanList = [];
   const yearNow = new Date().getFullYear();
@@ -48,6 +54,7 @@ export {
   getAllUsers,
   getAllGenerations,
   getUserById,
+  getUserOwnProfile,
   changeUserRole,
   changeUserVerify,
   deleteUser,

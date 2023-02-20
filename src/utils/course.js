@@ -23,37 +23,33 @@ const getAllCourses = async () => {
 const getAllCoursesDetail = async () => {
   const controller = new AbortController();
 
-  // Get all user
-  const users = await getAllUsers();
-
   return authApi
     .get(url, { signal: controller.signal })
     .then(({ data }) => {
-      return data.data.map(({ id_user, ...course }) => {
-        const { fullName } = users.filter(({ id }) => id === id_user)[0];
-        return {
-          ...course,
-          user: fullName,
-          createdAt: formatDate(course?.createdAt),
-          updatedAt: formatDate(course?.updatedAt),
-        };
-      });
+      return data.data.map((course) => ({
+        ...course,
+        createdAt: formatDate(course?.createdAt),
+        updatedAt: formatDate(course?.updatedAt),
+      }));
     })
     .catch((err) => Promise.reject(err));
 };
 
 // Get course by ID
 const getCourseById = async (id) => {
+  // Get all user
+  const users = await getAllUsers();
+
   return authApi
     .get(`${url}/${id}`)
     .then(async ({ data }) => {
       let { id_user, ...course } = data.data;
-      const { fullName } = await getUserById(id_user);
+      const { fullName } = users.filter(({ id }) => id === id_user)[0];
       const length = await getChapterArticleLength(id);
 
       return {
         ...course,
-        user: await fullName,
+        user: fullName,
         length,
         createdAt: formatDate(course.createdAt),
         updatedAt: formatDateWithHour(course.updatedAt),

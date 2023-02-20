@@ -7,11 +7,7 @@ import {
 } from '@heroicons/react/20/solid';
 
 const CourseCard = ({ data, ...props }) => {
-  const [materi, setMateri] = useState({});
-
-  useEffect(() => {
-    if (data) setMateri({ ...data });
-  }, [data]);
+  const [materi, setMateri] = useState({ ...data });
 
   return (
     <div className='bg-white shadow rounded-lg p-3 h-full'>
@@ -22,7 +18,7 @@ const CourseCard = ({ data, ...props }) => {
       <div className='mt-1 flex flex-col gap-1'>
         {/* Tags */}
         <div className='mt-1'>
-          <Tags id={materi.id_division} divisi={props.divisi} />
+          <Tags divName={materi?.Division?.divisionName} />
         </div>
 
         {/* Title */}
@@ -31,7 +27,7 @@ const CourseCard = ({ data, ...props }) => {
         {/* Author */}
         <div className='flex items-center gap-1 text-gray-dark'>
           <UserCircleIcon className='w-4' />
-          <span className='text-sm'>{materi?.user}</span>
+          <span className='text-sm'>{materi?.User.fullName}</span>
         </div>
 
         {/* Date */}
