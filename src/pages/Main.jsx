@@ -128,7 +128,10 @@ const Main = () => {
 
               {/* Manage Materi */}
               <Route path='course/'>
-                <Route index element={<ManageCoursePage.Courses />} />
+                <Route
+                  index
+                  element={<ManageCoursePage.Courses divisi={divisi} />}
+                />
                 <Route
                   exact
                   path='add/'

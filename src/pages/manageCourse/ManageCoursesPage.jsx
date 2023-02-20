@@ -5,13 +5,13 @@ import { getAllCourses, deleteCourse } from '../../utils/course';
 // Component
 import { Dialog, Transition } from '@headlessui/react';
 import Button from '../../components/buttons/Button';
-import { Input, SearchBar } from '../../components/forms/';
+import { Input, SearchBar, Select } from '../../components/forms/';
 import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
 import Tags from '../../components/tags/Tags';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 
-const ManageCoursesPage = () => {
+const ManageCoursesPage = ({ divisi }) => {
   const navigate = useNavigate();
   const toAddMateri = () => navigate('add/');
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +22,6 @@ const ManageCoursesPage = () => {
 
   const openModalEdit = () => setIsModalEditOpen(true);
   const closeModalEdit = () => setIsModalEditOpen(false);
-  const openModalDelete = () => setIsModalDeleteOpen(true);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
 
   const onClickDetailHandler = (e, id) => {
@@ -36,7 +35,7 @@ const ManageCoursesPage = () => {
   const onClickDeleteHandler = (e, course) => {
     e.preventDefault();
     setSelectedCourse(course);
-    openModalDelete();
+    setIsModalDeleteOpen(true);
   };
 
   const getCourseHandler = () =>
@@ -144,25 +143,92 @@ const ManageCoursesPage = () => {
                     as='h3'
                     className='text-lg font-medium leading-6 text-gray-900'
                   >
-                    Edit Nama Materi
+                    Edit Materi
                   </Dialog.Title>
 
                   {/* Body */}
                   <div className='mt-2'>
-                    <Input
-                      label='Judul'
-                      value='Lorem ipsum dolor sit amet'
-                      color='secondary'
-                      placeholder='Masukkan judul materi'
-                      required
-                    />
-                  </div>
+                    <form>
+                      <div className='grid gap-2'>
+                        {/* Thumbnail */}
+                        <div>
+                          <label
+                            htmlFor='thumbnail'
+                            className='block text-sm font-medium'
+                          >
+                            Thumbnail
+                          </label>
+                          <input
+                            // onChange={inputImgHandler}
+                            type='file'
+                            id='thumbnail'
+                            name='thumbnail'
+                            accept='image/*'
+                            className='mt-1'
+                          />
+                        </div>
 
-                  <div className='mt-4 flex gap-2'>
-                    <Button onClick={closeModalEdit} color='gray'>
-                      Tutup
-                    </Button>
-                    <Button onClick={closeModalEdit}>Simpan</Button>
+                        {/* Judul */}
+                        <div>
+                          <Input
+                            // onChange={(e) =>
+                            //   setSelectedChapter((prev) => ({
+                            //     ...prev,
+                            //     title: e.target.value,
+                            //   }))
+                            // }
+                            label='Judul'
+                            // value={selectedChapter.title}
+                            color='secondary'
+                            placeholder='Masukkan judul materi'
+                            required
+                          />
+                        </div>
+
+                        {/* Divisi */}
+                        <div>
+                          <Select label='Divisi' color='secondary'>
+                            {divisi.map(({ id, divisionName }) => (
+                              <option key={id} value={id}>
+                                {divisionName}
+                              </option>
+                            ))}
+                          </Select>
+                        </div>
+
+                        {/* Deskripsi */}
+                        <div>
+                          <label
+                            htmlFor='about'
+                            className='block text-sm font-medium'
+                          >
+                            Deskripsi
+                          </label>
+                          <div className='mt-1'>
+                            <textarea
+                              // onChange={inputDescHandler}
+                              id='about'
+                              name='about'
+                              // value={desc}
+                              rows={5}
+                              className='input-secondary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
+                              placeholder='Deskripsi materi'
+                              required
+                            />
+                          </div>
+                          <p className='mt-1 text-xs text-gray-500'>
+                            Deskripsi singkat mengenai materi
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className='mt-4 flex gap-2'>
+                        <Button onClick={closeModalEdit} color='gray'>
+                          Tutup
+                        </Button>
+                        <Button onClick={closeModalEdit}>Simpan</Button>
+                      </div>
+                    </form>
                   </div>
                 </Dialog.Panel>
                 {/* End Main Container */}
