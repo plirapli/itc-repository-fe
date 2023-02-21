@@ -80,6 +80,23 @@
   }
   /* End Input Component */
 
+  /* Division Tag Background */
+  .bg.Front-endDeveloper {
+    @apply bg-divisi-fe;
+  }
+  .bg.Back-endDeveloper {
+    @apply bg-divisi-be;
+  }
+  .bg.MobileDeveloper {
+    @apply bg-divisi-mobile;
+  }
+  .bg.PublicRelations {
+    @apply bg-divisi-pr;
+  }
+  .bg.ProjectManager {
+    @apply bg-divisi-pm;
+  }
+
   .overlay-text {
     @apply text-sm transition-all cursor-pointer hover:bg-black hover:bg-opacity-10;
   }

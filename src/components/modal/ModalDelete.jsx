@@ -42,10 +42,10 @@ const ModalDelete = ({ show, onClose, onClickDelete, children, ...props }) => {
                   <div className='mt-3'>{children}</div>
 
                   <div className='mt-4 flex gap-2'>
-                    <Button onClick={onClose} color='gray'>
+                    <Button onClick={onClose} color='gray' size='small'>
                       Tutup
                     </Button>
-                    <Button onClick={onClickDelete} color='danger'>
+                    <Button onClick={onClickDelete} color='danger' size='small'>
                       Hapus
                     </Button>
                   </div>

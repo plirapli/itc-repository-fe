@@ -1,3 +1,4 @@
+import ModalForm from './ModalForm';
 import ModalDelete from './ModalDelete';
 
-export { ModalDelete };
+export { ModalDelete, ModalForm };

@@ -69,7 +69,7 @@ const ManageArticlesPage = () => {
 
       {/* Search Bar */}
       <div className='mt-4 sm:mt-3'>
-        <SearchBar />
+        <SearchBar placeholder='Cari artikel' />
       </div>
 
       {/* Card List */}

@@ -5,7 +5,7 @@ import { Ava } from '../../assets';
 import OverlayNavbar from '../overlay/OverlayNavbar';
 
 const Navbar = ({ user, setIsAuthed }) => {
-  const { fullName, username, photoProfile } = user;
+  const { fullName, divisionName, photoProfile } = user;
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between pl-4 sm:pl-8 relative'>
@@ -21,7 +21,7 @@ const Navbar = ({ user, setIsAuthed }) => {
                 {fullName || 'Loading...'}
               </p>
               <p className='hidden sm:block text-xs text-accent'>
-                {username || 'Loading...'}
+                {divisionName || 'Loading...'}
               </p>
             </div>
 

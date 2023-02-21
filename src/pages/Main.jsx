@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { getAccessToken, getLocalAccessToken } from '../utils/auth';
 import { getAllDivisions } from '../utils/division';
-import { getUserById } from '../utils/user';
+import { getUserOwnProfile } from '../utils/user';
 import jwt from 'jwt-decode';
 
 // Components
@@ -26,7 +26,7 @@ const Main = () => {
   useEffect(() => {
     if (token) {
       const { id } = jwt(token);
-      getUserById(id).then((data) => {
+      getUserOwnProfile().then((data) => {
         setUserData({ id, ...data });
         const credential = JSON.parse(localStorage.getItem('user'));
 
@@ -122,18 +122,16 @@ const Main = () => {
               <Route path='user/'>
                 <Route
                   index
-                  element={
-                    <ManageUsersPage
-                      divisi={divisi}
-                      setIsAuthed={setIsAuthed}
-                    />
-                  }
+                  element={<ManageUsersPage setIsAuthed={setIsAuthed} />}
                 />
               </Route>
 
               {/* Manage Materi */}
               <Route path='course/'>
-                <Route index element={<ManageCoursePage.Courses />} />
+                <Route
+                  index
+                  element={<ManageCoursePage.Courses divisi={divisi} />}
+                />
                 <Route
                   exact
                   path='add/'

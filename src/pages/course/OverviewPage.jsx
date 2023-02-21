@@ -5,9 +5,9 @@ import { getCourseById } from '../../utils/course';
 // Component
 import Button from '../../components/buttons/Button';
 import Tags from '../../components/tags/Tags';
-import { Icon } from '@iconify/react';
+import { UserCircleIcon } from '@heroicons/react/20/solid';
 
-const OverviewPage = (props) => {
+const OverviewPage = () => {
   const [course, setCourse] = useState({});
   const { id_course } = useParams();
 
@@ -33,15 +33,14 @@ const OverviewPage = (props) => {
               <div>
                 <h2 className='text-lg font-medium clamp'>{course?.title}</h2>
                 <div className='text-gray-dark text-sm mt-1'>
-                  {course?.length?.chapters} Bab
-                  <span className='text-black'> | </span>
-                  {course?.length?.articles} Artikel
+                  {course?.length?.chapters} Bab | {course?.length?.articles}{' '}
+                  Artikel
                 </div>
               </div>
-              <Tags id={course?.id_division} />
-              <div className='flex items-center gap-1.5 text-black'>
-                <Icon icon='carbon:user-avatar-filled' width='20' />
-                <span className='text-sm'>{course?.user}</span>
+              <Tags divName={course?.Division?.divisionName} />
+              <div className='flex items-center gap-1 text-black'>
+                <UserCircleIcon className='w-5' />
+                <span className='text-sm'>{course?.User?.fullName}</span>
               </div>
             </div>
 

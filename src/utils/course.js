@@ -1,6 +1,5 @@
 import { authApi } from '../api/api';
 import { getChapterArticleLength } from './chapter';
-import { getAllUsers, getUserById } from './user';
 import { formatDate, formatDateWithHour } from './dateConverter';
 
 const url = '/courses';
@@ -23,44 +22,33 @@ const getAllCourses = async () => {
 const getAllCoursesDetail = async () => {
   const controller = new AbortController();
 
-  // Get all user
-  const users = await getAllUsers();
-
   return authApi
     .get(url, { signal: controller.signal })
     .then(({ data }) => {
-      return data.data.map(({ id_user, ...course }) => {
-        const { fullName } = users.filter(({ id }) => id === id_user)[0];
-        return {
-          ...course,
-          user: fullName,
-          createdAt: formatDate(course?.createdAt),
-          updatedAt: formatDate(course?.updatedAt),
-        };
-      });
+      return data.data.map((course) => ({
+        ...course,
+        createdAt: formatDate(course?.createdAt),
+        updatedAt: formatDate(course?.updatedAt),
+      }));
     })
     .catch((err) => Promise.reject(err));
 };
 
 // Get course by ID
-const getCourseById = async (id) => {
-  return authApi
+const getCourseById = async (id) =>
+  authApi
     .get(`${url}/${id}`)
     .then(async ({ data }) => {
-      let { id_user, ...course } = data.data;
-      const { fullName } = await getUserById(id_user);
       const length = await getChapterArticleLength(id);
 
       return {
-        ...course,
-        user: await fullName,
+        ...data.data,
         length,
-        createdAt: formatDate(course.createdAt),
-        updatedAt: formatDateWithHour(course.updatedAt),
+        createdAt: formatDate(data.data.createdAt),
+        updatedAt: formatDateWithHour(data.data.updatedAt),
       };
     })
     .catch((err) => Promise.reject(err));
-};
 
 // Add course
 const addCourse = async (newCourse) =>
@@ -70,6 +58,16 @@ const addCourse = async (newCourse) =>
     })
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
+
+// Edit Course
+const editCourse = async (id, editedCourse) => {
+  return authApi
+    .put(`${url}/${id}`, editedCourse, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+};
 
 // Delete course
 const deleteCourse = async (id) =>
@@ -83,5 +81,6 @@ export {
   getAllCoursesDetail,
   getCourseById,
   addCourse,
+  editCourse,
   deleteCourse,
 };
