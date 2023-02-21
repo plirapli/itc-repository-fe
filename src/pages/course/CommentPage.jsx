@@ -8,6 +8,7 @@ import AddCommentForm from '../../components/forms/AddCommentForm';
 import CommentLists from '../../components/lists/CommentLists';
 import { ModalDelete, ModalForm } from '../../components/modal';
 import Button from '../../components/buttons/Button';
+import { Input } from '../../components/forms';
 
 const CommentPage = () => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
@@ -16,26 +17,48 @@ const CommentPage = () => {
   const [comments, setComments] = useState([]);
   const [showReply, setShowReply] = useState(false);
   const [body, setBody] = useState('');
-  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
-  const closeModalEdit = () => setIsModalEditOpen(false);
-  const closeModalDelete = () => setIsModalDeleteOpen(false);
+  const [isModalEditDiscussionOpen, setIsModalEditDiscussionOpen] =
+    useState(false);
+  const [isModalDeleteDiscussionOpen, setIsModalDeleteDiscussionOpen] =
+    useState(false);
+  const [isModalEditCommentOpen, setIsModalEditCommentOpen] = useState(false);
+  const [isModalDeleteCommentOpen, setIsModalDeleteCommentOpen] =
+    useState(false);
 
-  const onClickEditHandler = (e) => {
+  const closeModalCommentEdit = () => setIsModalEditCommentOpen(false); // Tutup overlay (modal) edit diskusi
+  const closeModalCommentDelete = () => setIsModalDeleteCommentOpen(false); // Tutup overlay (modal) delete diskusi
+  const closeModalDiscussionEdit = () => setIsModalEditDiscussionOpen(false); // Tutup overlay (modal) edit komentar
+  const closeModalDiscussionDelete = () =>
+    setIsModalDeleteDiscussionOpen(false); // Tutup overlay (modal) delete komentar
+
+  // Handler buat menu edit diskusi
+  const onClickEditDiscussionHandler = (e) => {
     e.preventDefault();
-    setIsModalEditOpen(true);
+    setIsModalEditDiscussionOpen(true);
   };
-  const onClickDeleteHandler = (e) => {
+  // Handler buat menu delete diskusi
+  const onClickDeleteDiscussionHandler = (e) => {
     e.preventDefault();
-    setIsModalDeleteOpen(true);
+    setIsModalDeleteDiscussionOpen(true);
+  };
+
+  // Handler buat menu edit komentar
+  const onClickEditCommentHandler = (e) => {
+    e.preventDefault();
+    setIsModalEditCommentOpen(true);
+  };
+  // Handler buat menu deletekomentar
+  const onClickDeleteCommentHandler = (e) => {
+    e.preventDefault();
+    setIsModalDeleteCommentOpen(true);
   };
 
   const inputBodyHandler = (e) => setBody(e.target.value);
   const displayReplyHandler = () => setShowReply((prev) => !prev);
 
   // Submit comment
-  const submitHandler = (e) => {
+  const submitCommentHandler = (e) => {
     e.preventDefault();
 
     setInitializing(true);
@@ -74,12 +97,14 @@ const CommentPage = () => {
           isReply={true}
           onClick={displayReplyHandler}
           discussion={discussion}
+          onClickEdit={onClickEditDiscussionHandler}
+          onClickDelete={onClickDeleteDiscussionHandler}
         />
 
         {/* Input Reply */}
         {showReply && (
           <AddCommentForm
-            onSubmit={submitHandler}
+            onSubmit={submitCommentHandler}
             onChange={inputBodyHandler}
             body={body}
           />
@@ -88,17 +113,91 @@ const CommentPage = () => {
         {/* Komentar */}
         <CommentLists
           comments={comments}
-          onClickEdit={onClickEditHandler}
-          onClickDelete={onClickDeleteHandler}
+          onClickEdit={onClickEditCommentHandler}
+          onClickDelete={onClickDeleteCommentHandler}
         />
       </div>
 
-      {/* Edit dialog (modal) */}
+      {/* Edit discuss dialog (modal) */}
+      <ModalForm show={isModalEditDiscussionOpen} title='Edit Pertanyaan'>
+        {/* Ini ditambahin handler onSubmit buat edit */}
+        <form
+          // onSubmit={editCourseHandler}
+          method='POST'
+        >
+          {/* Judul */}
+          <div>
+            <Input
+              // onChange={(e) =>
+              //   setSelectedCourse((prev) => ({
+              //     ...prev,
+              //     title: e.target.value,
+              //   }))
+              // }
+              label='Judul'
+              // value={selectedCourse?.title}
+              color='secondary'
+              placeholder='Masukkan judul pertanyaan'
+              required
+            />
+          </div>
+
+          {/* Deskripsi */}
+          <div className='mt-2'>
+            <label htmlFor='body' className='block text-sm font-medium'>
+              Pertanyaan
+            </label>
+            <textarea
+              // onChange={(e) =>
+              //   setSelectedCourse((prev) => ({
+              //     ...prev,
+              //     description: e.target.value,
+              //   }))
+              // }
+              id='body'
+              name='body'
+              // value={selectedCourse?.description}
+              rows={5}
+              className='input-secondary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
+              placeholder='Deskripsi materi'
+              required
+            />
+          </div>
+
+          <div className='mt-4 flex gap-2'>
+            <Button
+              onClick={closeModalDiscussionEdit}
+              color='gray'
+              size='small'
+            >
+              Tutup
+            </Button>
+            <Button type='submit' size='small'>
+              Simpan
+            </Button>
+          </div>
+        </form>
+      </ModalForm>
+
+      {/* Delete discuss dialog (modal) */}
+      <ModalDelete
+        show={isModalDeleteDiscussionOpen}
+        onClose={closeModalDiscussionDelete}
+        onClickDelete={closeModalDiscussionDelete} // Ini diganti handler buat delete
+        title='Hapus Pertanyaan'
+      >
+        <p className='text-sm text-gray-500'>
+          Apakah anda yakin ingin menghapus pertanyaan ini?
+        </p>
+      </ModalDelete>
+
+      {/* Edit comment dialog (modal) */}
       <ModalForm
-        show={isModalEditOpen}
-        onClose={closeModalEdit}
+        show={isModalEditCommentOpen}
+        onClose={closeModalCommentEdit}
         title='Edit komentar'
       >
+        {/* Ini ditambahin handler onSubmit buat edit */}
         <form>
           <textarea
             // onChange={(e) =>
@@ -116,21 +215,21 @@ const CommentPage = () => {
             required
           />
           <div className='mt-4 flex gap-2'>
-            <Button onClick={closeModalEdit} color='gray' size='small'>
+            <Button onClick={closeModalCommentEdit} color='gray' size='small'>
               Tutup
             </Button>
-            <Button onClick={closeModalEdit} size='small'>
+            <Button onClick={closeModalCommentEdit} size='small'>
               Simpan
             </Button>
           </div>
         </form>
       </ModalForm>
 
-      {/* Delete dialog (modal) */}
+      {/* Delete comment dialog (modal) */}
       <ModalDelete
-        show={isModalDeleteOpen}
-        onClose={closeModalDelete}
-        onClickDelete={closeModalDelete}
+        show={isModalDeleteCommentOpen}
+        onClose={closeModalCommentDelete}
+        onClickDelete={closeModalCommentDelete} // Ini diganti handler buat delete
         title='Hapus Komentar'
       >
         <p className='text-sm text-gray-500'>

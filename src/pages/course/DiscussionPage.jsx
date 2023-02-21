@@ -15,19 +15,22 @@ const DiscussionPage = () => {
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
-  const toAddDiskusiPage = () => navigate('add');
-  const closeModalDelete = () => setIsModalDeleteOpen(false);
-  const closeModalEdit = () => setIsModalEditOpen(false);
+  const toAddDiskusiPage = () => navigate('add'); // Navigate ke halaman add diskusi
+  const closeModalDelete = () => setIsModalDeleteOpen(false); // Tutup overlay (modal) delete
+  const closeModalEdit = () => setIsModalEditOpen(false); // Tutup overlay (modal) edit
 
+  // Handler buat menu overlay edit
   const onClickEditHandler = (e) => {
     e.preventDefault();
     setIsModalEditOpen(true);
   };
+  // Handler buat menu overlay delete
   const onClickDeleteHandler = (e) => {
     e.preventDefault();
     setIsModalDeleteOpen(true);
   };
 
+  // Handler buat ngambil semua data diskusi
   const getAllDiscussionsHandler = () => {
     getAllDiscussions(id_course)
       .then(setDiscussions)
@@ -70,6 +73,7 @@ const DiscussionPage = () => {
 
       {/* Edit dialog (modal) */}
       <ModalForm show={isModalEditOpen} title='Edit Pertanyaan'>
+        {/* Ini ditambahin handler onSubmit buat edit */}
         <form
           // onSubmit={editCourseHandler}
           method='POST'
@@ -128,7 +132,7 @@ const DiscussionPage = () => {
       <ModalDelete
         show={isModalDeleteOpen}
         onClose={closeModalDelete}
-        onClickDelete={closeModalDelete}
+        onClickDelete={closeModalDelete} // Ini diganti handler buat delete
         title='Hapus Pertanyaan'
       >
         <p className='text-sm text-gray-500'>
