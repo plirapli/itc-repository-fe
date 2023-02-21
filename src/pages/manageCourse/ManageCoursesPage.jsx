@@ -46,20 +46,20 @@ const ManageCoursesPage = ({ divisi }) => {
 
   const editCourseHandler = (e) => {
     e.preventDefault();
-    closeModalEdit();
     setIsLoading(true);
+    console.log(selectedCourse.image);
 
     const { id, title, description, id_division } = selectedCourse;
     const data = new FormData();
     data.append('title', title);
     data.append('description', description);
     data.append('id_division', id_division);
-    if (selectedCourse.img) data.append('image', selectedCourse.img);
+    if (selectedCourse.image) data.append('image', selectedCourse.image);
 
     editCourse(id, data)
       .then(() => {
         setSelectedCourse({}); // Reset state
-        closeModalDelete(); // Close modal
+        closeModalEdit(); // Close modal
         getCourseHandler();
       })
       .catch(({ data }) => console.log(data.message))
@@ -191,7 +191,10 @@ const ManageCoursesPage = ({ divisi }) => {
                           </label>
                           <input
                             onChange={(e) =>
-                              setSelectedCourse((prev) => ({ ...prev }))
+                              setSelectedCourse((prev) => ({
+                                ...prev,
+                                image: e.target.files[0],
+                              }))
                             }
                             type='file'
                             id='thumbnail'
@@ -274,7 +277,7 @@ const ManageCoursesPage = ({ divisi }) => {
                         <Button onClick={closeModalEdit} color='gray'>
                           Tutup
                         </Button>
-                        <Button onClick={closeModalEdit}>Simpan</Button>
+                        <Button type='submit'>Simpan</Button>
                       </div>
                     </form>
                   </div>
