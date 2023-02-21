@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { Ava } from '../../assets';
 
 const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
   return (
@@ -9,7 +10,7 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
         <img
           className='bg-slate-400 max-w-[2rem] h-8 rounded-full overflow-hidden'
           loading='lazy'
-          src=''
+          src={comment.User.photoProfile || Ava}
           alt='profile'
         />
         <div className='w-full'>
@@ -47,7 +48,7 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
                   <Menu.Item>
                     {({ active }) => (
                       <button
-                        onClick={onClickDelete}
+                        onClick={(e) => onClickDelete(e, comment.id)}
                         className={`w-full px-4 py-1.5 rounded text-sm text-danger-main ${
                           active && 'bg-danger-main bg-opacity-10'
                         }`}

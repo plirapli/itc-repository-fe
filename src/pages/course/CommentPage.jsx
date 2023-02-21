@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDiscussionById } from '../../utils/discussions';
-import { addComment, getAllComments } from '../../utils/comments';
+import {
+  addComment,
+  getAllComments,
+  deleteComment,
+} from '../../utils/comments';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { DiscussionCard } from '../../components/cards/index';
 import AddCommentForm from '../../components/forms/AddCommentForm';
@@ -12,6 +16,7 @@ import { Input } from '../../components/forms';
 
 const CommentPage = () => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
+  let [highlightedCommentID, setHighlightedCommentID] = useState('');
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
   const [comments, setComments] = useState([]);
@@ -48,10 +53,23 @@ const CommentPage = () => {
     e.preventDefault();
     setIsModalEditCommentOpen(true);
   };
+
   // Handler buat menu deletekomentar
+  const onClickDeleteCommentOpenModalHandler = (e, commentID) => {
+    e.preventDefault();
+    setHighlightedCommentID(commentID);
+    setIsModalDeleteCommentOpen(true);
+  };
+
   const onClickDeleteCommentHandler = (e) => {
     e.preventDefault();
-    setIsModalDeleteCommentOpen(true);
+    deleteComment(courseID, discussionID, highlightedCommentID)
+      .then(() => {
+        getAllCommentsHandler();
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setInitializing(false));
+    setIsModalDeleteCommentOpen(false);
   };
 
   const inputBodyHandler = (e) => setBody(e.target.value);
@@ -83,11 +101,16 @@ const CommentPage = () => {
       .then((data) => {
         setDiscussion(data);
         setInitializing(false);
+        console.log(data);
       })
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => {
+        console.log(data.message);
+      });
 
     getAllCommentsHandler();
   }, []);
+
+  if (initializing) return <OverlayLoading loadingState={initializing} />;
 
   return (
     <>
@@ -114,7 +137,7 @@ const CommentPage = () => {
         <CommentLists
           comments={comments}
           onClickEdit={onClickEditCommentHandler}
-          onClickDelete={onClickDeleteCommentHandler}
+          onClickDelete={onClickDeleteCommentOpenModalHandler}
         />
       </div>
 
@@ -229,7 +252,7 @@ const CommentPage = () => {
       <ModalDelete
         show={isModalDeleteCommentOpen}
         onClose={closeModalCommentDelete}
-        onClickDelete={closeModalCommentDelete} // Ini diganti handler buat delete
+        onClickDelete={onClickDeleteCommentHandler}
         title='Hapus Komentar'
       >
         <p className='text-sm text-gray-500'>
@@ -238,7 +261,16 @@ const CommentPage = () => {
       </ModalDelete>
 
       {/* Loading state */}
-      <OverlayLoading loadingState={initializing} />
+      {/* <OverlayLoading loadingState={initializing} /> */}
+      {/* code di atas ngebuat bug */}
+      {/* selalu gunakan conditional kalau mau manfaatin semacam loading,
+          jangan langsung ditaruh di situ.
+          react pertama bakal ngerender component dulu baru ngejalanin useEffect. 
+          Sedangkan card Discussion punya kebutuhan terhadap data
+          yang diambil melalui useEffect.
+          Disitulah letak bugnya. Component gapunya data yang cukup tapi dipaksa render.
+          jadinya bakal selalu munculin Uncaught TypeError: Cannot read properties of undefined 
+      */}
     </>
   );
 };

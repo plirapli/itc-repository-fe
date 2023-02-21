@@ -7,7 +7,8 @@ import { ModalDelete, ModalForm } from '../../components/modal';
 import DiscussionLists from '../../components/lists/DiscussionLists';
 import { Input } from '../../components/forms';
 
-const DiscussionPage = () => {
+const DiscussionPage = ({ userData }) => {
+  // const { fullName, photoProfile } = userData;
   const navigate = useNavigate();
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);

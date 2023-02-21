@@ -1,6 +1,7 @@
 import Button from '../buttons/Button';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { Menu, Transition } from '@headlessui/react';
+import { Ava } from '../../assets';
 import { Fragment } from 'react';
 
 const DiscussionCard = ({
@@ -16,7 +17,7 @@ const DiscussionCard = ({
         <img
           className='bg-slate-400 max-w-[2rem] h-8 rounded-full overflow-hidden'
           loading='lazy'
-          src=''
+          src={discussion.User.photoProfile || Ava}
           alt='profil'
         />
         <div className='w-full flex flex-col'>
