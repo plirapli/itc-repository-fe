@@ -5,7 +5,7 @@ import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
 const OverlayLoading = ({ loadingState }) => {
   return (
     <Transition appear show={loadingState} as={Fragment}>
-      <div className='relative z-10'>
+      <div className='relative z-50'>
         <Transition.Child
           as={Fragment}
           enter='ease-out duration-300'
