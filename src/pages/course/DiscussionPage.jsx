@@ -3,21 +3,25 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAllDiscussions } from '../../utils/discussions';
 import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/forms/SearchBar';
-import { ModalDelete } from '../../components/modal';
+import { ModalDelete, ModalForm } from '../../components/modal';
 import DiscussionLists from '../../components/lists/DiscussionLists';
+import { Input } from '../../components/forms';
 
 const DiscussionPage = () => {
   const navigate = useNavigate();
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
   const toAddDiskusiPage = () => navigate('add');
   const closeModalDelete = () => setIsModalDeleteOpen(false);
+  const closeModalEdit = () => setIsModalEditOpen(false);
 
   const onClickEditHandler = (e) => {
     e.preventDefault();
+    setIsModalEditOpen(true);
   };
   const onClickDeleteHandler = (e) => {
     e.preventDefault();
@@ -64,7 +68,63 @@ const DiscussionPage = () => {
         />
       </div>
 
-      {/* Delete bab dialog (modal) */}
+      {/* Edit dialog (modal) */}
+      <ModalForm show={isModalEditOpen} title='Edit Pertanyaan'>
+        <form
+          // onSubmit={editCourseHandler}
+          method='POST'
+        >
+          {/* Judul */}
+          <div>
+            <Input
+              // onChange={(e) =>
+              //   setSelectedCourse((prev) => ({
+              //     ...prev,
+              //     title: e.target.value,
+              //   }))
+              // }
+              label='Judul'
+              // value={selectedCourse?.title}
+              color='secondary'
+              placeholder='Masukkan judul pertanyaan'
+              required
+            />
+          </div>
+
+          {/* Deskripsi */}
+          <div className='mt-2'>
+            <label htmlFor='body' className='block text-sm font-medium'>
+              Pertanyaan
+            </label>
+            <textarea
+              // onChange={(e) =>
+              //   setSelectedCourse((prev) => ({
+              //     ...prev,
+              //     description: e.target.value,
+              //   }))
+              // }
+              id='body'
+              name='body'
+              // value={selectedCourse?.description}
+              rows={5}
+              className='input-secondary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
+              placeholder='Deskripsi materi'
+              required
+            />
+          </div>
+
+          <div className='mt-4 flex gap-2'>
+            <Button onClick={closeModalEdit} color='gray' size='small'>
+              Tutup
+            </Button>
+            <Button type='submit' size='small'>
+              Simpan
+            </Button>
+          </div>
+        </form>
+      </ModalForm>
+
+      {/* Delete dialog (modal) */}
       <ModalDelete
         show={isModalDeleteOpen}
         onClose={closeModalDelete}
