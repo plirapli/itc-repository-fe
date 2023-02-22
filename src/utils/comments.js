@@ -35,4 +35,14 @@ const deleteComment = async (courseID, discussionID, commentID) => {
 };
 
 
-export { getAllComments, addComment, deleteComment };
+const editComment = async (courseID, discussionID, commentID, commentBody) => {
+  return authApi
+    .put(`/courses/${courseID}/discussions/${discussionID}/comments/${commentID}`, {
+      body: commentBody,
+    })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+};
+
+
+export { getAllComments, addComment, deleteComment, editComment };

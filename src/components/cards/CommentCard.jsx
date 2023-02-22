@@ -36,7 +36,9 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
                   <Menu.Item>
                     {({ active }) => (
                       <button
-                        onClick={onClickEdit}
+                        onClick={(e) =>
+                          onClickEdit(e, comment.id, comment.body)
+                        }
                         className={`w-full px-4 py-1.5 rounded text-sm ${
                           active && 'bg-gray-light'
                         }`}

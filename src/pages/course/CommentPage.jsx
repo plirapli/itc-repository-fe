@@ -5,6 +5,7 @@ import {
   addComment,
   getAllComments,
   deleteComment,
+  editComment,
 } from '../../utils/comments';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { DiscussionCard } from '../../components/cards/index';
@@ -17,6 +18,7 @@ import { Input } from '../../components/forms';
 const CommentPage = () => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
   let [highlightedCommentID, setHighlightedCommentID] = useState('');
+  const [highlightedCommentBody, setHighlightedCommentBody] = useState('');
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
   const [comments, setComments] = useState([]);
@@ -49,9 +51,29 @@ const CommentPage = () => {
   };
 
   // Handler buat menu edit komentar
+  const onClickEditCommentOpenModalHandler = (e, commentID, commentBody) => {
+    e.preventDefault();
+    setHighlightedCommentID(commentID);
+    setHighlightedCommentBody(commentBody);
+    setIsModalEditCommentOpen(true);
+  };
+
   const onClickEditCommentHandler = (e) => {
     e.preventDefault();
-    setIsModalEditCommentOpen(true);
+    editComment(
+      courseID,
+      discussionID,
+      highlightedCommentID,
+      highlightedCommentBody
+    )
+      .then(() => {
+        getAllCommentsHandler();
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => {
+        setInitializing(false);
+        setIsModalEditCommentOpen(false);
+      });
   };
 
   // Handler buat menu deletekomentar
@@ -101,7 +123,6 @@ const CommentPage = () => {
       .then((data) => {
         setDiscussion(data);
         setInitializing(false);
-        console.log(data);
       })
       .catch(({ data }) => {
         console.log(data.message);
@@ -136,7 +157,7 @@ const CommentPage = () => {
         {/* Komentar */}
         <CommentLists
           comments={comments}
-          onClickEdit={onClickEditCommentHandler}
+          onClickEdit={onClickEditCommentOpenModalHandler}
           onClickDelete={onClickDeleteCommentOpenModalHandler}
         />
       </div>
@@ -223,15 +244,10 @@ const CommentPage = () => {
         {/* Ini ditambahin handler onSubmit buat edit */}
         <form>
           <textarea
-            // onChange={(e) =>
-            //   setSelectedCourse((prev) => ({
-            //     ...prev,
-            //     description: e.target.value,
-            //   }))
-            // }
+            onChange={(e) => setHighlightedCommentBody(e.target.value)}
             id='about'
             name='about'
-            // value={selectedCourse?.description}
+            value={highlightedCommentBody}
             rows={5}
             className='input-secondary mt-2 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
             placeholder='Masukkan komentar'
@@ -241,7 +257,7 @@ const CommentPage = () => {
             <Button onClick={closeModalCommentEdit} color='gray' size='small'>
               Tutup
             </Button>
-            <Button onClick={closeModalCommentEdit} size='small'>
+            <Button onClick={(e) => onClickEditCommentHandler(e)} size='small'>
               Simpan
             </Button>
           </div>
