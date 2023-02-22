@@ -110,6 +110,7 @@ const CommentPage = ({ user }) => {
 
   const onClickDeleteCommentHandler = (e) => {
     e.preventDefault();
+    setInitializing(true);
     deleteComment(courseID, discussionID, highlightedComment.id)
       .then(() => {
         setHighlightedComment({});
@@ -159,6 +160,7 @@ const CommentPage = ({ user }) => {
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setInitializing(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
