@@ -39,7 +39,10 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
                     {({ active }) => (
                       <button
                         onClick={(e) =>
-                          onClickEdit(e, { id: comment.id, body: comment.body })
+                          onClickEdit(e, {
+                            id: comment?.id,
+                            body: comment?.body,
+                          })
                         }
                         className={`w-full px-4 py-1.5 rounded text-sm ${
                           active && 'bg-gray-light'
@@ -52,7 +55,7 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
                   <Menu.Item>
                     {({ active }) => (
                       <button
-                        onClick={(e) => onClickDelete(e, comment.id)}
+                        onClick={(e) => onClickDelete(e, { id: comment?.id })}
                         className={`w-full px-4 py-1.5 rounded text-sm text-danger-main ${
                           active && 'bg-danger-main bg-opacity-10'
                         }`}

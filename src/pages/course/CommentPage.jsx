@@ -12,7 +12,7 @@ import {
   editComment,
 } from '../../utils/comments';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
-import { DiscussionCard } from '../../components/cards/index';
+import { DiscussionCard } from '../../components/cards';
 import AddCommentForm from '../../components/forms/AddCommentForm';
 import CommentLists from '../../components/lists/CommentLists';
 import { ModalDelete, ModalForm } from '../../components/modal';
@@ -21,14 +21,13 @@ import { Input } from '../../components/forms';
 
 const CommentPage = ({ user }) => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
-  const [highlightedCommentID, setHighlightedCommentID] = useState('');
-  const [highlightedComment, setHighlightedComment] = useState('');
+  const [highlightedComment, setHighlightedComment] = useState({});
   const [discussionTmp, setDiscussionTmp] = useState({});
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
   const [comments, setComments] = useState([]);
   const [showReply, setShowReply] = useState(false);
-  const [body, setBody] = useState('');
+  const [replyBody, setReplyBody] = useState('');
   const navigate = useNavigate();
 
   const [isModalEditDiscussionOpen, setIsModalEditDiscussionOpen] =
@@ -94,6 +93,7 @@ const CommentPage = ({ user }) => {
     setInitializing(true);
     editComment(courseID, discussionID, highlightedComment)
       .then(() => {
+        setHighlightedComment({});
         getAllCommentsHandler();
         setIsModalEditCommentOpen(false);
       })
@@ -101,35 +101,34 @@ const CommentPage = ({ user }) => {
       .finally(() => setInitializing(false));
   };
 
-  // Handler buat menu deletekomentar
-  const onClickDeleteCommentOpenModalHandler = (e, commentID) => {
+  // Handler buat menu delete komentar
+  const onClickDeleteCommentOpenModalHandler = (e, selectedComment) => {
     e.preventDefault();
-    setHighlightedCommentID(commentID);
+    setHighlightedComment(selectedComment);
     setIsModalDeleteCommentOpen(true);
   };
 
   const onClickDeleteCommentHandler = (e) => {
     e.preventDefault();
-    deleteComment(courseID, discussionID, highlightedCommentID)
+    deleteComment(courseID, discussionID, highlightedComment.id)
       .then(() => {
+        setHighlightedComment({});
         getAllCommentsHandler();
+        setIsModalDeleteCommentOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setInitializing(false));
-    setIsModalDeleteCommentOpen(false);
   };
 
-  const inputBodyHandler = (e) => setBody(e.target.value);
   const displayReplyHandler = () => setShowReply((prev) => !prev);
 
-  // Submit comment
+  // Submit (reply) comment
   const submitCommentHandler = (e) => {
     e.preventDefault();
-
     setInitializing(true);
-    addComment(courseID, discussionID, body)
+    addComment(courseID, discussionID, replyBody)
       .then(() => {
-        setBody('');
+        setReplyBody('');
         getAllCommentsHandler();
       })
       .catch(({ data }) => console.log(data.message))
@@ -162,8 +161,6 @@ const CommentPage = ({ user }) => {
       .finally(() => setInitializing(false));
   }, []);
 
-  // if (initializing) return <OverlayLoading loadingState={initializing} />;
-
   return (
     <>
       <div className='w-full py-4 px-5 sm:py-6 sm:px-0'>
@@ -181,8 +178,8 @@ const CommentPage = ({ user }) => {
         {showReply && (
           <AddCommentForm
             onSubmit={submitCommentHandler}
-            onChange={inputBodyHandler}
-            body={body}
+            onChange={(e) => setReplyBody(e.target.value)}
+            body={replyBody}
           />
         )}
 
