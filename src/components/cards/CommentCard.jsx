@@ -10,12 +10,14 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
         <img
           className='bg-slate-400 max-w-[2rem] h-8 rounded-full overflow-hidden'
           loading='lazy'
-          src={comment.User.photoProfile || Ava}
+          src={comment?.User?.photoProfile || Ava}
           alt='profile'
         />
         <div className='w-full'>
           <div className='flex'>
-            <div className='w-full font-medium text-sm'>{comment.fullName}</div>
+            <div className='w-full font-medium text-sm'>
+              {comment?.fullName}
+            </div>
 
             <Menu as='div' className='relative inline-block text-left'>
               <div>
@@ -37,7 +39,7 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
                     {({ active }) => (
                       <button
                         onClick={(e) =>
-                          onClickEdit(e, comment.id, comment.body)
+                          onClickEdit(e, { id: comment.id, body: comment.body })
                         }
                         className={`w-full px-4 py-1.5 rounded text-sm ${
                           active && 'bg-gray-light'
@@ -63,7 +65,7 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
               </Transition>
             </Menu>
           </div>
-          <p className='text-sm'>{comment.body}</p>
+          <p className='text-sm'>{comment?.body}</p>
         </div>
       </div>
     </>

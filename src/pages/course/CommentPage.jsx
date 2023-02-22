@@ -22,7 +22,7 @@ import { Input } from '../../components/forms';
 const CommentPage = ({ user }) => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
   const [highlightedCommentID, setHighlightedCommentID] = useState('');
-  const [highlightedCommentBody, setHighlightedCommentBody] = useState('');
+  const [highlightedComment, setHighlightedComment] = useState('');
   const [discussionTmp, setDiscussionTmp] = useState({});
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
@@ -72,40 +72,33 @@ const CommentPage = ({ user }) => {
 
   const onClickDeleteDiscussionHandler = (e) => {
     e.preventDefault();
-    // navigate('/course/' + courseID + '/discussion', { replace: true });
+    setInitializing(true);
     deleteDiscussion(courseID, discussionID)
       .then(() => {
         navigate('/course/' + courseID + '/discussion', { replace: true });
+        setIsModalDeleteDiscussionOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setInitializing(false));
-    setIsModalDeleteDiscussionOpen(false);
   };
 
   // Handler buat menu edit komentar
-  const onClickEditCommentOpenModalHandler = (e, commentID, commentBody) => {
+  const onClickEditCommentOpenModalHandler = (e, selectedComment) => {
     e.preventDefault();
-    setHighlightedCommentID(commentID);
-    setHighlightedCommentBody(commentBody);
+    setHighlightedComment(selectedComment);
     setIsModalEditCommentOpen(true);
   };
 
   const onSubmitEditCommentHandler = (e) => {
     e.preventDefault();
-    editComment(
-      courseID,
-      discussionID,
-      highlightedCommentID,
-      highlightedCommentBody
-    )
+    setInitializing(true);
+    editComment(courseID, discussionID, highlightedComment)
       .then(() => {
         getAllCommentsHandler();
+        setIsModalEditCommentOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
-      .finally(() => {
-        setInitializing(false);
-        setIsModalEditCommentOpen(false);
-      });
+      .finally(() => setInitializing(false));
   };
 
   // Handler buat menu deletekomentar
@@ -275,10 +268,15 @@ const CommentPage = ({ user }) => {
         {/* Ini ditambahin handler onSubmit buat edit */}
         <form onSubmit={onSubmitEditCommentHandler}>
           <textarea
-            onChange={(e) => setHighlightedCommentBody(e.target.value)}
+            onChange={(e) =>
+              setHighlightedComment((prev) => ({
+                ...prev,
+                body: e.target.value,
+              }))
+            }
             id='about'
             name='about'
-            value={highlightedCommentBody}
+            value={highlightedComment.body}
             rows={5}
             className='input-secondary mt-2 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
             placeholder='Masukkan komentar'
