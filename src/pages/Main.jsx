@@ -166,7 +166,7 @@ const Main = () => {
               <Route
                 exact
                 path='discussion/'
-                element={<CoursePage.Discussions />}
+                element={<CoursePage.Discussions user={userData} />}
               />
               <Route
                 exact
@@ -176,7 +176,7 @@ const Main = () => {
               <Route
                 exact
                 path='discussion/:id_discussion/'
-                element={<CoursePage.Comments />}
+                element={<CoursePage.Comments user={userData} />}
               />
             </Route>
           </Route>

@@ -47,4 +47,26 @@ const addDiscussion = async (courseID, newDiscussion) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-export { getAllDiscussions, getDiscussionById, addDiscussion };
+// edit discussion
+
+const editDiscussion = async (courseID, discussionID, discussion) => {
+  return authApi
+    .put(`/courses/${courseID}/discussions/${discussionID}`, {
+      title: discussion.title,
+      body: discussion.body,
+    })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+};
+
+// delete discussion
+const deleteDiscussion = async (courseID, discussionID) => {
+  return authApi
+    .delete(`/courses/${courseID}/discussions/${discussionID}`)
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+};
+
+
+
+export { getAllDiscussions, getDiscussionById, addDiscussion, editDiscussion, deleteDiscussion };

@@ -1,34 +1,69 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAllDiscussions } from '../../utils/discussions';
+import {
+  deleteDiscussion,
+  editDiscussion,
+  getAllDiscussions,
+} from '../../utils/discussions';
 import Button from '../../components/buttons/Button';
 import SearchBar from '../../components/forms/SearchBar';
 import { ModalDelete, ModalForm } from '../../components/modal';
 import DiscussionLists from '../../components/lists/DiscussionLists';
 import { Input } from '../../components/forms';
 
-const DiscussionPage = ({ userData }) => {
-  // const { fullName, photoProfile } = userData;
+const DiscussionPage = ({ user }) => {
   const navigate = useNavigate();
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [discussionTmp, setDiscussionTmp] = useState({});
 
   const toAddDiskusiPage = () => navigate('add'); // Navigate ke halaman add diskusi
   const closeModalDelete = () => setIsModalDeleteOpen(false); // Tutup overlay (modal) delete
   const closeModalEdit = () => setIsModalEditOpen(false); // Tutup overlay (modal) edit
 
-  // Handler buat menu overlay edit
-  const onClickEditHandler = (e) => {
+  // Handler buat menu edit diskusi
+  const onClickEditDiscussionOpenModalHandler = (e, discussion) => {
     e.preventDefault();
+    setDiscussionTmp(discussion);
     setIsModalEditOpen(true);
   };
-  // Handler buat menu overlay delete
-  const onClickDeleteHandler = (e) => {
+
+  const onClickEditDiscussionHandler = (e) => {
     e.preventDefault();
+    editDiscussion(id_course, discussionTmp.id, discussionTmp)
+      .then(() => {
+        getAllDiscussions(id_course)
+          .then(setDiscussions)
+          .catch(({ data }) => console.log(data.message))
+          .finally(() => setIsLoading(false));
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => {
+        setIsModalEditOpen(false);
+      });
+  };
+
+  const onClickDeleteDiscussionOpenModalHandler = (e, discussion) => {
+    e.preventDefault();
+    setDiscussionTmp(discussion);
     setIsModalDeleteOpen(true);
+  };
+
+  const onClickDeleteDiscussionHandler = (e) => {
+    e.preventDefault();
+    deleteDiscussion(id_course, discussionTmp.id)
+      .then(() => {
+        getAllDiscussions(id_course)
+          .then(setDiscussions)
+          .catch(({ data }) => console.log(data.message))
+          .finally(() => setIsLoading(false));
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsLoading(false));
+    setIsModalDeleteOpen(false);
   };
 
   // Handler buat ngambil semua data diskusi
@@ -66,30 +101,28 @@ const DiscussionPage = ({ userData }) => {
 
         {/* List Diskusi */}
         <DiscussionLists
+          user={user}
           discussions={discussions}
-          onClickEdit={onClickEditHandler}
-          onClickDelete={onClickDeleteHandler}
+          onClickEdit={onClickEditDiscussionOpenModalHandler}
+          onClickDelete={onClickDeleteDiscussionOpenModalHandler}
         />
       </div>
 
       {/* Edit dialog (modal) */}
       <ModalForm show={isModalEditOpen} title='Edit Pertanyaan'>
         {/* Ini ditambahin handler onSubmit buat edit */}
-        <form
-          // onSubmit={editCourseHandler}
-          method='POST'
-        >
+        <form>
           {/* Judul */}
           <div>
             <Input
-              // onChange={(e) =>
-              //   setSelectedCourse((prev) => ({
-              //     ...prev,
-              //     title: e.target.value,
-              //   }))
-              // }
+              onChange={(e) =>
+                setDiscussionTmp((prev) => ({
+                  ...prev,
+                  title: e.target.value,
+                }))
+              }
               label='Judul'
-              // value={selectedCourse?.title}
+              value={discussionTmp.title}
               color='secondary'
               placeholder='Masukkan judul pertanyaan'
               required
@@ -102,15 +135,15 @@ const DiscussionPage = ({ userData }) => {
               Pertanyaan
             </label>
             <textarea
-              // onChange={(e) =>
-              //   setSelectedCourse((prev) => ({
-              //     ...prev,
-              //     description: e.target.value,
-              //   }))
-              // }
+              onChange={(e) =>
+                setDiscussionTmp((prev) => ({
+                  ...prev,
+                  body: e.target.value,
+                }))
+              }
               id='body'
               name='body'
-              // value={selectedCourse?.description}
+              value={discussionTmp.body}
               rows={5}
               className='input-secondary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
               placeholder='Deskripsi materi'
@@ -122,7 +155,12 @@ const DiscussionPage = ({ userData }) => {
             <Button onClick={closeModalEdit} color='gray' size='small'>
               Tutup
             </Button>
-            <Button type='submit' size='small'>
+            <Button
+              size='small'
+              onClick={(e) => {
+                onClickEditDiscussionHandler(e);
+              }}
+            >
               Simpan
             </Button>
           </div>
@@ -133,7 +171,7 @@ const DiscussionPage = ({ userData }) => {
       <ModalDelete
         show={isModalDeleteOpen}
         onClose={closeModalDelete}
-        onClickDelete={closeModalDelete} // Ini diganti handler buat delete
+        onClickDelete={onClickDeleteDiscussionHandler}
         title='Hapus Pertanyaan'
       >
         <p className='text-sm text-gray-500'>
