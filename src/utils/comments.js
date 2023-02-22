@@ -26,4 +26,23 @@ const addComment = async (courseID, discussionID, body) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-export { getAllComments, addComment };
+// delete comment from discussion
+const deleteComment = async (courseID, discussionID, commentID) => {
+  return authApi
+    .delete(`/courses/${courseID}/discussions/${discussionID}/comments/${commentID}`)
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+};
+
+
+const editComment = async (courseID, discussionID, commentID, commentBody) => {
+  return authApi
+    .put(`/courses/${courseID}/discussions/${discussionID}/comments/${commentID}`, {
+      body: commentBody,
+    })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+};
+
+
+export { getAllComments, addComment, deleteComment, editComment };

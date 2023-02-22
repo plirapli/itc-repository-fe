@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getDiscussionById } from '../../utils/discussions';
-import { addComment, getAllComments } from '../../utils/comments';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  deleteDiscussion,
+  editDiscussion,
+  getDiscussionById,
+} from '../../utils/discussions';
+import {
+  addComment,
+  getAllComments,
+  deleteComment,
+  editComment,
+} from '../../utils/comments';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { DiscussionCard } from '../../components/cards/index';
 import AddCommentForm from '../../components/forms/AddCommentForm';
@@ -10,13 +19,17 @@ import { ModalDelete, ModalForm } from '../../components/modal';
 import Button from '../../components/buttons/Button';
 import { Input } from '../../components/forms';
 
-const CommentPage = () => {
+const CommentPage = ({ user }) => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
+  const [highlightedCommentID, setHighlightedCommentID] = useState('');
+  const [highlightedCommentBody, setHighlightedCommentBody] = useState('');
+  const [discussionTmp, setDiscussionTmp] = useState({});
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
   const [comments, setComments] = useState([]);
   const [showReply, setShowReply] = useState(false);
   const [body, setBody] = useState('');
+  const navigate = useNavigate();
 
   const [isModalEditDiscussionOpen, setIsModalEditDiscussionOpen] =
     useState(false);
@@ -33,25 +46,89 @@ const CommentPage = () => {
     setIsModalDeleteDiscussionOpen(false); // Tutup overlay (modal) delete komentar
 
   // Handler buat menu edit diskusi
-  const onClickEditDiscussionHandler = (e) => {
+  const onClickEditDiscussionOpenModalHandler = (e) => {
     e.preventDefault();
+    setDiscussionTmp(discussion);
     setIsModalEditDiscussionOpen(true);
   };
+
+  const onClickEditDiscussionHandler = (e) => {
+    e.preventDefault();
+    editDiscussion(courseID, discussionID, discussionTmp)
+      .then(() => {
+        getDiscussionById(courseID, discussionID)
+          .then((data) => {
+            setDiscussion(data);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => {
+        setInitializing(false);
+        setIsModalEditDiscussionOpen(false);
+      });
+  };
+
   // Handler buat menu delete diskusi
-  const onClickDeleteDiscussionHandler = (e) => {
+  const onClickDeleteDiscussionOpenModalHandler = (e) => {
     e.preventDefault();
     setIsModalDeleteDiscussionOpen(true);
   };
 
-  // Handler buat menu edit komentar
-  const onClickEditCommentHandler = (e) => {
+  const onClickDeleteDiscussionHandler = (e) => {
     e.preventDefault();
+    // navigate('/course/' + courseID + '/discussion', { replace: true });
+    deleteDiscussion(courseID, discussionID)
+      .then(() => {
+        navigate('/course/' + courseID + '/discussion', { replace: true });
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setInitializing(false));
+    setIsModalDeleteDiscussionOpen(false);
+  };
+
+  // Handler buat menu edit komentar
+  const onClickEditCommentOpenModalHandler = (e, commentID, commentBody) => {
+    e.preventDefault();
+    setHighlightedCommentID(commentID);
+    setHighlightedCommentBody(commentBody);
     setIsModalEditCommentOpen(true);
   };
+
+  const onClickEditCommentHandler = (e) => {
+    e.preventDefault();
+    editComment(
+      courseID,
+      discussionID,
+      highlightedCommentID,
+      highlightedCommentBody
+    )
+      .then(() => {
+        getAllCommentsHandler();
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => {
+        setInitializing(false);
+        setIsModalEditCommentOpen(false);
+      });
+  };
+
   // Handler buat menu deletekomentar
+  const onClickDeleteCommentOpenModalHandler = (e, commentID) => {
+    e.preventDefault();
+    setHighlightedCommentID(commentID);
+    setIsModalDeleteCommentOpen(true);
+  };
+
   const onClickDeleteCommentHandler = (e) => {
     e.preventDefault();
-    setIsModalDeleteCommentOpen(true);
+    deleteComment(courseID, discussionID, highlightedCommentID)
+      .then(() => {
+        getAllCommentsHandler();
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setInitializing(false));
+    setIsModalDeleteCommentOpen(false);
   };
 
   const inputBodyHandler = (e) => setBody(e.target.value);
@@ -84,21 +161,26 @@ const CommentPage = () => {
         setDiscussion(data);
         setInitializing(false);
       })
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => {
+        console.log(data.message);
+      });
 
     getAllCommentsHandler();
   }, []);
+
+  if (initializing) return <OverlayLoading loadingState={initializing} />;
 
   return (
     <>
       <div className='w-full py-4 px-5 sm:py-6 sm:px-0'>
         {/* Pertanyaan */}
         <DiscussionCard
+          user={user}
           isReply={true}
           onClick={displayReplyHandler}
           discussion={discussion}
-          onClickEdit={onClickEditDiscussionHandler}
-          onClickDelete={onClickDeleteDiscussionHandler}
+          onClickEdit={onClickEditDiscussionOpenModalHandler}
+          onClickDelete={onClickDeleteDiscussionOpenModalHandler}
         />
 
         {/* Input Reply */}
@@ -113,29 +195,25 @@ const CommentPage = () => {
         {/* Komentar */}
         <CommentLists
           comments={comments}
-          onClickEdit={onClickEditCommentHandler}
-          onClickDelete={onClickDeleteCommentHandler}
+          onClickEdit={onClickEditCommentOpenModalHandler}
+          onClickDelete={onClickDeleteCommentOpenModalHandler}
         />
       </div>
 
       {/* Edit discuss dialog (modal) */}
       <ModalForm show={isModalEditDiscussionOpen} title='Edit Pertanyaan'>
-        {/* Ini ditambahin handler onSubmit buat edit */}
-        <form
-          // onSubmit={editCourseHandler}
-          method='POST'
-        >
+        <form>
           {/* Judul */}
           <div>
             <Input
-              // onChange={(e) =>
-              //   setSelectedCourse((prev) => ({
-              //     ...prev,
-              //     title: e.target.value,
-              //   }))
-              // }
+              onChange={(e) =>
+                setDiscussionTmp((prev) => ({
+                  ...prev,
+                  title: e.target.value,
+                }))
+              }
               label='Judul'
-              // value={selectedCourse?.title}
+              value={discussionTmp.title}
               color='secondary'
               placeholder='Masukkan judul pertanyaan'
               required
@@ -148,15 +226,15 @@ const CommentPage = () => {
               Pertanyaan
             </label>
             <textarea
-              // onChange={(e) =>
-              //   setSelectedCourse((prev) => ({
-              //     ...prev,
-              //     description: e.target.value,
-              //   }))
-              // }
+              onChange={(e) =>
+                setDiscussionTmp((prev) => ({
+                  ...prev,
+                  body: e.target.value,
+                }))
+              }
               id='body'
               name='body'
-              // value={selectedCourse?.description}
+              value={discussionTmp.body}
               rows={5}
               className='input-secondary mt-1 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
               placeholder='Deskripsi materi'
@@ -172,7 +250,12 @@ const CommentPage = () => {
             >
               Tutup
             </Button>
-            <Button type='submit' size='small'>
+            <Button
+              size='small'
+              onClick={(e) => {
+                onClickEditDiscussionHandler(e, discussionTmp);
+              }}
+            >
               Simpan
             </Button>
           </div>
@@ -183,7 +266,7 @@ const CommentPage = () => {
       <ModalDelete
         show={isModalDeleteDiscussionOpen}
         onClose={closeModalDiscussionDelete}
-        onClickDelete={closeModalDiscussionDelete} // Ini diganti handler buat delete
+        onClickDelete={(e) => onClickDeleteDiscussionHandler(e)}
         title='Hapus Pertanyaan'
       >
         <p className='text-sm text-gray-500'>
@@ -196,15 +279,10 @@ const CommentPage = () => {
         {/* Ini ditambahin handler onSubmit buat edit */}
         <form>
           <textarea
-            // onChange={(e) =>
-            //   setSelectedCourse((prev) => ({
-            //     ...prev,
-            //     description: e.target.value,
-            //   }))
-            // }
+            onChange={(e) => setHighlightedCommentBody(e.target.value)}
             id='about'
             name='about'
-            // value={selectedCourse?.description}
+            value={highlightedCommentBody}
             rows={5}
             className='input-secondary mt-2 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
             placeholder='Masukkan komentar'
@@ -225,7 +303,7 @@ const CommentPage = () => {
       <ModalDelete
         show={isModalDeleteCommentOpen}
         onClose={closeModalCommentDelete}
-        onClickDelete={closeModalCommentDelete} // Ini diganti handler buat delete
+        onClickDelete={onClickDeleteCommentHandler}
         title='Hapus Komentar'
       >
         <p className='text-sm text-gray-500'>
@@ -234,7 +312,16 @@ const CommentPage = () => {
       </ModalDelete>
 
       {/* Loading state */}
-      <OverlayLoading loadingState={initializing} />
+      {/* <OverlayLoading loadingState={initializing} /> */}
+      {/* code di atas ngebuat bug */}
+      {/* selalu gunakan conditional kalau mau manfaatin semacam loading,
+          jangan langsung ditaruh di situ.
+          react pertama bakal ngerender component dulu baru ngejalanin useEffect. 
+          Sedangkan card Discussion punya kebutuhan terhadap data
+          yang diambil melalui useEffect.
+          Disitulah letak bugnya. Component gapunya data yang cukup tapi dipaksa render.
+          jadinya bakal selalu munculin Uncaught TypeError: Cannot read properties of undefined 
+      */}
     </>
   );
 };
