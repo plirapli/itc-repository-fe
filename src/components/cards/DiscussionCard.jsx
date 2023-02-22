@@ -11,7 +11,6 @@ const DiscussionCard = ({
   onClickDelete,
   ...props
 }) => {
-  console.log(discussion);
   return (
     <div className='bg-white px-3.5 py-3 pr-2 rounded-lg shadow'>
       {/* Header Card */}
@@ -19,16 +18,16 @@ const DiscussionCard = ({
         <img
           className='bg-slate-400 max-w-[2rem] h-8 rounded-full overflow-hidden'
           loading='lazy'
-          src={discussion.User.photoProfile || Ava}
+          src={discussion?.User?.photoProfile || Ava}
           alt='profil'
         />
         <div className='w-full flex flex-col'>
-          <p className='text-sm truncate'>{discussion.fullName}</p>
-          <div className='text-xs text-gray-dark'>{discussion.createdAt}</div>
+          <p className='text-sm truncate'>{discussion?.fullName}</p>
+          <div className='text-xs text-gray-dark'>{discussion?.createdAt}</div>
         </div>
 
         {/* 3 Dots menu */}
-        {user.id === discussion.id_user && (
+        {user?.id === discussion?.id_user && (
           <Menu as='div' className='self-start relative inline-block text-left'>
             <div>
               <Menu.Button className='p-1 pt-0'>
@@ -77,8 +76,8 @@ const DiscussionCard = ({
 
       {/* Isi Card */}
       <main className='mt-1.5'>
-        <div>{discussion.title}</div>
-        <p className='text-gray-dark text-sm clamp'>{discussion.body}</p>
+        <div>{discussion?.title}</div>
+        <p className='text-gray-dark text-sm clamp'>{discussion?.body}</p>
       </main>
 
       {/* Reply Button */}

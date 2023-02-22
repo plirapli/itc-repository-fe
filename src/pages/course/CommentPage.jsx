@@ -52,21 +52,16 @@ const CommentPage = ({ user }) => {
     setIsModalEditDiscussionOpen(true);
   };
 
-  const onClickEditDiscussionHandler = (e) => {
+  const onSubmitEditDiscussionHandler = (e) => {
     e.preventDefault();
+    setInitializing(true);
     editDiscussion(courseID, discussionID, discussionTmp)
       .then(() => {
-        getDiscussionById(courseID, discussionID)
-          .then((data) => {
-            setDiscussion(data);
-          })
-          .catch((err) => console.log(err));
+        getDiscussionByIdHandler();
+        setIsModalEditDiscussionOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
-      .finally(() => {
-        setInitializing(false);
-        setIsModalEditDiscussionOpen(false);
-      });
+      .finally(() => setInitializing(false));
   };
 
   // Handler buat menu delete diskusi
@@ -95,7 +90,7 @@ const CommentPage = ({ user }) => {
     setIsModalEditCommentOpen(true);
   };
 
-  const onClickEditCommentHandler = (e) => {
+  const onSubmitEditCommentHandler = (e) => {
     e.preventDefault();
     editComment(
       courseID,
@@ -148,6 +143,13 @@ const CommentPage = ({ user }) => {
       .finally(() => setInitializing(false));
   };
 
+  const getDiscussionByIdHandler = () => {
+    getDiscussionById(courseID, discussionID)
+      .then(setDiscussion)
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setInitializing(false));
+  };
+
   const getAllCommentsHandler = () => {
     getAllComments(courseID, discussionID)
       .then(setComments)
@@ -159,16 +161,15 @@ const CommentPage = ({ user }) => {
     getDiscussionById(courseID, discussionID)
       .then((data) => {
         setDiscussion(data);
-        setInitializing(false);
+        getAllComments(courseID, discussionID)
+          .then(setComments)
+          .catch(({ data }) => console.log(data.message));
       })
-      .catch(({ data }) => {
-        console.log(data.message);
-      });
-
-    getAllCommentsHandler();
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setInitializing(false));
   }, []);
 
-  if (initializing) return <OverlayLoading loadingState={initializing} />;
+  // if (initializing) return <OverlayLoading loadingState={initializing} />;
 
   return (
     <>
@@ -202,7 +203,7 @@ const CommentPage = ({ user }) => {
 
       {/* Edit discuss dialog (modal) */}
       <ModalForm show={isModalEditDiscussionOpen} title='Edit Pertanyaan'>
-        <form>
+        <form onSubmit={onSubmitEditDiscussionHandler}>
           {/* Judul */}
           <div>
             <Input
@@ -250,12 +251,7 @@ const CommentPage = ({ user }) => {
             >
               Tutup
             </Button>
-            <Button
-              size='small'
-              onClick={(e) => {
-                onClickEditDiscussionHandler(e, discussionTmp);
-              }}
-            >
+            <Button type='submit' size='small'>
               Simpan
             </Button>
           </div>
@@ -277,7 +273,7 @@ const CommentPage = ({ user }) => {
       {/* Edit comment dialog (modal) */}
       <ModalForm show={isModalEditCommentOpen} title='Edit komentar'>
         {/* Ini ditambahin handler onSubmit buat edit */}
-        <form>
+        <form onSubmit={onSubmitEditCommentHandler}>
           <textarea
             onChange={(e) => setHighlightedCommentBody(e.target.value)}
             id='about'
@@ -312,16 +308,7 @@ const CommentPage = ({ user }) => {
       </ModalDelete>
 
       {/* Loading state */}
-      {/* <OverlayLoading loadingState={initializing} /> */}
-      {/* code di atas ngebuat bug */}
-      {/* selalu gunakan conditional kalau mau manfaatin semacam loading,
-          jangan langsung ditaruh di situ.
-          react pertama bakal ngerender component dulu baru ngejalanin useEffect. 
-          Sedangkan card Discussion punya kebutuhan terhadap data
-          yang diambil melalui useEffect.
-          Disitulah letak bugnya. Component gapunya data yang cukup tapi dipaksa render.
-          jadinya bakal selalu munculin Uncaught TypeError: Cannot read properties of undefined 
-      */}
+      <OverlayLoading loadingState={initializing} />
     </>
   );
 };
