@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms/';
+import { ModalForm } from '../../components/modal';
 import { getAllGenerations } from '../../utils/user';
 
 const ProfilePage = ({ userData, divisi }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
   const toHome = () => navigate('/');
+  const [user, setUser] = useState({});
+  const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
+
+  const closeModalPassword = () => setIsModalPasswordOpen(false);
 
   useEffect(() => {
     setUser(userData);
@@ -122,7 +126,9 @@ const ProfilePage = ({ userData, divisi }) => {
 
           <div className='mt-6 col-span-12 grid grid-cols-12 gap-3'>
             <div className='col-span-12 sm:col-span-6 md:col-span-3'>
-              <Button color='gray'>Ganti Password</Button>
+              <Button onClick={() => setIsModalPasswordOpen(true)} color='gray'>
+                Ganti Password
+              </Button>
             </div>
 
             {/* Submit & Back button */}
@@ -137,6 +143,21 @@ const ProfilePage = ({ userData, divisi }) => {
           </div>
         </div>
       </form>
+
+      {/* Edit password dialog (modal) */}
+      <ModalForm show={isModalPasswordOpen} title='Ubah kata sandi'>
+        <form>
+          <Input color='secondary' placeholder='Masukkan kata sandi baru' />
+          <div className='mt-4 flex gap-2'>
+            <Button onClick={closeModalPassword} color='gray' size='small'>
+              Tutup
+            </Button>
+            <Button type='submit' onClick={closeModalPassword} size='small'>
+              Simpan
+            </Button>
+          </div>
+        </form>
+      </ModalForm>
     </>
   );
 };
