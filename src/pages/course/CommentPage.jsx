@@ -275,11 +275,7 @@ const CommentPage = ({ user }) => {
       </ModalDelete>
 
       {/* Edit comment dialog (modal) */}
-      <ModalForm
-        show={isModalEditCommentOpen}
-        onClose={closeModalCommentEdit}
-        title='Edit komentar'
-      >
+      <ModalForm show={isModalEditCommentOpen} title='Edit komentar'>
         {/* Ini ditambahin handler onSubmit buat edit */}
         <form>
           <textarea
@@ -296,7 +292,7 @@ const CommentPage = ({ user }) => {
             <Button onClick={closeModalCommentEdit} color='gray' size='small'>
               Tutup
             </Button>
-            <Button onClick={(e) => onClickEditCommentHandler(e)} size='small'>
+            <Button type='submit' size='small'>
               Simpan
             </Button>
           </div>

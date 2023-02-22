@@ -1,12 +1,12 @@
 import { Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Transition } from '@headlessui/react';
 import Button from '../buttons/Button';
 
 const ModalDelete = ({ show, onClose, onClickDelete, children, ...props }) => {
   return (
     <>
       <Transition appear show={show} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={onClose}>
+        <div className='relative z-10'>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -30,13 +30,10 @@ const ModalDelete = ({ show, onClose, onClickDelete, children, ...props }) => {
                 leaveTo='opacity-0 scale-95'
               >
                 {/* Main Container */}
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all'>
-                  <Dialog.Title
-                    as='h3'
-                    className='text-lg font-medium leading-6 text-gray-900'
-                  >
+                <div className='w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                  <h3 className='text-lg font-medium leading-6 text-gray-900'>
                     {props.title}
-                  </Dialog.Title>
+                  </h3>
 
                   {/* Body */}
                   <div className='mt-3'>{children}</div>
@@ -49,12 +46,12 @@ const ModalDelete = ({ show, onClose, onClickDelete, children, ...props }) => {
                       Hapus
                     </Button>
                   </div>
-                </Dialog.Panel>
+                </div>
                 {/* End Main Container */}
               </Transition.Child>
             </div>
           </div>
-        </Dialog>
+        </div>
       </Transition>
     </>
   );
