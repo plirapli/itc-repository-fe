@@ -56,6 +56,9 @@ const ManageUsersPage = ({ setIsAuthed }) => {
     setIsLoading(true);
     changeUserVerify(id, true)
       .then(() => {
+        // Get all user after update
+        getAllUserHandler();
+
         // Check kalo yang diubah diri sendiri
         const { id: userID } = jwt(getLocalAccessToken());
         if (userID === id) {
@@ -63,8 +66,6 @@ const ManageUsersPage = ({ setIsAuthed }) => {
           setIsAuthed(false);
           navigate('/login');
         }
-        // Get all user after update
-        getAllUserHandler();
       })
       .catch(({ data }) => {
         console.log(data.message);
