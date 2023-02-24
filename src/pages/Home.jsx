@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useOutletContext,
+  useSearchParams,
+} from 'react-router-dom';
 import { getAllCoursesDetail } from '../utils/course';
 
 // Component
@@ -10,20 +15,71 @@ import { CourseCard } from '../components/cards/index';
 import OverlayLoading from '../components/overlay/OverlayLoading';
 
 const Home = ({ userData, divisi, setIsAuthed }) => {
-  window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
-
+  // window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
+  const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
   const navbar = useOutletContext();
   const toAddMateri = () => navigate('manage/course/add/');
 
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedDivisi, setSelectedDivisi] = useState('0');
+
+  const [selectedDivisi, setSelectedDivisi] = useState(
+    () => params.get('divisi') || '0'
+  );
+
+  const changeDivisionParams = (divisi) => {
+    params.set('divisi', divisi);
+    setParams(params);
+  };
+
+  const deleteDivisionParams = () => {
+    const value = params.get('divisi');
+
+    if (value === '0') {
+      params.delete('divisi');
+      setParams(params);
+    }
+  };
+
   const [courses, setCourses] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState([]);
 
-  const filterSelectHandler = (e) => setSelectedDivisi(e.target.value);
-  const filterCourseHandler = (course) =>
+  const filterSelectHandler = (e) => {
+    setSelectedDivisi(e.target.value);
+    changeDivisionParams(e.target.value);
+    deleteDivisionParams();
+  };
+
+  const filterCourseById = (course) =>
     course.id_division === parseInt(selectedDivisi);
+
+  const filterCourseByKeyword = (course) =>
+    course.title.toLowerCase().includes(keywordMateri.toLowerCase());
+
+  // search state management
+  const [keywordMateri, setKeywordMateri] = useState(
+    () => params.get('materi') || ''
+  );
+
+  const changeSearchParams = (materi) => {
+    params.set('materi', materi);
+    setParams(params);
+  };
+
+  const deleteSearchParams = () => {
+    const value = params.get('materi');
+
+    if (value === '') {
+      params.delete('materi');
+      setParams(params);
+    }
+  };
+
+  const onKeywordMateriChange = (keyword) => {
+    setKeywordMateri(keyword);
+    changeSearchParams(keyword);
+    deleteSearchParams();
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -33,6 +89,11 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
       .then((data) => {
         if (isMounted) {
           setCourses(data);
+          data = data.filter((course) => {
+            return course.title
+              .toLowerCase()
+              .includes(keywordMateri.toLowerCase());
+          });
           setFilteredCourse(data);
         }
       })
@@ -50,11 +111,13 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
 
   useEffect(() => {
     if (selectedDivisi !== '0') {
-      setFilteredCourse(courses.filter(filterCourseHandler));
+      setFilteredCourse(
+        courses.filter(filterCourseById).filter(filterCourseByKeyword)
+      );
     } else {
-      setFilteredCourse(courses);
+      setFilteredCourse(courses.filter(filterCourseByKeyword));
     }
-  }, [selectedDivisi]);
+  }, [courses, selectedDivisi, keywordMateri]);
 
   useEffect(() => {
     navbar(<Navbar user={userData} setIsAuthed={setIsAuthed} />);
@@ -98,7 +161,11 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
             </div>
           </div>
           <div className='col-span-12 md:col-start-7 sm:col-span-6'>
-            <SearchBar placeholder='Cari materi' />
+            <SearchBar
+              placeholder='Cari materi'
+              value={keywordMateri}
+              onChange={(e) => onKeywordMateriChange(e.target.value)}
+            />
           </div>
         </div>
 

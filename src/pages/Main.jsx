@@ -20,11 +20,30 @@ const Main = () => {
   const [userData, setUserData] = useState({});
   const [isAuthed, setIsAuthed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
   const setTokenHandler = (token) => setToken(() => token);
 
   useEffect(() => {
-    if (token) getUserOwnProfile().then(setUserData);
+    if (token) {
+      getUserOwnProfile().then((data) => {
+        setUserData({
+          ...data,
+          roleName: data.Role.rolename,
+          divisionName: data.Division.divisionName,
+        });
+
+        const localUserData = JSON.parse(localStorage.getItem('user'));
+
+        if (!localUserData.username) {
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              ...localUserData,
+              username: data.username,
+            })
+          );
+        }
+      });
+    }
   }, [token]);
 
   useEffect(() => {
