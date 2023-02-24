@@ -1,17 +1,36 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Ava } from '../../assets';
 import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms/';
 import { ModalForm } from '../../components/modal';
 import { getAllGenerations } from '../../utils/user';
 
 const ProfilePage = ({ userData, divisi }) => {
-  const navigate = useNavigate();
-  const toHome = () => navigate('/');
   const [user, setUser] = useState({});
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
 
   const closeModalPassword = () => setIsModalPasswordOpen(false);
+  const onChangeFormHandler = (e, key) =>
+    setUser((prev) => ({ ...prev, [key]: e.target.value }));
+  const onSumbitProfileHandler = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append('fullName', user.fullName);
+    data.append('phoneNumber', user.phoneNumber);
+    data.append('id_division', user.id_division);
+    data.append('generation', user.generation);
+    if (user.photoProfile) data.append('image', user.imgProfile);
+
+    // sendRegister(data)
+    //   .then((data) => {
+    //     setInputData(initialState); // Reset state
+    //     setErrMessage(data); // Set message
+    //     navigate('/login'); // Navigate to /login
+    //   })
+    //   .catch(({ data }) => setErrMessage(`Error: ${data.message}!`));
+  };
 
   useEffect(() => {
     setUser(userData);
@@ -21,7 +40,7 @@ const ProfilePage = ({ userData, divisi }) => {
     <>
       <h1 className='text-xl'>Ubah Profil</h1>
       <form
-        // onSubmit={submitHandler}
+        onSubmit={onSumbitProfileHandler}
         method='POST'
         encType='multipart/form-data'
       >
@@ -34,20 +53,33 @@ const ProfilePage = ({ userData, divisi }) => {
             >
               Foto Profil
             </label>
-            <input
-              // onChange={inputImgHandler}
-              type='file'
-              id='thumbnail'
-              name='thumbnail'
-              accept='image/*'
-              className='mt-1'
-            />
+            <div className='flex items-end gap-3'>
+              <img
+                src={user?.photoProfile || Ava}
+                alt='profile'
+                className='mt-1 w-20 h-20 rounded-md border-2 border-white'
+              />
+              <div>
+                <input
+                  onChange={(e) =>
+                    setUser((prev) => ({
+                      ...prev,
+                      imgProfile: e.target.files[0],
+                    }))
+                  }
+                  type='file'
+                  id='thumbnail'
+                  name='thumbnail'
+                  accept='image/*'
+                />
+              </div>
+            </div>
           </div>
 
           {/* Nama */}
           <div className='col-span-12'>
             <Input
-              // onChange={inputTitleHandler}
+              onChange={(e) => onChangeFormHandler(e, 'fullName')}
               label='Nama Lengkap'
               value={user?.fullName}
               placeholder='Masukkan nama lengkap'
@@ -55,21 +87,10 @@ const ProfilePage = ({ userData, divisi }) => {
             />
           </div>
 
-          {/* Username */}
-          <div className='col-span-12 sm:col-span-6'>
-            <Input
-              // onChange={inputTitleHandler}
-              label='Username'
-              value={user?.username}
-              placeholder='Masukkan username'
-              required
-            />
-          </div>
-
           {/* Email */}
           <div className='col-span-12 sm:col-span-6'>
             <Input
-              // onChange={inputTitleHandler}
+              onChange={(e) => onChangeFormHandler(e, 'email')}
               label='Email'
               type='email'
               value={user?.email}
@@ -81,7 +102,7 @@ const ProfilePage = ({ userData, divisi }) => {
           {/* No. Telepon */}
           <div className='col-span-12 sm:col-span-6'>
             <Input
-              // onChange={inputTitleHandler}
+              onChange={(e) => onChangeFormHandler(e, 'phoneNumber')}
               label='Nomor Telepon'
               value={user?.phoneNumber}
               placeholder='Masukkan nomor telepon'
@@ -91,7 +112,7 @@ const ProfilePage = ({ userData, divisi }) => {
           {/* Divisi */}
           <div className='col-span-12 sm:col-span-6 lg:col-span-3'>
             <Select
-              // onChange={inputDivHandler}
+              onChange={(e) => onChangeFormHandler(e, 'id_division')}
               label='Divisi'
               value={user?.id_division}
               required
@@ -107,7 +128,7 @@ const ProfilePage = ({ userData, divisi }) => {
           {/* Angkatan */}
           <div className='col-span-12 sm:col-span-6 md:col-span-3'>
             <Select
-              // onChange={inputDivHandler}
+              onChange={(e) => onChangeFormHandler(e, 'generation')}
               label='Angkatan'
               value={user?.generation}
             >
@@ -133,9 +154,11 @@ const ProfilePage = ({ userData, divisi }) => {
 
             {/* Submit & Back button */}
             <div className='col-span-12 sm:col-span-2 sm:col-start-9'>
-              <Button onClick={toHome} type='submit' color='gray'>
-                Kembali
-              </Button>
+              <Link to={'/'}>
+                <Button type='submit' color='gray'>
+                  Kembali
+                </Button>
+              </Link>
             </div>
             <div className='col-span-12 sm:col-span-2 sm:col-start-11'>
               <Button type='submit'>Simpan</Button>
@@ -152,7 +175,7 @@ const ProfilePage = ({ userData, divisi }) => {
             <Button onClick={closeModalPassword} color='gray' size='small'>
               Tutup
             </Button>
-            <Button type='submit' onClick={closeModalPassword} size='small'>
+            <Button type='submit' size='small'>
               Simpan
             </Button>
           </div>

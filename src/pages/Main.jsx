@@ -24,21 +24,8 @@ const Main = () => {
   const setTokenHandler = (token) => setToken(() => token);
 
   useEffect(() => {
-    if (token) {
-      const { id } = jwt(token);
-      getUserOwnProfile().then((data) => {
-        setUserData({ id, ...data });
-        const credential = JSON.parse(localStorage.getItem('user'));
-
-        if (!credential.username) {
-          localStorage.setItem(
-            'user',
-            JSON.stringify({ ...credential, username: data.username })
-          );
-        }
-      });
-    }
-  }, [divisi, token]);
+    if (token) getUserOwnProfile().then(setUserData);
+  }, [token]);
 
   useEffect(() => {
     // Get divisi
