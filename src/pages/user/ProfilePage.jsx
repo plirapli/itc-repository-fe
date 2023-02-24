@@ -7,12 +7,14 @@ import { ModalForm } from '../../components/modal';
 import {
   getAllGenerations,
   getUserOwnProfile,
+  updatePassword,
   updateUserProfile,
 } from '../../utils/user';
 
 const ProfilePage = ({ userData, divisi }) => {
   const [user, setUser] = useState({});
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
 
   const closeModalPassword = () => setIsModalPasswordOpen(false);
   const onChangeFormHandler = (e, key) =>
@@ -35,10 +37,12 @@ const ProfilePage = ({ userData, divisi }) => {
       .catch(({ data }) => console.log(data.message));
   };
 
-  const getUserProfileHandler = () => {
-    getUserOwnProfile()
-      .then(setUser)
-      .catch(({ data }) => console.log(data.message));
+  const onSubmitNewPasswordHandler = (e) => {
+    e.preventDefault();
+    updatePassword(newPassword)
+      .then(() => setNewPassword(''))
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsModalPasswordOpen(false));
   };
 
   useEffect(() => {
@@ -184,8 +188,13 @@ const ProfilePage = ({ userData, divisi }) => {
 
       {/* Edit password dialog (modal) */}
       <ModalForm show={isModalPasswordOpen} title='Ubah kata sandi'>
-        <form>
-          <Input color='secondary' placeholder='Masukkan kata sandi baru' />
+        <form onSubmit={onSubmitNewPasswordHandler}>
+          <Input
+            onChange={(e) => setNewPassword(e.target.value)}
+            value={newPassword}
+            color='secondary'
+            placeholder='Masukkan kata sandi baru'
+          />
           <div className='mt-4 flex gap-2'>
             <Button onClick={closeModalPassword} color='gray' size='small'>
               Tutup

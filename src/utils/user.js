@@ -1,3 +1,4 @@
+import { data } from 'autoprefixer';
 import { authApi } from '../api/api';
 
 const url = '/users';
@@ -38,6 +39,12 @@ const updateUserProfile = async (data) =>
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 
+const updatePassword = async (password) =>
+  authApi
+    .post(`${url}/changepassword`, { password })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+
 const changeUserRole = async (id, id_role) =>
   authApi
     .put(`${url}/role/${id}`, { id_role })
@@ -64,6 +71,7 @@ export {
   getUserById,
   getUserOwnProfile,
   updateUserProfile,
+  updatePassword,
   changeUserRole,
   changeUserVerify,
   deleteUser,
