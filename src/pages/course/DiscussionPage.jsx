@@ -10,6 +10,7 @@ import SearchBar from '../../components/forms/SearchBar';
 import { ModalDelete, ModalForm } from '../../components/modal';
 import DiscussionLists from '../../components/lists/DiscussionLists';
 import { Input } from '../../components/forms';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const DiscussionPage = ({ user }) => {
   const navigate = useNavigate();
@@ -33,16 +34,16 @@ const DiscussionPage = ({ user }) => {
 
   const onClickEditDiscussionHandler = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     editDiscussion(id_course, discussionTmp.id, discussionTmp)
       .then(() => {
-        getAllDiscussions(id_course)
-          .then(setDiscussions)
-          .catch(({ data }) => console.log(data.message))
-          .finally(() => setIsLoading(false));
+        setDiscussionTmp({});
+        getAllDiscussionsHandler();
+        setIsModalEditOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => {
-        setIsModalEditOpen(false);
+        setIsLoading(false);
       });
   };
 
@@ -54,16 +55,15 @@ const DiscussionPage = ({ user }) => {
 
   const onClickDeleteDiscussionHandler = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     deleteDiscussion(id_course, discussionTmp.id)
       .then(() => {
-        getAllDiscussions(id_course)
-          .then(setDiscussions)
-          .catch(({ data }) => console.log(data.message))
-          .finally(() => setIsLoading(false));
+        setDiscussionTmp({});
+        getAllDiscussionsHandler();
+        setIsModalDeleteOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
-    setIsModalDeleteOpen(false);
   };
 
   // Handler buat ngambil semua data diskusi
@@ -77,8 +77,6 @@ const DiscussionPage = ({ user }) => {
   useEffect(() => {
     getAllDiscussionsHandler();
   }, []);
-
-  if (isLoading) return null;
 
   return (
     <>
@@ -111,7 +109,7 @@ const DiscussionPage = ({ user }) => {
       {/* Edit dialog (modal) */}
       <ModalForm show={isModalEditOpen} title='Edit Pertanyaan'>
         {/* Ini ditambahin handler onSubmit buat edit */}
-        <form>
+        <form onSubmit={onClickEditDiscussionHandler}>
           {/* Judul */}
           <div>
             <Input
@@ -155,12 +153,7 @@ const DiscussionPage = ({ user }) => {
             <Button onClick={closeModalEdit} color='gray' size='small'>
               Tutup
             </Button>
-            <Button
-              size='small'
-              onClick={(e) => {
-                onClickEditDiscussionHandler(e);
-              }}
-            >
+            <Button type='submit' size='small'>
               Simpan
             </Button>
           </div>
@@ -178,6 +171,8 @@ const DiscussionPage = ({ user }) => {
           Apakah anda yakin ingin menghapus pertanyaan ini?
         </p>
       </ModalDelete>
+
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

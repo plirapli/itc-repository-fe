@@ -51,10 +51,7 @@ const addDiscussion = async (courseID, newDiscussion) => {
 
 const editDiscussion = async (courseID, discussionID, discussion) => {
   return authApi
-    .put(`/courses/${courseID}/discussions/${discussionID}`, {
-      title: discussion.title,
-      body: discussion.body,
-    })
+    .put(`/courses/${courseID}/discussions/${discussionID}`, discussion)
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 };
@@ -67,6 +64,10 @@ const deleteDiscussion = async (courseID, discussionID) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-
-
-export { getAllDiscussions, getDiscussionById, addDiscussion, editDiscussion, deleteDiscussion };
+export {
+  getAllDiscussions,
+  getDiscussionById,
+  addDiscussion,
+  editDiscussion,
+  deleteDiscussion,
+};

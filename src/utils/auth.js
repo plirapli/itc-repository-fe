@@ -8,8 +8,8 @@ const getLocalAccessToken = () => {
 const getLocalRefreshToken = () => {
   const user = localStorage.getItem('user');
   if (user) {
-    const { username, refreshToken } = JSON.parse(user);
-    return JSON.stringify({ username, refreshToken });
+    const { refreshToken } = JSON.parse(user);
+    return JSON.stringify({ refreshToken });
   }
   return null;
 };

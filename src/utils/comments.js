@@ -29,20 +29,21 @@ const addComment = async (courseID, discussionID, body) => {
 // delete comment from discussion
 const deleteComment = async (courseID, discussionID, commentID) => {
   return authApi
-    .delete(`/courses/${courseID}/discussions/${discussionID}/comments/${commentID}`)
+    .delete(
+      `/courses/${courseID}/discussions/${discussionID}/comments/${commentID}`
+    )
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 };
 
-
-const editComment = async (courseID, discussionID, commentID, commentBody) => {
+const editComment = async (courseID, discussionID, { id: commentID, body }) => {
   return authApi
-    .put(`/courses/${courseID}/discussions/${discussionID}/comments/${commentID}`, {
-      body: commentBody,
-    })
+    .put(
+      `/courses/${courseID}/discussions/${discussionID}/comments/${commentID}`,
+      { body }
+    )
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 };
-
 
 export { getAllComments, addComment, deleteComment, editComment };

@@ -12,7 +12,7 @@ import {
   editComment,
 } from '../../utils/comments';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
-import { DiscussionCard } from '../../components/cards/index';
+import { DiscussionCard } from '../../components/cards';
 import AddCommentForm from '../../components/forms/AddCommentForm';
 import CommentLists from '../../components/lists/CommentLists';
 import { ModalDelete, ModalForm } from '../../components/modal';
@@ -21,14 +21,13 @@ import { Input } from '../../components/forms';
 
 const CommentPage = ({ user }) => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
-  const [highlightedCommentID, setHighlightedCommentID] = useState('');
-  const [highlightedCommentBody, setHighlightedCommentBody] = useState('');
+  const [highlightedComment, setHighlightedComment] = useState({});
   const [discussionTmp, setDiscussionTmp] = useState({});
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
   const [comments, setComments] = useState([]);
   const [showReply, setShowReply] = useState(false);
-  const [body, setBody] = useState('');
+  const [replyBody, setReplyBody] = useState('');
   const navigate = useNavigate();
 
   const [isModalEditDiscussionOpen, setIsModalEditDiscussionOpen] =
@@ -52,21 +51,16 @@ const CommentPage = ({ user }) => {
     setIsModalEditDiscussionOpen(true);
   };
 
-  const onClickEditDiscussionHandler = (e) => {
+  const onSubmitEditDiscussionHandler = (e) => {
     e.preventDefault();
+    setInitializing(true);
     editDiscussion(courseID, discussionID, discussionTmp)
       .then(() => {
-        getDiscussionById(courseID, discussionID)
-          .then((data) => {
-            setDiscussion(data);
-          })
-          .catch((err) => console.log(err));
+        getDiscussionByIdHandler();
+        setIsModalEditDiscussionOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
-      .finally(() => {
-        setInitializing(false);
-        setIsModalEditDiscussionOpen(false);
-      });
+      .finally(() => setInitializing(false));
   };
 
   // Handler buat menu delete diskusi
@@ -77,73 +71,74 @@ const CommentPage = ({ user }) => {
 
   const onClickDeleteDiscussionHandler = (e) => {
     e.preventDefault();
-    // navigate('/course/' + courseID + '/discussion', { replace: true });
+    setInitializing(true);
     deleteDiscussion(courseID, discussionID)
       .then(() => {
         navigate('/course/' + courseID + '/discussion', { replace: true });
+        setIsModalDeleteDiscussionOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setInitializing(false));
-    setIsModalDeleteDiscussionOpen(false);
   };
 
   // Handler buat menu edit komentar
-  const onClickEditCommentOpenModalHandler = (e, commentID, commentBody) => {
+  const onClickEditCommentOpenModalHandler = (e, selectedComment) => {
     e.preventDefault();
-    setHighlightedCommentID(commentID);
-    setHighlightedCommentBody(commentBody);
+    setHighlightedComment(selectedComment);
     setIsModalEditCommentOpen(true);
   };
 
-  const onClickEditCommentHandler = (e) => {
+  const onSubmitEditCommentHandler = (e) => {
     e.preventDefault();
-    editComment(
-      courseID,
-      discussionID,
-      highlightedCommentID,
-      highlightedCommentBody
-    )
+    setInitializing(true);
+    editComment(courseID, discussionID, highlightedComment)
       .then(() => {
+        setHighlightedComment({});
         getAllCommentsHandler();
+        setIsModalEditCommentOpen(false);
       })
       .catch(({ data }) => console.log(data.message))
-      .finally(() => {
-        setInitializing(false);
-        setIsModalEditCommentOpen(false);
-      });
+      .finally(() => setInitializing(false));
   };
 
-  // Handler buat menu deletekomentar
-  const onClickDeleteCommentOpenModalHandler = (e, commentID) => {
+  // Handler buat menu delete komentar
+  const onClickDeleteCommentOpenModalHandler = (e, selectedComment) => {
     e.preventDefault();
-    setHighlightedCommentID(commentID);
+    setHighlightedComment(selectedComment);
     setIsModalDeleteCommentOpen(true);
   };
 
   const onClickDeleteCommentHandler = (e) => {
     e.preventDefault();
-    deleteComment(courseID, discussionID, highlightedCommentID)
+    setInitializing(true);
+    deleteComment(courseID, discussionID, highlightedComment.id)
       .then(() => {
+        setHighlightedComment({});
+        getAllCommentsHandler();
+        setIsModalDeleteCommentOpen(false);
+      })
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setInitializing(false));
+  };
+
+  const displayReplyHandler = () => setShowReply((prev) => !prev);
+
+  // Submit (reply) comment
+  const submitCommentHandler = (e) => {
+    e.preventDefault();
+    setInitializing(true);
+    addComment(courseID, discussionID, replyBody)
+      .then(() => {
+        setReplyBody('');
         getAllCommentsHandler();
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setInitializing(false));
-    setIsModalDeleteCommentOpen(false);
   };
 
-  const inputBodyHandler = (e) => setBody(e.target.value);
-  const displayReplyHandler = () => setShowReply((prev) => !prev);
-
-  // Submit comment
-  const submitCommentHandler = (e) => {
-    e.preventDefault();
-
-    setInitializing(true);
-    addComment(courseID, discussionID, body)
-      .then(() => {
-        setBody('');
-        getAllCommentsHandler();
-      })
+  const getDiscussionByIdHandler = () => {
+    getDiscussionById(courseID, discussionID)
+      .then(setDiscussion)
       .catch(({ data }) => console.log(data.message))
       .finally(() => setInitializing(false));
   };
@@ -159,16 +154,14 @@ const CommentPage = ({ user }) => {
     getDiscussionById(courseID, discussionID)
       .then((data) => {
         setDiscussion(data);
-        setInitializing(false);
+        getAllComments(courseID, discussionID)
+          .then(setComments)
+          .catch(({ data }) => console.log(data.message));
       })
-      .catch(({ data }) => {
-        console.log(data.message);
-      });
-
-    getAllCommentsHandler();
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setInitializing(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (initializing) return <OverlayLoading loadingState={initializing} />;
 
   return (
     <>
@@ -187,8 +180,8 @@ const CommentPage = ({ user }) => {
         {showReply && (
           <AddCommentForm
             onSubmit={submitCommentHandler}
-            onChange={inputBodyHandler}
-            body={body}
+            onChange={(e) => setReplyBody(e.target.value)}
+            body={replyBody}
           />
         )}
 
@@ -202,7 +195,7 @@ const CommentPage = ({ user }) => {
 
       {/* Edit discuss dialog (modal) */}
       <ModalForm show={isModalEditDiscussionOpen} title='Edit Pertanyaan'>
-        <form>
+        <form onSubmit={onSubmitEditDiscussionHandler}>
           {/* Judul */}
           <div>
             <Input
@@ -250,12 +243,7 @@ const CommentPage = ({ user }) => {
             >
               Tutup
             </Button>
-            <Button
-              size='small'
-              onClick={(e) => {
-                onClickEditDiscussionHandler(e, discussionTmp);
-              }}
-            >
+            <Button type='submit' size='small'>
               Simpan
             </Button>
           </div>
@@ -277,12 +265,17 @@ const CommentPage = ({ user }) => {
       {/* Edit comment dialog (modal) */}
       <ModalForm show={isModalEditCommentOpen} title='Edit komentar'>
         {/* Ini ditambahin handler onSubmit buat edit */}
-        <form>
+        <form onSubmit={onSubmitEditCommentHandler}>
           <textarea
-            onChange={(e) => setHighlightedCommentBody(e.target.value)}
+            onChange={(e) =>
+              setHighlightedComment((prev) => ({
+                ...prev,
+                body: e.target.value,
+              }))
+            }
             id='about'
             name='about'
-            value={highlightedCommentBody}
+            value={highlightedComment.body}
             rows={5}
             className='input-secondary mt-2 block w-full rounded-md shadow-sm focus-primary sm:text-sm resize-none'
             placeholder='Masukkan komentar'
@@ -312,16 +305,7 @@ const CommentPage = ({ user }) => {
       </ModalDelete>
 
       {/* Loading state */}
-      {/* <OverlayLoading loadingState={initializing} /> */}
-      {/* code di atas ngebuat bug */}
-      {/* selalu gunakan conditional kalau mau manfaatin semacam loading,
-          jangan langsung ditaruh di situ.
-          react pertama bakal ngerender component dulu baru ngejalanin useEffect. 
-          Sedangkan card Discussion punya kebutuhan terhadap data
-          yang diambil melalui useEffect.
-          Disitulah letak bugnya. Component gapunya data yang cukup tapi dipaksa render.
-          jadinya bakal selalu munculin Uncaught TypeError: Cannot read properties of undefined 
-      */}
+      <OverlayLoading loadingState={initializing} />
     </>
   );
 };
