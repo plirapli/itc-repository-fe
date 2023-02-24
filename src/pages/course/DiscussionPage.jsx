@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   deleteDiscussion,
   editDiscussion,
@@ -16,14 +16,39 @@ const DiscussionPage = ({ user }) => {
   const navigate = useNavigate();
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);
+  const [filteredDiscussions, setFilteredDiscussions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [discussionTmp, setDiscussionTmp] = useState({});
+  const [params, setParams] = useSearchParams();
+  const [topicKeyword, setTopicKeyword] = useState(
+    () => params.get('topic') || ''
+  );
 
   const toAddDiskusiPage = () => navigate('add'); // Navigate ke halaman add diskusi
   const closeModalDelete = () => setIsModalDeleteOpen(false); // Tutup overlay (modal) delete
   const closeModalEdit = () => setIsModalEditOpen(false); // Tutup overlay (modal) edit
+
+  const changeTopicParams = (topic) => {
+    params.set('topic', topic);
+    setParams(params);
+  };
+
+  const deleteTopicParams = (topic) => {
+    const value = params.get('topic');
+
+    if (value === '') {
+      params.delete('topic');
+      setParams(params);
+    }
+  };
+
+  const onTopicsChange = (keyword) => {
+    setTopicKeyword(keyword);
+    changeTopicParams(keyword);
+    deleteTopicParams();
+  };
 
   // Handler buat menu edit diskusi
   const onClickEditDiscussionOpenModalHandler = (e, discussion) => {
@@ -78,6 +103,19 @@ const DiscussionPage = ({ user }) => {
     getAllDiscussionsHandler();
   }, []);
 
+  useEffect(() => {
+    if (topicKeyword === '') {
+      setFilteredDiscussions(discussions);
+    } else {
+      const filtered = discussions.filter(
+        (discussion) =>
+          discussion.title.toLowerCase().includes(topicKeyword.toLowerCase()) ||
+          discussion.body.toLowerCase().includes(topicKeyword.toLowerCase())
+      );
+      setFilteredDiscussions(filtered);
+    }
+  }, [topicKeyword, discussions]);
+
   return (
     <>
       <div className='w-full py-4 px-5 sm:py-6 sm:px-0'>
@@ -94,13 +132,18 @@ const DiscussionPage = ({ user }) => {
           </Button>
         </div>
         <div className='w-full mt-3'>
-          <SearchBar placeholder='Cari Pertanyaan' />
+          <SearchBar
+            placeholder='Cari Pertanyaan'
+            value={topicKeyword}
+            onChange={(e) => onTopicsChange(e.target.value)}
+          />
         </div>
 
         {/* List Diskusi */}
         <DiscussionLists
+          topicKeyword={topicKeyword}
           user={user}
-          discussions={discussions}
+          discussions={filteredDiscussions}
           onClickEdit={onClickEditDiscussionOpenModalHandler}
           onClickDelete={onClickDeleteDiscussionOpenModalHandler}
         />
