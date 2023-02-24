@@ -4,7 +4,11 @@ import { Ava } from '../../assets';
 import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms/';
 import { ModalForm } from '../../components/modal';
-import { getAllGenerations } from '../../utils/user';
+import {
+  getAllGenerations,
+  getUserOwnProfile,
+  updateUserProfile,
+} from '../../utils/user';
 
 const ProfilePage = ({ userData, divisi }) => {
   const [user, setUser] = useState({});
@@ -13,27 +17,37 @@ const ProfilePage = ({ userData, divisi }) => {
   const closeModalPassword = () => setIsModalPasswordOpen(false);
   const onChangeFormHandler = (e, key) =>
     setUser((prev) => ({ ...prev, [key]: e.target.value }));
+
   const onSumbitProfileHandler = async (e) => {
     e.preventDefault();
 
     const data = new FormData();
     data.append('fullName', user.fullName);
     data.append('phoneNumber', user.phoneNumber);
-    data.append('id_division', user.id_division);
+    data.append('id_division', parseInt(user.id_division));
     data.append('generation', user.generation);
-    if (user.photoProfile) data.append('image', user.imgProfile);
+    if (user.imgProfile) {
+      data.append('image', user.imgProfile);
+    }
 
-    // sendRegister(data)
-    //   .then((data) => {
-    //     setInputData(initialState); // Reset state
-    //     setErrMessage(data); // Set message
-    //     navigate('/login'); // Navigate to /login
-    //   })
-    //   .catch(({ data }) => setErrMessage(`Error: ${data.message}!`));
+    updateUserProfile(data)
+      .then(() => setUser((prev) => ({ ...prev, imgProfile: null })))
+      .catch(({ data }) => console.log(data.message));
+  };
+
+  const getUserProfileHandler = () => {
+    getUserOwnProfile()
+      .then(setUser)
+      .catch(({ data }) => console.log(data.message));
   };
 
   useEffect(() => {
-    setUser(userData);
+    setUser({
+      ...userData,
+      id_division: divisi?.filter(
+        ({ divisionName }) => divisionName === userData?.divisionName
+      )[0]?.id,
+    });
   }, [userData]);
 
   return (
@@ -53,17 +67,18 @@ const ProfilePage = ({ userData, divisi }) => {
             >
               Foto Profil
             </label>
-            <div className='flex items-end gap-3'>
+            <div className='flex items-end gap-3.5'>
               <img
                 src={user?.photoProfile || Ava}
                 alt='profile'
-                className='mt-1 w-20 h-20 rounded-md border-2 border-white'
+                className='mt-1.5 w-20 h-20 rounded-md ring-4 ring-white border-white'
               />
               <div>
                 <input
                   onChange={(e) =>
                     setUser((prev) => ({
                       ...prev,
+                      photoProfile: URL.createObjectURL(e.target.files[0]),
                       imgProfile: e.target.files[0],
                     }))
                   }
@@ -117,7 +132,7 @@ const ProfilePage = ({ userData, divisi }) => {
               value={user?.id_division}
               required
             >
-              {divisi.map(({ id, divisionName }) => (
+              {divisi?.map(({ id, divisionName }) => (
                 <option key={id} value={id}>
                   {divisionName}
                 </option>
