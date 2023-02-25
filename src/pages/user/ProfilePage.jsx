@@ -4,6 +4,7 @@ import { Ava } from '../../assets';
 import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms/';
 import { ModalForm } from '../../components/modal';
+import { OverlayLoading } from '../../components/overlay';
 import { useTitle } from '../../hooks';
 import {
   getAllGenerations,
@@ -37,11 +38,12 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
   const onSumbitProfileHandler = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     const data = new FormData();
     data.append('fullName', user.fullName);
-    data.append('phoneNumber', user.phoneNumber);
     data.append('id_division', parseInt(user.id_division));
-    data.append('generation', user.generation);
+    if (user.generation) data.append('generation', user.generation);
+    if (user.phoneNumber) data.append('phoneNumber', user.phoneNumber);
     if (user.imgProfile) data.append('image', user.imgProfile);
 
     updateUserProfile(data)
@@ -49,20 +51,27 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
         user.imgProfile && delete user.imgProfile; // Delete uploaded img profile if any
         setUserData((prev) => ({ ...prev, ...user })); // Set user data to new state
       })
-      .catch(({ data }) => console.log(data.message));
+      .catch(({ data }) => console.log(data.message))
+      .finally(() => setIsLoading(false));
   };
 
   const onSubmitNewPasswordHandler = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     updatePassword(newPassword)
       .then(() => setNewPassword(''))
       .catch(({ data }) => console.log(data.message))
-      .finally(() => setIsModalPasswordOpen(false));
+      .finally(() => {
+        setIsModalPasswordOpen(false);
+        setIsLoading(false);
+      });
   };
 
   useTitle(`${userData.fullName} (${userData.username})`, userData);
   useEffect(() => {
     setUser({ ...userData });
+    if (userData.fullName) setIsLoading(false);
   }, [userData]);
 
   return (
@@ -211,6 +220,8 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
           </div>
         </form>
       </ModalForm>
+
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };
