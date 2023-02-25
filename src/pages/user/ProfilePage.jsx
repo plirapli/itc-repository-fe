@@ -6,19 +6,30 @@ import { Input, Select } from '../../components/forms/';
 import { ModalForm } from '../../components/modal';
 import {
   getAllGenerations,
-  getUserOwnProfile,
   updatePassword,
   updateUserProfile,
 } from '../../utils/user';
 
-const ProfilePage = ({ userData, divisi }) => {
+const ProfilePage = ({ userData, setUserData, divisi }) => {
   const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
   const [newPassword, setNewPassword] = useState('');
 
   const closeModalPassword = () => setIsModalPasswordOpen(false);
   const onChangeFormHandler = (e, key) =>
     setUser((prev) => ({ ...prev, [key]: e.target.value }));
+
+  const onChangeDivisionHandler = (e) => {
+    const selectedID = e.target.value;
+    const filteredDivName = (divID) =>
+      divisi.filter(({ id }) => id === divID)[0]?.divisionName;
+    setUser((prev) => ({
+      ...prev,
+      id_division: selectedID,
+      divisionName: filteredDivName(selectedID),
+    }));
+  };
 
   const onSumbitProfileHandler = async (e) => {
     e.preventDefault();
@@ -28,13 +39,16 @@ const ProfilePage = ({ userData, divisi }) => {
     data.append('phoneNumber', user.phoneNumber);
     data.append('id_division', parseInt(user.id_division));
     data.append('generation', user.generation);
-    if (user.imgProfile) {
-      data.append('image', user.imgProfile);
-    }
+    if (user.imgProfile) data.append('image', user.imgProfile);
 
-    updateUserProfile(data)
-      .then(() => setUser((prev) => ({ ...prev, imgProfile: null })))
-      .catch(({ data }) => console.log(data.message));
+    setUserData((prev) => ({ ...prev, ...user }));
+    console.log({ ...userData });
+    // updateUserProfile(data)
+    //   .then(() => {
+    //     user.imgProfile && delete user.imgProfile; // Delete uploaded img profile if any
+    //     setUserData((prev) => ({ ...prev, ...user })); // Set user data to new state
+    //   })
+    //   .catch(({ data }) => console.log(data.message));
   };
 
   const onSubmitNewPasswordHandler = (e) => {
@@ -45,13 +59,17 @@ const ProfilePage = ({ userData, divisi }) => {
       .finally(() => setIsModalPasswordOpen(false));
   };
 
-  useEffect(() => {
+  const setUserHandler = () => {
     setUser({
       ...userData,
       id_division: divisi?.filter(
         ({ divisionName }) => divisionName === userData?.divisionName
       )[0]?.id,
     });
+  };
+
+  useEffect(() => {
+    setUserHandler();
   }, [userData]);
 
   return (
@@ -95,45 +113,41 @@ const ProfilePage = ({ userData, divisi }) => {
             </div>
           </div>
 
-          {/* Nama */}
           <div className='col-span-12'>
             <Input
               onChange={(e) => onChangeFormHandler(e, 'fullName')}
               label='Nama Lengkap'
-              value={user?.fullName}
+              value={user?.fullName || ''}
               placeholder='Masukkan nama lengkap'
               required
             />
           </div>
 
-          {/* Email */}
           <div className='col-span-12 sm:col-span-6'>
             <Input
               onChange={(e) => onChangeFormHandler(e, 'email')}
               label='Email'
               type='email'
-              value={user?.email}
+              value={user?.email || ''}
               placeholder='Masukkan alamat email'
               required
             />
           </div>
 
-          {/* No. Telepon */}
           <div className='col-span-12 sm:col-span-6'>
             <Input
               onChange={(e) => onChangeFormHandler(e, 'phoneNumber')}
               label='Nomor Telepon'
-              value={user?.phoneNumber}
+              value={user?.phoneNumber || ''}
               placeholder='Masukkan nomor telepon'
             />
           </div>
 
-          {/* Divisi */}
           <div className='col-span-12 sm:col-span-6 lg:col-span-3'>
             <Select
-              onChange={(e) => onChangeFormHandler(e, 'id_division')}
+              onChange={onChangeDivisionHandler}
               label='Divisi'
-              value={user?.id_division}
+              value={user?.id_division || '1'}
               required
             >
               {divisi?.map(({ id, divisionName }) => (
@@ -144,12 +158,11 @@ const ProfilePage = ({ userData, divisi }) => {
             </Select>
           </div>
 
-          {/* Angkatan */}
           <div className='col-span-12 sm:col-span-6 md:col-span-3'>
             <Select
               onChange={(e) => onChangeFormHandler(e, 'generation')}
               label='Angkatan'
-              value={user?.generation}
+              value={user?.generation || '0'}
             >
               <option value='0' hidden>
                 Angkatan
