@@ -89,12 +89,7 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
       .then((data) => {
         if (isMounted) {
           setCourses(data);
-          data = data.filter((course) => {
-            return course.title
-              .toLowerCase()
-              .includes(keywordMateri.toLowerCase());
-          });
-          setFilteredCourse(data);
+          setFilteredCourse(data.filter(filterCourseByKeyword));
         }
       })
       .catch((err) => console.log(err))

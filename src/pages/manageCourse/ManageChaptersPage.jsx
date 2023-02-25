@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import {
   getAllChaptersDetail,
   addChapter,
@@ -18,6 +18,7 @@ import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageChaptersPage = () => {
   const { id_materi } = useParams();
+  const [params, setParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [newChapter, setNewChapter] = useState('');
   const [chapters, setChapters] = useState([]);
@@ -27,6 +28,29 @@ const ManageChaptersPage = () => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [courseOverview, setCourseOverview] = useState({});
+  const [filteredChapters, setFilteredChapters] = useState([]);
+  const [chapterKeyword, setChapterKeyword] = useState(
+    () => params.get('title') || ''
+  );
+
+  const changeChapterParams = (title) => {
+    params.set('title', title);
+    setParams(params);
+  };
+
+  const deleteChapterParams = () => {
+    params.delete('title');
+    setParams(params);
+  };
+
+  const filterChapterByKeyword = (chapter) =>
+    chapter.title.toLowerCase().includes(chapterKeyword.toLowerCase());
+
+  const onKeywordChapterChange = (keyword) => {
+    setChapterKeyword(keyword);
+    changeChapterParams(keyword);
+    if (keyword === '') deleteChapterParams();
+  };
 
   const openModalAdd = () => setIsModalAddOpen(true);
   const openModalDelete = () => setIsModalDeleteOpen(true);
@@ -55,7 +79,10 @@ const ManageChaptersPage = () => {
 
   const getChapterHandler = () =>
     getAllChaptersDetail(id_materi)
-      .then(setChapters)
+      .then((data) => {
+        setChapters(data);
+        setFilteredChapters(data.filter(filterChapterByKeyword));
+      })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
 
@@ -101,6 +128,10 @@ const ManageChaptersPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setFilteredChapters(chapters.filter(filterChapterByKeyword));
+  }, [chapterKeyword, chapters]);
+
   return (
     <>
       <div>
@@ -128,12 +159,18 @@ const ManageChaptersPage = () => {
 
         {/* Search Bar */}
         <div className='mt-4 sm:mt-3'>
-          <SearchBar placeholder='Cari bab' />
+          <SearchBar
+            placeholder='Cari bab'
+            value={chapterKeyword}
+            onChange={(e) => {
+              onKeywordChapterChange(e.target.value);
+            }}
+          />
         </div>
 
         {/* Card List */}
         <section className='mt-4 flex flex-col gap-4'>
-          {chapters?.map(({ id, title, ...chapter }) => (
+          {filteredChapters?.map(({ id, title, ...chapter }) => (
             <Link key={id} to={`${id}`}>
               <ManageCourseCard
                 type='bab'

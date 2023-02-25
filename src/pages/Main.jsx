@@ -27,8 +27,6 @@ const Main = () => {
       getUserOwnProfile().then((data) => {
         setUserData({
           ...data,
-          roleName: data.Role.rolename,
-          divisionName: data.Division.divisionName,
         });
 
         const localUserData = JSON.parse(localStorage.getItem('user'));

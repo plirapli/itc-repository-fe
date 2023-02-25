@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { deleteArticle, getAllArticles } from '../../utils/article';
 
 // Components
@@ -11,11 +16,36 @@ import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();
+  const [params, setParams] = useSearchParams();
   const { id_materi: course_id, id_bab: chapter_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [filteredArticles, setFilteredArticles] = useState([]);
+  const [articleKeyword, setArticleKeyword] = useState(
+    () => params.get('query') || ''
+  );
+
+  const changeArticleParams = (query) => {
+    params.set('query', query);
+    setParams(params);
+  };
+
+  const deleteArticleParams = () => {
+    params.delete('query');
+    setParams(params);
+  };
+
+  const filterArticleByKeyword = (article) =>
+    article.title.toLowerCase().includes(articleKeyword.toLowerCase()) ||
+    article.body.toLowerCase().includes(articleKeyword.toLowerCase());
+
+  const onKeywordChapterChange = (keyword) => {
+    setArticleKeyword(keyword);
+    changeArticleParams(keyword);
+    if (keyword === '') deleteArticleParams();
+  };
 
   const toAddArtikel = () => navigate('add/');
   const openModalDelete = () => setIsModalDeleteOpen(true);
@@ -29,7 +59,10 @@ const ManageArticlesPage = () => {
 
   const getAllArticleHandler = () => {
     getAllArticles(course_id, chapter_id)
-      .then(setArticles)
+      .then((data) => {
+        setArticles(data);
+        setFilteredArticles(data.filter(filterArticleByKeyword));
+      })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
   };
@@ -41,13 +74,18 @@ const ManageArticlesPage = () => {
     deleteArticle(course_id, chapter_id, selectedArticle.id)
       .then(() => setSelectedArticle({}))
       .catch(({ data }) => console.log(data.message))
-      .finally(() => getAllArticleHandler());
+      .finally(() => getAllArticleHandler()); // taruh get allnya di then aja, soalnya kalau gagal delete gaperlu ambil data baru
   };
 
   useEffect(() => {
     getAllArticleHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setFilteredArticles(articles.filter(filterArticleByKeyword));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [articleKeyword]);
 
   return (
     <>
@@ -69,12 +107,18 @@ const ManageArticlesPage = () => {
 
       {/* Search Bar */}
       <div className='mt-4 sm:mt-3'>
-        <SearchBar placeholder='Cari artikel' />
+        <SearchBar
+          placeholder='Cari artikel'
+          value={articleKeyword}
+          onChange={(e) => {
+            onKeywordChapterChange(e.target.value);
+          }}
+        />
       </div>
 
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-4'>
-        {articles?.map(({ id, title }) => (
+        {filteredArticles?.map(({ id, title }) => (
           <Link
             key={id}
             to={`/course/${course_id}/chapter/${chapter_id}/article/${id}`}
