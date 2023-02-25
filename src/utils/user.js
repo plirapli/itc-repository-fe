@@ -1,3 +1,4 @@
+import { data } from 'autoprefixer';
 import { authApi } from '../api/api';
 
 const url = '/users';
@@ -30,6 +31,20 @@ const getAllGenerations = () => {
   return angkatanList;
 };
 
+const updateUserProfile = async (data) =>
+  authApi
+    .put(`${url}/update`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+
+const updatePassword = async (password) =>
+  authApi
+    .post(`${url}/changepassword`, { password })
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+
 const changeUserRole = async (id, id_role) =>
   authApi
     .put(`${url}/role/${id}`, { id_role })
@@ -55,6 +70,8 @@ export {
   getAllGenerations,
   getUserById,
   getUserOwnProfile,
+  updateUserProfile,
+  updatePassword,
   changeUserRole,
   changeUserVerify,
   deleteUser,
