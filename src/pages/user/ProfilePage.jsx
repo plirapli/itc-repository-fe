@@ -22,12 +22,14 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
 
   const onChangeDivisionHandler = (e) => {
     const selectedID = e.target.value;
-    const filteredDivName = (divID) =>
-      divisi.filter(({ id }) => id === divID)[0]?.divisionName;
+    const selectedDivName = divisi.find(
+      ({ id }) => id === parseInt(selectedID)
+    )?.divisionName;
+
     setUser((prev) => ({
       ...prev,
       id_division: selectedID,
-      divisionName: filteredDivName(selectedID),
+      divisionName: selectedDivName,
     }));
   };
 
@@ -41,14 +43,12 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
     data.append('generation', user.generation);
     if (user.imgProfile) data.append('image', user.imgProfile);
 
-    setUserData((prev) => ({ ...prev, ...user }));
-    console.log({ ...userData });
-    // updateUserProfile(data)
-    //   .then(() => {
-    //     user.imgProfile && delete user.imgProfile; // Delete uploaded img profile if any
-    //     setUserData((prev) => ({ ...prev, ...user })); // Set user data to new state
-    //   })
-    //   .catch(({ data }) => console.log(data.message));
+    updateUserProfile(data)
+      .then(() => {
+        user.imgProfile && delete user.imgProfile; // Delete uploaded img profile if any
+        setUserData((prev) => ({ ...prev, ...user })); // Set user data to new state
+      })
+      .catch(({ data }) => console.log(data.message));
   };
 
   const onSubmitNewPasswordHandler = (e) => {
@@ -59,17 +59,8 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
       .finally(() => setIsModalPasswordOpen(false));
   };
 
-  const setUserHandler = () => {
-    setUser({
-      ...userData,
-      id_division: divisi?.filter(
-        ({ divisionName }) => divisionName === userData?.divisionName
-      )[0]?.id,
-    });
-  };
-
   useEffect(() => {
-    setUserHandler();
+    setUser({ ...userData });
   }, [userData]);
 
   return (

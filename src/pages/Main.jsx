@@ -94,7 +94,13 @@ const Main = () => {
             >
               <Route
                 path='profile'
-                element={<ProfilePage userData={userData} divisi={divisi} />}
+                element={
+                  <ProfilePage
+                    userData={userData}
+                    setUserData={setUserData}
+                    divisi={divisi}
+                  />
+                }
               />
             </Route>
 
