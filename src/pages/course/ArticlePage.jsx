@@ -20,11 +20,15 @@ const ArticlePage = () => {
 
   return (
     <div className='p-4 bg-white min-h-full flex flex-col'>
-      <h1 className='text-xl mb-2'>{article?.title}</h1>
+      <h1 className='text-xl mb-2.5'>{article?.title}</h1>
       <hr />
-      <div className='my-2 flex-1'>{article?.body}</div>
+
+      <div className='flex-1'>
+        <div className='unreset'>{article?.body}</div>
+      </div>
+
       <hr />
-      <div className='text-xs text-gray-dark mt-2'>
+      <div className='mt-2 text-xs text-gray-dark'>
         <p>Dibuat pada: {article.createdAt}</p>
         <p>Diperbarui pada: {article.updatedAt}</p>
       </div>
