@@ -4,6 +4,7 @@ import { Ava } from '../../assets';
 import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms/';
 import { ModalForm } from '../../components/modal';
+import { useTitle } from '../../hooks';
 import {
   getAllGenerations,
   updatePassword,
@@ -59,6 +60,7 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
       .finally(() => setIsModalPasswordOpen(false));
   };
 
+  useTitle(`${userData.fullName} (${userData.username})`, userData);
   useEffect(() => {
     setUser({ ...userData });
   }, [userData]);

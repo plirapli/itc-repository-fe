@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTitle } from '../../hooks';
 import { addCourse } from '../../utils/course';
 
 // Components
@@ -14,6 +15,7 @@ const AddCoursePage = ({ divisi }) => {
   const [desc, setDesc] = useState('');
   const [selectedDiv, setSelectedDiv] = useState(1);
   const [img, setImg] = useState({});
+  useTitle('Tambah Materi');
 
   const backButtonHandler = () => navigate(-1);
   const inputTitleHandler = (e) => setTitle(e.target.value);

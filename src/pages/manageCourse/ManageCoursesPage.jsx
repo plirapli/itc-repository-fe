@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTitle } from '../../hooks';
 import { getAllCourses, deleteCourse, editCourse } from '../../utils/course';
 
 // Component
@@ -19,6 +20,7 @@ const ManageCoursesPage = ({ divisi }) => {
   const [selectedCourse, setSelectedCourse] = useState({});
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  useTitle('Daftar Materi');
 
   const closeModalEdit = () => setIsModalEditOpen(false);
   const closeModalDelete = () => setIsModalDeleteOpen(false);

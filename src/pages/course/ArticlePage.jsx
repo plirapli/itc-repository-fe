@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { getArticleByID } from '../../utils/article';
+import { useTitle } from '../../hooks';
 
 const ArticlePage = () => {
   const { id_course, id_chapter, id_article } = useParams();
   const [article, setArticle] = useState({});
 
+  useTitle(article?.title || 'Loading...', article);
   useEffect(() => {
     getArticleByID(id_course, id_chapter, id_article)
       .then((data) => {

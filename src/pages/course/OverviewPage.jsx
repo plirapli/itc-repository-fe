@@ -6,11 +6,13 @@ import { getCourseById } from '../../utils/course';
 import Button from '../../components/buttons/Button';
 import Tags from '../../components/tags/Tags';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
+import { useTitle } from '../../hooks';
 
 const OverviewPage = () => {
   const [course, setCourse] = useState({});
   const { id_course } = useParams();
 
+  useTitle(course?.title || 'Loading...', course);
   useEffect(() => {
     getCourseById(id_course)
       .then(setCourse)

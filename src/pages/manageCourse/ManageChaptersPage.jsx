@@ -15,6 +15,7 @@ import { Input, SearchBar } from '../../components/forms';
 import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete, ModalForm } from '../../components/modal';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
+import { useTitle } from '../../hooks';
 
 const ManageChaptersPage = () => {
   const { id_materi } = useParams();
@@ -27,6 +28,7 @@ const ManageChaptersPage = () => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [courseOverview, setCourseOverview] = useState({});
+  useTitle(courseOverview?.title || 'Loading...', courseOverview);
 
   const openModalAdd = () => setIsModalAddOpen(true);
   const openModalDelete = () => setIsModalDeleteOpen(true);

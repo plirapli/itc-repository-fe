@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import { getAccessToken, getLocalAccessToken } from '../utils/auth';
 import { getAllDivisions } from '../utils/division';
 import { getUserOwnProfile } from '../utils/user';
-import jwt from 'jwt-decode';
 
 // Components
 import * as Layout from './layout/index';

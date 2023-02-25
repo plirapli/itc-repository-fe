@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
+import { useTitle } from '../../hooks';
 import { Link, useOutletContext } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/forms/Input';
 
 const ForgotPassword = (props) => {
   const [errMessage, setErrMessage] = useOutletContext();
+  useTitle('Lupa Password');
 
   useEffect(() => {
     setErrMessage('');

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
 import Input from '../../components/forms/Input';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
+import { useTitle } from '../../hooks';
 import { addDiscussion } from '../../utils/discussions';
 
 const AddDiscussionPage = () => {
@@ -12,8 +13,8 @@ const AddDiscussionPage = () => {
   const { id_course: courseID } = useParams();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-
   const [isLoading, setIsLoading] = useState(false);
+
   const inputTitleHandler = (e) => setTitle(e.target.value);
   const inputBodyHandler = (e) => setBody(e.target.value);
 
@@ -31,6 +32,8 @@ const AddDiscussionPage = () => {
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
   };
+
+  useTitle('Tambah Diksusi');
 
   return (
     <>

@@ -8,6 +8,7 @@ import {
   deleteUser,
 } from '../../utils/user';
 import { getLocalAccessToken, logoutHandler } from '../../utils/auth';
+import { useTitle } from '../../hooks';
 
 // Components
 import { Disclosure } from '@headlessui/react';
@@ -24,6 +25,7 @@ const ManageUsersPage = ({ setIsAuthed }) => {
   const [verifiedUsers, setVerifiedUsers] = useState([]);
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  useTitle('Daftar Pengguna');
 
   const getAllUserHandler = () => {
     getAllUsers()

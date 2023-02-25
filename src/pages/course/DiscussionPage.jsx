@@ -11,6 +11,7 @@ import { ModalDelete, ModalForm } from '../../components/modal';
 import DiscussionLists from '../../components/lists/DiscussionLists';
 import { Input } from '../../components/forms';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
+import { useTitle } from '../../hooks';
 
 const DiscussionPage = ({ user }) => {
   const navigate = useNavigate();
@@ -74,6 +75,7 @@ const DiscussionPage = ({ user }) => {
       .finally(() => setIsLoading(false));
   };
 
+  useTitle('Diksusi');
   useEffect(() => {
     getAllDiscussionsHandler();
   }, []);

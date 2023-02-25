@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Editor } from '@tinymce/tinymce-react';
+import { useTitle } from '../../hooks';
 
 // Components
 import Input from '../../components/forms/Input';
 import Button from '../../components/buttons/Button';
 import { addArticle, addImageArticle } from '../../utils/article';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
+import { Editor } from '@tinymce/tinymce-react';
 
 const AddArticlePage = () => {
   const navigate = useNavigate();
   const { id_materi, id_bab } = useParams();
-
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState();
+  useTitle('Tambah Artikel');
 
   const backButtonHandler = () => navigate(-1);
 

@@ -8,6 +8,7 @@ import { SearchBar } from '../../components/forms';
 import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete } from '../../components/modal';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
+import { useTitle } from '../../hooks';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const ManageArticlesPage = () => {
       .finally(() => getAllArticleHandler());
   };
 
+  useTitle('Daftar Artikel');
   useEffect(() => {
     getAllArticleHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
