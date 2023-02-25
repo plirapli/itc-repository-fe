@@ -85,8 +85,6 @@ const AddArticlePage = () => {
                   'preview',
                   'searchreplace',
                   'autolink',
-                  'autosave',
-                  'save',
                   'directionality',
                   'code',
                   'fullscreen',
@@ -107,13 +105,7 @@ const AddArticlePage = () => {
                 editimage_cors_hosts: ['picsum.photos'],
                 menubar: 'file edit view insert format tools table help',
                 toolbar:
-                  'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | charmap emoticons | fullscreen preview save print | image link anchor codesample | ltr rtl',
-                toolbar_sticky: true,
-                autosave_ask_before_unload: true,
-                autosave_interval: '30s',
-                autosave_prefix: '{path}{query}-{id}-',
-                autosave_restore_when_empty: false,
-                autosave_retention: '2m',
+                  'undo redo | bold italic underline strikethrough | fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | charmap emoticons | fullscreen preview print | image link anchor codesample | ltr rtl',
                 image_title: true,
                 images_upload_handler: imgUploadHandler,
                 file_picker_callback: (callback, value, meta) => {
