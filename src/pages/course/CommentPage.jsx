@@ -191,6 +191,7 @@ const CommentPage = ({ user }) => {
 
         {/* Komentar */}
         <CommentLists
+          user={user}
           comments={comments}
           onClickEdit={onClickEditCommentOpenModalHandler}
           onClickDelete={onClickDeleteCommentOpenModalHandler}

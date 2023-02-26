@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useTitle } from '../../hooks';
 import { getAllCourses, deleteCourse, editCourse } from '../../utils/course';
 
@@ -14,12 +14,38 @@ import { ManageCourseCard } from '../../components/cards';
 import { Dialog, Transition } from '@headlessui/react';
 
 const ManageCoursesPage = ({ divisi }) => {
+  const [params, setParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState({});
+  const [filteredCourse, setFilteredCourse] = useState([]);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [courseKeyword, setCourseKeyword] = useState(
+    () => params.get('title') || ''
+  );
+
+  const changeCourseParams = (course) => {
+    params.set('title', course);
+    setParams(params);
+  };
+
+  const deleteCourseParams = () => {
+    params.delete('title');
+    setParams(params);
+  };
+
+  const filterCourseByKeyword = (course) =>
+    course.title.toLowerCase().includes(courseKeyword.toLowerCase());
+
+  const onKeywordCourseChange = (keyword) => {
+    setCourseKeyword(keyword);
+    changeCourseParams(keyword);
+    if (keyword === '') deleteCourseParams();
+  };
+
   useTitle('Daftar Materi');
+
 
   const closeModalEdit = () => setIsModalEditOpen(false);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
@@ -37,7 +63,11 @@ const ManageCoursesPage = ({ divisi }) => {
 
   const getCourseHandler = () =>
     getAllCourses()
-      .then(setCourses)
+      .then((data) => {
+        setCourses(data);
+        setFilteredCourse(data.filter(filterCourseByKeyword));
+        setIsLoading(false);
+      })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
 
@@ -77,6 +107,10 @@ const ManageCoursesPage = ({ divisi }) => {
     getCourseHandler();
   }, []);
 
+  useEffect(() => {
+    setFilteredCourse(courses.filter(filterCourseByKeyword));
+  }, [courseKeyword, courses]);
+
   return (
     <>
       {/* Header */}
@@ -94,12 +128,16 @@ const ManageCoursesPage = ({ divisi }) => {
 
       {/* Search Bar */}
       <div className='mt-4 sm:mt-3'>
-        <SearchBar placeholder='Cari Materi' />
+        <SearchBar
+          placeholder='Cari Materi'
+          value={courseKeyword}
+          onChange={(e) => onKeywordCourseChange(e.target.value)}
+        />
       </div>
 
       {/* Card List */}
       <section className='mt-4 flex flex-col gap-3'>
-        {courses.map((course) => (
+        {filteredCourse.map((course) => (
           <Link key={course?.id} to={`${course?.id}`}>
             <ManageCourseCard
               type='course'

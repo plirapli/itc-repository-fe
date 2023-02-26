@@ -24,7 +24,7 @@ const CourseCard = ({ data: materi, ...props }) => {
         {/* Author */}
         <div className='flex items-center gap-1 text-gray-dark'>
           <UserCircleIcon className='w-4' />
-          <span className='text-sm'>{materi?.User.fullName}</span>
+          <span className='text-sm'>{materi?.User?.fullName}</span>
         </div>
 
         {/* Date */}
