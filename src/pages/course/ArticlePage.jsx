@@ -28,7 +28,7 @@ const ArticlePage = () => {
       </div>
 
       <hr />
-      <div className='mt-2 text-xs text-gray-dark'>
+      <div className='mt-3 text-xs text-gray-dark'>
         <p>Dibuat pada: {article.createdAt}</p>
         <p>Diperbarui pada: {article.updatedAt}</p>
       </div>

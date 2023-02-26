@@ -11,14 +11,16 @@ import {
   deleteComment,
   editComment,
 } from '../../utils/comments';
-import OverlayLoading from '../../components/overlay/OverlayLoading';
-import { DiscussionCard } from '../../components/cards';
-import AddCommentForm from '../../components/forms/AddCommentForm';
-import CommentLists from '../../components/lists/CommentLists';
-import { ModalDelete, ModalForm } from '../../components/modal';
-import Button from '../../components/buttons/Button';
-import { Input } from '../../components/forms';
 import { useTitle } from '../../hooks';
+
+// Components
+import ButtonMin from '../../components/buttons/ButtonMin';
+import { Input } from '../../components/forms';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
+import { ModalDelete, ModalForm } from '../../components/modal';
+import { DiscussionCard } from '../../components/cards';
+import CommentLists from '../../components/lists/CommentLists';
+import AddCommentForm from '../../components/forms/AddCommentForm';
 
 const CommentPage = ({ user }) => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
@@ -239,16 +241,15 @@ const CommentPage = ({ user }) => {
           </div>
 
           <div className='mt-4 flex gap-2'>
-            <Button
+            <ButtonMin
+              type='button'
               onClick={closeModalDiscussionEdit}
               color='gray'
               size='small'
             >
               Tutup
-            </Button>
-            <Button type='submit' size='small'>
-              Simpan
-            </Button>
+            </ButtonMin>
+            <ButtonMin size='small'>Simpan</ButtonMin>
           </div>
         </form>
       </ModalForm>
@@ -285,12 +286,15 @@ const CommentPage = ({ user }) => {
             required
           />
           <div className='mt-4 flex gap-2'>
-            <Button onClick={closeModalCommentEdit} color='gray' size='small'>
+            <ButtonMin
+              type='button'
+              onClick={closeModalCommentEdit}
+              color='gray'
+              size='small'
+            >
               Tutup
-            </Button>
-            <Button type='submit' size='small'>
-              Simpan
-            </Button>
+            </ButtonMin>
+            <ButtonMin size='small'>Simpan</ButtonMin>
           </div>
         </form>
       </ModalForm>

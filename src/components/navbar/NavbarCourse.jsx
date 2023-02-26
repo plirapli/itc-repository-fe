@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAllChaptersDetail } from '../../utils/chapter';
-import Button from '../buttons/Button';
+import {
+  ArrowLongLeftIcon,
+  ChatBubbleBottomCenterTextIcon,
+  ListBulletIcon,
+} from '@heroicons/react/20/solid';
+import ButtonMin from '../buttons/ButtonMin';
 import OverlayMateriList from '../overlay/OverlayMateriList';
 
 const NavbarCourse = ({ courseID }) => {
@@ -9,9 +14,9 @@ const NavbarCourse = ({ courseID }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [chapterArticle, setChapterArticle] = useState([]);
   const icon = {
-    backBtn: 'eva:arrow-back-fill',
-    diskusi: 'fluent:comment-multiple-24-regular',
-    listMateri: 'ant-design:unordered-list-outlined',
+    backBtn: <ArrowLongLeftIcon />,
+    diskusi: <ChatBubbleBottomCenterTextIcon />,
+    listMateri: <ListBulletIcon />,
   };
   const backButtonHandler = () => navigate(-1);
   const setIsClickedHandler = () => setIsClicked((prev) => !prev);
@@ -25,7 +30,7 @@ const NavbarCourse = ({ courseID }) => {
   return (
     <nav className='w-full bg-primary flex items-center justify-between p-[5px] sm:px-6 sm:py-2.5 relative'>
       <div onClick={backButtonHandler}>
-        <Button
+        <ButtonMin
           variant='icon-left'
           color='transparent'
           size='small'
@@ -33,11 +38,11 @@ const NavbarCourse = ({ courseID }) => {
           isResponsive
         >
           Kembali
-        </Button>
+        </ButtonMin>
       </div>
       <div className='flex'>
         <Link to={`/course/${courseID}/discussion/`}>
-          <Button
+          <ButtonMin
             variant='icon-left'
             size='small'
             color='transparent'
@@ -45,9 +50,9 @@ const NavbarCourse = ({ courseID }) => {
             isResponsive
           >
             Diskusi
-          </Button>
+          </ButtonMin>
         </Link>
-        <Button
+        <ButtonMin
           onClick={setIsClickedHandler}
           variant='icon-left'
           size='small'
@@ -56,7 +61,7 @@ const NavbarCourse = ({ courseID }) => {
           isResponsive
         >
           Daftar Materi
-        </Button>
+        </ButtonMin>
       </div>
 
       {isClicked && (

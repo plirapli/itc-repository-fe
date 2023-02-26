@@ -1,26 +1,24 @@
 import { useEffect, useState } from 'react';
 import {
   Link,
-  useNavigate,
   useOutletContext,
   useSearchParams,
 } from 'react-router-dom';
 import { getAllCoursesDetail } from '../utils/course';
+import { useTitle } from '../hooks';
 
 // Component
-import Navbar from '../components/navbar/Navbar';
-import Button from '../components/buttons/Button';
+import { PlusIcon } from '@heroicons/react/20/solid';
+import ButtonMin from '../components/buttons/ButtonMin';
 import { Select, SearchBar } from '../components/forms';
 import { CourseCard } from '../components/cards/index';
 import OverlayLoading from '../components/overlay/OverlayLoading';
-import { useTitle } from '../hooks';
+import Navbar from '../components/navbar/Navbar';
 
 const Home = ({ userData, divisi, setIsAuthed }) => {
   // window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
   const [params, setParams] = useSearchParams();
-  const navigate = useNavigate();
   const navbar = useOutletContext();
-  const toAddMateri = () => navigate('manage/course/add/');
   useTitle('ITC Repository');
 
   const [isLoading, setIsLoading] = useState(true);
@@ -127,13 +125,11 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
         <div className='flex flex-col gap-2 sm:flex-row sm:items-center justify-between'>
           <h1 className='text-2xl'>Materi</h1>
           {userData?.id_role === 2 && (
-            <Button
-              onClick={toAddMateri}
-              variant='icon-right'
-              icon='akar-icons:plus'
-            >
-              Tambah Materi
-            </Button>
+            <Link to='manage/course/add/'>
+              <ButtonMin variant='icon-right' icon={<PlusIcon />}>
+                Tambah Materi
+              </ButtonMin>
+            </Link>
           )}
         </div>
 
