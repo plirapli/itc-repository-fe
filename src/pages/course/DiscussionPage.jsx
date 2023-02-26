@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   deleteDiscussion,
   editDiscussion,
   getAllDiscussions,
 } from '../../utils/discussions';
-import Button from '../../components/buttons/Button';
-import SearchBar from '../../components/forms/SearchBar';
-import { ModalDelete, ModalForm } from '../../components/modal';
-import DiscussionLists from '../../components/lists/DiscussionLists';
-import { Input } from '../../components/forms';
-import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { useTitle } from '../../hooks';
 
+// Components
+import { PlusIcon } from '@heroicons/react/20/solid';
+import ButtonMin from '../../components/buttons/ButtonMin';
+import { Input, SearchBar } from '../../components/forms';
+import { ModalDelete, ModalForm } from '../../components/modal';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
+import DiscussionLists from '../../components/lists/DiscussionLists';
+
 const DiscussionPage = ({ user }) => {
-  const navigate = useNavigate();
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +23,6 @@ const DiscussionPage = ({ user }) => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [discussionTmp, setDiscussionTmp] = useState({});
 
-  const toAddDiskusiPage = () => navigate('add'); // Navigate ke halaman add diskusi
   const closeModalDelete = () => setIsModalDeleteOpen(false); // Tutup overlay (modal) delete
   const closeModalEdit = () => setIsModalEditOpen(false); // Tutup overlay (modal) edit
 
@@ -86,14 +86,11 @@ const DiscussionPage = ({ user }) => {
         {/* Header */}
         <div className='flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center'>
           <h1 className='text-2xl leading-none'>Diskusi</h1>
-          <Button
-            onClick={toAddDiskusiPage}
-            variant='icon-right'
-            size='small'
-            icon='akar-icons:plus'
-          >
-            Buat Pertanyaan
-          </Button>
+          <Link to='add'>
+            <ButtonMin variant='icon-right' size='small' icon={<PlusIcon />}>
+              Buat Pertanyaan
+            </ButtonMin>
+          </Link>
         </div>
         <div className='w-full mt-3'>
           <SearchBar placeholder='Cari Pertanyaan' />
@@ -152,12 +149,15 @@ const DiscussionPage = ({ user }) => {
           </div>
 
           <div className='mt-4 flex gap-2'>
-            <Button onClick={closeModalEdit} color='gray' size='small'>
+            <ButtonMin
+              type='button'
+              onClick={closeModalEdit}
+              color='gray'
+              size='small'
+            >
               Tutup
-            </Button>
-            <Button type='submit' size='small'>
-              Simpan
-            </Button>
+            </ButtonMin>
+            <ButtonMin size='small'>Simpan</ButtonMin>
           </div>
         </form>
       </ModalForm>

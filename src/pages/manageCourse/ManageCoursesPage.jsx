@@ -1,20 +1,19 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTitle } from '../../hooks';
 import { getAllCourses, deleteCourse, editCourse } from '../../utils/course';
 
 // Component
-import { Dialog, Transition } from '@headlessui/react';
-import Button from '../../components/buttons/Button';
+import { PlusIcon } from '@heroicons/react/20/solid';
+import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input, SearchBar, Select } from '../../components/forms/';
-import { ManageCourseCard } from '../../components/cards';
-import { ModalDelete } from '../../components/modal';
 import Tags from '../../components/tags/Tags';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
+import { ModalDelete } from '../../components/modal';
+import { ManageCourseCard } from '../../components/cards';
+import { Dialog, Transition } from '@headlessui/react';
 
 const ManageCoursesPage = ({ divisi }) => {
-  const navigate = useNavigate();
-  const toAddMateri = () => navigate('add/');
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState({});
@@ -25,10 +24,6 @@ const ManageCoursesPage = ({ divisi }) => {
   const closeModalEdit = () => setIsModalEditOpen(false);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
 
-  const onClickDetailHandler = (e, id) => {
-    e.preventDefault();
-    navigate(`/course/${id}`);
-  };
   const onClickEditHandler = (e, course) => {
     e.preventDefault();
     setSelectedCourse({ ...course });
@@ -90,14 +85,11 @@ const ManageCoursesPage = ({ divisi }) => {
           <h1 className='text-xl'>Daftar Materi</h1>
           <p className='text-gray-dark text-sm'>{courses.length} Materi</p>
         </div>
-        <Button
-          onClick={toAddMateri}
-          variant='icon-right'
-          size='small'
-          icon='akar-icons:plus'
-        >
-          Tambah Materi
-        </Button>
+        <Link to='add/'>
+          <ButtonMin variant='icon-right' size='small' icon={<PlusIcon />}>
+            Tambah Materi
+          </ButtonMin>
+        </Link>
       </div>
 
       {/* Search Bar */}
@@ -110,7 +102,8 @@ const ManageCoursesPage = ({ divisi }) => {
         {courses.map((course) => (
           <Link key={course?.id} to={`${course?.id}`}>
             <ManageCourseCard
-              onClickDetail={(e) => onClickDetailHandler(e, course?.id)}
+              type='course'
+              onClickDetail={`/course/${course?.id}`}
               onClickEdit={(e) => onClickEditHandler(e, course)}
               onClickDelete={(e) =>
                 onClickDeleteHandler(e, {
@@ -276,10 +269,14 @@ const ManageCoursesPage = ({ divisi }) => {
                       </div>
 
                       <div className='mt-4 flex gap-2'>
-                        <Button onClick={closeModalEdit} color='gray'>
+                        <ButtonMin
+                          type='button'
+                          onClick={closeModalEdit}
+                          color='gray'
+                        >
                           Tutup
-                        </Button>
-                        <Button type='submit'>Simpan</Button>
+                        </ButtonMin>
+                        <ButtonMin>Simpan</ButtonMin>
                       </div>
                     </form>
                   </div>

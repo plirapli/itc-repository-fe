@@ -4,7 +4,7 @@ import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { loginHandler, sendLogin } from '../../utils/auth';
 
 // Components
-import Button from '../../components/buttons/Button';
+import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input } from '../../components/forms';
 
 const Login = ({ setToken, setIsAuthed }) => {
@@ -86,7 +86,7 @@ const Login = ({ setToken, setIsAuthed }) => {
         </section>
 
         <section className='mt-4 w-full'>
-          <Button type='submit'>Masuk</Button>
+          <ButtonMin>Masuk</ButtonMin>
         </section>
       </form>
       <div className='mt-2.5 text-center'>

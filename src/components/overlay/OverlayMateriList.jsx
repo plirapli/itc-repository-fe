@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import Button from '../buttons/Button';
+import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import ButtonMin from '../buttons/ButtonMin';
 import { Disclosure } from '@headlessui/react';
 
 const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
@@ -11,10 +11,10 @@ const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
         <div className='w-full'>
           <h1 className='text-xl'>Daftar Materi</h1>
         </div>
-        <Button
+        <ButtonMin
           onClick={setIsClicked}
           variant='icon-only'
-          icon='eva:close-fill'
+          icon={<XMarkIcon />}
           color='gray'
           size='small'
         />

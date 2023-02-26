@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Ava } from '../../assets';
-import Button from '../../components/buttons/Button';
+import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input, Select } from '../../components/forms/';
 import { ModalForm } from '../../components/modal';
 import { OverlayLoading } from '../../components/overlay';
@@ -83,7 +83,6 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
         encType='multipart/form-data'
       >
         <div className='mt-3 grid grid-cols-12 gap-3'>
-          {/* Thumbnail */}
           <div>
             <label
               htmlFor='thumbnail'
@@ -181,21 +180,24 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
 
           <div className='mt-6 col-span-12 grid grid-cols-12 gap-3'>
             <div className='col-span-12 sm:col-span-6 md:col-span-3'>
-              <Button onClick={() => setIsModalPasswordOpen(true)} color='gray'>
+              <ButtonMin
+                onClick={() => setIsModalPasswordOpen(true)}
+                color='gray'
+              >
                 Ganti Password
-              </Button>
+              </ButtonMin>
             </div>
 
             {/* Submit & Back button */}
             <div className='col-span-12 sm:col-span-2 sm:col-start-9'>
               <Link to={'/'}>
-                <Button type='submit' color='gray'>
+                <ButtonMin type='button' color='gray'>
                   Kembali
-                </Button>
+                </ButtonMin>
               </Link>
             </div>
             <div className='col-span-12 sm:col-span-2 sm:col-start-11'>
-              <Button type='submit'>Simpan</Button>
+              <ButtonMin>Simpan</ButtonMin>
             </div>
           </div>
         </div>
@@ -211,12 +213,15 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
             placeholder='Masukkan kata sandi baru'
           />
           <div className='mt-4 flex gap-2'>
-            <Button onClick={closeModalPassword} color='gray' size='small'>
+            <ButtonMin
+              type='button'
+              onClick={closeModalPassword}
+              color='gray'
+              size='small'
+            >
               Tutup
-            </Button>
-            <Button type='submit' size='small'>
-              Simpan
-            </Button>
+            </ButtonMin>
+            <ButtonMin size='small'>Simpan</ButtonMin>
           </div>
         </form>
       </ModalForm>

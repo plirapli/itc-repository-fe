@@ -1,8 +1,11 @@
-import Button from '../buttons/Button';
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-import { Menu, Transition } from '@headlessui/react';
-import { Ava } from '../../assets';
 import { Fragment } from 'react';
+import {
+  ArrowUturnLeftIcon,
+  EllipsisVerticalIcon,
+} from '@heroicons/react/20/solid';
+import { Ava } from '../../assets';
+import ButtonMin from '../buttons/ButtonMin';
+import { Menu, Transition } from '@headlessui/react';
 
 const DiscussionCard = ({
   discussion,
@@ -83,15 +86,15 @@ const DiscussionCard = ({
       {/* Reply Button */}
       {props.isReply && (
         <div className='mt-3'>
-          <Button
+          <ButtonMin
             onClick={props.onClick}
             variant='icon-left'
             color='secondary'
-            icon='ic:baseline-reply'
+            icon={<ArrowUturnLeftIcon />}
             size='small'
           >
             Balas
-          </Button>
+          </ButtonMin>
         </div>
       )}
     </div>

@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { deleteArticle, getAllArticles } from '../../utils/article';
-
-// Components
-import Button from '../../components/buttons/Button';
-import { SearchBar } from '../../components/forms';
-import { ManageCourseCard } from '../../components/cards';
-import { ModalDelete } from '../../components/modal';
-import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { useTitle } from '../../hooks';
 
+// Components
+import { PlusIcon } from '@heroicons/react/20/solid';
+import ButtonMin from '../../components/buttons/ButtonMin';
+import { SearchBar } from '../../components/forms';
+import { ModalDelete } from '../../components/modal';
+import { ManageCourseCard } from '../../components/cards';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
+
 const ManageArticlesPage = () => {
-  const navigate = useNavigate();
   const { id_materi: course_id, id_bab: chapter_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
-  const toAddArtikel = () => navigate('add/');
   const openModalDelete = () => setIsModalDeleteOpen(true);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
 
@@ -59,14 +58,11 @@ const ManageArticlesPage = () => {
           <h1 className='text-xl'>Artikel</h1>
           <p className='text-gray-dark text-sm'>{articles.length} Artikel</p>
         </div>
-        <Button
-          onClick={toAddArtikel}
-          variant='icon-right'
-          size='small'
-          icon='akar-icons:plus'
-        >
-          Tambah Artikel
-        </Button>
+        <Link to='add/'>
+          <ButtonMin variant='icon-right' size='small' icon={<PlusIcon />}>
+            Tambah Artikel
+          </ButtonMin>
+        </Link>
       </div>
 
       {/* Search Bar */}

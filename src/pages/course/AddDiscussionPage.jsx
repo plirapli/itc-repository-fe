@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // Components
-import Button from '../../components/buttons/Button';
+import ButtonMin from '../../components/buttons/ButtonMin';
 import Input from '../../components/forms/Input';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { useTitle } from '../../hooks';
@@ -18,7 +18,6 @@ const AddDiscussionPage = () => {
   const inputTitleHandler = (e) => setTitle(e.target.value);
   const inputBodyHandler = (e) => setBody(e.target.value);
 
-  const backButtonHandler = () => navigate(-1);
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -27,7 +26,7 @@ const AddDiscussionPage = () => {
       .then(() => {
         setTitle(''); // Reset state
         setBody(''); // Reset state
-        navigate(-1);
+        navigate(`/course/${courseID}/discussion/`);
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
@@ -75,11 +74,8 @@ const AddDiscussionPage = () => {
               </p>
             </div>
 
-            <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-3 sm:mt-8 flex flex-col sm:flex-row gap-2 sm:gap-3'>
-              <Button onClick={backButtonHandler} color='gray'>
-                Kembali
-              </Button>
-              <Button type='submit'>Kirim</Button>
+            <div className='col-span-6 sm:col-span-1 sm:col-start-6 mt-3'>
+              <ButtonMin>Kirim</ButtonMin>
             </div>
           </div>
         </form>

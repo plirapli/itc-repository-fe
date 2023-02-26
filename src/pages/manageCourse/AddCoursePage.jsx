@@ -4,7 +4,7 @@ import { useTitle } from '../../hooks';
 import { addCourse } from '../../utils/course';
 
 // Components
-import Button from '../../components/buttons/Button';
+import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input, Select } from '../../components/forms';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 
@@ -17,7 +17,6 @@ const AddCoursePage = ({ divisi }) => {
   const [img, setImg] = useState({});
   useTitle('Tambah Materi');
 
-  const backButtonHandler = () => navigate(-1);
   const inputTitleHandler = (e) => setTitle(e.target.value);
   const inputDivHandler = (e) => setSelectedDiv(e.target.value);
   const inputDescHandler = (e) => setDesc(e.target.value);
@@ -127,17 +126,8 @@ const AddCoursePage = ({ divisi }) => {
             />
           </div>
 
-          <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-8 flex gap-3 sm:gap-4'>
-            <Button
-              onClick={backButtonHandler}
-              variant='text-only'
-              color='gray'
-            >
-              Kembali
-            </Button>
-            <Button type='submit' variant='text-only'>
-              Kirim
-            </Button>
+          <div className='col-span-6 sm:col-span-1 sm:col-start-6 mt-4'>
+            <ButtonMin variant='text-only'>Kirim</ButtonMin>
           </div>
         </div>
       </form>

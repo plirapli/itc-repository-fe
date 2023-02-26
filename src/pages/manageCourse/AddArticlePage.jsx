@@ -4,7 +4,7 @@ import { useTitle } from '../../hooks';
 
 // Components
 import Input from '../../components/forms/Input';
-import Button from '../../components/buttons/Button';
+import ButtonMin from '../../components/buttons/ButtonMin';
 import { addArticle, addImageArticle } from '../../utils/article';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { Editor } from '@tinymce/tinymce-react';
@@ -16,8 +16,6 @@ const AddArticlePage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState();
   useTitle('Tambah Artikel');
-
-  const backButtonHandler = () => navigate(-1);
 
   const imgUploadHandler = async (blobInfo, progress) =>
     new Promise((resolve, reject) => {
@@ -44,7 +42,7 @@ const AddArticlePage = () => {
           setContent('');
 
           // Redirect to list materi page
-          navigate(-1);
+          navigate(`/manage/course/${id_materi}/${id_bab}`);
         })
         .catch(({ data }) => data.message)
         .finally(() => setIsLoading(false));
@@ -152,17 +150,8 @@ const AddArticlePage = () => {
             />
           </div>
 
-          <div className='col-span-6 sm:col-span-2 sm:col-start-5 mt-8 flex gap-3 sm:gap-4'>
-            <Button
-              onClick={backButtonHandler}
-              variant='text-only'
-              color='gray'
-            >
-              Kembali
-            </Button>
-            <Button type='submit' variant='text-only'>
-              Kirim
-            </Button>
+          <div className='col-span-6 sm:col-span-1 sm:col-start-6 mt-4'>
+            <ButtonMin variant='text-only'>Kirim</ButtonMin>
           </div>
         </div>
       </form>

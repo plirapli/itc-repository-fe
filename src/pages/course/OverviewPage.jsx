@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getCourseById } from '../../utils/course';
+import { useTitle } from '../../hooks';
 
 // Component
-import Button from '../../components/buttons/Button';
-import Tags from '../../components/tags/Tags';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
-import { useTitle } from '../../hooks';
+import ButtonMin from '../../components/buttons/ButtonMin';
+import Tags from '../../components/tags/Tags';
 
 const OverviewPage = () => {
   const [course, setCourse] = useState({});
@@ -58,7 +58,7 @@ const OverviewPage = () => {
         </div>
 
         {/* CTA Btn */}
-        <Button variant='text-only'>Belajar Sekarang</Button>
+        <ButtonMin variant='text-only'>Belajar Sekarang</ButtonMin>
 
         {/* Deskripsi */}
         <div>

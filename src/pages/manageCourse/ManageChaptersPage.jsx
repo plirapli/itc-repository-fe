@@ -7,15 +7,16 @@ import {
   deleteChapter,
 } from '../../utils/chapter';
 import { getCourseById } from '../../utils/course';
+import { useTitle } from '../../hooks';
 
 // Components
-import { Dialog, Transition } from '@headlessui/react';
-import Button from '../../components/buttons/Button';
+import { PlusIcon } from '@heroicons/react/20/solid';
+import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input, SearchBar } from '../../components/forms';
+import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { ManageCourseCard } from '../../components/cards';
 import { ModalDelete, ModalForm } from '../../components/modal';
-import OverlayLoading from '../../components/overlay/OverlayLoading';
-import { useTitle } from '../../hooks';
+import { Dialog, Transition } from '@headlessui/react';
 
 const ManageChaptersPage = () => {
   const { id_materi } = useParams();
@@ -117,14 +118,14 @@ const ManageChaptersPage = () => {
             </p>
           </div>
           <div className='min-w-max'>
-            <Button
+            <ButtonMin
               onClick={openModalAdd}
               variant='icon-right'
               size='small'
-              icon='akar-icons:plus'
+              icon={<PlusIcon />}
             >
               Tambah Bab
-            </Button>
+            </ButtonMin>
           </div>
         </div>
 
@@ -204,10 +205,14 @@ const ManageChaptersPage = () => {
                       )}
 
                       <div className='mt-4 flex gap-2'>
-                        <Button onClick={closeModalAdd} color='gray'>
+                        <ButtonMin
+                          type='button'
+                          onClick={closeModalAdd}
+                          color='gray'
+                        >
                           Tutup
-                        </Button>
-                        <Button type='submit'>Simpan</Button>
+                        </ButtonMin>
+                        <ButtonMin>Simpan</ButtonMin>
                       </div>
                     </form>
                   </div>
@@ -236,10 +241,10 @@ const ManageChaptersPage = () => {
             required
           />
           <div className='mt-4 flex gap-2'>
-            <Button onClick={closeModalEdit} color='gray'>
+            <ButtonMin type='button' onClick={closeModalEdit} color='gray'>
               Tutup
-            </Button>
-            <Button onClick={closeModalEdit}>Simpan</Button>
+            </ButtonMin>
+            <ButtonMin onClick={closeModalEdit}>Simpan</ButtonMin>
           </div>
         </form>
       </ModalForm>

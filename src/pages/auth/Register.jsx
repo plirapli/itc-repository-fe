@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react';
 import { useTitle } from '../../hooks';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { sendRegister } from '../../utils/auth';
 
 // Components
+import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input, Select } from '../../components/forms';
-import Button from '../../components/buttons/Button';
-import { sendRegister } from '../../utils/auth';
 
 const Register = ({ divisi }) => {
   const navigate = useNavigate();
@@ -110,7 +110,7 @@ const Register = ({ divisi }) => {
           </Select>
         </div>
         <section className='mt-4 w-full'>
-          <Button type='submit'>Daftar</Button>
+          <ButtonMin>Daftar</ButtonMin>
         </section>
       </form>
       <div className='mt-2.5 text-center'>

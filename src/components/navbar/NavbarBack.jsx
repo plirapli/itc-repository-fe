@@ -2,8 +2,9 @@ import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 import { Ava } from '../../assets';
-import Button from '../buttons/Button';
+import ButtonMin from '../buttons/ButtonMin';
 import OverlayNavbar from '../overlay/OverlayNavbar';
+import { ArrowLongLeftIcon } from '@heroicons/react/20/solid';
 
 const NavbarBack = ({ user, setIsAuthed }) => {
   const navigate = useNavigate();
@@ -12,16 +13,16 @@ const NavbarBack = ({ user, setIsAuthed }) => {
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between pl-1 sm:pl-6 relative'>
-      <Button
+      <ButtonMin
         onClick={toBack}
         variant='icon-left'
         size='small'
         color='transparent'
-        icon='eva:arrow-back-fill'
+        icon={<ArrowLongLeftIcon />}
         isResponsive
       >
         Kembali
-      </Button>
+      </ButtonMin>
 
       <Menu as='div' className='relative inline-block text-left '>
         <div>
