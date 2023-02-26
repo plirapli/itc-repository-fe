@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useTitle } from '../../hooks';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { loginHandler, sendLogin } from '../../utils/auth';
+import { useAuth, useTitle } from '../../hooks';
+import { sendLogin } from '../../utils/auth';
 
 // Components
 import ButtonMin from '../../components/buttons/ButtonMin';
@@ -9,11 +9,13 @@ import { Input } from '../../components/forms';
 
 const Login = ({ setToken, setIsAuthed }) => {
   window.history.pushState({}, null, '/login');
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
+  useTitle('Masuk');
+
   const initialState = { emailUsername: '', password: '' };
   const [errMessage, setErrMessage] = useOutletContext();
   const [inputData, setInputData] = useState(initialState);
-  useTitle('Masuk');
 
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
@@ -23,11 +25,21 @@ const Login = ({ setToken, setIsAuthed }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     sendLogin(inputData)
-      .then((data) => {
-        setInputData(initialState); // Set input data to initial state
-        setErrMessage('');
-        loginHandler(data, setToken); // Login process
+      .then(({ data }) => {
+        const { accessToken, refreshToken } = data.user;
+
+        // Store token to State && Local Storage
+        localStorage.setItem(
+          'user',
+          JSON.stringify({ accessToken, refreshToken })
+        );
+        setAuth({ accessToken, refreshToken });
         setIsAuthed(true); // Set isAuthed to true
+
+        // Reset state
+        setErrMessage('');
+        setInputData(initialState);
+
         navigate('/'); // Redirect to home page
       })
       .catch(({ data }) => setErrMessage(`Error: ${data.message}!`));

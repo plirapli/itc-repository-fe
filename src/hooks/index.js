@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import AuthContext from '../context/AuthProvider';
 
-export function useTitle(title, dependency) {
+const useTitle = (title, dependency) => {
   const deps = [dependency] || [];
 
   useEffect(() => {
@@ -12,4 +13,8 @@ export function useTitle(title, dependency) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
-}
+};
+
+const useAuth = () => useContext(AuthContext);
+
+export { useTitle, useAuth };
