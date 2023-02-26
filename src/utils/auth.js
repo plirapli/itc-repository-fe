@@ -14,15 +14,6 @@ const getLocalRefreshToken = () => {
   return null;
 };
 
-const getLocalUsername = () => {
-  const user = localStorage.getItem('user');
-  if (user) {
-    const { username } = JSON.parse(user);
-    return username;
-  }
-  return null;
-};
-
 const setLocalAccessToken = (token) => {
   const user = JSON.parse(localStorage.getItem('user'));
   user.accessToken = token;
@@ -32,10 +23,7 @@ const setLocalAccessToken = (token) => {
 // Send refresh token
 const getAccessToken = async () =>
   api
-    .post('/users/refresh-token', {
-      username: getLocalUsername(), // backend menambahkan username pada proses refresh token
-      refreshToken: getLocalRefreshToken()
-    })
+    .post('/users/refresh-token', { refreshToken: getLocalRefreshToken() })
     .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 
