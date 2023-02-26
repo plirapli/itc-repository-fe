@@ -1,5 +1,8 @@
 import { Fragment, useEffect, useState } from 'react';
+
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useTitle } from '../../hooks';
+
 import { getAllCourses, deleteCourse, editCourse } from '../../utils/course';
 
 // Component
@@ -43,6 +46,9 @@ const ManageCoursesPage = ({ divisi }) => {
     changeCourseParams(keyword);
     if (keyword === '') deleteCourseParams();
   };
+
+  useTitle('Daftar Materi');
+
 
   const closeModalEdit = () => setIsModalEditOpen(false);
   const closeModalDelete = () => setIsModalDeleteOpen(false);

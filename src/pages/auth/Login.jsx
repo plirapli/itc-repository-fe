@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTitle } from '../../hooks';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { loginHandler, sendLogin } from '../../utils/auth';
 
@@ -12,6 +13,7 @@ const Login = ({ setToken, setIsAuthed }) => {
   const initialState = { emailUsername: '', password: '' };
   const [errMessage, setErrMessage] = useOutletContext();
   const [inputData, setInputData] = useState(initialState);
+  useTitle('Masuk');
 
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
@@ -23,6 +25,7 @@ const Login = ({ setToken, setIsAuthed }) => {
     sendLogin(inputData)
       .then((data) => {
         setInputData(initialState); // Set input data to initial state
+        setErrMessage('');
         loginHandler(data, setToken); // Login process
         setIsAuthed(true); // Set isAuthed to true
         navigate('/'); // Redirect to home page

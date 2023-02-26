@@ -18,6 +18,7 @@ import CommentLists from '../../components/lists/CommentLists';
 import { ModalDelete, ModalForm } from '../../components/modal';
 import Button from '../../components/buttons/Button';
 import { Input } from '../../components/forms';
+import { useTitle } from '../../hooks';
 
 const CommentPage = ({ user }) => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
@@ -150,6 +151,7 @@ const CommentPage = ({ user }) => {
       .finally(() => setInitializing(false));
   };
 
+  useTitle(discussion?.title || 'Loading...', discussion);
   useEffect(() => {
     getDiscussionById(courseID, discussionID)
       .then((data) => {

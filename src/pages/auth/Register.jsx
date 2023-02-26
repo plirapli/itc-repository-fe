@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+import { useTitle } from '../../hooks';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 
 // Components
@@ -9,6 +10,8 @@ import { sendRegister } from '../../utils/auth';
 
 const Register = ({ divisi }) => {
   const navigate = useNavigate();
+  useTitle('Daftar');
+
   const initialState = {
     username: '',
     fullName: '',

@@ -13,6 +13,7 @@ import Button from '../components/buttons/Button';
 import { Select, SearchBar } from '../components/forms';
 import { CourseCard } from '../components/cards/index';
 import OverlayLoading from '../components/overlay/OverlayLoading';
+import { useTitle } from '../hooks';
 
 const Home = ({ userData, divisi, setIsAuthed }) => {
   // window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
@@ -20,6 +21,7 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
   const navigate = useNavigate();
   const navbar = useOutletContext();
   const toAddMateri = () => navigate('manage/course/add/');
+  useTitle('ITC Repository');
 
   const [isLoading, setIsLoading] = useState(true);
 
