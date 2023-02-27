@@ -34,6 +34,7 @@ const Login = ({ setToken, setIsAuthed }) => {
           JSON.stringify({ accessToken, refreshToken })
         );
         setAuth({ accessToken, refreshToken });
+        setToken(accessToken);
         setIsAuthed(true); // Set isAuthed to true
 
         // Reset state
