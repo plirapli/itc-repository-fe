@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  Link,
-  useOutletContext,
-  useSearchParams,
-} from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { getAllCoursesDetail } from '../utils/course';
 import { useTitle } from '../hooks';
 
@@ -13,12 +9,10 @@ import ButtonMin from '../components/buttons/ButtonMin';
 import { Select, SearchBar } from '../components/forms';
 import { CourseCard } from '../components/cards/index';
 import OverlayLoading from '../components/overlay/OverlayLoading';
-import Navbar from '../components/navbar/Navbar';
 
 const Home = ({ userData, divisi, setIsAuthed }) => {
   // window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
   const [params, setParams] = useSearchParams();
-  const navbar = useOutletContext();
   useTitle('ITC Repository');
 
   const [isLoading, setIsLoading] = useState(true);
@@ -113,11 +107,6 @@ const Home = ({ userData, divisi, setIsAuthed }) => {
       setFilteredCourse(courses.filter(filterCourseByKeyword));
     }
   }, [courses, selectedDivisi, keywordMateri]);
-
-  useEffect(() => {
-    navbar(<Navbar user={userData} setIsAuthed={setIsAuthed} />);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
 
   return (
     <>

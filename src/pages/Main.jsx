@@ -14,32 +14,29 @@ import ManageUsersPage from './manageUser/ManageUsersPage';
 import { ProfilePage } from './user';
 
 const Main = () => {
-  const [token, setToken] = useState(getLocalAccessToken());
-  const [divisi, setDivisi] = useState([]);
+  const [divisions, setDivisions] = useState([]);
   const [userData, setUserData] = useState({});
   const [isAuthed, setIsAuthed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const setTokenHandler = (token) => setToken(() => token);
-
   useEffect(() => {
-    if (token) getUserOwnProfile().then(setUserData);
-  }, [token]);
+    if (isAuthed) getUserOwnProfile().then(setUserData);
+  }, [isAuthed]);
 
   useEffect(() => {
     // Get divisi
     getAllDivisions()
-      .then(setDivisi)
+      .then(setDivisions)
       .catch(({ data }) => console.log(data.message));
 
     // Check is login exist
-    getAccessToken()
-      .then((data) => {
-        const { accessToken } = data;
-        setToken(accessToken);
-        setIsAuthed(true);
-      })
-      .finally(() => setIsLoading(false));
+    if (getLocalAccessToken()) {
+      getAccessToken()
+        .then(() => setIsAuthed(true))
+        .finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   if (!isLoading) {
@@ -51,12 +48,7 @@ const Main = () => {
             <Route element={<Layout.Auth />}>
               <Route
                 path='/*'
-                element={
-                  <AuthPage.Login
-                    setToken={setTokenHandler}
-                    setIsAuthed={setIsAuthed}
-                  />
-                }
+                element={<AuthPage.Login setIsAuthed={setIsAuthed} />}
               />
               <Route
                 path='forgot-password/'
@@ -64,7 +56,7 @@ const Main = () => {
               />
               <Route
                 path='register/'
-                element={<AuthPage.Register divisi={divisi} />}
+                element={<AuthPage.Register divisi={divisions} />}
               />
             </Route>
           </Routes>
@@ -75,32 +67,38 @@ const Main = () => {
       <div className='min-h-screen bg-gray-light'>
         <Routes>
           <Route element={<Layout.Main />}>
+            {/* User */}
             <Route
-              path='/*'
               element={
-                <Home
+                <Layout.LayoutNavbar
                   userData={userData}
-                  divisi={divisi}
                   setIsAuthed={setIsAuthed}
                 />
               }
-            />
-
-            {/* User */}
-            <Route
-              path='u/:username/'
-              element={<Layout.LayoutNavbar userData={userData} />}
             >
               <Route
-                path='profile'
+                path='/'
                 element={
-                  <ProfilePage
+                  <Home
                     userData={userData}
-                    setUserData={setUserData}
-                    divisi={divisi}
+                    divisi={divisions}
+                    setIsAuthed={setIsAuthed}
                   />
                 }
               />
+
+              <Route path='u/:username/'>
+                <Route
+                  path='profile'
+                  element={
+                    <ProfilePage
+                      userData={userData}
+                      setUserData={setUserData}
+                      divisi={divisions}
+                    />
+                  }
+                />
+              </Route>
             </Route>
 
             {/* Manage - Admin Only */}
@@ -122,12 +120,12 @@ const Main = () => {
               <Route path='course/'>
                 <Route
                   index
-                  element={<ManageCoursePage.Courses divisi={divisi} />}
+                  element={<ManageCoursePage.Courses divisi={divisions} />}
                 />
                 <Route
                   exact
                   path='add/'
-                  element={<ManageCoursePage.AddCourse divisi={divisi} />}
+                  element={<ManageCoursePage.AddCourse divisi={divisions} />}
                 />
                 <Route
                   exact
