@@ -7,7 +7,7 @@ import { sendLogin } from '../../utils/auth';
 import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input } from '../../components/forms';
 
-const Login = ({ setToken, setIsAuthed }) => {
+const Login = ({ setIsAuthed }) => {
   window.history.pushState({}, null, '/login');
   const { setAuth } = useAuth();
   const navigate = useNavigate();

@@ -40,14 +40,6 @@ const sendRegister = async (userData) =>
     .then(({ data }) => data.message)
     .catch(({ response }) => Promise.reject(response));
 
-const loginHandler = ({ data }, setToken) => {
-  const { accessToken, refreshToken } = data.user;
-
-  // Store token to State && Local Storage
-  localStorage.setItem('user', JSON.stringify({ accessToken, refreshToken }));
-  setToken(accessToken);
-};
-
 const logoutHandler = () => localStorage.removeItem('user');
 
 export {
@@ -57,6 +49,5 @@ export {
   getAccessToken,
   sendLogin,
   sendRegister,
-  loginHandler,
   logoutHandler,
 };
