@@ -9,7 +9,7 @@ import {
 import ButtonMin from '../buttons/ButtonMin';
 import OverlayMateriList from '../overlay/OverlayMateriList';
 
-const NavbarCourse = ({ courseID }) => {
+const NavbarCourse = ({ courseID, activeArticle }) => {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
   const [chapterArticle, setChapterArticle] = useState([]);
@@ -69,6 +69,7 @@ const NavbarCourse = ({ courseID }) => {
           courseID={courseID}
           materiList={chapterArticle}
           setIsClicked={setIsClickedHandler}
+          active={activeArticle}
         />
       )}
     </nav>

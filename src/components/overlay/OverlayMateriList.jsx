@@ -3,7 +3,7 @@ import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import ButtonMin from '../buttons/ButtonMin';
 import { Disclosure } from '@headlessui/react';
 
-const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
+const OverlayMateriList = ({ courseID, materiList, setIsClicked, active }) => {
   return (
     <div className='w-full sm:w-[25rem] absolute top-0 right-0 px-6 py-5 min-h-screen bg-white flex flex-col gap-4'>
       {/* Header */}
@@ -46,7 +46,13 @@ const OverlayMateriList = ({ courseID, materiList, setIsClicked }) => {
                       key={articleID}
                       to={`course/${courseID}/chapter/${chapterID}/article/${articleID}`}
                     >
-                      <div className='px-4 py-3 bg-secondary truncate hover:bg-secondaryHover'>
+                      <div
+                        className={`px-4 py-3 truncate text-black ${
+                          articleID == active
+                            ? 'font-medium'
+                            : 'text-sm text-opacity-30'
+                        } transition-all hover:text-opacity-100`}
+                      >
                         {title}
                       </div>
                     </Link>
