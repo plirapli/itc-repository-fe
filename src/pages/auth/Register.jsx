@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { useTitle } from '../../hooks';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { useTitle } from '../../hooks';
 import { sendRegister } from '../../utils/auth';
 
 // Components
 import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input, Select } from '../../components/forms';
+import { OverlayLoading } from '../../components/overlay';
 
 const Register = ({ divisi }) => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Register = ({ divisi }) => {
   };
   const [errMessage, setErrMessage] = useOutletContext();
   const [inputData, setInputData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
@@ -30,13 +32,15 @@ const Register = ({ divisi }) => {
     const id_division = parseInt(inputData.id_division);
     const data = { ...inputData, id_division: id_division };
 
+    setIsLoading(true);
     sendRegister(data)
       .then((data) => {
         setInputData(initialState); // Reset state
         setErrMessage(data); // Set message
         navigate('/login'); // Navigate to /login
       })
-      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`));
+      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`))
+      .finally(() => setIsLoading(false));
   };
 
   useEffect(() => {
@@ -47,7 +51,7 @@ const Register = ({ divisi }) => {
     <>
       <h1 className='mt-4 text-xl sm:text-2xl'>Daftar</h1>
       {errMessage && (
-        <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
+        <div className='mt-0.5 mb-1.5 text-danger-main capitalize w-max max-w-full'>
           {errMessage}
         </div>
       )}
@@ -121,6 +125,8 @@ const Register = ({ divisi }) => {
           </span>
         </p>
       </div>
+
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

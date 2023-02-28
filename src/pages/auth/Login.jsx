@@ -6,6 +6,7 @@ import { sendLogin } from '../../utils/auth';
 // Components
 import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input } from '../../components/forms';
+import { OverlayLoading } from '../../components/overlay';
 
 const Login = ({ setIsAuthed }) => {
   window.history.pushState({}, null, '/login');
@@ -16,6 +17,7 @@ const Login = ({ setIsAuthed }) => {
   const initialState = { emailUsername: '', password: '' };
   const [errMessage, setErrMessage] = useOutletContext();
   const [inputData, setInputData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
@@ -24,6 +26,8 @@ const Login = ({ setIsAuthed }) => {
   // Submit process
   const submitHandler = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     sendLogin(inputData)
       .then(({ data }) => {
         const { accessToken, refreshToken } = data.user;
@@ -42,7 +46,8 @@ const Login = ({ setIsAuthed }) => {
 
         navigate('/'); // Redirect to home page
       })
-      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`));
+      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`))
+      .finally(() => setIsLoading(false));
   };
 
   // Remove err msg on first render
@@ -56,7 +61,7 @@ const Login = ({ setIsAuthed }) => {
       <h1 className='mt-4 text-xl sm:text-2xl'>Masuk</h1>
       {errMessage &&
         (errMessage.includes('Error') ? (
-          <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
+          <div className='mt-0.5 mb-1.5 text-danger-main capitalize w-max max-w-full'>
             {errMessage}
           </div>
         ) : (
@@ -109,6 +114,8 @@ const Login = ({ setIsAuthed }) => {
           </span>
         </p>
       </div>
+
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };
