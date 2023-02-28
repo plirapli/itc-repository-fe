@@ -17,11 +17,7 @@ const Main = () => {
   const [divisions, setDivisions] = useState([]);
   const [userData, setUserData] = useState({});
   const [isAuthed, setIsAuthed] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (isAuthed) getUserOwnProfile().then(setUserData);
-  }, [isAuthed]);
+  const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
     // Get divisi
@@ -33,13 +29,18 @@ const Main = () => {
     if (getLocalAccessToken()) {
       getAccessToken()
         .then(() => setIsAuthed(true))
-        .finally(() => setIsLoading(false));
+        .finally(() => setIsInitializing(false));
     } else {
-      setIsLoading(false);
+      setIsInitializing(false);
     }
   }, []);
 
-  if (!isLoading) {
+  useEffect(() => {
+    if (isAuthed) getUserOwnProfile().then(setUserData);
+  }, [isAuthed]);
+
+  if (!isInitializing) {
+    // Kalo belum login
     if (!isAuthed)
       return (
         <div className='min-hs-screen bg-gray-light'>
@@ -63,6 +64,7 @@ const Main = () => {
         </div>
       );
 
+    // Kalo dah login
     return (
       <div className='min-h-screen bg-gray-light'>
         <Routes>
@@ -78,13 +80,7 @@ const Main = () => {
             >
               <Route
                 path='/'
-                element={
-                  <Home
-                    userData={userData}
-                    divisi={divisions}
-                    setIsAuthed={setIsAuthed}
-                  />
-                }
+                element={<Home userData={userData} divisi={divisions} />}
               />
 
               <Route path='u/:username/'>

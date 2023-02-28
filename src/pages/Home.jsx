@@ -10,7 +10,7 @@ import { Select, SearchBar } from '../components/forms';
 import { CourseCard } from '../components/cards/index';
 import OverlayLoading from '../components/overlay/OverlayLoading';
 
-const Home = ({ userData, divisi, setIsAuthed }) => {
+const Home = ({ userData, divisi }) => {
   // window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
   const [params, setParams] = useSearchParams();
   useTitle('ITC Repository');
