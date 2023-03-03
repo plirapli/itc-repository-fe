@@ -20,7 +20,7 @@ import {
 } from '../../components/cards';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 
-const ManageUsersPage = ({ setIsAuthed }) => {
+const ManageUsersPage = () => {
   const navigate = useNavigate();
   const [verifiedUsers, setVerifiedUsers] = useState([]);
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
@@ -46,7 +46,6 @@ const ManageUsersPage = ({ setIsAuthed }) => {
         const { id: userID } = jwt(getLocalAccessToken());
         if (userID === id) {
           logoutHandler();
-          setIsAuthed(false);
           navigate('/login');
         }
       })
@@ -57,18 +56,7 @@ const ManageUsersPage = ({ setIsAuthed }) => {
   const setVerifyHandler = (id) => {
     setIsLoading(true);
     changeUserVerify(id, true)
-      .then(() => {
-        // Get all user after update
-        getAllUserHandler();
-
-        // Check kalo yang diubah diri sendiri
-        const { id: userID } = jwt(getLocalAccessToken());
-        if (userID === id) {
-          logoutHandler();
-          setIsAuthed(false);
-          navigate('/login');
-        }
-      })
+      .then(() => getAllUserHandler())
       .catch(({ data }) => {
         console.log(data.message);
         setIsLoading(false);

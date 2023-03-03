@@ -6,7 +6,7 @@ import ButtonMin from '../buttons/ButtonMin';
 import OverlayNavbar from '../overlay/OverlayNavbar';
 import { ArrowLongLeftIcon } from '@heroicons/react/20/solid';
 
-const NavbarBack = ({ user, setIsAuthed }) => {
+const NavbarBack = ({ user }) => {
   const navigate = useNavigate();
   const { fullName, divisionName, photoProfile } = user;
   const toBack = () => navigate(-1);
@@ -57,7 +57,7 @@ const NavbarBack = ({ user, setIsAuthed }) => {
           leaveTo='transform opacity-0 scale-95'
         >
           <Menu.Items className='absolute right-0 origin-top-right'>
-            <OverlayNavbar user={user} setIsAuthed={setIsAuthed} />
+            <OverlayNavbar user={user} />
           </Menu.Items>
         </Transition>
       </Menu>

@@ -4,7 +4,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Ava } from '../../assets';
 import OverlayNavbar from '../overlay/OverlayNavbar';
 
-const Navbar = ({ user, setIsAuthed }) => {
+const Navbar = ({ user }) => {
   const { fullName, divisionName, photoProfile } = user;
 
   return (
@@ -45,7 +45,7 @@ const Navbar = ({ user, setIsAuthed }) => {
           leaveTo='transform opacity-0 scale-95'
         >
           <Menu.Items className='absolute right-0 origin-top-right'>
-            <OverlayNavbar user={user} setIsAuthed={setIsAuthed} />
+            <OverlayNavbar user={user} />
           </Menu.Items>
         </Transition>
       </Menu>

@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { useAuth, useTitle } from '../../hooks';
+import { useTitle } from '../../hooks';
 import { sendLogin } from '../../utils/auth';
 
 // Components
 import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input } from '../../components/forms';
 import { OverlayLoading } from '../../components/overlay';
+import { getUserOwnProfile } from '../../utils/user';
 
-const Login = ({ setIsAuthed }) => {
+const Login = ({ setUserData }) => {
   window.history.pushState({}, null, '/login');
-  const { setAuth } = useAuth();
   const navigate = useNavigate();
   useTitle('Masuk');
 
@@ -37,14 +37,17 @@ const Login = ({ setIsAuthed }) => {
           'user',
           JSON.stringify({ accessToken, refreshToken })
         );
-        setAuth({ accessToken, refreshToken });
-        setIsAuthed(true); // Set isAuthed to true
 
-        // Reset state
-        setErrMessage('');
-        setInputData(initialState);
+        // Get user data
+        getUserOwnProfile().then((data) => {
+          setUserData({ ...data });
 
-        navigate('/'); // Redirect to home page
+          // Reset state
+          setErrMessage('');
+          setInputData(initialState);
+
+          navigate('/'); // Redirect to home page
+        });
       })
       .catch(({ data }) => setErrMessage(`Error: ${data.message}!`))
       .finally(() => setIsLoading(false));

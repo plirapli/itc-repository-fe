@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import NavbarBack from '../../components/navbar/NavbarBack';
 
-const LayoutManage = ({ userData, setIsAuthed }) => {
+const LayoutManage = ({ userData }) => {
   const navbar = useOutletContext();
 
   useEffect(() => {
-    navbar(<NavbarBack user={userData} setIsAuthed={setIsAuthed} />);
+    navbar(<NavbarBack user={userData} />);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 

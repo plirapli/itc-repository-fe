@@ -1,14 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { logoutHandler } from '../../utils/auth';
 
-const OverlayNavbar = ({ user, setIsAuthed }) => {
+const OverlayNavbar = ({ user }) => {
   const navigate = useNavigate();
   const toProfile = () => navigate(`/u/${user?.username}/profile`);
   const toDaftarMateri = () => navigate('manage/course/');
   const toDaftarPengguna = () => navigate('/manage/user/');
   const logout = () => {
     logoutHandler();
-    setIsAuthed(false);
     navigate('/login');
   };
   const listClassName =

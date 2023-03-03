@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { getAccessToken, getLocalAccessToken } from '../utils/auth';
+import { getLocalRefreshToken } from '../utils/auth';
 import { getAllDivisions } from '../utils/division';
 import { getUserOwnProfile } from '../utils/user';
 
@@ -16,7 +16,6 @@ import { ProfilePage } from './user';
 const Main = () => {
   const [divisions, setDivisions] = useState([]);
   const [userData, setUserData] = useState({});
-  const [isAuthed, setIsAuthed] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
@@ -25,23 +24,19 @@ const Main = () => {
       .then(setDivisions)
       .catch(({ data }) => console.log(data.message));
 
-    // Check is login exist
-    if (getLocalAccessToken()) {
-      getAccessToken()
-        .then(() => setIsAuthed(true))
+    // Check if login exist
+    if (getLocalRefreshToken()) {
+      getUserOwnProfile()
+        .then(setUserData)
         .finally(() => setIsInitializing(false));
     } else {
       setIsInitializing(false);
     }
   }, []);
 
-  useEffect(() => {
-    if (isAuthed) getUserOwnProfile().then(setUserData);
-  }, [isAuthed]);
-
   if (!isInitializing) {
     // Kalo belum login
-    if (!isAuthed)
+    if (!userData?.id)
       return (
         <div className='min-hs-screen bg-gray-light'>
           <Routes>
@@ -49,7 +44,7 @@ const Main = () => {
             <Route element={<Layout.Auth />}>
               <Route
                 path='/*'
-                element={<AuthPage.Login setIsAuthed={setIsAuthed} />}
+                element={<AuthPage.Login setUserData={setUserData} />}
               />
               <Route
                 path='forgot-password/'
@@ -70,14 +65,7 @@ const Main = () => {
         <Routes>
           <Route element={<Layout.Main />}>
             {/* User */}
-            <Route
-              element={
-                <Layout.LayoutNavbar
-                  userData={userData}
-                  setIsAuthed={setIsAuthed}
-                />
-              }
-            >
+            <Route element={<Layout.LayoutNavbar userData={userData} />}>
               <Route
                 path='/'
                 element={<Home userData={userData} divisi={divisions} />}
@@ -100,16 +88,11 @@ const Main = () => {
             {/* Manage - Admin Only */}
             <Route
               path='manage/'
-              element={
-                <Layout.Manage userData={userData} setIsAuthed={setIsAuthed} />
-              }
+              element={<Layout.Manage userData={userData} />}
             >
               {/* Manage User */}
               <Route path='user/'>
-                <Route
-                  index
-                  element={<ManageUsersPage setIsAuthed={setIsAuthed} />}
-                />
+                <Route index element={<ManageUsersPage />} />
               </Route>
 
               {/* Manage Materi */}
