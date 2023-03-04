@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { useTitle } from '../../hooks';
+import { useProfile, useTitle } from '../../hooks';
 import { sendLogin } from '../../utils/auth';
 
 // Components
@@ -9,12 +9,13 @@ import { Input } from '../../components/forms';
 import { OverlayLoading } from '../../components/overlay';
 import { getUserOwnProfile } from '../../utils/user';
 
-const Login = ({ setUserData }) => {
+const Login = () => {
   window.history.pushState({}, null, '/login');
   const navigate = useNavigate();
   useTitle('Masuk');
 
   const initialState = { emailUsername: '', password: '' };
+  const { setProfile } = useProfile();
   const [errMessage, setErrMessage] = useOutletContext();
   const [inputData, setInputData] = useState(initialState);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +41,7 @@ const Login = ({ setUserData }) => {
 
         // Get user data
         getUserOwnProfile().then((data) => {
-          setUserData({ ...data });
+          setProfile({ ...data });
 
           // Reset state
           setErrMessage('');

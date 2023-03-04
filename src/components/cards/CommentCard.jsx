@@ -2,8 +2,11 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { Ava } from '../../assets';
+import { useProfile } from '../../hooks';
 
-const CommentCard = ({ user, comment, onClickEdit, onClickDelete }) => {
+const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
+  const { profile } = useProfile();
+
   return (
     <>
       <div className='bg-white flex gap-2.5 p-2.5 pr-1 rounded-lg shadow'>
@@ -19,7 +22,7 @@ const CommentCard = ({ user, comment, onClickEdit, onClickDelete }) => {
               {comment?.fullName}
             </div>
 
-            {user?.id === comment?.id_user && (
+            {profile?.id === comment?.id_user && (
               <Menu as='div' className='relative inline-block text-left'>
                 <div>
                   <Menu.Button>

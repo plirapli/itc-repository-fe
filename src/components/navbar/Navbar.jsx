@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 import { Ava } from '../../assets';
 import OverlayNavbar from '../overlay/OverlayNavbar';
+import { useProfile } from '../../hooks';
 
-const Navbar = ({ user }) => {
-  const { fullName, divisionName, photoProfile } = user;
+const Navbar = () => {
+  const { profile } = useProfile();
+  const { fullName, divisionName, photoProfile } = profile;
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between pl-4 sm:pl-8 relative'>
@@ -45,7 +47,7 @@ const Navbar = ({ user }) => {
           leaveTo='transform opacity-0 scale-95'
         >
           <Menu.Items className='absolute right-0 origin-top-right'>
-            <OverlayNavbar user={user} />
+            <OverlayNavbar />
           </Menu.Items>
         </Transition>
       </Menu>

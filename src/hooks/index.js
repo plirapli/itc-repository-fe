@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import ProfileContext from '../context/UserDataProvider';
+import ProfileContext from '../context/ProfileProvider';
 
 const useTitle = (title, dependency) => {
   const deps = [dependency] || [];

@@ -5,14 +5,15 @@ import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input, Select } from '../../components/forms/';
 import { ModalForm } from '../../components/modal';
 import { OverlayLoading } from '../../components/overlay';
-import { useTitle } from '../../hooks';
+import { useProfile, useTitle } from '../../hooks';
 import {
   getAllGenerations,
   updatePassword,
   updateUserProfile,
 } from '../../utils/user';
 
-const ProfilePage = ({ userData, setUserData, divisi }) => {
+const ProfilePage = ({ divisi }) => {
+  const { profile, setProfile } = useProfile();
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false);
@@ -49,7 +50,7 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
     updateUserProfile(data)
       .then(() => {
         user.imgProfile && delete user.imgProfile; // Delete uploaded img profile if any
-        setUserData((prev) => ({ ...prev, ...user })); // Set user data to new state
+        setProfile((prev) => ({ ...prev, ...user })); // Set user data to new state
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
@@ -68,11 +69,11 @@ const ProfilePage = ({ userData, setUserData, divisi }) => {
       });
   };
 
-  useTitle(`${userData.fullName} (${userData.username})`, userData);
+  useTitle(`${profile?.fullName} (${profile?.username})`, profile);
   useEffect(() => {
-    setUser({ ...userData });
-    if (userData.fullName) setIsLoading(false);
-  }, [userData]);
+    setUser({ ...profile });
+    if (profile.fullName) setIsLoading(false);
+  }, [profile]);
 
   return (
     <>

@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useProfile } from '../../hooks';
 import { logoutHandler } from '../../utils/auth';
 
-const OverlayNavbar = ({ user }) => {
+const OverlayNavbar = () => {
   const navigate = useNavigate();
-  const toProfile = () => navigate(`/u/${user?.username}/profile`);
+  const { profile } = useProfile();
+  const toProfile = () => navigate(`/u/${profile?.username}/profile`);
   const toDaftarMateri = () => navigate('manage/course/');
   const toDaftarPengguna = () => navigate('/manage/user/');
   const logout = () => {
@@ -20,7 +22,7 @@ const OverlayNavbar = ({ user }) => {
           <div onClick={toProfile} className={listClassName}>
             Profile
           </div>
-          {user?.id_role === 2 && (
+          {profile?.id_role === 2 && (
             <>
               <div onClick={toDaftarPengguna} className={listClassName}>
                 Daftar Pengguna

@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { getLocalRefreshToken } from '../utils/auth';
 import { getAllDivisions } from '../utils/division';
 import { getUserOwnProfile } from '../utils/user';
+import { useProfile } from '../hooks';
 
 // Components
 import * as Layout from './layout/index';
@@ -14,8 +15,8 @@ import ManageUsersPage from './manageUser/ManageUsersPage';
 import { ProfilePage } from './user';
 
 const Main = () => {
+  const { profile, setProfile } = useProfile();
   const [divisions, setDivisions] = useState([]);
-  const [userData, setUserData] = useState({});
   const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const Main = () => {
     // Check if login exist
     if (getLocalRefreshToken()) {
       getUserOwnProfile()
-        .then(setUserData)
+        .then(setProfile)
         .finally(() => setIsInitializing(false));
     } else {
       setIsInitializing(false);
@@ -36,16 +37,13 @@ const Main = () => {
 
   if (!isInitializing) {
     // Kalo belum login
-    if (!userData?.id)
+    if (!profile?.id)
       return (
         <div className='min-hs-screen bg-gray-light'>
           <Routes>
             {/* Login, Register Page */}
             <Route element={<Layout.Auth />}>
-              <Route
-                path='/*'
-                element={<AuthPage.Login setUserData={setUserData} />}
-              />
+              <Route path='/*' element={<AuthPage.Login />} />
               <Route
                 path='forgot-password/'
                 element={<AuthPage.ForgotPassword />}
@@ -65,64 +63,54 @@ const Main = () => {
         <Routes>
           <Route element={<Layout.Main />}>
             {/* User */}
-            <Route element={<Layout.LayoutNavbar userData={userData} />}>
-              <Route
-                path='/'
-                element={<Home userData={userData} divisi={divisions} />}
-              />
+            <Route element={<Layout.LayoutNavbar />}>
+              <Route path='/' element={<Home divisi={divisions} />} />
 
               <Route path='u/:username/'>
                 <Route
                   path='profile'
-                  element={
-                    <ProfilePage
-                      userData={userData}
-                      setUserData={setUserData}
-                      divisi={divisions}
-                    />
-                  }
+                  element={<ProfilePage divisi={divisions} />}
                 />
               </Route>
             </Route>
 
             {/* Manage - Admin Only */}
-            <Route
-              path='manage/'
-              element={<Layout.Manage userData={userData} />}
-            >
-              {/* Manage User */}
-              <Route path='user/'>
-                <Route index element={<ManageUsersPage />} />
-              </Route>
+            {profile?.id_role == 2 && (
+              <Route path='manage/' element={<Layout.Manage />}>
+                {/* Manage User */}
+                <Route path='user/'>
+                  <Route index element={<ManageUsersPage />} />
+                </Route>
 
-              {/* Manage Materi */}
-              <Route path='course/'>
-                <Route
-                  index
-                  element={<ManageCoursePage.Courses divisi={divisions} />}
-                />
-                <Route
-                  exact
-                  path='add/'
-                  element={<ManageCoursePage.AddCourse divisi={divisions} />}
-                />
-                <Route
-                  exact
-                  path=':id_materi/'
-                  element={<ManageCoursePage.Chapters />}
-                />
-                <Route
-                  exact
-                  path=':id_materi/:id_bab/'
-                  element={<ManageCoursePage.Articles />}
-                />
-                <Route
-                  exact
-                  path=':id_materi/:id_bab/add/'
-                  element={<ManageCoursePage.AddArticle />}
-                />
+                {/* Manage Materi */}
+                <Route path='course/'>
+                  <Route
+                    index
+                    element={<ManageCoursePage.Courses divisi={divisions} />}
+                  />
+                  <Route
+                    exact
+                    path='add/'
+                    element={<ManageCoursePage.AddCourse divisi={divisions} />}
+                  />
+                  <Route
+                    exact
+                    path=':id_materi/'
+                    element={<ManageCoursePage.Chapters />}
+                  />
+                  <Route
+                    exact
+                    path=':id_materi/:id_bab/'
+                    element={<ManageCoursePage.Articles />}
+                  />
+                  <Route
+                    exact
+                    path=':id_materi/:id_bab/add/'
+                    element={<ManageCoursePage.AddArticle />}
+                  />
+                </Route>
               </Route>
-            </Route>
+            )}
 
             {/* Course */}
             <Route path='course/:id_course/' element={<Layout.Course />}>
@@ -135,7 +123,7 @@ const Main = () => {
               <Route
                 exact
                 path='discussion/'
-                element={<CoursePage.Discussions user={userData} />}
+                element={<CoursePage.Discussions />}
               />
               <Route
                 exact
@@ -145,7 +133,7 @@ const Main = () => {
               <Route
                 exact
                 path='discussion/:id_discussion/'
-                element={<CoursePage.Comments user={userData} />}
+                element={<CoursePage.Comments />}
               />
             </Route>
           </Route>
