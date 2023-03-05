@@ -7,7 +7,7 @@ import { useProfile } from '../hooks';
 
 // Components
 import * as Layout from './layout/index';
-import { Home } from './';
+import Home from './Home';
 import * as CoursePage from './course';
 import * as AuthPage from './auth';
 import * as ManageCoursePage from './manageCourse';
@@ -65,7 +65,6 @@ const Main = () => {
             {/* User */}
             <Route element={<Layout.LayoutNavbar />}>
               <Route path='/' element={<Home divisi={divisions} />} />
-
               <Route path='u/:username/'>
                 <Route
                   path='profile'
@@ -75,7 +74,7 @@ const Main = () => {
             </Route>
 
             {/* Manage - Admin Only */}
-            {profile?.id_role == 2 && (
+            {profile?.id_role === 2 && (
               <Route path='manage/' element={<Layout.Manage />}>
                 {/* Manage User */}
                 <Route path='user/'>
@@ -107,6 +106,11 @@ const Main = () => {
                     exact
                     path=':id_materi/:id_bab/add/'
                     element={<ManageCoursePage.AddArticle />}
+                  />
+                  <Route
+                    exact
+                    path=':id_materi/:id_bab/:id_artikel/edit/'
+                    element={<ManageCoursePage.EditArticle />}
                   />
                 </Route>
               </Route>

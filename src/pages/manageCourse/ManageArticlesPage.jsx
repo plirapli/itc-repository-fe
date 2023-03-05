@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   Link,
+  useNavigate,
   useParams,
   useSearchParams,
 } from 'react-router-dom';
@@ -16,6 +17,7 @@ import { ManageCourseCard } from '../../components/cards';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageArticlesPage = () => {
+  const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const { id_materi: course_id, id_bab: chapter_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -55,6 +57,10 @@ const ManageArticlesPage = () => {
     setSelectedArticle(article);
     openModalDelete();
   };
+  const onClickEditHandler = (e, id) => {
+    e.preventDefault();
+    navigate(`${id}/edit/`);
+  };
 
   const getAllArticleHandler = () => {
     getAllArticles(course_id, chapter_id)
@@ -71,9 +77,11 @@ const ManageArticlesPage = () => {
     setIsLoading(true);
 
     deleteArticle(course_id, chapter_id, selectedArticle.id)
-      .then(() => setSelectedArticle({}))
-      .catch(({ data }) => console.log(data.message))
-      .finally(() => getAllArticleHandler()); // taruh get allnya di then aja, soalnya kalau gagal delete gaperlu ambil data baru
+      .then(() => {
+        setSelectedArticle({});
+        getAllArticleHandler();
+      })
+      .catch(({ data }) => console.log(data.message));
   };
 
   useTitle('Daftar Artikel');
@@ -122,6 +130,7 @@ const ManageArticlesPage = () => {
           >
             <ManageCourseCard
               type='artikel'
+              onClickEdit={(e) => onClickEditHandler(e, id)}
               onClickDelete={(e) => onClickDeleteHandler(e, { id, title })}
             >
               <p>{title}</p>

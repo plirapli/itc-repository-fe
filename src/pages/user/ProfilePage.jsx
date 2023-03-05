@@ -231,7 +231,7 @@ const ProfilePage = ({ divisi }) => {
           </ModalForm>
         </>
       ) : (
-        <div>gada</div>
+        <div>Profil tidak ditemukan.</div>
       )}
 
       <OverlayLoading loadingState={isLoading} />
