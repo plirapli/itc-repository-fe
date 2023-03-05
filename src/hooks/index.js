@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import AuthContext from '../context/AuthProvider';
+import ProfileContext from '../context/ProfileProvider';
 
 const useTitle = (title, dependency) => {
   const deps = [dependency] || [];
@@ -15,6 +15,6 @@ const useTitle = (title, dependency) => {
   }, deps);
 };
 
-const useAuth = () => useContext(AuthContext);
+const useProfile = () => useContext(ProfileContext);
 
-export { useTitle, useAuth };
+export { useTitle, useProfile };

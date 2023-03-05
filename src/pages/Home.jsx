@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { getAllCoursesDetail } from '../utils/course';
-import { useTitle } from '../hooks';
+import { useProfile, useTitle } from '../hooks';
 
 // Component
 import { PlusIcon } from '@heroicons/react/20/solid';
@@ -10,16 +10,22 @@ import { Select, SearchBar } from '../components/forms';
 import { CourseCard } from '../components/cards/index';
 import OverlayLoading from '../components/overlay/OverlayLoading';
 
-const Home = ({ userData, divisi }) => {
+const Home = ({ divisi }) => {
   // window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
+  const { profile } = useProfile();
   const [params, setParams] = useSearchParams();
-  useTitle('ITC Repository');
-
   const [isLoading, setIsLoading] = useState(true);
-
+  const [courses, setCourses] = useState([]);
+  const [filteredCourse, setFilteredCourse] = useState([]);
   const [selectedDivisi, setSelectedDivisi] = useState(
     () => params.get('divisi') || '0'
   );
+
+  // search state management
+  const [keywordMateri, setKeywordMateri] = useState(
+    () => params.get('materi') || ''
+  );
+  useTitle('ITC Repository');
 
   const changeDivisionParams = (divisi) => {
     params.set('divisi', divisi);
@@ -35,9 +41,6 @@ const Home = ({ userData, divisi }) => {
     }
   };
 
-  const [courses, setCourses] = useState([]);
-  const [filteredCourse, setFilteredCourse] = useState([]);
-
   const filterSelectHandler = (e) => {
     setSelectedDivisi(e.target.value);
     changeDivisionParams(e.target.value);
@@ -49,11 +52,6 @@ const Home = ({ userData, divisi }) => {
 
   const filterCourseByKeyword = (course) =>
     course.title.toLowerCase().includes(keywordMateri.toLowerCase());
-
-  // search state management
-  const [keywordMateri, setKeywordMateri] = useState(
-    () => params.get('materi') || ''
-  );
 
   const changeSearchParams = (materi) => {
     params.set('materi', materi);
@@ -113,7 +111,7 @@ const Home = ({ userData, divisi }) => {
       <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
         <div className='flex flex-col gap-2 sm:flex-row sm:items-center justify-between'>
           <h1 className='text-2xl'>Materi</h1>
-          {userData?.id_role === 2 && (
+          {profile?.id_role === 2 && (
             <Link to='manage/course/add/'>
               <ButtonMin variant='icon-right' icon={<PlusIcon />}>
                 Tambah Materi
@@ -155,7 +153,7 @@ const Home = ({ userData, divisi }) => {
           {filteredCourse?.map((course) => (
             <Link to={`/course/${course.id}/`} key={course.id}>
               <CourseCard
-                isAdmin={userData?.id_role === 2}
+                isAdmin={profile?.id_role === 2}
                 data={course}
                 divisi={divisi}
               />

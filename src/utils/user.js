@@ -1,4 +1,3 @@
-import { data } from 'autoprefixer';
 import { authApi } from '../api/api';
 
 const url = '/users';
