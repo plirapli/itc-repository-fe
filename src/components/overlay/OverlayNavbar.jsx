@@ -3,14 +3,15 @@ import { useProfile } from '../../hooks';
 import { logoutHandler } from '../../utils/auth';
 
 const OverlayNavbar = () => {
+  const { profile, setProfile } = useProfile();
   const navigate = useNavigate();
-  const { profile } = useProfile();
   const toProfile = () => navigate(`/u/${profile?.username}/profile`);
   const toDaftarMateri = () => navigate('manage/course/');
   const toDaftarPengguna = () => navigate('/manage/user/');
-  const logout = () => {
+  const toLogout = () => {
     logoutHandler();
-    navigate('/login');
+    setProfile({});
+    navigate('/');
   };
   const listClassName =
     'px-4 py-2 text-sm transition-all cursor-pointer hover:bg-black hover:bg-opacity-10';
@@ -39,7 +40,10 @@ const OverlayNavbar = () => {
           </div>
           {/* End Pembatas */}
 
-          <div onClick={logout} className={`${listClassName} text-danger-main`}>
+          <div
+            onClick={toLogout}
+            className={`${listClassName} text-danger-main`}
+          >
             Keluar
           </div>
         </div>
