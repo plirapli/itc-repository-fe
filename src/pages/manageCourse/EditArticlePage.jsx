@@ -57,7 +57,7 @@ const EditArticlePage = () => {
     getArticleByID(id_materi, id_bab, id_artikel)
       .then((data) => {
         setTitle(data.title);
-        setContent(data.body);
+        setContent(data.content);
       })
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
