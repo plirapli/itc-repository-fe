@@ -7,17 +7,25 @@ import { useTitle } from '../../hooks';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import ButtonMin from '../../components/buttons/ButtonMin';
 import Tags from '../../components/tags/Tags';
+import { getAllChaptersDetail } from '../../utils/chapter';
 
 const OverviewPage = () => {
   const [course, setCourse] = useState({});
   const { id_course } = useParams();
+  const [initArticle, setInitArticle] = useState();
 
   useTitle(course?.title || 'Loading...', course);
   useEffect(() => {
     getCourseById(id_course)
       .then(setCourse)
       .catch((error) => console.log(error));
+
+    getAllChaptersDetail(id_course)
+      .then((data) => setInitArticle(data[0].Articles[0]))
+      .catch(({ data }) => console.log(data.message));
   }, []);
+
+  console.log(initArticle);
 
   return (
     <>
@@ -58,9 +66,17 @@ const OverviewPage = () => {
         </div>
 
         {/* CTA Btn */}
-        <Link to={`/course/${id_course}/chapter/1/article/1`}>
-          <ButtonMin variant="text-only">Belajar Sekarang</ButtonMin>
-        </Link>
+        {initArticle ? (
+          <Link
+            to={`/course/${id_course}/chapter/${initArticle.id_chapter}/article/${initArticle.id}`}
+          >
+            <ButtonMin variant="text-only">Belajar Sekarang</ButtonMin>
+          </Link>
+        ) : (
+          <ButtonMin variant="text-only">
+            Kelas ini belum memiliki konten yang dapat dipelajari
+          </ButtonMin>
+        )}
 
         {/* Deskripsi */}
         <div>
