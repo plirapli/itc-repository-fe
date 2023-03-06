@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useTitle } from '../../hooks';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { loginHandler, sendLogin } from '../../utils/auth';
+import { useProfile, useTitle } from '../../hooks';
+import { sendLogin } from '../../utils/auth';
 
 // Components
 import ButtonMin from '../../components/buttons/ButtonMin';
 import { Input } from '../../components/forms';
+import { OverlayLoading } from '../../components/overlay';
+import { getUserOwnProfile } from '../../utils/user';
 
-const Login = ({ setToken, setIsAuthed }) => {
+const Login = () => {
   window.history.pushState({}, null, '/login');
   const navigate = useNavigate();
+  useTitle('Masuk');
+
   const initialState = { emailUsername: '', password: '' };
+  const { setProfile } = useProfile();
   const [errMessage, setErrMessage] = useOutletContext();
   const [inputData, setInputData] = useState(initialState);
-  useTitle('Masuk');
+  const [isLoading, setIsLoading] = useState(false);
 
   const inputHandler = (e, key) => {
     setInputData((prev) => ({ ...prev, [key]: e.target.value }));
@@ -22,15 +27,31 @@ const Login = ({ setToken, setIsAuthed }) => {
   // Submit process
   const submitHandler = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     sendLogin(inputData)
-      .then((data) => {
-        setInputData(initialState); // Set input data to initial state
-        setErrMessage('');
-        loginHandler(data, setToken); // Login process
-        setIsAuthed(true); // Set isAuthed to true
-        navigate('/'); // Redirect to home page
+      .then(({ data }) => {
+        const { accessToken, refreshToken } = data.user;
+
+        // Store token to State && Local Storage
+        localStorage.setItem(
+          'user',
+          JSON.stringify({ accessToken, refreshToken })
+        );
+
+        // Get user data
+        getUserOwnProfile().then((data) => {
+          setProfile({ ...data });
+
+          // Reset state
+          setErrMessage('');
+          setInputData(initialState);
+
+          navigate('/'); // Redirect to home page
+        });
       })
-      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`));
+      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`))
+      .finally(() => setIsLoading(false));
   };
 
   // Remove err msg on first render
@@ -44,7 +65,7 @@ const Login = ({ setToken, setIsAuthed }) => {
       <h1 className='mt-4 text-xl sm:text-2xl'>Masuk</h1>
       {errMessage &&
         (errMessage.includes('Error') ? (
-          <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
+          <div className='mt-0.5 mb-1.5 text-danger-main capitalize w-max max-w-full'>
             {errMessage}
           </div>
         ) : (
@@ -97,6 +118,8 @@ const Login = ({ setToken, setIsAuthed }) => {
           </span>
         </p>
       </div>
+
+      <OverlayLoading loadingState={isLoading} />
     </>
   );
 };

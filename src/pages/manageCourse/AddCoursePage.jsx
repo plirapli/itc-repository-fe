@@ -123,6 +123,7 @@ const AddCoursePage = ({ divisi }) => {
               name='thumbnail'
               accept='image/*'
               className='mt-1'
+              required
             />
           </div>
 

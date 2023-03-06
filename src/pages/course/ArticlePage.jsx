@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { getArticleByID } from '../../utils/article';
 import { useTitle } from '../../hooks';
 
 const ArticlePage = () => {
+  const setActiveArticle = useOutletContext();
   const { id_course, id_chapter, id_article } = useParams();
   const [article, setArticle] = useState({});
 
   useTitle(article?.title || 'Loading...', article);
+
   useEffect(() => {
     getArticleByID(id_course, id_chapter, id_article)
       .then((data) => {
@@ -17,6 +19,11 @@ const ArticlePage = () => {
       })
       .catch(({ data }) => console.log(data.message));
   }, [id_article, id_chapter, id_course]);
+
+  useEffect(() => {
+    setActiveArticle(id_article);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id_article]);
 
   return (
     <div className='p-4 bg-white min-h-full flex flex-col'>

@@ -17,7 +17,7 @@ const ForgotPassword = (props) => {
     <>
       <h1 className='mt-4 text-xl sm:text-2xl'>Lupa Kata Sandi</h1>
       {errMessage && (
-        <div className='mt-2 mb-4 py-2 px-4 bg-danger-sub text-danger-main rounded-md w-max max-w-full'>
+        <div className='mt-0.5 mb-1.5 text-danger-main capitalize w-max max-w-full'>
           {errMessage}
         </div>
       )}

@@ -5,10 +5,12 @@ import { Ava } from '../../assets';
 import ButtonMin from '../buttons/ButtonMin';
 import OverlayNavbar from '../overlay/OverlayNavbar';
 import { ArrowLongLeftIcon } from '@heroicons/react/20/solid';
+import { useProfile } from '../../hooks';
 
-const NavbarBack = ({ user, setIsAuthed }) => {
+const NavbarBack = ({ user }) => {
   const navigate = useNavigate();
-  const { fullName, divisionName, photoProfile } = user;
+  const { profile } = useProfile();
+  const { fullName, divisionName, photoProfile } = profile;
   const toBack = () => navigate(-1);
 
   return (
@@ -57,7 +59,7 @@ const NavbarBack = ({ user, setIsAuthed }) => {
           leaveTo='transform opacity-0 scale-95'
         >
           <Menu.Items className='absolute right-0 origin-top-right'>
-            <OverlayNavbar user={user} setIsAuthed={setIsAuthed} />
+            <OverlayNavbar />
           </Menu.Items>
         </Transition>
       </Menu>

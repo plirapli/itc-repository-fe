@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import ProfileContext from '../context/ProfileProvider';
 
-export function useTitle(title, dependency) {
+const useTitle = (title, dependency) => {
   const deps = [dependency] || [];
 
   useEffect(() => {
@@ -12,4 +13,8 @@ export function useTitle(title, dependency) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
-}
+};
+
+const useProfile = () => useContext(ProfileContext);
+
+export { useTitle, useProfile };

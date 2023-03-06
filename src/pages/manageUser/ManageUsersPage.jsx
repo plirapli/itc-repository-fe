@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwt from 'jwt-decode';
 import {
   getAllUsers,
   changeUserRole,
   changeUserVerify,
   deleteUser,
 } from '../../utils/user';
-import { getLocalAccessToken, logoutHandler } from '../../utils/auth';
-import { useTitle } from '../../hooks';
+import { logoutHandler } from '../../utils/auth';
+import { useProfile, useTitle } from '../../hooks';
 
 // Components
 import { Disclosure } from '@headlessui/react';
@@ -20,8 +19,9 @@ import {
 } from '../../components/cards';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 
-const ManageUsersPage = ({ setIsAuthed }) => {
+const ManageUsersPage = () => {
   const navigate = useNavigate();
+  const { profile, setProfile } = useProfile();
   const [verifiedUsers, setVerifiedUsers] = useState([]);
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,32 +43,20 @@ const ManageUsersPage = ({ setIsAuthed }) => {
     changeUserRole(id, value)
       .then(() => {
         // Check kalo yang diubah diri sendiri
-        const { id: userID } = jwt(getLocalAccessToken());
-        if (userID === id) {
+        if (profile.id === id) {
           logoutHandler();
-          setIsAuthed(false);
-          navigate('/login');
+          setProfile({});
+          navigate('/');
         }
+        getAllUserHandler();
       })
-      .catch(({ data }) => console.log(data.message))
-      .finally(() => getAllUserHandler());
+      .catch(({ data }) => console.log(data.message));
   };
 
   const setVerifyHandler = (id) => {
     setIsLoading(true);
     changeUserVerify(id, true)
-      .then(() => {
-        // Get all user after update
-        getAllUserHandler();
-
-        // Check kalo yang diubah diri sendiri
-        const { id: userID } = jwt(getLocalAccessToken());
-        if (userID === id) {
-          logoutHandler();
-          setIsAuthed(false);
-          navigate('/login');
-        }
-      })
+      .then(() => getAllUserHandler())
       .catch(({ data }) => {
         console.log(data.message);
         setIsLoading(false);

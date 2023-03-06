@@ -37,6 +37,12 @@ const addImageArticle = async (courseID, chapterID, newImage) =>
     .then(({ data }) => data)
     .catch(({ response }) => Promise.reject(response));
 
+const editArticle = async (courseID, chapterID, articleID, newArticle) =>
+  authApi
+    .put(`${url(courseID, chapterID)}/articles/${articleID}`, newArticle)
+    .then(({ data }) => data.message)
+    .catch(({ response }) => Promise.reject(response));
+
 const deleteArticle = async (courseID, chapterID, articleID) =>
   authApi
     .delete(`${url(courseID, chapterID)}/articles/${articleID}`)
@@ -48,5 +54,6 @@ export {
   getArticleByID,
   addArticle,
   addImageArticle,
+  editArticle,
   deleteArticle,
 };

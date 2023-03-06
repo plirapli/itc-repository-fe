@@ -15,7 +15,7 @@ import { ModalDelete, ModalForm } from '../../components/modal';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import DiscussionLists from '../../components/lists/DiscussionLists';
 
-const DiscussionPage = ({ user }) => {
+const DiscussionPage = () => {
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);
   const [filteredDiscussions, setFilteredDiscussions] = useState([]);
@@ -141,7 +141,6 @@ const DiscussionPage = ({ user }) => {
         {/* List Diskusi */}
         <DiscussionLists
           topicKeyword={topicKeyword}
-          user={user}
           discussions={filteredDiscussions}
           onClickEdit={onClickEditDiscussionOpenModalHandler}
           onClickDelete={onClickDeleteDiscussionOpenModalHandler}

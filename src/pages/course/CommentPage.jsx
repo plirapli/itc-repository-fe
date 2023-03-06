@@ -22,7 +22,7 @@ import { DiscussionCard } from '../../components/cards';
 import CommentLists from '../../components/lists/CommentLists';
 import AddCommentForm from '../../components/forms/AddCommentForm';
 
-const CommentPage = ({ user }) => {
+const CommentPage = () => {
   const { id_course: courseID, id_discussion: discussionID } = useParams();
   const [highlightedComment, setHighlightedComment] = useState({});
   const [discussionTmp, setDiscussionTmp] = useState({});
@@ -172,7 +172,6 @@ const CommentPage = ({ user }) => {
       <div className='w-full py-4 px-5 sm:py-6 sm:px-0'>
         {/* Pertanyaan */}
         <DiscussionCard
-          user={user}
           isReply={true}
           onClick={displayReplyHandler}
           discussion={discussion}
@@ -191,7 +190,6 @@ const CommentPage = ({ user }) => {
 
         {/* Komentar */}
         <CommentLists
-          user={user}
           comments={comments}
           onClickEdit={onClickEditCommentOpenModalHandler}
           onClickDelete={onClickDeleteCommentOpenModalHandler}

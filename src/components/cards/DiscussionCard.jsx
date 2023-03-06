@@ -6,14 +6,16 @@ import {
 import { Ava } from '../../assets';
 import ButtonMin from '../buttons/ButtonMin';
 import { Menu, Transition } from '@headlessui/react';
+import { useProfile } from '../../hooks';
 
 const DiscussionCard = ({
   discussion,
-  user,
   onClickEdit,
   onClickDelete,
   ...props
 }) => {
+  const { profile } = useProfile();
+
   return (
     <div className='bg-white px-3.5 py-3 pr-2 rounded-lg shadow'>
       {/* Header Card */}
@@ -30,7 +32,7 @@ const DiscussionCard = ({
         </div>
 
         {/* 3 Dots menu */}
-        {user?.id === discussion?.id_user && (
+        {profile?.id === discussion?.id_user && (
           <Menu as='div' className='self-start relative inline-block text-left'>
             <div>
               <Menu.Button className='p-1 pt-0'>
