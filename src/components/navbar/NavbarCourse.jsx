@@ -28,24 +28,24 @@ const NavbarCourse = ({ courseID, activeArticle }) => {
   }, []);
 
   return (
-    <nav className='w-full bg-primary flex items-center justify-between p-[5px] sm:px-6 sm:py-2.5 relative'>
+    <nav className="w-full bg-primary flex items-center justify-between p-[5px] sm:px-6 sm:py-2.5 relative">
       <div onClick={backButtonHandler}>
         <ButtonMin
-          variant='icon-left'
-          color='transparent'
-          size='small'
+          variant="icon-left"
+          color="transparent"
+          size="small"
           icon={icon.backBtn}
           isResponsive
         >
           Kembali
         </ButtonMin>
       </div>
-      <div className='flex'>
+      <div className="flex">
         <Link to={`/course/${courseID}/discussion/`}>
           <ButtonMin
-            variant='icon-left'
-            size='small'
-            color='transparent'
+            variant="icon-left"
+            size="small"
+            color="transparent"
             icon={icon.diskusi}
             isResponsive
           >
@@ -54,9 +54,9 @@ const NavbarCourse = ({ courseID, activeArticle }) => {
         </Link>
         <ButtonMin
           onClick={setIsClickedHandler}
-          variant='icon-left'
-          size='small'
-          color='transparent'
+          variant="icon-left"
+          size="small"
+          color="transparent"
           icon={icon.listMateri}
           isResponsive
         >
