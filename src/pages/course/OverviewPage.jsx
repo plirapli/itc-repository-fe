@@ -25,8 +25,6 @@ const OverviewPage = () => {
       .catch(({ data }) => console.log(data.message));
   }, []);
 
-  console.log(initArticle);
-
   return (
     <>
       <div className="w-full py-4 px-5 sm:py-6 sm:px-0 flex flex-col gap-3 sm:gap-4">
@@ -73,7 +71,7 @@ const OverviewPage = () => {
             <ButtonMin variant="text-only">Belajar Sekarang</ButtonMin>
           </Link>
         ) : (
-          <ButtonMin variant="text-only">
+          <ButtonMin variant="text-only" disabled>
             Kelas ini belum memiliki konten yang dapat dipelajari
           </ButtonMin>
         )}
