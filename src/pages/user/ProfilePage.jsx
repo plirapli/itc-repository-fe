@@ -87,7 +87,7 @@ const ProfilePage = ({ divisi }) => {
             encType='multipart/form-data'
           >
             <div className='mt-3 grid grid-cols-12 gap-3'>
-              <div>
+              <div className='col-span-12'>
                 <label
                   htmlFor='thumbnail'
                   className='block text-sm font-medium text-primary'
@@ -98,7 +98,8 @@ const ProfilePage = ({ divisi }) => {
                   <img
                     src={user?.photoProfile || Ava}
                     alt='profile'
-                    className='mt-1.5 w-20 h-20 rounded-md ring-4 ring-white border-white'
+                    // width='80'
+                    className='mt-1.5 w-[5rem] rounded-md ring-4 ring-white border-white'
                   />
                   <div>
                     <input

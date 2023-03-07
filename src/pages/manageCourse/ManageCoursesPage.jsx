@@ -46,7 +46,6 @@ const ManageCoursesPage = ({ divisi }) => {
 
   useTitle('Daftar Materi');
 
-
   const closeModalEdit = () => setIsModalEditOpen(false);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
 
@@ -85,6 +84,7 @@ const ManageCoursesPage = ({ divisi }) => {
 
     editCourse(id, data)
       .then(() => {
+        selectedCourse.image && delete selectedCourse.image; // Delete uploaded img profile if any
         setSelectedCourse({}); // Reset state
         closeModalEdit(); // Close modal
         getCourseHandler();
@@ -213,19 +213,27 @@ const ManageCoursesPage = ({ divisi }) => {
                       method='POST'
                       encType='multipart/form-data'
                     >
-                      <div className='grid gap-2'>
+                      <div className='grid gap-2.5'>
                         {/* Thumbnail */}
                         <div>
                           <label
                             htmlFor='thumbnail'
-                            className='block text-sm font-medium'
+                            className='block mb-1 text-sm font-medium'
                           >
                             Thumbnail
                           </label>
+                          <img
+                            className='mb-1 rounded-md'
+                            src={selectedCourse?.image_thumbnail}
+                            alt='thumbnail'
+                          />
                           <input
                             onChange={(e) =>
                               setSelectedCourse((prev) => ({
                                 ...prev,
+                                image_thumbnail: URL.createObjectURL(
+                                  e.target.files[0]
+                                ),
                                 image: e.target.files[0],
                               }))
                             }

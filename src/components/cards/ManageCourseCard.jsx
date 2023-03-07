@@ -24,7 +24,7 @@ const ManageCourseCard = ({ type, children, ...props }) => {
           <Link to={props.onClickDetail}>
             <ButtonMin
               variant='icon-only'
-              size='small'
+              size='small w-full'
               color='secondary'
               icon={<DocumentMagnifyingGlassIcon />}
             />
