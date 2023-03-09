@@ -4,7 +4,7 @@ import { Disclosure } from '@headlessui/react';
 
 const OverlayMateriList = ({ courseID, materiList, setIsClicked, active }) => {
   return (
-    <div className='overlay-materi px-6 py-5 bg-white flex flex-col gap-4'>
+    <div className='overlay-materi p-5 bg-white flex flex-col gap-4'>
       {/* Header */}
       <div className='flex items-center gap-2'>
         <div className='w-full'>
@@ -39,23 +39,31 @@ const OverlayMateriList = ({ courseID, materiList, setIsClicked, active }) => {
                   />
                 </Disclosure.Button>
                 <Disclosure.Panel>
-                  <div className='pb-2.5'>
-                    {Articles.map(({ id: articleID, title }) => (
-                      <Link
-                        key={articleID}
-                        to={`course/${courseID}/chapter/${chapterID}/article/${articleID}`}
-                      >
-                        <div
-                          className={`px-4 py-2.5 truncate text-black ${
-                            articleID == active
-                              ? 'font-medium'
-                              : 'text-sm text-opacity-30'
-                          } transition-all hover:text-opacity-100`}
-                        >
-                          {title}
-                        </div>
-                      </Link>
-                    ))}
+                  <div className='border-t border-primary'>
+                    {Articles.length > 0 ? (
+                      <div className='pb-2.5'>
+                        {Articles.map(({ id: articleID, title }) => (
+                          <Link
+                            key={articleID}
+                            to={`course/${courseID}/chapter/${chapterID}/article/${articleID}`}
+                          >
+                            <div
+                              className={`px-4 py-2.5 truncate text-black ${
+                                articleID == active
+                                  ? 'font-medium'
+                                  : 'text-sm text-opacity-30'
+                              } transition-all hover:text-opacity-100`}
+                            >
+                              {title}
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className='px-4 py-2.5 text-sm text-center text-gray-dark'>
+                        Artikel belum ada.
+                      </div>
+                    )}
                   </div>
                 </Disclosure.Panel>
               </>
