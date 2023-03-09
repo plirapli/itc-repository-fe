@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   deleteDiscussion,
   editDiscussion,
@@ -19,39 +19,20 @@ const DiscussionPage = () => {
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);
   const [filteredDiscussions, setFilteredDiscussions] = useState([]);
-  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [topicKeyword, setTopicKeyword] = useState('');
   const [discussionTmp, setDiscussionTmp] = useState({});
-  const [params, setParams] = useSearchParams();
-  const [topicKeyword, setTopicKeyword] = useState(
-    () => params.get('topic') || ''
-  );
   const [isLoading, setIsLoading] = useState(true);
   const [isFound, setIsFound] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   useTitle('Diksusi');
 
   const closeModalDelete = () => setIsModalDeleteOpen(false); // Tutup overlay (modal) delete
   const closeModalEdit = () => setIsModalEditOpen(false); // Tutup overlay (modal) edit
 
-  const changeTopicParams = (topic) => {
-    params.set('topic', topic);
-    setParams(params);
-  };
-
-  const deleteTopicParams = (topic) => {
-    const value = params.get('topic');
-
-    if (value === '') {
-      params.delete('topic');
-      setParams(params);
-    }
-  };
-
-  const onTopicsChange = (keyword) => {
-    setTopicKeyword(keyword);
-    changeTopicParams(keyword);
-    deleteTopicParams();
-  };
+  const filterDiscussionsHandler = (discussion) =>
+    discussion.title.toLowerCase().includes(topicKeyword.toLowerCase()) ||
+    discussion.body.toLowerCase().includes(topicKeyword.toLowerCase());
 
   // Handler buat menu edit diskusi
   const onClickEditDiscussionOpenModalHandler = (e, discussion) => {
@@ -102,11 +83,10 @@ const DiscussionPage = () => {
       .finally(() => setIsLoading(false));
   };
 
-  console.log(id_course);
   useEffect(() => {
     getAllDiscussions(id_course)
       .then((data) => {
-        setDiscussions([...data]);
+        setDiscussions(data);
         setIsFound(true);
       })
       .catch(({ data }) => {
@@ -114,19 +94,11 @@ const DiscussionPage = () => {
         setIsFound(false);
       })
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [id_course]);
 
   useEffect(() => {
-    if (topicKeyword === '') {
-      setFilteredDiscussions(discussions);
-    } else {
-      const filtered = discussions.filter(
-        (discussion) =>
-          discussion.title.toLowerCase().includes(topicKeyword.toLowerCase()) ||
-          discussion.body.toLowerCase().includes(topicKeyword.toLowerCase())
-      );
-      setFilteredDiscussions(filtered);
-    }
+    setFilteredDiscussions(discussions.filter(filterDiscussionsHandler));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicKeyword, discussions]);
 
   if (!isLoading) {
@@ -147,7 +119,7 @@ const DiscussionPage = () => {
               <SearchBar
                 placeholder='Cari Pertanyaan'
                 value={topicKeyword}
-                onChange={(e) => onTopicsChange(e.target.value)}
+                onChange={(e) => setTopicKeyword(e.target.value)}
               />
             </div>
 
