@@ -6,7 +6,7 @@ import {
   ChatBubbleBottomCenterTextIcon,
   ListBulletIcon,
 } from '@heroicons/react/20/solid';
-import ButtonMin from '../buttons/ButtonMin';
+import Button from '../buttons/Button';
 import OverlayMateriList from '../overlay/OverlayMateriList';
 
 const NavbarCourse = ({ courseID, activeArticle }) => {
@@ -28,40 +28,40 @@ const NavbarCourse = ({ courseID, activeArticle }) => {
   }, []);
 
   return (
-    <nav className="w-full bg-primary flex items-center justify-between p-[5px] sm:px-6 sm:py-2.5 relative">
+    <nav className='w-full bg-primary flex items-center justify-between p-[5px] sm:px-6 sm:py-2.5 relative'>
       <div onClick={backButtonHandler}>
-        <ButtonMin
-          variant="icon-left"
-          color="transparent"
-          size="small"
+        <Button
+          variant='icon-left'
+          color='transparent'
+          size='small'
           icon={icon.backBtn}
           isResponsive
         >
           Kembali
-        </ButtonMin>
+        </Button>
       </div>
-      <div className="flex">
+      <div className='flex'>
         <Link to={`/course/${courseID}/discussion/`}>
-          <ButtonMin
-            variant="icon-left"
-            size="small"
-            color="transparent"
+          <Button
+            variant='icon-left'
+            size='small'
+            color='transparent'
             icon={icon.diskusi}
             isResponsive
           >
             Diskusi
-          </ButtonMin>
+          </Button>
         </Link>
-        <ButtonMin
+        <Button
           onClick={setIsClickedHandler}
-          variant="icon-left"
-          size="small"
-          color="transparent"
+          variant='icon-left'
+          size='small'
+          color='transparent'
           icon={icon.listMateri}
           isResponsive
         >
           Daftar Materi
-        </ButtonMin>
+        </Button>
       </div>
 
       {isClicked && (

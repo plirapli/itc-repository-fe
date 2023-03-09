@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 import { Ava } from '../../assets';
-import ButtonMin from '../buttons/ButtonMin';
+import Button from '../buttons/Button';
 import OverlayNavbar from '../overlay/OverlayNavbar';
 import { ArrowLongLeftIcon } from '@heroicons/react/20/solid';
 import { useProfile } from '../../hooks';
@@ -15,7 +15,7 @@ const NavbarBack = ({ user }) => {
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between pl-1 sm:pl-6 relative'>
-      <ButtonMin
+      <Button
         onClick={toBack}
         variant='icon-left'
         size='small'
@@ -24,7 +24,7 @@ const NavbarBack = ({ user }) => {
         isResponsive
       >
         Kembali
-      </ButtonMin>
+      </Button>
 
       <Menu as='div' className='relative inline-block text-left '>
         <div>

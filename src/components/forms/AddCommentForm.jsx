@@ -1,4 +1,4 @@
-import ButtonMin from '../buttons/ButtonMin';
+import Button from '../buttons/Button';
 import Input from './Input';
 
 const AddCommentForm = ({ onSubmit, onChange, body }) => {
@@ -11,7 +11,7 @@ const AddCommentForm = ({ onSubmit, onChange, body }) => {
         required
       />
       <div className='mt-3'>
-        <ButtonMin size='small'>Kirim</ButtonMin>
+        <Button size='small'>Kirim</Button>
       </div>
     </form>
   );

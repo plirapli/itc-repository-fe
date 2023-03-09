@@ -5,7 +5,7 @@ import { useTitle } from '../../hooks';
 import { sendRegister } from '../../utils/auth';
 
 // Components
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms';
 import { OverlayLoading } from '../../components/overlay';
 
@@ -114,7 +114,7 @@ const Register = ({ divisi }) => {
           </Select>
         </div>
         <section className='mt-4 w-full'>
-          <ButtonMin>Daftar</ButtonMin>
+          <Button>Daftar</Button>
         </section>
       </form>
       <div className='mt-2.5 text-center'>

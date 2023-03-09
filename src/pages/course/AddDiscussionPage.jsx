@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // Components
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import Input from '../../components/forms/Input';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { useTitle } from '../../hooks';
@@ -75,7 +75,7 @@ const AddDiscussionPage = () => {
             </div>
 
             <div className='col-span-6 sm:col-span-1 sm:col-start-6 mt-3'>
-              <ButtonMin>Kirim</ButtonMin>
+              <Button>Kirim</Button>
             </div>
           </div>
         </form>

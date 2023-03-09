@@ -4,7 +4,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/20/solid';
 import { Link } from 'react-router-dom';
-import ButtonMin from '../buttons/ButtonMin';
+import Button from '../buttons/Button';
 
 const ManageCourseCard = ({ type, children, ...props }) => {
   return (
@@ -13,7 +13,7 @@ const ManageCourseCard = ({ type, children, ...props }) => {
 
       {/* Action Button */}
       <div className='grid grid-flow-col sm:flex gap-1'>
-        <ButtonMin
+        <Button
           onClick={props.onClickEdit}
           variant='icon-only'
           size='small'
@@ -22,7 +22,7 @@ const ManageCourseCard = ({ type, children, ...props }) => {
         />
         {type === 'course' && (
           <Link to={props.onClickDetail}>
-            <ButtonMin
+            <Button
               variant='icon-only'
               size='small w-full'
               color='secondary'
@@ -30,7 +30,7 @@ const ManageCourseCard = ({ type, children, ...props }) => {
             />
           </Link>
         )}
-        <ButtonMin
+        <Button
           onClick={props.onClickDelete}
           variant='icon-only'
           size='small'

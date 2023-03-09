@@ -14,7 +14,7 @@ import {
 import { useTitle } from '../../hooks';
 
 // Components
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input } from '../../components/forms';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { ModalDelete, ModalForm } from '../../components/modal';
@@ -239,15 +239,15 @@ const CommentPage = () => {
           </div>
 
           <div className='mt-4 flex gap-2'>
-            <ButtonMin
+            <Button
               type='button'
               onClick={closeModalDiscussionEdit}
               color='gray'
               size='small'
             >
               Tutup
-            </ButtonMin>
-            <ButtonMin size='small'>Simpan</ButtonMin>
+            </Button>
+            <Button size='small'>Simpan</Button>
           </div>
         </form>
       </ModalForm>
@@ -284,15 +284,15 @@ const CommentPage = () => {
             required
           />
           <div className='mt-4 flex gap-2'>
-            <ButtonMin
+            <Button
               type='button'
               onClick={closeModalCommentEdit}
               color='gray'
               size='small'
             >
               Tutup
-            </ButtonMin>
-            <ButtonMin size='small'>Simpan</ButtonMin>
+            </Button>
+            <Button size='small'>Simpan</Button>
           </div>
         </form>
       </ModalForm>

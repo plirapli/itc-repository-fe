@@ -4,7 +4,7 @@ import { useTitle } from '../../hooks';
 import { addCourse } from '../../utils/course';
 
 // Components
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 
@@ -128,7 +128,7 @@ const AddCoursePage = ({ divisi }) => {
           </div>
 
           <div className='col-span-6 sm:col-span-1 sm:col-start-6 mt-4'>
-            <ButtonMin variant='text-only'>Kirim</ButtonMin>
+            <Button variant='text-only'>Kirim</Button>
           </div>
         </div>
       </form>

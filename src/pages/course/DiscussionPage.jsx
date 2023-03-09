@@ -9,7 +9,7 @@ import { useTitle } from '../../hooks';
 
 // Components
 import { PlusIcon } from '@heroicons/react/20/solid';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input, SearchBar } from '../../components/forms';
 import { ModalDelete, ModalForm } from '../../components/modal';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
@@ -125,9 +125,9 @@ const DiscussionPage = () => {
         <div className='flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center'>
           <h1 className='text-2xl leading-none'>Diskusi</h1>
           <Link to='add'>
-            <ButtonMin variant='icon-right' size='small' icon={<PlusIcon />}>
+            <Button variant='icon-right' size='small' icon={<PlusIcon />}>
               Buat Pertanyaan
-            </ButtonMin>
+            </Button>
           </Link>
         </div>
         <div className='w-full mt-3'>
@@ -191,15 +191,15 @@ const DiscussionPage = () => {
           </div>
 
           <div className='mt-4 flex gap-2'>
-            <ButtonMin
+            <Button
               type='button'
               onClick={closeModalEdit}
               color='gray'
               size='small'
             >
               Tutup
-            </ButtonMin>
-            <ButtonMin size='small'>Simpan</ButtonMin>
+            </Button>
+            <Button size='small'>Simpan</Button>
           </div>
         </form>
       </ModalForm>

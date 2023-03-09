@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Ava } from '../../assets';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input, Select } from '../../components/forms/';
 import { ModalForm } from '../../components/modal';
 import { OverlayLoading } from '../../components/overlay';
@@ -185,24 +185,24 @@ const ProfilePage = ({ divisi }) => {
 
               <div className='mt-6 col-span-12 grid grid-cols-12 gap-3'>
                 <div className='col-span-12 sm:col-span-6 md:col-span-3'>
-                  <ButtonMin
+                  <Button
                     onClick={() => setIsModalPasswordOpen(true)}
                     color='gray'
                   >
                     Ganti Password
-                  </ButtonMin>
+                  </Button>
                 </div>
 
                 {/* Submit & Back button */}
                 <div className='col-span-12 sm:col-span-2 sm:col-start-9'>
                   <Link to={'/'}>
-                    <ButtonMin type='button' color='gray'>
+                    <Button type='button' color='gray'>
                       Kembali
-                    </ButtonMin>
+                    </Button>
                   </Link>
                 </div>
                 <div className='col-span-12 sm:col-span-2 sm:col-start-11'>
-                  <ButtonMin>Simpan</ButtonMin>
+                  <Button>Simpan</Button>
                 </div>
               </div>
             </div>
@@ -218,15 +218,15 @@ const ProfilePage = ({ divisi }) => {
                 placeholder='Masukkan kata sandi baru'
               />
               <div className='mt-4 flex gap-2'>
-                <ButtonMin
+                <Button
                   type='button'
                   onClick={closeModalPassword}
                   color='gray'
                   size='small'
                 >
                   Tutup
-                </ButtonMin>
-                <ButtonMin size='small'>Simpan</ButtonMin>
+                </Button>
+                <Button size='small'>Simpan</Button>
               </div>
             </form>
           </ModalForm>

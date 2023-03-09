@@ -1,4 +1,4 @@
-const ButtonMin = ({
+const Button = ({
   variant = 'text-only',
   size = 'medium',
   color = 'primary',
@@ -31,4 +31,4 @@ const ButtonMin = ({
   );
 };
 
-export default ButtonMin;
+export default Button;
