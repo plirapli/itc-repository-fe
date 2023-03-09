@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Transition } from '@headlessui/react';
-import ButtonMin from '../buttons/ButtonMin';
+import Button from '../buttons/Button';
 
 const ModalDelete = ({ show, onClose, onClickDelete, children, ...props }) => {
   return (
@@ -39,16 +39,12 @@ const ModalDelete = ({ show, onClose, onClickDelete, children, ...props }) => {
                   <div className='mt-3'>{children}</div>
 
                   <div className='mt-4 flex gap-2'>
-                    <ButtonMin onClick={onClose} color='gray' size='small'>
+                    <Button onClick={onClose} color='gray' size='small'>
                       Tutup
-                    </ButtonMin>
-                    <ButtonMin
-                      onClick={onClickDelete}
-                      color='danger'
-                      size='small'
-                    >
+                    </Button>
+                    <Button onClick={onClickDelete} color='danger' size='small'>
                       Hapus
-                    </ButtonMin>
+                    </Button>
                   </div>
                 </div>
                 {/* End Main Container */}

@@ -5,13 +5,15 @@ import {
   ArrowPathIcon,
 } from '@heroicons/react/20/solid';
 
-const CourseCard = ({ data: materi, ...props }) => {
+const CourseCard = ({ data: materi }) => {
   return (
     <div className='bg-white shadow rounded-lg p-3 h-full'>
-      <div
-        className='w-full h-40 max-h-80 bg-zinc-300 bg-cover rounded'
-        style={{ backgroundImage: `url(${materi.image_thumbnail})` }}
-      ></div>
+      <img
+        className='w-full h-40 bg-zinc-300 object-cover rounded'
+        loading='lazy'
+        src={materi?.image_thumbnail}
+        alt='course thumbnail'
+      />
       <div className='mt-1 flex flex-col gap-1'>
         {/* Tags */}
         <div className='mt-1'>

@@ -5,7 +5,7 @@ import { useTitle } from '../../hooks';
 
 // Component
 import { UserCircleIcon } from '@heroicons/react/20/solid';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import Tags from '../../components/tags/Tags';
 import { getAllChaptersDetail } from '../../utils/chapter';
 import { OverlayLoading } from '../../components/overlay';
@@ -79,12 +79,12 @@ const OverviewPage = () => {
               <Link
                 to={`/course/${id_course}/chapter/${initArticle.id_chapter}/article/${initArticle.id}`}
               >
-                <ButtonMin variant='text-only'>Belajar Sekarang</ButtonMin>
+                <Button variant='text-only'>Belajar Sekarang</Button>
               </Link>
             ) : (
-              <ButtonMin variant='text-only' disabled>
+              <Button color='gray' variant='text-only' disabled>
                 Kelas ini belum memiliki konten yang dapat dipelajari
-              </ButtonMin>
+              </Button>
             )}
 
             {/* Deskripsi */}

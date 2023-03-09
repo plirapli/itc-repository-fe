@@ -4,7 +4,7 @@ import {
   EllipsisVerticalIcon,
 } from '@heroicons/react/20/solid';
 import { Ava } from '../../assets';
-import ButtonMin from '../buttons/ButtonMin';
+import Button from '../buttons/Button';
 import { Menu, Transition } from '@headlessui/react';
 import { useProfile } from '../../hooks';
 
@@ -88,7 +88,7 @@ const DiscussionCard = ({
       {/* Reply Button */}
       {props.isReply && (
         <div className='mt-3'>
-          <ButtonMin
+          <Button
             onClick={props.onClick}
             variant='icon-left'
             color='secondary'
@@ -96,7 +96,7 @@ const DiscussionCard = ({
             size='small'
           >
             Balas
-          </ButtonMin>
+          </Button>
         </div>
       )}
     </div>

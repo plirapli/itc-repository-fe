@@ -4,7 +4,7 @@ import { useProfile, useTitle } from '../../hooks';
 import { sendLogin } from '../../utils/auth';
 
 // Components
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input } from '../../components/forms';
 import { OverlayLoading } from '../../components/overlay';
 import { getUserOwnProfile } from '../../utils/user';
@@ -107,7 +107,7 @@ const Login = () => {
         </section>
 
         <section className='mt-4 w-full'>
-          <ButtonMin>Masuk</ButtonMin>
+          <Button>Masuk</Button>
         </section>
       </form>
       <div className='mt-2.5 text-center'>

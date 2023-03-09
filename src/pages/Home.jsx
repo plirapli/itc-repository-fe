@@ -5,7 +5,7 @@ import { useProfile, useTitle } from '../hooks';
 
 // Component
 import { PlusIcon } from '@heroicons/react/20/solid';
-import ButtonMin from '../components/buttons/ButtonMin';
+import Button from '../components/buttons/Button';
 import { Select, SearchBar } from '../components/forms';
 import { CourseCard } from '../components/cards/index';
 import OverlayLoading from '../components/overlay/OverlayLoading';
@@ -108,59 +108,57 @@ const Home = ({ divisi }) => {
 
   return (
     <>
-      <div className='w-full pt-4 px-5 pb-6 sm:pt-5 sm:px-0 sm:pb-8'>
-        <div className='flex flex-col gap-2 sm:flex-row sm:items-center justify-between'>
-          <h1 className='text-2xl'>Materi</h1>
-          {profile?.id_role === 2 && (
-            <Link to='manage/course/add/'>
-              <ButtonMin variant='icon-right' icon={<PlusIcon />}>
-                Tambah Materi
-              </ButtonMin>
-            </Link>
-          )}
-        </div>
-
-        {/* Sort, Filter, Search */}
-        <div className='mt-2 sm:mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
-          <div className='col-span-12 sm:col-span-6 md:col-span-4'>
-            <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
-              <Select
-                onChange={filterSelectHandler}
-                value={selectedDivisi}
-                label='Divisi'
-                color='secondary'
-                required
-              >
-                <option value='0'>Semua</option>
-                {divisi.map(({ id, divisionName }) => (
-                  <option className='bg-white' key={id} value={id}>
-                    {divisionName}
-                  </option>
-                ))}
-              </Select>
-            </div>
-          </div>
-          <div className='col-span-12 md:col-start-7 sm:col-span-6'>
-            <SearchBar
-              placeholder='Cari materi'
-              value={keywordMateri}
-              onChange={(e) => onKeywordMateriChange(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <main className='materi-layout mt-3 sm:mt-4'>
-          {filteredCourse?.map((course) => (
-            <Link to={`/course/${course.id}/`} key={course.id}>
-              <CourseCard
-                isAdmin={profile?.id_role === 2}
-                data={course}
-                divisi={divisi}
-              />
-            </Link>
-          ))}
-        </main>
+      <div className='flex flex-col gap-2 sm:flex-row sm:items-center justify-between'>
+        <h1 className='text-2xl'>Materi</h1>
+        {profile?.id_role === 2 && (
+          <Link to='manage/course/add/'>
+            <Button variant='icon-right' size='small' icon={<PlusIcon />}>
+              Tambah Materi
+            </Button>
+          </Link>
+        )}
       </div>
+
+      {/* Sort, Filter, Search */}
+      <div className='mt-2 sm:mt-3 grid grid-cols-12  gap-3 sm:gap-4'>
+        <div className='col-span-12 sm:col-span-6 md:col-span-4'>
+          <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
+            <Select
+              onChange={filterSelectHandler}
+              value={selectedDivisi}
+              label='Divisi'
+              color='secondary'
+              required
+            >
+              <option value='0'>Semua</option>
+              {divisi.map(({ id, divisionName }) => (
+                <option className='bg-white' key={id} value={id}>
+                  {divisionName}
+                </option>
+              ))}
+            </Select>
+          </div>
+        </div>
+        <div className='col-span-12 md:col-start-7 sm:col-span-6'>
+          <SearchBar
+            placeholder='Cari materi'
+            value={keywordMateri}
+            onChange={(e) => onKeywordMateriChange(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <main className='materi-layout mt-3 sm:mt-4'>
+        {filteredCourse?.map((course) => (
+          <Link to={`/course/${course.id}/`} key={course.id}>
+            <CourseCard
+              isAdmin={profile?.id_role === 2}
+              data={course}
+              divisi={divisi}
+            />
+          </Link>
+        ))}
+      </main>
 
       <OverlayLoading loadingState={isLoading} />
     </>
