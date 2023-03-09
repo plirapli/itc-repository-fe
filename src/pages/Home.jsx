@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getAllCoursesDetail } from '../utils/course';
 import { useProfile, useTitle } from '../hooks';
 
@@ -13,65 +13,30 @@ import OverlayLoading from '../components/overlay/OverlayLoading';
 const Home = ({ divisi }) => {
   // window.history.pushState({}, null, '/'); // Redirect any "not found" page to Home
   const { profile } = useProfile();
-  const [params, setParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [filteredCourse, setFilteredCourse] = useState([]);
-  const [selectedDivisi, setSelectedDivisi] = useState(
-    () => params.get('divisi') || '0'
-  );
-
-  // search state management
-  const [keywordMateri, setKeywordMateri] = useState(
-    () => params.get('materi') || ''
-  );
+  const [selectedDivisi, setSelectedDivisi] = useState('0');
+  const [keywordMateri, setKeywordMateri] = useState('');
   useTitle('ITC Repository');
 
-  const changeDivisionParams = (divisi) => {
-    params.set('divisi', divisi);
-    setParams(params);
-  };
-
-  const deleteDivisionParams = () => {
-    const value = params.get('divisi');
-
-    if (value === '0') {
-      params.delete('divisi');
-      setParams(params);
-    }
-  };
-
-  const filterSelectHandler = (e) => {
-    setSelectedDivisi(e.target.value);
-    changeDivisionParams(e.target.value);
-    deleteDivisionParams();
-  };
-
   const filterCourseById = (course) =>
-    course.id_division === parseInt(selectedDivisi);
+    selectedDivisi !== '0'
+      ? course.id_division === parseInt(selectedDivisi)
+      : true;
 
-  const filterCourseByKeyword = (course) =>
-    course.title.toLowerCase().includes(keywordMateri.toLowerCase());
-
-  const changeSearchParams = (materi) => {
-    params.set('materi', materi);
-    setParams(params);
-  };
-
-  const deleteSearchParams = () => {
-    const value = params.get('materi');
-
-    if (value === '') {
-      params.delete('materi');
-      setParams(params);
-    }
-  };
+  const filterCourseHandler = (course) =>
+    course.title.toLowerCase().includes(keywordMateri.toLowerCase()) &&
+    filterCourseById(course);
 
   const onKeywordMateriChange = (keyword) => {
     setKeywordMateri(keyword);
-    changeSearchParams(keyword);
-    deleteSearchParams();
   };
+
+  useEffect(() => {
+    setFilteredCourse(courses.filter(filterCourseHandler));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keywordMateri, selectedDivisi, courses]);
 
   useEffect(() => {
     let isMounted = true;
@@ -81,7 +46,7 @@ const Home = ({ divisi }) => {
       .then((data) => {
         if (isMounted) {
           setCourses(data);
-          setFilteredCourse(data.filter(filterCourseByKeyword));
+          setFilteredCourse(data.filter(filterCourseHandler));
         }
       })
       .catch((err) => console.log(err))
@@ -95,16 +60,6 @@ const Home = ({ divisi }) => {
 
     //eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (selectedDivisi !== '0') {
-      setFilteredCourse(
-        courses.filter(filterCourseById).filter(filterCourseByKeyword)
-      );
-    } else {
-      setFilteredCourse(courses.filter(filterCourseByKeyword));
-    }
-  }, [courses, selectedDivisi, keywordMateri]);
 
   return (
     <>
@@ -124,7 +79,7 @@ const Home = ({ divisi }) => {
         <div className='col-span-12 sm:col-span-6 md:col-span-4'>
           <div className='flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2'>
             <Select
-              onChange={filterSelectHandler}
+              onChange={(e) => setSelectedDivisi(e.target.value)}
               value={selectedDivisi}
               label='Divisi'
               color='secondary'
