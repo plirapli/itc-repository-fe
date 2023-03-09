@@ -11,7 +11,7 @@ import { useTitle } from '../../hooks';
 
 // Components
 import { PlusIcon } from '@heroicons/react/20/solid';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input, SearchBar } from '../../components/forms';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { ManageCourseCard } from '../../components/cards';
@@ -56,7 +56,6 @@ const ManageChaptersPage = () => {
   };
 
   useTitle(courseOverview?.title || 'Loading...', courseOverview);
-
 
   const openModalAdd = () => setIsModalAddOpen(true);
   const openModalDelete = () => setIsModalDeleteOpen(true);
@@ -152,14 +151,14 @@ const ManageChaptersPage = () => {
             </p>
           </div>
           <div className='min-w-max'>
-            <ButtonMin
+            <Button
               onClick={openModalAdd}
               variant='icon-right'
               size='small'
               icon={<PlusIcon />}
             >
               Tambah Bab
-            </ButtonMin>
+            </Button>
           </div>
         </div>
 
@@ -245,14 +244,14 @@ const ManageChaptersPage = () => {
                       )}
 
                       <div className='mt-4 flex gap-2'>
-                        <ButtonMin
+                        <Button
                           type='button'
                           onClick={closeModalAdd}
                           color='gray'
                         >
                           Tutup
-                        </ButtonMin>
-                        <ButtonMin>Simpan</ButtonMin>
+                        </Button>
+                        <Button>Simpan</Button>
                       </div>
                     </form>
                   </div>
@@ -281,10 +280,10 @@ const ManageChaptersPage = () => {
             required
           />
           <div className='mt-4 flex gap-2'>
-            <ButtonMin type='button' onClick={closeModalEdit} color='gray'>
+            <Button type='button' onClick={closeModalEdit} color='gray'>
               Tutup
-            </ButtonMin>
-            <ButtonMin onClick={closeModalEdit}>Simpan</ButtonMin>
+            </Button>
+            <Button onClick={closeModalEdit}>Simpan</Button>
           </div>
         </form>
       </ModalForm>

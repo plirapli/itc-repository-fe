@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTitle } from '../../hooks';
 import { Link, useOutletContext } from 'react-router-dom';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import Input from '../../components/forms/Input';
 
 const ForgotPassword = (props) => {
@@ -32,7 +32,7 @@ const ForgotPassword = (props) => {
           />
         </div>
         <section className='mt-4 w-full'>
-          <ButtonMin>Kirim</ButtonMin>
+          <Button>Kirim</Button>
         </section>
       </form>
       <div className='mt-2.5 text-center'>

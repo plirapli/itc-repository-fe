@@ -9,7 +9,7 @@ import { useTitle } from '../../hooks';
 
 // Components
 import { PlusIcon } from '@heroicons/react/20/solid';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input, SearchBar } from '../../components/forms';
 import { ModalDelete, ModalForm } from '../../components/modal';
 import OverlayLoading from '../../components/overlay/OverlayLoading';

@@ -5,7 +5,7 @@ import { getAllCourses, deleteCourse, editCourse } from '../../utils/course';
 
 // Component
 import { PlusIcon } from '@heroicons/react/20/solid';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { Input, SearchBar, Select } from '../../components/forms/';
 import Tags from '../../components/tags/Tags';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
@@ -120,9 +120,9 @@ const ManageCoursesPage = ({ divisi }) => {
           <p className='text-gray-dark text-sm'>{courses.length} Materi</p>
         </div>
         <Link to='add/'>
-          <ButtonMin variant='icon-right' size='small' icon={<PlusIcon />}>
+          <Button variant='icon-right' size='small' icon={<PlusIcon />}>
             Tambah Materi
-          </ButtonMin>
+          </Button>
         </Link>
       </div>
 
@@ -315,14 +315,14 @@ const ManageCoursesPage = ({ divisi }) => {
                       </div>
 
                       <div className='mt-4 flex gap-2'>
-                        <ButtonMin
+                        <Button
                           type='button'
                           onClick={closeModalEdit}
                           color='gray'
                         >
                           Tutup
-                        </ButtonMin>
-                        <ButtonMin>Simpan</ButtonMin>
+                        </Button>
+                        <Button>Simpan</Button>
                       </div>
                     </form>
                   </div>

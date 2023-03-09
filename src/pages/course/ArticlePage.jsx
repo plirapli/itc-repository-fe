@@ -3,7 +3,7 @@ import { Link, useOutletContext, useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { getArticleByID } from '../../utils/article';
 import { useTitle } from '../../hooks';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { OverlayLoading } from '../../components/overlay';
 
 const ArticlePage = () => {
@@ -35,15 +35,16 @@ const ArticlePage = () => {
 
   if (isLoading) return <OverlayLoading loadingState={isLoading} />;
   else {
+    // Kalo artikel belum ada
     if (!isArticleExist)
       return (
         <div className='p-4 bg-white min-w-full min-h-full flex  items-center'>
           <div className='p-4 bg-white min-h-full min-w-full flex flex-col items-center gap-1.5'>
             Artikel tidak ditemukan
             <Link to={`../`}>
-              <ButtonMin variant='text-only'>
+              <Button variant='text-only'>
                 Kembali ke halaman overview kelas
-              </ButtonMin>
+              </Button>
             </Link>
             <p>
               Atau hubungi <b>curriculum@itcupnyk.com</b>
@@ -52,6 +53,7 @@ const ArticlePage = () => {
         </div>
       );
 
+    // Kalo artikel ada
     return (
       <div className='p-4 bg-white min-h-full flex flex-col'>
         <h1 className='text-xl mb-2.5'>{article?.title}</h1>

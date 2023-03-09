@@ -4,7 +4,7 @@ import { useTitle } from '../../hooks';
 
 // Components
 import Input from '../../components/forms/Input';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { addArticle, addImageArticle } from '../../utils/article';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { Editor } from '@tinymce/tinymce-react';
@@ -151,7 +151,7 @@ const AddArticlePage = () => {
           </div>
 
           <div className='col-span-6 sm:col-span-1 sm:col-start-6 mt-4'>
-            <ButtonMin variant='text-only'>Kirim</ButtonMin>
+            <Button variant='text-only'>Kirim</Button>
           </div>
         </div>
       </form>

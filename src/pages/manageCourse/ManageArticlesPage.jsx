@@ -10,7 +10,7 @@ import { useTitle } from '../../hooks';
 
 // Components
 import { PlusIcon } from '@heroicons/react/20/solid';
-import ButtonMin from '../../components/buttons/ButtonMin';
+import Button from '../../components/buttons/Button';
 import { SearchBar } from '../../components/forms';
 import { ModalDelete } from '../../components/modal';
 import { ManageCourseCard } from '../../components/cards';
@@ -104,9 +104,9 @@ const ManageArticlesPage = () => {
           <p className='text-gray-dark text-sm'>{articles.length} Artikel</p>
         </div>
         <Link to='add/'>
-          <ButtonMin variant='icon-right' size='small' icon={<PlusIcon />}>
+          <Button variant='icon-right' size='small' icon={<PlusIcon />}>
             Tambah Artikel
-          </ButtonMin>
+          </Button>
         </Link>
       </div>
 

@@ -22,16 +22,25 @@ import OverlayLoading from '../../components/overlay/OverlayLoading';
 const ManageUsersPage = () => {
   const navigate = useNavigate();
   const { profile, setProfile } = useProfile();
+  const [search, setSearch] = useState('');
+  const [allUsers, setAllUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [verifiedUsers, setVerifiedUsers] = useState([]);
   const [unverifiedUsers, setUnverifiedUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useTitle('Daftar Pengguna');
 
+  const filterUserHandler = (user) =>
+    user.fullName.toLowerCase().includes(search.toLowerCase()) ||
+    user.username.toLowerCase().includes(search.toLowerCase()) ||
+    user.email.toLowerCase().includes(search.toLowerCase());
+
   const getAllUserHandler = () => {
     getAllUsers()
       .then((users) => {
-        setVerifiedUsers(users.filter(({ verify }) => verify));
-        setUnverifiedUsers(users.filter(({ verify }) => !verify));
+        setAllUsers([...users]);
+        // setVerifiedUsers(users.filter(({ verify }) => verify));
+        // setUnverifiedUsers(users.filter(({ verify }) => !verify));
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
@@ -74,6 +83,17 @@ const ManageUsersPage = () => {
   };
 
   useEffect(() => {
+    if (!search) setFilteredUsers([...allUsers]);
+    else setFilteredUsers(allUsers.filter(filterUserHandler));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, allUsers]);
+
+  useEffect(() => {
+    setVerifiedUsers(filteredUsers.filter(({ verify }) => verify));
+    setUnverifiedUsers(filteredUsers.filter(({ verify }) => !verify));
+  }, [filteredUsers]);
+
+  useEffect(() => {
     getAllUserHandler();
   }, []);
 
@@ -85,7 +105,10 @@ const ManageUsersPage = () => {
 
       {/* Sort, Filter, Search */}
       <div className='mt-2 sm:mt-3'>
-        <SearchBar placeholder='Cari pengguna' />
+        <SearchBar
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder='Cari pengguna'
+        />
       </div>
 
       {/* Main */}
