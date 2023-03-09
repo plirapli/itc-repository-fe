@@ -1,6 +1,5 @@
 import { formatDateWithHour } from '../../utils/dateConverter';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
-import Tags from '../tags/Tags';
 
 const ManageUserNotVerifiedCard = ({ user, acceptUser, rejectUser }) => {
   return (
@@ -13,9 +12,6 @@ const ManageUserNotVerifiedCard = ({ user, acceptUser, rejectUser }) => {
             <p className='text-gray-dark'>{user?.username}</p>
           </div>
           <p className='text-sm text-left text-gray-dark'>{user?.email}</p>
-          <div className='mt-1.5'>
-            <Tags divName={user?.Division?.divisionName} />
-          </div>
           <div className='mt-1.5 text-xs text-gray-dark'>
             Dibuat pada {formatDateWithHour(user?.createdAt)}
           </div>
