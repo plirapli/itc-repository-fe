@@ -209,4 +209,9 @@
     -webkit-line-clamp: 2;
     overflow: hidden;
   }
+
+  .overlay-materi {
+    @apply w-full sm:w-[25rem] fixed top-0 right-0 min-h-screen;
+    filter: drop-shadow(-1px 0 3px rgba(0, 0, 0, 0.2));
+  }
 }

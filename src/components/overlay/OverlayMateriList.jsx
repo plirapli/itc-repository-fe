@@ -1,23 +1,21 @@
 import { Link } from 'react-router-dom';
 import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid';
-import Button from '../buttons/Button';
 import { Disclosure } from '@headlessui/react';
 
 const OverlayMateriList = ({ courseID, materiList, setIsClicked, active }) => {
   return (
-    <div className='w-full sm:w-[25rem] absolute top-0 right-0 px-6 py-5 min-h-screen bg-white flex flex-col gap-4'>
+    <div className='overlay-materi px-6 py-5 bg-white flex flex-col gap-4'>
       {/* Header */}
       <div className='flex items-center gap-2'>
         <div className='w-full'>
           <h1 className='text-xl'>Daftar Materi</h1>
         </div>
-        <Button
+        <button
           onClick={setIsClicked}
-          variant='icon-only'
-          icon={<XMarkIcon />}
-          color='gray'
-          size='small'
-        />
+          className='w-6 text-gray-dark transition-all hover:text-black'
+        >
+          <XMarkIcon />
+        </button>
       </div>
 
       {/* Chapter & Article Card */}
@@ -41,22 +39,24 @@ const OverlayMateriList = ({ courseID, materiList, setIsClicked, active }) => {
                   />
                 </Disclosure.Button>
                 <Disclosure.Panel>
-                  {Articles.map(({ id: articleID, title }) => (
-                    <Link
-                      key={articleID}
-                      to={`course/${courseID}/chapter/${chapterID}/article/${articleID}`}
-                    >
-                      <div
-                        className={`px-4 py-3 truncate text-black ${
-                          articleID == active
-                            ? 'font-medium'
-                            : 'text-sm text-opacity-30'
-                        } transition-all hover:text-opacity-100`}
+                  <div className='pb-2.5'>
+                    {Articles.map(({ id: articleID, title }) => (
+                      <Link
+                        key={articleID}
+                        to={`course/${courseID}/chapter/${chapterID}/article/${articleID}`}
                       >
-                        {title}
-                      </div>
-                    </Link>
-                  ))}
+                        <div
+                          className={`px-4 py-2.5 truncate text-black ${
+                            articleID == active
+                              ? 'font-medium'
+                              : 'text-sm text-opacity-30'
+                          } transition-all hover:text-opacity-100`}
+                        >
+                          {title}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 </Disclosure.Panel>
               </>
             )}
