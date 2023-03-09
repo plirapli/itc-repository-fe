@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  Link,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { deleteArticle, getAllArticles } from '../../utils/article';
 import { useTitle } from '../../hooks';
 
@@ -18,36 +13,17 @@ import OverlayLoading from '../../components/overlay/OverlayLoading';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();
-  const [params, setParams] = useSearchParams();
   const { id_materi: course_id, id_bab: chapter_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [articles, setArticles] = useState([]);
+  const [filteredArticles, setFilteredArticles] = useState([]);
+  const [articleKeyword, setArticleKeyword] = useState('');
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-  const [filteredArticles, setFilteredArticles] = useState([]);
-  const [articleKeyword, setArticleKeyword] = useState(
-    () => params.get('query') || ''
-  );
-
-  const changeArticleParams = (query) => {
-    params.set('query', query);
-    setParams(params);
-  };
-
-  const deleteArticleParams = () => {
-    params.delete('query');
-    setParams(params);
-  };
+  useTitle('Daftar Artikel');
 
   const filterArticleByKeyword = (article) =>
-    article.title.toLowerCase().includes(articleKeyword.toLowerCase()) ||
-    article.body.toLowerCase().includes(articleKeyword.toLowerCase());
-
-  const onKeywordChapterChange = (keyword) => {
-    setArticleKeyword(keyword);
-    changeArticleParams(keyword);
-    if (keyword === '') deleteArticleParams();
-  };
+    article.title.toLowerCase().includes(articleKeyword.toLowerCase());
 
   const openModalDelete = () => setIsModalDeleteOpen(true);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
@@ -84,7 +60,6 @@ const ManageArticlesPage = () => {
       .catch(({ data }) => console.log(data.message));
   };
 
-  useTitle('Daftar Artikel');
   useEffect(() => {
     getAllArticleHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -93,7 +68,7 @@ const ManageArticlesPage = () => {
   useEffect(() => {
     setFilteredArticles(articles.filter(filterArticleByKeyword));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [articleKeyword]);
+  }, [articleKeyword, articles]);
 
   return (
     <>
@@ -116,7 +91,7 @@ const ManageArticlesPage = () => {
           placeholder='Cari artikel'
           value={articleKeyword}
           onChange={(e) => {
-            onKeywordChapterChange(e.target.value);
+            setArticleKeyword(e.target.value);
           }}
         />
       </div>
