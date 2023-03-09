@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTitle } from '../../hooks';
 import { getAllCourses, deleteCourse, editCourse } from '../../utils/course';
 
@@ -14,37 +14,17 @@ import { ManageCourseCard } from '../../components/cards';
 import { Dialog, Transition } from '@headlessui/react';
 
 const ManageCoursesPage = ({ divisi }) => {
-  const [params, setParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState({});
   const [filteredCourse, setFilteredCourse] = useState([]);
+  const [courseKeyword, setCourseKeyword] = useState('');
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-  const [courseKeyword, setCourseKeyword] = useState(
-    () => params.get('title') || ''
-  );
-
-  const changeCourseParams = (course) => {
-    params.set('title', course);
-    setParams(params);
-  };
-
-  const deleteCourseParams = () => {
-    params.delete('title');
-    setParams(params);
-  };
+  useTitle('Daftar Materi');
 
   const filterCourseByKeyword = (course) =>
     course.title.toLowerCase().includes(courseKeyword.toLowerCase());
-
-  const onKeywordCourseChange = (keyword) => {
-    setCourseKeyword(keyword);
-    changeCourseParams(keyword);
-    if (keyword === '') deleteCourseParams();
-  };
-
-  useTitle('Daftar Materi');
 
   const closeModalEdit = () => setIsModalEditOpen(false);
   const closeModalDelete = () => setIsModalDeleteOpen(false);
@@ -104,12 +84,14 @@ const ManageCoursesPage = ({ divisi }) => {
   };
 
   useEffect(() => {
-    getCourseHandler();
-  }, []);
+    setFilteredCourse(courses.filter(filterCourseByKeyword));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseKeyword, courses]);
 
   useEffect(() => {
-    setFilteredCourse(courses.filter(filterCourseByKeyword));
-  }, [courseKeyword, courses]);
+    getCourseHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -131,7 +113,7 @@ const ManageCoursesPage = ({ divisi }) => {
         <SearchBar
           placeholder='Cari Materi'
           value={courseKeyword}
-          onChange={(e) => onKeywordCourseChange(e.target.value)}
+          onChange={(e) => setCourseKeyword(e.target.value)}
         />
       </div>
 

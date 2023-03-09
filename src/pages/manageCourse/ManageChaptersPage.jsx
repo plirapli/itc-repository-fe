@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   getAllChaptersDetail,
   addChapter,
@@ -20,43 +20,26 @@ import { Dialog, Transition } from '@headlessui/react';
 
 const ManageChaptersPage = () => {
   const { id_materi } = useParams();
-  const [params, setParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
-  const [newChapter, setNewChapter] = useState('');
-  const [chapters, setChapters] = useState([]);
+  const [courseOverview, setCourseOverview] = useState({});
   const [selectedChapter, setSelectedChapter] = useState({});
+  const [chapters, setChapters] = useState([]);
+  const [filteredChapters, setFilteredChapters] = useState([]);
+  const [chapterKeyword, setChapterKeyword] = useState('');
+  const [newChapter, setNewChapter] = useState('');
   const [errMessage, setErrMessage] = useState('');
+
+  // Modal
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [courseOverview, setCourseOverview] = useState({});
+  useTitle(courseOverview?.title || 'Loading...', courseOverview);
 
-  const [filteredChapters, setFilteredChapters] = useState([]);
-  const [chapterKeyword, setChapterKeyword] = useState(
-    () => params.get('title') || ''
-  );
-
-  const changeChapterParams = (title) => {
-    params.set('title', title);
-    setParams(params);
-  };
-
-  const deleteChapterParams = () => {
-    params.delete('title');
-    setParams(params);
-  };
-
+  // Search handler
   const filterChapterByKeyword = (chapter) =>
     chapter.title.toLowerCase().includes(chapterKeyword.toLowerCase());
 
-  const onKeywordChapterChange = (keyword) => {
-    setChapterKeyword(keyword);
-    changeChapterParams(keyword);
-    if (keyword === '') deleteChapterParams();
-  };
-
-  useTitle(courseOverview?.title || 'Loading...', courseOverview);
-
+  // Modal handler
   const openModalAdd = () => setIsModalAddOpen(true);
   const openModalDelete = () => setIsModalDeleteOpen(true);
   const openModalEdit = () => setIsModalEditOpen(true);
@@ -71,6 +54,7 @@ const ManageChaptersPage = () => {
     setErrMessage('');
   };
 
+  // CRUD handler
   const onClickEditHandler = (e, chapter) => {
     e.preventDefault();
     setSelectedChapter(chapter);
@@ -128,14 +112,15 @@ const ManageChaptersPage = () => {
   };
 
   useEffect(() => {
+    setFilteredChapters(chapters.filter(filterChapterByKeyword));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapterKeyword, chapters]);
+
+  useEffect(() => {
     getChapterHandler();
     getCourseById(id_materi).then(setCourseOverview);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    setFilteredChapters(chapters.filter(filterChapterByKeyword));
-  }, [chapterKeyword, chapters]);
 
   return (
     <>
@@ -168,7 +153,7 @@ const ManageChaptersPage = () => {
             placeholder='Cari bab'
             value={chapterKeyword}
             onChange={(e) => {
-              onKeywordChapterChange(e.target.value);
+              setChapterKeyword(e.target.value);
             }}
           />
         </div>
