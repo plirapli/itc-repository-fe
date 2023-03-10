@@ -134,6 +134,10 @@ const Main = () => {
                   element={<CoursePage.Comments />}
                 />
               </Route>
+              <Route
+                path='*'
+                element={<div className='mt-6'>Halamaan tidak ditemukan.</div>}
+              />
             </Route>
           )}
         </Routes>
