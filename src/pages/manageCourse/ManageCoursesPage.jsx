@@ -53,7 +53,6 @@ const ManageCoursesPage = ({ divisi }) => {
   const editCourseHandler = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(selectedCourse.image);
 
     const { id, title, description, id_division } = selectedCourse;
     const data = new FormData();
