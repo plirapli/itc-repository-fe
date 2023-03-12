@@ -1,15 +1,21 @@
-import Tags from '../tags/Tags';
+import { useState } from 'react';
 import {
   UserCircleIcon,
   CalendarIcon,
   ArrowPathIcon,
 } from '@heroicons/react/20/solid';
+import Tags from '../tags/Tags';
 
 const CourseCard = ({ data: materi }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <div className='bg-white shadow rounded-lg p-3 h-full'>
       <img
-        className='w-full h-40 bg-zinc-300 object-cover rounded'
+        onLoad={() => setIsLoaded(true)}
+        className={`w-full h-40 bg-zinc-300 text-zinc-300 object-cover rounded ${
+          !isLoaded && 'animate-pulse'
+        }`}
         loading='lazy'
         src={materi?.image_thumbnail}
         alt='course thumbnail'
