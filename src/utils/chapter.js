@@ -6,7 +6,7 @@ const getAllChaptersDetail = (id_course) =>
   authApi
     .get(`${url}/${id_course}/chapters/articles`)
     .then(({ data }) => data.data)
-    .catch(({ response }) => console.log(response));
+    .catch(({ response }) => Promise.reject(response));
 
 const getChapterArticleLength = (id_course) =>
   authApi
@@ -18,6 +18,12 @@ const getChapterArticleLength = (id_course) =>
 
       return { chapters: chapters.length, articles: articleTotal };
     })
+    .catch(({ response }) => Promise.reject(response));
+
+const getChapterById = async (id_course, id_chapter) =>
+  authApi
+    .get(`${url}/${id_course}/chapters/${id_chapter}`)
+    .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 
 const addChapter = async (id_course, title) =>
@@ -41,6 +47,7 @@ const deleteChapter = async (id_course, id_chapter) =>
 export {
   getAllChaptersDetail,
   getChapterArticleLength,
+  getChapterById,
   addChapter,
   editChapter,
   deleteChapter,
