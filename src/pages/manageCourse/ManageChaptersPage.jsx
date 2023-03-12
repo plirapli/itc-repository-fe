@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   getAllChaptersDetail,
   addChapter,
@@ -19,6 +19,7 @@ import { ModalDelete, ModalForm } from '../../components/modal';
 import { Dialog, Transition } from '@headlessui/react';
 
 const ManageChaptersPage = () => {
+  const navigate = useNavigate();
   const { id_materi } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [courseOverview, setCourseOverview] = useState({});
@@ -118,7 +119,12 @@ const ManageChaptersPage = () => {
 
   useEffect(() => {
     getChapterHandler();
-    getCourseById(id_materi).then(setCourseOverview);
+    getCourseById(id_materi)
+      .then(setCourseOverview)
+      .catch(({ data, status }) => {
+        console.log(data.message);
+        if (status === 400) navigate('/not-found', { replace: true });
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

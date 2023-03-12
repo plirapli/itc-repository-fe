@@ -28,7 +28,10 @@ const DiscussionCard = ({
         />
         <div className='w-full flex flex-col'>
           <p className='text-sm truncate'>{discussion?.fullName}</p>
-          <div className='text-xs text-gray-dark'>{discussion?.createdAt}</div>
+          <div className='flex gap-1 text-xs text-gray-dark'>
+            <div>{discussion?.updatedAt}</div>
+            {discussion?.isEdited && <div>(edited)</div>}
+          </div>
         </div>
 
         {/* 3 Dots menu */}

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTitle } from '../../hooks';
 
 // Components
 import Input from '../../components/forms/Input';
 import Button from '../../components/buttons/Button';
+import { getChapterById } from '../../utils/chapter';
 import { addArticle, addImageArticle } from '../../utils/article';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import { Editor } from '@tinymce/tinymce-react';
@@ -12,7 +13,8 @@ import { Editor } from '@tinymce/tinymce-react';
 const AddArticlePage = () => {
   const navigate = useNavigate();
   const { id_materi, id_bab } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [overviewChapter, setOverviewChapter] = useState({});
   const [title, setTitle] = useState('');
   const [content, setContent] = useState();
   useTitle('Tambah Artikel');
@@ -49,9 +51,24 @@ const AddArticlePage = () => {
     }
   };
 
+  useEffect(() => {
+    getChapterById(id_materi, id_bab)
+      .then(setOverviewChapter)
+      .catch(({ data, status }) => {
+        console.log(data.message);
+        if (status === 400) navigate('/not-found', { replace: true });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      <h1 className='text-2xl mb-3 sm:mb-1'>Artikel</h1>
+      {/* Header */}
+      <div className='mb-3 sm:mb-1.5'>
+        <h1 className='text-2xl'>Artikel</h1>
+        <div className='text-sm text-gray-dark'>{overviewChapter?.title}</div>
+      </div>
+      {/* Form */}
       <form
         onSubmit={submitHandler}
         method='POST'
@@ -76,7 +93,10 @@ const AddArticlePage = () => {
             {/* WYSIWYG Editor */}
             <Editor
               apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
-              onInit={(evt, editor) => setContent(editor)}
+              onInit={(evt, editor) => {
+                setIsLoading(false);
+                setContent(editor);
+              }}
               initialValue='<p>This is the initial content of the editor.</p>'
               init={{
                 plugins: [

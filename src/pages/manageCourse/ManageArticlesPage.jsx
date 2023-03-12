@@ -10,17 +10,19 @@ import { SearchBar } from '../../components/forms';
 import { ModalDelete } from '../../components/modal';
 import { ManageCourseCard } from '../../components/cards';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
+import { getChapterById } from '../../utils/chapter';
 
 const ManageArticlesPage = () => {
   const navigate = useNavigate();
   const { id_materi: course_id, id_bab: chapter_id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [chapterOverview, setChapterOverview] = useState({});
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [articleKeyword, setArticleKeyword] = useState('');
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-  useTitle('Daftar Artikel');
+  useTitle(chapterOverview?.title || 'Loading...', chapterOverview);
 
   const filterArticleByKeyword = (article) =>
     article.title.toLowerCase().includes(articleKeyword.toLowerCase());
@@ -62,6 +64,12 @@ const ManageArticlesPage = () => {
 
   useEffect(() => {
     getAllArticleHandler();
+    getChapterById(course_id, chapter_id)
+      .then(setChapterOverview)
+      .catch(({ data, status }) => {
+        console.log(data.message);
+        if (status === 400) navigate('/not-found', { replace: true });
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -75,7 +83,7 @@ const ManageArticlesPage = () => {
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2'>
         <div>
-          <h1 className='text-xl'>Artikel</h1>
+          <h1 className='text-xl'>{chapterOverview?.title}</h1>
           <p className='text-gray-dark text-sm'>{articles.length} Artikel</p>
         </div>
         <Link to='add/'>

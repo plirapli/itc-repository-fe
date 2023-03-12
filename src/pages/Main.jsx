@@ -134,12 +134,18 @@ const Main = () => {
                   element={<CoursePage.Comments />}
                 />
               </Route>
-              <Route
-                path='*'
-                element={<div className='mt-6'>Halamaan tidak ditemukan.</div>}
-              />
             </Route>
           )}
+
+          {/* Not found page */}
+          <Route
+            path='not-found'
+            element={<div className='p-6'>Halamaan tidak ditemukan.</div>}
+          />
+          <Route
+            path='*'
+            element={<div className='p-6'>Halamaan tidak ditemukan.</div>}
+          />
         </Routes>
       </div>
     );

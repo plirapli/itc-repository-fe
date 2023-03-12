@@ -59,8 +59,12 @@ const EditArticlePage = () => {
         setTitle(data.title);
         setContent(data.content);
       })
-      .catch(({ data }) => console.log(data.message))
+      .catch(({ data, status }) => {
+        console.log(data.message);
+        if (status === 400) navigate('/not-found', { replace: true });
+      })
       .finally(() => setIsLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -86,7 +90,10 @@ const EditArticlePage = () => {
             {/* WYSIWYG Editor */}
             <Editor
               apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
-              onInit={(e, editor) => setContent(editor)}
+              onInit={(e, editor) => {
+                setIsLoading(false);
+                setContent(editor);
+              }}
               initialValue={content}
               init={{
                 plugins: [

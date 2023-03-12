@@ -48,7 +48,7 @@ const getCourseById = async (id) =>
         updatedAt: formatDateWithHour(data.data.updatedAt),
       };
     })
-    .catch((err) => Promise.reject(err));
+    .catch(({ response }) => Promise.reject(response));
 
 // Add course
 const addCourse = async (newCourse) =>

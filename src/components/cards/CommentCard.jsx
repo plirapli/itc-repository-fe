@@ -16,10 +16,14 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
           src={comment?.User?.photoProfile || Ava}
           alt='profile'
         />
-        <div className='w-full'>
+        <div className='-my-0.5 w-full'>
           <div className='flex'>
             <div className='w-full font-medium text-sm'>
               {comment?.fullName}
+              <div className='flex gap-1 text-xs text-gray-dark'>
+                {comment?.updatedAt}
+                {comment?.isEdited && <span>(edited)</span>}
+              </div>
             </div>
 
             {profile?.id === comment?.id_user && (
@@ -73,7 +77,7 @@ const CommentCard = ({ comment, onClickEdit, onClickDelete }) => {
               </Menu>
             )}
           </div>
-          <p className='text-sm'>{comment?.body}</p>
+          <p className='mt-1 text-sm'>{comment?.body}</p>
         </div>
       </div>
     </>
