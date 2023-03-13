@@ -23,15 +23,15 @@ import CommentLists from '../../components/lists/CommentLists';
 import AddCommentForm from '../../components/forms/AddCommentForm';
 
 const CommentPage = () => {
+  const navigate = useNavigate();
   const { id_course: courseID, id_discussion: discussionID } = useParams();
-  const [highlightedComment, setHighlightedComment] = useState({});
-  const [discussionTmp, setDiscussionTmp] = useState({});
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
+  const [discussionTmp, setDiscussionTmp] = useState({});
   const [comments, setComments] = useState([]);
+  const [highlightedComment, setHighlightedComment] = useState({});
   const [showReply, setShowReply] = useState(false);
   const [replyBody, setReplyBody] = useState('');
-  const navigate = useNavigate();
 
   const [isModalEditDiscussionOpen, setIsModalEditDiscussionOpen] =
     useState(false);
@@ -46,6 +46,7 @@ const CommentPage = () => {
   const closeModalDiscussionEdit = () => setIsModalEditDiscussionOpen(false); // Tutup overlay (modal) edit komentar
   const closeModalDiscussionDelete = () =>
     setIsModalDeleteDiscussionOpen(false); // Tutup overlay (modal) delete komentar
+  useTitle(discussion?.title || 'Loading...', discussion);
 
   // Handler buat menu edit diskusi
   const onClickEditDiscussionOpenModalHandler = (e) => {
@@ -153,8 +154,8 @@ const CommentPage = () => {
       .finally(() => setInitializing(false));
   };
 
-  useTitle(discussion?.title || 'Loading...', discussion);
   useEffect(() => {
+    // Get all comments on page load
     getDiscussionById(courseID, discussionID)
       .then((data) => {
         setDiscussion(data);
@@ -162,7 +163,10 @@ const CommentPage = () => {
           .then(setComments)
           .catch(({ data }) => console.log(data.message));
       })
-      .catch(({ data }) => console.log(data.message))
+      .catch(({ data, status }) => {
+        console.log(data.message);
+        if (status === 400) navigate('/not-found', { replace: true });
+      })
       .finally(() => setInitializing(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
