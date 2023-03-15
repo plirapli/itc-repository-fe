@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   deleteDiscussion,
   editDiscussion,
@@ -14,8 +14,10 @@ import { Input, SearchBar } from '../../components/forms';
 import { ModalDelete, ModalForm } from '../../components/modal';
 import OverlayLoading from '../../components/overlay/OverlayLoading';
 import DiscussionLists from '../../components/lists/DiscussionLists';
+import { getCourseById } from '../../utils/course';
 
 const DiscussionPage = () => {
+  const navigate = useNavigate();
   const { id_course } = useParams();
   const [discussions, setDiscussions] = useState([]);
   const [filteredDiscussions, setFilteredDiscussions] = useState([]);
@@ -25,7 +27,8 @@ const DiscussionPage = () => {
   const [isFound, setIsFound] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
-  useTitle('Diksusi');
+  const [courseOverview, setCourseOverview] = useState({});
+  useTitle(courseOverview?.title || 'Loading...', courseOverview);
 
   const closeModalDelete = () => setIsModalDeleteOpen(false); // Tutup overlay (modal) delete
   const closeModalEdit = () => setIsModalEditOpen(false); // Tutup overlay (modal) edit
@@ -84,6 +87,13 @@ const DiscussionPage = () => {
   };
 
   useEffect(() => {
+    getCourseById(id_course)
+      .then(setCourseOverview)
+      .catch(({ data, status }) => {
+        console.log(data.message);
+        if (status === 400) navigate('/not-found', { replace: true });
+      });
+
     getAllDiscussions(id_course)
       .then((data) => {
         setDiscussions(data);
@@ -108,7 +118,12 @@ const DiscussionPage = () => {
           <>
             {/* Header */}
             <div className='flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center'>
-              <h1 className='text-2xl leading-none'>Diskusi</h1>
+              <div>
+                <h1 className='text-2xl'>Diskusi</h1>
+                <p className='text-sm text-gray-dark'>
+                  {courseOverview?.title}
+                </p>
+              </div>
               <Link to='add'>
                 <Button variant='icon-right' size='small' icon={<PlusIcon />}>
                   Buat Pertanyaan
