@@ -39,7 +39,7 @@ const Register = ({ divisi }) => {
         setErrMessage(data); // Set message
         navigate('/login'); // Navigate to /login
       })
-      .catch(({ data }) => setErrMessage(`Error: ${data.message}!`))
+      .catch(({ data }) => setErrMessage(`Error - ${data.message}`))
       .finally(() => setIsLoading(false));
   };
 

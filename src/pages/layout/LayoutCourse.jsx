@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 import NavbarCourse from '../../components/navbar/NavbarCourse';
 
@@ -15,7 +15,11 @@ const LayoutCourse = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeArticle]);
 
-  return <Outlet context={setActiveArticleHandler} />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Outlet context={setActiveArticleHandler} />
+    </Suspense>
+  );
 };
 
 export default LayoutCourse;

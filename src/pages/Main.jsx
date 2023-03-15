@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { getLocalRefreshToken } from '../utils/auth';
 import { getAllDivisions } from '../utils/division';
@@ -7,12 +7,13 @@ import { useProfile } from '../hooks';
 
 // Components
 import * as Layout from './layout/index';
-import Home from './Home';
-import * as CoursePage from './course';
 import * as AuthPage from './auth';
+import * as CoursePage from './course';
 import * as ManageCoursePage from './manageCourse';
-import ManageUsersPage from './manageUser/ManageUsersPage';
-import { ProfilePage } from './user';
+
+const HomePage = lazy(() => import('./Home'));
+const ManageUsersPage = lazy(() => import('./manageUser/ManageUsersPage'));
+const ProfilePage = lazy(() => import('./user'));
 
 const Main = () => {
   const { profile, setProfile } = useProfile();
@@ -56,7 +57,7 @@ const Main = () => {
             <Route element={<Layout.Main />}>
               {/* User */}
               <Route element={<Layout.LayoutNavbar />}>
-                <Route path='/' element={<Home divisi={divisions} />} />
+                <Route path='/' element={<HomePage divisi={divisions} />} />
                 <Route path='u/:username/'>
                   <Route
                     path='profile'

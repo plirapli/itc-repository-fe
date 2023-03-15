@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Logo } from '../../assets';
 
@@ -15,7 +15,9 @@ const LayoutLogin = () => {
             ITC Repository
           </p>
         </div>
-        <Outlet context={[errorMsg, errorMsgHandler]} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet context={[errorMsg, errorMsgHandler]} />
+        </Suspense>
       </div>
     </div>
   );

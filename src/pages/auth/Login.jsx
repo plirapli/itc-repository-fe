@@ -34,6 +34,9 @@ const Login = () => {
     sendLogin(inputData)
       .then(({ data }) => {
         const { accessToken, refreshToken } = data.user;
+        // Reset state
+        setErrMessage('');
+        setInputData(initialState);
 
         // Store token to State && Local Storage
         localStorage.setItem(
@@ -44,9 +47,6 @@ const Login = () => {
         // Get user data
         getUserOwnProfile().then((data) => {
           setProfile({ ...data });
-          // Reset state
-          setErrMessage('');
-          setInputData(initialState);
           navigate('/'); // Redirect to home page
         });
       })
