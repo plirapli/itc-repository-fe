@@ -48,6 +48,7 @@ const Main = () => {
                 path='forgot-password/'
                 element={<AuthPage.ForgotPassword />}
               />
+              <Route path='forgot-password/otp' element={<AuthPage.Otp />} />
               <Route
                 path='register/'
                 element={<AuthPage.Register divisi={divisions} />}
