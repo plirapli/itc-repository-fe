@@ -1,16 +1,21 @@
 import { Suspense, useEffect, useState } from 'react';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import {
+  Outlet,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
 import NavbarCourse from '../../components/navbar/NavbarCourse';
 import { getCourseOverview } from '../../utils/course';
 
 const LayoutCourse = () => {
+  const navigate = useNavigate();
   const setNavbar = useOutletContext();
   const { id_course } = useParams();
   const [course, setCourse] = useState({});
   const [materiList, setMateriList] = useState([]);
   const [activeArticle, setActiveArticle] = useState();
-  const [isFound, setIsFound] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isInit, setIsinit] = useState(true);
   const setActiveArticleHandler = (id) => setActiveArticle(id);
 
   useEffect(() => {
@@ -18,11 +23,13 @@ const LayoutCourse = () => {
       .then((data) => {
         setCourse({ ...data });
         setMateriList([...data.chapterArticles.chapters]);
-        setIsFound(true);
       })
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
-  }, []);
+      .catch((error) => {
+        navigate('/not-found', { replace: true });
+        console.log(error);
+      })
+      .finally(() => setIsinit(false));
+  }, [id_course]);
 
   useEffect(() => {
     setNavbar(
@@ -37,7 +44,7 @@ const LayoutCourse = () => {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Outlet context={[course, isFound, isLoading, setActiveArticleHandler]} />
+      <Outlet context={[course, isInit, setActiveArticleHandler]} />
     </Suspense>
   );
 };
