@@ -1,36 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getCourseById } from '../../utils/course';
+import { Link, useOutletContext, useParams } from 'react-router-dom';
 import { useTitle } from '../../hooks';
 
 // Component
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import Button from '../../components/buttons/Button';
 import Tags from '../../components/tags/Tags';
-import { getAllChaptersDetail } from '../../utils/chapter';
 import { OverlayLoading } from '../../components/overlay';
 
 const OverviewPage = () => {
-  const [course, setCourse] = useState({});
+  const [course, isFound, isLoading] = useOutletContext();
   const { id_course } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFound, setIsFound] = useState(false);
-  const [initArticle, setInitArticle] = useState();
-
+  const initArticle = course.chapterArticles?.chapters[0].Articles[0];
   useTitle(course?.title || 'Loading...', course);
-  useEffect(() => {
-    getCourseById(id_course)
-      .then((data) => {
-        setCourse({ ...data });
-        setIsFound(true);
-      })
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
-
-    getAllChaptersDetail(id_course)
-      .then((data) => setInitArticle(data[0].Articles[0]))
-      .catch(({ data }) => console.log(data.message));
-  }, []);
 
   if (!isLoading) {
     return (
@@ -52,8 +33,8 @@ const OverviewPage = () => {
                       {course?.title}
                     </h2>
                     <div className='text-gray-dark text-sm mt-1'>
-                      {course?.length?.chapters} Bab |{' '}
-                      {course?.length?.articles} Artikel
+                      {course?.chapterArticles?.chapterLength} Bab |{' '}
+                      {course?.chapterArticles?.articlesLength} Artikel
                     </div>
                   </div>
                   <Tags divName={course?.Division?.divisionName} />
