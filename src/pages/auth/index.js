@@ -1,5 +1,8 @@
-import Login from './Login';
-import Register from './Register';
-import ForgotPassword from './ForgotPassword';
+import { lazy } from 'react';
 
-export { Login, Register, ForgotPassword };
+const Login = lazy(() => import('./Login'))
+const Register = lazy(() => import('./Register'))
+const ForgotPassword = lazy(() => import('./ForgotPassword'))
+const Otp = lazy(() => import('./OtpPage'))
+
+export { Login, Register, ForgotPassword, Otp };

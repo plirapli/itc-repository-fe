@@ -1,5 +1,5 @@
 import { authApi } from '../api/api';
-import { getChapterArticleLength } from './chapter';
+import { getAllChaptersDetail, getAllChaptersDetailWithLength, getChapterArticleLength } from './chapter';
 import { formatDate, formatDateWithHour } from './dateConverter';
 
 const url = '/courses';
@@ -40,10 +40,24 @@ const getCourseById = async (id) =>
     .get(`${url}/${id}`)
     .then(async ({ data }) => {
       const length = await getChapterArticleLength(id);
-
       return {
         ...data.data,
         length,
+        createdAt: formatDate(data.data.createdAt),
+        updatedAt: formatDateWithHour(data.data.updatedAt),
+      };
+    })
+    .catch(({ response }) => Promise.reject(response));
+
+// Get course by ID for overview
+const getCourseOverview = async (id) =>
+  authApi
+    .get(`${url}/${id}`)
+    .then(async ({ data }) => {
+      const chapterArticles = await getAllChaptersDetailWithLength(id);
+      return {
+        ...data.data,
+        chapterArticles,
         createdAt: formatDate(data.data.createdAt),
         updatedAt: formatDateWithHour(data.data.updatedAt),
       };
@@ -80,6 +94,7 @@ export {
   getAllCourses,
   getAllCoursesDetail,
   getCourseById,
+  getCourseOverview,
   addCourse,
   editCourse,
   deleteCourse,

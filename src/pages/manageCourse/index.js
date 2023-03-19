@@ -1,15 +1,10 @@
-import ManageCoursesPage from './ManageCoursesPage';
-import ManageChaptersPage from './ManageChaptersPage';
-import ManageArticlesPage from './ManageArticlesPage';
-import AddCoursePage from './AddCoursePage';
-import AddArticlePage from './AddArticlePage';
-import EditArticlePage from './EditArticlePage';
+import { lazy } from 'react';
 
-export {
-  ManageCoursesPage as Courses,
-  ManageChaptersPage as Chapters,
-  ManageArticlesPage as Articles,
-  AddCoursePage as AddCourse,
-  AddArticlePage as AddArticle,
-  EditArticlePage as EditArticle,
-};
+const Courses = lazy(() => import('./ManageCoursesPage'))
+const Chapters = lazy(() => import('./ManageChaptersPage'))
+const Articles = lazy(() => import('./ManageArticlesPage'))
+const AddCourse = lazy(() => import('./AddCoursePage'))
+const AddArticle = lazy(() => import('./AddArticlePage'))
+const EditArticle = lazy(() => import('./EditArticlePage'))
+
+export { Courses, Chapters, Articles, AddCourse, AddArticle, EditArticle };

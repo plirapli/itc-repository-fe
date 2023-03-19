@@ -7,7 +7,7 @@ import Button from '../../components/buttons/Button';
 import { OverlayLoading } from '../../components/overlay';
 
 const ArticlePage = () => {
-  const setActiveArticle = useOutletContext();
+  const [, , , setActiveArticle] = useOutletContext();
   const { id_course, id_chapter, id_article } = useParams();
   const [article, setArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);

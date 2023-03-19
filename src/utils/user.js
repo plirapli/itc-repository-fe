@@ -8,13 +8,6 @@ const getAllUsers = async () =>
     .then(({ data }) => data.data)
     .catch(({ response }) => Promise.reject(response));
 
-// Get user by id
-const getUserById = async (id) =>
-  authApi
-    .get(`${url}/${id}`)
-    .then(({ data }) => data.data)
-    .catch(({ response }) => Promise.reject(response));
-
 const getUserOwnProfile = async () =>
   authApi
     .get(`${url}/profile`)
@@ -57,7 +50,7 @@ const changeUserVerify = async (id, verify) => {
     .catch(({ response }) => Promise.reject(response));
 };
 
-const deleteUser = (id) => {
+const deleteUser = async (id) => {
   return authApi
     .delete(`${url}/${id}`)
     .then(({ data }) => data.message)
@@ -67,7 +60,6 @@ const deleteUser = (id) => {
 export {
   getAllUsers,
   getAllGenerations,
-  getUserById,
   getUserOwnProfile,
   updateUserProfile,
   updatePassword,

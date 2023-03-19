@@ -1,13 +1,9 @@
-import OverviewPage from './OverviewPage';
-import ArticlePage from './ArticlePage';
-import DiscussionPage from './DiscussionPage';
-import AddDiscussionPage from './AddDiscussionPage';
-import CommentPage from './CommentPage';
+import { lazy } from 'react';
 
-export {
-  OverviewPage as Overview,
-  ArticlePage as Article,
-  DiscussionPage as Discussions,
-  AddDiscussionPage as AddDiscussion,
-  CommentPage as Comments,
-};
+const Overview = lazy(() => import('./OverviewPage'))
+const Article = lazy(() => import('./ArticlePage'))
+const Discussions = lazy(() => import('./DiscussionPage'))
+const AddDiscussion = lazy(() => import('./AddDiscussionPage'))
+const Comments = lazy(() => import('./CommentPage'))
+
+export { Overview, Article, Discussions, AddDiscussion, Comments };

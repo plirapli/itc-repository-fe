@@ -32,6 +32,8 @@ const CommentPage = () => {
   const [highlightedComment, setHighlightedComment] = useState({});
   const [showReply, setShowReply] = useState(false);
   const [replyBody, setReplyBody] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [errMsgModal, setErrMsgModal] = useState('');
 
   const [isModalEditDiscussionOpen, setIsModalEditDiscussionOpen] =
     useState(false);
@@ -41,57 +43,61 @@ const CommentPage = () => {
   const [isModalDeleteCommentOpen, setIsModalDeleteCommentOpen] =
     useState(false);
 
-  const closeModalCommentEdit = () => setIsModalEditCommentOpen(false); // Tutup overlay (modal) edit diskusi
-  const closeModalCommentDelete = () => setIsModalDeleteCommentOpen(false); // Tutup overlay (modal) delete diskusi
-  const closeModalDiscussionEdit = () => setIsModalEditDiscussionOpen(false); // Tutup overlay (modal) edit komentar
-  const closeModalDiscussionDelete = () =>
-    setIsModalDeleteDiscussionOpen(false); // Tutup overlay (modal) delete komentar
   useTitle(discussion?.title || 'Loading...', discussion);
 
   // Handler buat menu edit diskusi
+  const closeModalDiscussionEdit = () => {
+    setIsModalEditDiscussionOpen(false);
+    setErrMsgModal('');
+  };
   const onClickEditDiscussionOpenModalHandler = (e) => {
     e.preventDefault();
     setDiscussionTmp(discussion);
     setIsModalEditDiscussionOpen(true);
   };
-
   const onSubmitEditDiscussionHandler = (e) => {
     e.preventDefault();
     setInitializing(true);
     editDiscussion(courseID, discussionID, discussionTmp)
       .then(() => {
         getDiscussionByIdHandler();
-        setIsModalEditDiscussionOpen(false);
+        closeModalDiscussionEdit();
       })
-      .catch(({ data }) => console.log(data.message))
+      .catch(({ data }) => setErrMsgModal(data.message))
       .finally(() => setInitializing(false));
   };
 
   // Handler buat menu delete diskusi
+  const closeModalDiscussionDelete = () => {
+    setIsModalDeleteDiscussionOpen(false); // Tutup overlay (modal) delete komentar
+    setErrMsgModal('');
+  };
   const onClickDeleteDiscussionOpenModalHandler = (e) => {
     e.preventDefault();
     setIsModalDeleteDiscussionOpen(true);
   };
-
   const onClickDeleteDiscussionHandler = (e) => {
     e.preventDefault();
     setInitializing(true);
     deleteDiscussion(courseID, discussionID)
       .then(() => {
         navigate('/course/' + courseID + '/discussion', { replace: true });
-        setIsModalDeleteDiscussionOpen(false);
+        closeModalDiscussionDelete();
       })
-      .catch(({ data }) => console.log(data.message))
+      .catch(({ data }) => setErrMsgModal(data.message))
       .finally(() => setInitializing(false));
   };
 
   // Handler buat menu edit komentar
+  const closeModalCommentEdit = () => {
+    setIsModalEditCommentOpen(false);
+    setErrMsgModal('');
+  };
   const onClickEditCommentOpenModalHandler = (e, selectedComment) => {
     e.preventDefault();
     setHighlightedComment(selectedComment);
     setIsModalEditCommentOpen(true);
   };
-
   const onSubmitEditCommentHandler = (e) => {
     e.preventDefault();
     setInitializing(true);
@@ -99,19 +105,22 @@ const CommentPage = () => {
       .then(() => {
         setHighlightedComment({});
         getAllCommentsHandler();
-        setIsModalEditCommentOpen(false);
+        closeModalCommentEdit();
       })
-      .catch(({ data }) => console.log(data.message))
+      .catch(({ data }) => setErrMsgModal(data.message))
       .finally(() => setInitializing(false));
   };
 
   // Handler buat menu delete komentar
+  const closeModalCommentDelete = () => {
+    setIsModalDeleteCommentOpen(false);
+    setErrMsgModal('');
+  };
   const onClickDeleteCommentOpenModalHandler = (e, selectedComment) => {
     e.preventDefault();
     setHighlightedComment(selectedComment);
     setIsModalDeleteCommentOpen(true);
   };
-
   const onClickDeleteCommentHandler = (e) => {
     e.preventDefault();
     setInitializing(true);
@@ -119,9 +128,9 @@ const CommentPage = () => {
       .then(() => {
         setHighlightedComment({});
         getAllCommentsHandler();
-        setIsModalDeleteCommentOpen(false);
+        closeModalCommentDelete();
       })
-      .catch(({ data }) => console.log(data.message))
+      .catch(({ data }) => setErrMsgModal(data.message))
       .finally(() => setInitializing(false));
   };
 
@@ -134,9 +143,10 @@ const CommentPage = () => {
     addComment(courseID, discussionID, replyBody)
       .then(() => {
         setReplyBody('');
+        setErrMsg('');
         getAllCommentsHandler();
       })
-      .catch(({ data }) => console.log(data.message))
+      .catch(({ data }) => setErrMsg(data.message))
       .finally(() => setInitializing(false));
   };
 
@@ -189,6 +199,7 @@ const CommentPage = () => {
             onSubmit={submitCommentHandler}
             onChange={(e) => setReplyBody(e.target.value)}
             body={replyBody}
+            errMsg={errMsg}
           />
         )}
 
@@ -242,16 +253,19 @@ const CommentPage = () => {
             />
           </div>
 
-          <div className='mt-4 flex gap-2'>
-            <Button
-              type='button'
-              onClick={closeModalDiscussionEdit}
-              color='gray'
-              size='small'
-            >
-              Tutup
-            </Button>
-            <Button size='small'>Simpan</Button>
+          <div className='mt-3'>
+            <p className='text-sm text-danger-main'>{errMsgModal}</p>
+            <div className='mt-2 flex gap-2'>
+              <Button
+                type='button'
+                onClick={closeModalDiscussionEdit}
+                color='gray'
+                size='small'
+              >
+                Tutup
+              </Button>
+              <Button size='small'>Simpan</Button>
+            </div>
           </div>
         </form>
       </ModalForm>
@@ -266,6 +280,7 @@ const CommentPage = () => {
         <p className='text-sm text-gray-500'>
           Apakah anda yakin ingin menghapus pertanyaan ini?
         </p>
+        <small className='text-dangre'>{errMsgModal}</small>
       </ModalDelete>
 
       {/* Edit comment dialog (modal) */}

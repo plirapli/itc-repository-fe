@@ -1,13 +1,9 @@
-import Layout from './Layout';
-import LayoutAuth from './LayoutAuth';
-import LayoutManage from './LayoutManage';
-import LayoutCourse from './LayoutCourse';
-import LayoutNavbar from './LayoutNavbar';
+import { lazy } from 'react';
 
-export {
-  Layout as Main,
-  LayoutAuth as Auth,
-  LayoutManage as Manage,
-  LayoutCourse as Course,
-  LayoutNavbar,
-};
+const Main = lazy(() => import('./Layout'))
+const Auth = lazy(() => import('./LayoutAuth'))
+const Manage = lazy(() => import('./LayoutManage'))
+const Course = lazy(() => import('./LayoutCourse'))
+const LayoutNavbar = lazy(() => import('./LayoutNavbar'))
+
+export { Main, Auth, Manage, Course, LayoutNavbar };

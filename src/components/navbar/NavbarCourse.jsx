@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllChaptersDetail } from '../../utils/chapter';
 import {
   ArrowLongLeftIcon,
   ChatBubbleBottomCenterTextIcon,
@@ -9,10 +8,9 @@ import {
 import Button from '../buttons/Button';
 import OverlayMateriList from '../overlay/OverlayMateriList';
 
-const NavbarCourse = ({ courseID, activeArticle }) => {
+const NavbarCourse = ({ courseID, chapterArticles, activeArticle }) => {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
-  const [chapterArticle, setChapterArticle] = useState([]);
   const icon = {
     backBtn: <ArrowLongLeftIcon />,
     diskusi: <ChatBubbleBottomCenterTextIcon />,
@@ -20,12 +18,6 @@ const NavbarCourse = ({ courseID, activeArticle }) => {
   };
   const backButtonHandler = () => navigate(-1);
   const setIsClickedHandler = () => setIsClicked((prev) => !prev);
-
-  useEffect(() => {
-    getAllChaptersDetail(courseID)
-      .then(setChapterArticle)
-      .catch(({ data }) => console.log(data.message));
-  }, []);
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between p-[5px] sm:px-6 sm:py-2.5 relative'>
@@ -67,7 +59,7 @@ const NavbarCourse = ({ courseID, activeArticle }) => {
       {isClicked && (
         <OverlayMateriList
           courseID={courseID}
-          materiList={chapterArticle}
+          materiList={chapterArticles}
           setIsClicked={setIsClickedHandler}
           active={activeArticle}
         />
