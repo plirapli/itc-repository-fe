@@ -13,7 +13,7 @@ import * as ManageCoursePage from './manageCourse';
 
 const HomePage = lazy(() => import('./Home'));
 const ManageUsersPage = lazy(() => import('./manageUser/ManageUsersPage'));
-const ProfilePage = lazy(() => import('./user'));
+const ProfilePage = lazy(() => import('./user/ProfilePage'));
 
 const Main = () => {
   const { profile, setProfile } = useProfile();
