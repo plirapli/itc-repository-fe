@@ -10,7 +10,7 @@ import { OverlayLoading } from '../../components/overlay';
 const OverviewPage = () => {
   const [course, isInit] = useOutletContext();
   const { id_course } = useParams();
-  const initArticle = course.chapterArticles?.chapters[0].Articles[0];
+  const initArticle = course.chapterArticles?.chapters[0]?.Articles[0];
   useTitle(course?.title || 'Loading...', course);
 
   if (!isInit) {
