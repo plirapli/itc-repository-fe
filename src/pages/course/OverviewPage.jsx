@@ -6,12 +6,18 @@ import { UserCircleIcon } from '@heroicons/react/20/solid';
 import Button from '../../components/buttons/Button';
 import Tags from '../../components/tags/Tags';
 import { OverlayLoading } from '../../components/overlay';
+import { useEffect } from 'react';
 
 const OverviewPage = () => {
-  const [course, isInit] = useOutletContext();
+  const [course, isInit, , setBackBtn] = useOutletContext();
   const { id_course } = useParams();
   const initArticle = course.chapterArticles?.chapters[0]?.Articles[0];
   useTitle(course?.title || 'Loading...', course);
+
+  useEffect(() => {
+    setBackBtn('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!isInit) {
     return (

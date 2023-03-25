@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  Link,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from 'react-router-dom';
+import { Link, useOutletContext, useParams } from 'react-router-dom';
 import {
   deleteDiscussion,
   editDiscussion,
@@ -22,7 +17,7 @@ import DiscussionLists from '../../components/lists/DiscussionLists';
 
 const DiscussionPage = () => {
   const { id_course } = useParams();
-  const [course, isInit] = useOutletContext();
+  const [course, isInit, , setBackBtn] = useOutletContext();
   const [discussions, setDiscussions] = useState([]);
   const [filteredDiscussions, setFilteredDiscussions] = useState([]);
   const [topicKeyword, setTopicKeyword] = useState('');
@@ -98,6 +93,11 @@ const DiscussionPage = () => {
       .then((data) => setDiscussions(data))
       .catch(({ data }) => console.log(data.message))
       .finally(() => setIsLoading(false));
+  }, [id_course]);
+
+  useEffect(() => {
+    setBackBtn(`/course/${id_course}/`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

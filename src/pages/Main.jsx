@@ -14,6 +14,7 @@ import * as ManageCoursePage from './manageCourse';
 const HomePage = lazy(() => import('./Home'));
 const ManageUsersPage = lazy(() => import('./manageUser/ManageUsersPage'));
 const ProfilePage = lazy(() => import('./user/ProfilePage'));
+const NotFound = lazy(() => import('./error/NotFound'));
 
 const Main = () => {
   const { profile, setProfile } = useProfile();
@@ -143,14 +144,8 @@ const Main = () => {
             )}
 
             {/* Not found page */}
-            <Route
-              path='not-found'
-              element={<div className='p-6'>Halamaan tidak ditemukan.</div>}
-            />
-            <Route
-              path='*'
-              element={<div className='p-6'>Halamaan tidak ditemukan.</div>}
-            />
+            <Route path='not-found' element={<NotFound />} />
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </div>
       </Suspense>

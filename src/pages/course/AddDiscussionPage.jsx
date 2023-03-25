@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 
 // Components
 import Button from '../../components/buttons/Button';
@@ -10,6 +10,7 @@ import { addDiscussion } from '../../utils/discussions';
 
 const AddDiscussionPage = () => {
   const navigate = useNavigate();
+  const [, , , setBackBtn] = useOutletContext();
   const { id_course: courseID } = useParams();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -33,6 +34,10 @@ const AddDiscussionPage = () => {
   };
 
   useTitle('Tambah Diksusi');
+  useEffect(() => {
+    setBackBtn(`/course/${courseID}/discussion/`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

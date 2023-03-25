@@ -7,7 +7,7 @@ import Button from '../../components/buttons/Button';
 import { OverlayLoading } from '../../components/overlay';
 
 const ArticlePage = () => {
-  const [, , setActiveArticle] = useOutletContext();
+  const [, , setActiveArticle, setBackBtn] = useOutletContext();
   const { id_course, id_chapter, id_article } = useParams();
   const [article, setArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +33,11 @@ const ArticlePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id_article]);
 
+  useEffect(() => {
+    setBackBtn(`/course/${id_course}/`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (isLoading) return <OverlayLoading loadingState={isLoading} />;
   else {
     // Kalo artikel belum ada
@@ -41,7 +46,7 @@ const ArticlePage = () => {
         <div className='p-4 bg-white min-w-full min-h-full flex  items-center'>
           <div className='p-4 bg-white min-h-full min-w-full flex flex-col items-center gap-1.5'>
             Artikel tidak ditemukan
-            <Link to={`../`}>
+            <Link to={`../`} replace='true'>
               <Button variant='text-only'>
                 Kembali ke halaman overview kelas
               </Button>

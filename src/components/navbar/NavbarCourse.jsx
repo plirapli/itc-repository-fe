@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   ArrowLongLeftIcon,
   ChatBubbleBottomCenterTextIcon,
@@ -8,20 +8,23 @@ import {
 import Button from '../buttons/Button';
 import OverlayMateriList from '../overlay/OverlayMateriList';
 
-const NavbarCourse = ({ courseID, chapterArticles, activeArticle }) => {
-  const navigate = useNavigate();
+const NavbarCourse = ({
+  courseID,
+  chapterArticles,
+  activeArticle,
+  backBtn,
+}) => {
   const [isClicked, setIsClicked] = useState(false);
   const icon = {
     backBtn: <ArrowLongLeftIcon />,
     diskusi: <ChatBubbleBottomCenterTextIcon />,
     listMateri: <ListBulletIcon />,
   };
-  const backButtonHandler = () => navigate(-1);
   const setIsClickedHandler = () => setIsClicked((prev) => !prev);
 
   return (
     <nav className='w-full bg-primary flex items-center justify-between p-[5px] sm:px-6 sm:py-2.5 relative'>
-      <div onClick={backButtonHandler}>
+      <Link to={backBtn}>
         <Button
           variant='icon-left'
           color='transparent'
@@ -31,7 +34,7 @@ const NavbarCourse = ({ courseID, chapterArticles, activeArticle }) => {
         >
           Kembali
         </Button>
-      </div>
+      </Link>
       <div className='flex'>
         <Link to={`/course/${courseID}/discussion/`}>
           <Button
