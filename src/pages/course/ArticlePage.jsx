@@ -7,7 +7,7 @@ import Button from '../../components/buttons/Button';
 import { OverlayLoading } from '../../components/overlay';
 
 const ArticlePage = () => {
-  const [, , setActiveArticle] = useOutletContext();
+  const [, , setActiveArticle, setBackBtn] = useOutletContext();
   const { id_course, id_chapter, id_article } = useParams();
   const [article, setArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -32,6 +32,11 @@ const ArticlePage = () => {
     setActiveArticle(id_article);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id_article]);
+
+  useEffect(() => {
+    setBackBtn(`/course/${id_course}/`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading) return <OverlayLoading loadingState={isLoading} />;
   else {

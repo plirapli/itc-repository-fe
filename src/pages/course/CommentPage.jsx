@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import {
   deleteDiscussion,
   editDiscussion,
@@ -24,6 +24,7 @@ import AddCommentForm from '../../components/forms/AddCommentForm';
 
 const CommentPage = () => {
   const navigate = useNavigate();
+  const [, , , setBackBtn] = useOutletContext();
   const { id_course: courseID, id_discussion: discussionID } = useParams();
   const [initializing, setInitializing] = useState(true);
   const [discussion, setDiscussion] = useState({});
@@ -163,6 +164,11 @@ const CommentPage = () => {
       .catch(({ data }) => console.log(data.message))
       .finally(() => setInitializing(false));
   };
+
+  useEffect(() => {
+    setBackBtn(`/course/${courseID}/discussion/`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     // Get all comments on page load

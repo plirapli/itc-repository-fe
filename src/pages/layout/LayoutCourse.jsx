@@ -16,6 +16,7 @@ const LayoutCourse = () => {
   const [materiList, setMateriList] = useState([]);
   const [activeArticle, setActiveArticle] = useState();
   const [isInit, setIsinit] = useState(true);
+  const [backBtn, setBackBtn] = useState('/');
   const setActiveArticleHandler = (id) => setActiveArticle(id);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const LayoutCourse = () => {
         console.log(error);
       })
       .finally(() => setIsinit(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id_course]);
 
   useEffect(() => {
@@ -37,14 +39,15 @@ const LayoutCourse = () => {
         courseID={id_course}
         chapterArticles={materiList}
         activeArticle={activeArticle}
+        backBtn={backBtn}
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [materiList, activeArticle]);
+  }, [materiList, activeArticle, backBtn]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Outlet context={[course, isInit, setActiveArticleHandler]} />
+      <Outlet context={[course, isInit, setActiveArticleHandler, setBackBtn]} />
     </Suspense>
   );
 };
