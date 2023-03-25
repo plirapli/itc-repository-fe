@@ -41,7 +41,7 @@ const ArticlePage = () => {
         <div className='p-4 bg-white min-w-full min-h-full flex  items-center'>
           <div className='p-4 bg-white min-h-full min-w-full flex flex-col items-center gap-1.5'>
             Artikel tidak ditemukan
-            <Link to={`../`}>
+            <Link to={`../`} replace='true'>
               <Button variant='text-only'>
                 Kembali ke halaman overview kelas
               </Button>
